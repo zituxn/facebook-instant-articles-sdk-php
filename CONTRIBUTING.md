@@ -20,7 +20,7 @@ We accept contributions via pull requests on [GitHub](https://github.com/faceboo
 
 - **Send coherent history** - Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please squash them before submitting.
 
-- **Ensure tests pass!** - Please [run the tests](https://github.com/facebook/facebook-instant-articles-sdk-php#build-it-and-develop) before submitting your pull request, and make sure they pass. We won't accept a patch until all tests pass.
+- **Ensure tests pass!** - Please [run the tests](https://github.com/facebook/facebook-instant-articles-sdk-php#testing-and-developing) before submitting your pull request, and make sure they pass. We won't accept a patch until all tests pass.
 
 - **Ensure no coding standards violations** - Please run [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) using the PSR-2 standard before submitting your pull request. A violation will cause the build to fail, so please make sure there are no violations. We can't accept a patch if the build fails.
 
