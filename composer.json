@@ -1,0 +1,28 @@
+{
+    "name": "facebook/facebook-instant-articles-sdk-php",
+    "description": "Facebook Instant Articles SDK for PHP",
+    "keywords": ["facebook", "sdk", "instant", "articles"],
+    "type": "library",
+    "homepage": "https://github.com/facebook/facebook-instant-articles-sdk-php",
+    "license": "Facebook Platform",
+    "authors": [{
+        "name": "Facebook",
+        "homepage": "https://github.com/facebook/facebook-instant-articles-sdk-php/contributors"
+    }],
+    "require": {
+        "php": ">=5.4",
+        "symfony/css-selector": "*",
+        "facebook/php-sdk-v4": "~5.0",
+        "apache/log4php": "2.3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Facebook\\": ["src/"],
+            "Facebook\\InstantArticles\\": ["src/Facebook/"],
+            "Facebook\\InstantArticles\\Elements\\": ["src/Facebook/InstantArticles/"]
+        }
+    }
+}
