@@ -8,8 +8,7 @@ The SDK consists of three components:
 - **Client**: A simple wrapper around the [Instant Articles API](https://developers.facebook.com/docs/instant-articles/api), which can be used for publishing Instant Articles on Facebook. The client provides a CRUD interface for Instant Articles as well as a helper for authentication. The client depends on the main [Facebook SDK for PHP](https://github.com/facebook/facebook-php-sdk-v4) as an interface to the Graph API and Facebook Login.
 
 ## Quick Start
-On the Quick Start guide there are some examples on how use **Elements**, **Transformer** and **Client**.
-Please see [Quick Start](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/docs/QuickStart.md) on how to use this SDK.
+You can find examples on how to use **Elements**, **Transformer**, and **Client** in the [Quick Start guide](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/docs/QuickStart.md).
 
 ## Installation
 
