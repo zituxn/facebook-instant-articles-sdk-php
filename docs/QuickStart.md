@@ -1,14 +1,13 @@
-# Quick start #
+# Quick start
 
-This SDK contains 3 primary components:
-* Elements - Instant Article Markup renderer
-* Transformer - HTML engine to transform to the Elements objects
-* Client - Client to publish Instant Articles
+This SDK contains three primary components:
+- [**Elements**](#elements) - Instant Article Markup renderer
+- [**Transformer**](#transformer) - Engine which transforms HTML into **Elements** objects
+- [**Client**](#client) - Client to publish Instant Articles
 
-## Elements ##
-Elements is the object tree class that represents the structure of an Instant Article. This object tree structure ensures that no invalid Instant Article HTML markup will be generated.
-The package that contains the elements is: **Facebook\InstantArticles\Elements**
-Here is a simple and complete object tree structure, starting with the *InstantArticle* class, that holds the full Instant Article.
+## Elements
+`Elements` is the object tree class that represents the structure of an Instant Article. This object tree structure ensures that no invalid Instant Article HTML markup is generated. Here is a simple and complete object tree structure, starting with the `InstantArticle` class that holds the full Instant Article.
+
 ```php
 $article =
     InstantArticle::create()
@@ -102,7 +101,7 @@ $article =
             Analytics::create()
                 ->withHTML(
                     <h1>Some custom code</h1>
-                    <script>alert("test");</script>'
+                    <script>alert("test");</script>
                 )
         )
         // Footer
@@ -112,16 +111,15 @@ $article =
         );
 ```
 
-### Rendering the InstantArticle Markup ###
+### Rendering the `InstantArticle` Markup
 
-Using the **$article** created in the above code snippet, it is possible to render the correct InstantArticle markup by simply calling its **render()** function:
+From above, `$article` now contains a complete `InstantArticle` object — a structured representation of an Instant Article — which can be rendered into valid Instant Article HTML Markup by simply calling its `render()` function:
 
 ```php
-$article->render('<!doctype html>')
+$article->render('<!doctype html>');
 ```
 
-
-#### Output rendered by an InstantArticle object ####
+#### Rendered output of the `InstantArticle` object from above
 ```xml
 <!doctype html>
 <html>
@@ -181,13 +179,81 @@ $article->render('<!doctype html>')
         </footer>
     </article>
 </body>
-</html>'
+</html>
 ```
 
-## Transformer ##
-The Transformer interprets customized markup in order to fill in the [InstantArticle](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/src/Facebook/Instantarticles/Elements/InstantArticle.php) object structure.
+## Transformer
+The `Transformer` interprets *any* markup in order to fill in the [`InstantArticle`](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/src/Facebook/Instantarticles/Elements/InstantArticle.php) object structure. The transformation process follows a set of pre-defined selector rules which maps the markup of the input to known `InstantArticles` `Elements`. This user-defined configuration makes the Transformer versatile and powerful.
 
-**Simple HTML markup example**
+### Transformer Configuration
+
+The power of the **Transformer** lies in the configuration rules it uses to map elements from the input markup to Instant Article markup. Configuration rules are applied ***bottom-up*** so all new or custom rules should be added at the end of the file.
+
+- Each rule in the configuration file should live in the `rules` array
+- Each entry should have at least the `class` attribute set
+- All classes referred by this configuration file must implement the [`Rule`](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/src/Facebook/InstantArticles/Transformer/Rules/Rule.php) class
+
+The transformer pseudo-algorithm is:
+
+```php
+$document = loadHTML($input_file);
+foreach($document->childNodes as $node) {
+    foreach($rules as $rule) {
+        if ($rule->matches($context, $node)) {
+            // Apply rule...
+        }
+    }
+}
+```
+
+This transformer will run through all elements, and for each element checking all rules. The rule to be applied will need to match 2 conditions:
+
+- Matches context
+- Matches selector
+
+#### Matching context
+Context is the container element that is now in the pipe being processed. This is returned by the method:
+
+```php
+public function getContextClass() {
+    return InstantArticle::class;
+}
+```
+
+If the `Rule` will be handling more than one context, it is possible by returning an array of classes:
+
+```php
+public function getContextClass() {
+    return array(InstantArticle::class, Header::class);
+}
+```
+
+#### Matching selector
+The **selector** field will be used only by rules that extend [`ConfigurationSelectorRule`](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/src/Facebook/InstantArticles/Transformer/Rules/ConfigurationSelectorRule.php).
+
+The selector field will be used as a *CSS selector*; or as an *Xpath selector* if beginning with `/`.
+
+**Example: using a *CSS Selector* to match a rule**
+```javascript
+{
+    "class": "HeaderRule",
+    "selector" : "div.header"
+}
+```
+
+**Example: using an *Xpath Selector* to match a rule**
+```javascript
+{
+    "class": "HeaderRule",
+    "selector" : "//div[class=header]"
+}
+```
+
+### Example
+
+#### Input HTML
+The following markup is a sample of what could be used as input to the Transformer:
+
 ```html
 <html>
     <head>
@@ -219,74 +285,15 @@ The Transformer interprets customized markup in order to fill in the [InstantArt
     </body>
 </html>
 ```
-This HTML can be generated by any CMS such as Wordpress, Drupal and other in-house developed CMS solutions.
 
-### Transformer Configuration ###
+#### Full rule configuration file for the HTML above
 
-The configuration rules are applied **bottom-up**, so all new or custom rules should be added at the end of the file.
-Each rule on the configuration file should lie on the "rules" array. Each entry should have at least the attribute "class" set.
-
-All classes referred by this configuration file must implement [Rule](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/Qsrc/Facebook/InstantArticles/Transformer/Rules/Rule.php) class.
-
-The transformer pseudo-algorithm is:
-```php
-    $document = loadHTML($input_file);
-    foreach($document->childNodes as $node) {
-        foreach($rules as $rule) {
-            if ($rule->matches($context, $node)) {
-              // Apply rule...
-            }
-        }
-    }
-```
-
-This transformer will run through all elements, and for each element checking all rules.
-The rule to be applied will need to match 2 conditions:
-- Matches context
-- Matches selector
-
-#### Matching context ####
-Context is the container element that is now on the pipe being processed. This is returned by the method:
-```php
-public function getContextClass() {
-    return InstantArticle::class;
-}
-```
-
-If the Rule will be handling more than one context, it is possible by returning an array of classes:
-```php
-public function getContextClass() {
-    return array(InstantArticle::class, Header::class);
-}
-```
-
-#### Matching selector ####
-The **selector** field will be used only by rules that extend [ConfigurationSelectorRule](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/Qsrc/Facebook/InstantArticles/Transformer/Rules/ConfigurationSelectorRule.php).
-
-The selector field will be used as CSS selector or Xpath if started by '/'.
-
-**Example of CSS Selector to match a rule**
-```javascript
-{
-    "class": "HeaderRule",
-    "selector" : "div.header"
-}
-```
-
-**Example of Xpath Selector to match a rule**
-```javascript
-{
-    "class": "HeaderRule",
-    "selector" : "//div[class=header]"
-}
-```
-
-**Full rule configuration file for the simple html used above**
 This rule configuration will:
+
 - run bottom-up
 - check if matches "class" (context)
 - check if matches "selector" (css or xpath)
-- Run the rule (calling the calback method transform())
+- Run the rule (calling the callback method `transform()`)
 
 ```javascript
 {
@@ -383,8 +390,8 @@ This rule configuration will:
 }
 ```
 
-### Creating Custom Rules ###
-Each custom rule implemented should comply with full contract of the Rule abstract class.
+### Creating Custom Rules
+Each custom rule implemented should comply with full contract of the `Rule` abstract class.
 
 ```php
 class MyCustomRule extends Rule
@@ -398,21 +405,21 @@ class MyCustomRule extends Rule
     public function apply($transformer, $container, $node)
     {}
 }
-
 ```
 
-The best option is to use the ConfigurationSelectorRule as base class for all custom Rules. This way the selector and more configuration are inherited by default.
+The best option is to use the `ConfigurationSelectorRule` as base class for all custom Rules. This way the selector and more configurations are inherited by default.
 
-### Invoking Transformer ###
+### Invoking Transformer
 
-To transform your markup into a InstantArticle markup, follow these steps:
-- Create an InstantArticle instance
-- Create a Transformer and load it with rules (from file or programmatically)
+To transform your markup into InstantArticle markup, follow these steps:
+
+- Create an `InstantArticle` instance
+- Create a `Transformer` and load it with rules (programmatically or from a file)
 - Load/retrieve the HTML content file in the original markup
 - Run the Transformer
 - Check for errors/warnings
 
-
+#### Example
 ```php
 // Loads the rules content file
 $rules_file_content = file_get_contents("simple-rules.json", true);
@@ -443,11 +450,9 @@ $warnings = $transformer->getWarnings();
 $result = $instant_article->render();
 ```
 
-## Client ##
+## Client
 
-The API Client is a lightweight layer making it easy to push articles to your Facebook Page.
-
-**Here is some example code using the client:**
+The API Client is a lightweight layer on top of the [Facebook SDK for PHP](https://github.com/facebook/facebook-php-sdk-v4) making it easy to push articles to your Facebook Page. Example:
 
 ```php
 $article = InstantArticle::create();
@@ -470,9 +475,9 @@ try {
 }
 ```
 
-We also provide a Helper class to help you fetch the access token for Facebook Pages that you're an admin of:
+### `Helper` class
 
-**Here is some example code using the mentioned helper:**
+Since publishing Instant Articles is done to an existing Facebook Page, the `Client` also contains a `Helper` class to simplify fetching the access token for Facebook Pages that you're an admin of. Example:
 
 ```php
 $userAccessToken = 'USER_ACCESS_TOKEN';
