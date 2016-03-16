@@ -9,7 +9,7 @@ The SDK consists of three components:
 
 ## Quick Start
 On the Quick Start guide there are some examples on how use **Elements**, **Transformer** and **Client**.
-Please see [Quick Start](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/QUICKSTART.md) on how to use this SDK.
+Please see [Quick Start](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/docs/QuickStart.md) on how to use this SDK.
 
 ## Installation
 
