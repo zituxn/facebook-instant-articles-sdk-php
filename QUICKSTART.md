@@ -397,15 +397,6 @@ class MyCustomRule extends Rule
 
     public function apply($transformer, $container, $node)
     {}
-
-    public function getContextClass()
-    {}
-
-    public static function create()
-    {}
-
-    public static function createFrom($configuration)
-    {}
 }
 
 ```
@@ -453,3 +444,50 @@ $result = $instant_article->render();
 ```
 
 ## Client ##
+
+The API Client is a lightweight layer making it easy to push articles to your page.
+
+**Here is some example code using the client:**
+
+```php
+$article = InstantArticle::create();
+$transformer->transform($article, $someDocument);
+
+// Instantiate an API client
+$client = Client::create(
+    'APP_ID'
+    'APP_SECRET',
+    'ACCESS_TOKEN',
+    'PAGE_ID',
+    false // development envirorment?
+);
+
+// Import the article
+try {
+    $client->importArticle($article, $take_live);
+} catch (Exception $e) {
+    echo 'Could not import the article: '.$e->getMessage();
+}
+```
+
+We also provide a Helper class to help you fetching the access token for pages you're admin of:
+
+**Here is some example code using the mentioned helper:**
+
+```php
+$userAccessToken = 'USER_ACCESS_TOKEN';
+
+// Instantiate a client helper
+$helper = Helper::create(
+    'APP_ID',
+    'APP_SECRET'
+);
+
+// Grab pages you are admin of and tokens
+$pagesAndTokens = $helper->getPagesAndTokens($userAccessToken)->all();
+foreach ($pagesAndTokens as $pageAndToken) {
+    echo 'Page ID: ' . $pageAndToken->getField('id');
+    echo 'Page name: ' . $pageAndToken->getField('name');
+    echo 'Page access token: ' . $pageAndToken->getField('access_token');
+}
+```
