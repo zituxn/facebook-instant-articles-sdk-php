@@ -22,6 +22,8 @@ use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
 
 class CaptionRule extends ConfigurationSelectorRule
 {
+    const PROPERTY_DEFAULT = 'caption.default';
+
     public function getContextClass()
     {
         return
@@ -57,7 +59,9 @@ class CaptionRule extends ConfigurationSelectorRule
 
                 Caption::SIZE_MEDIUM,
                 Caption::SIZE_LARGE,
-                Caption::SIZE_XLARGE
+                Caption::SIZE_XLARGE,
+
+                self::PROPERTY_DEFAULT
             ),
             $configuration
         );
@@ -100,7 +104,14 @@ class CaptionRule extends ConfigurationSelectorRule
             $caption->withFontsize(Caption::SIZE_XLARGE);
         }
 
-        $transformer->transform($caption, $node);
+        $text_default = $this->getProperty(self::PROPERTY_DEFAULT, $node);
+        $log = \Logger::getLogger('facebook-instantarticles-transformer');
+        $log->debug($node->ownerDocument->saveXML($node));
+        if ($text_default) {
+            $caption->withTitle($text_default);
+        } else {
+            $transformer->transform($caption, $node);
+        }
 
         return $container_of_caption;
     }

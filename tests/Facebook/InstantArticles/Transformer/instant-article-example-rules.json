@@ -385,6 +385,11 @@
                     "op-vertical-above": {
                         "type": "exists",
                         "selector" : "figcaption.op-vertical-above"
+                    },
+                    "caption.default": {
+                        "type": "string",
+                        "selector": "img",
+                        "attribute": "alt"
                     }
                 }
             },
