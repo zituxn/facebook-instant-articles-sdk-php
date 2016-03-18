@@ -285,7 +285,8 @@ class Header extends Element
     /**
      * @return array<Ad> $ads All the ads
      */
-    public function getAds(){
+    public function getAds()
+    {
         return $this->ads;
     }
 
@@ -347,7 +348,7 @@ class Header extends Element
             $ads_container->setAttribute('class', 'op-ad-template');
 
             $default_is_set = false;
-            foreach($this->ads as $ad) {
+            foreach ($this->ads as $ad) {
                 if ($default_is_set) {
                     $ad->disableDefaultForReuse();
                 }

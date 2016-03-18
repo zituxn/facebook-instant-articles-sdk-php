@@ -131,7 +131,8 @@ class Ad extends Element
     /**
      * @return True if Ad has been set to reusable.
      */
-    public function getIsDefaultForReuse(){
+    public function getIsDefaultForReuse()
+    {
         return $this->isDefaultForReuse;
     }
 

@@ -25,14 +25,15 @@ abstract class Rule
             $log->debug('-------');
             return true;
         }
-        // if ($node->nodeName === 'figure') {
-        //     $log->debug('context class: '.get_class($context));
-        //     $log->debug('context matches: '.($matches_context ? 'MATCHES' : 'no match'));
-        //     $log->debug('node name: <'.$node->nodeName.' />');
-        //     $log->debug('node matches: '.($matches_node ? 'MATCHES' : 'no match'));
-        //     $log->debug('rule: '.get_class($this));
-        //     $log->debug('-------');
-        // }
+        if ($node->nodeName === 'img') {
+            $log->debug('context class: '.get_class($context));
+            $log->debug('context matches: '.($matches_context ? 'MATCHES' : 'no match'));
+            $log->debug('node name: <'.$node->nodeName.' />');
+            $log->debug('node: '.$node->ownerDocument->saveXML($node).' />');
+            $log->debug('node matches: '.($matches_node ? 'MATCHES' : 'no match'));
+            $log->debug('rule: '.get_class($this));
+            $log->debug('-------');
+        }
         return false;
     }
 

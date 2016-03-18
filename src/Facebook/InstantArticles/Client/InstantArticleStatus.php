@@ -73,8 +73,7 @@ class InstantArticleStatus
         );
         if ($validStatus) {
             return new self($status, $messages);
-        }
-        else {
+        } else {
             \Logger::getLogger('facebook-instantarticles-client')
                 ->info("Unknown status '$status'. Are you using the last SDK version?");
             return new self(self::UNKNOWN, $messages);

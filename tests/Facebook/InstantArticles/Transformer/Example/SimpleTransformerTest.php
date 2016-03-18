@@ -79,7 +79,7 @@ class SimpleTransformerTest extends \PHPUnit_Framework_TestCase
         $result = $instant_article->render('', true)."\n";
         $expected = file_get_contents("simple-ia.xml", true);
 
-        //var_dump($warnings);
+        //var_dump($result);
         // print_r($warnings);
         $this->assertEquals($expected, $result);
     }

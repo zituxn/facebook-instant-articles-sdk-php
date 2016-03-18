@@ -79,7 +79,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
                         ->withHeight(250)
                         ->enableDefaultForReuse()
                         ->withHTML(
-                          '<script>alert("test");</script>'
+                            '<script>alert("test");</script>'
                         )
                 );
 
