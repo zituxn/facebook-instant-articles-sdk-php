@@ -61,7 +61,8 @@ class Client
      *
      * @throws FacebookSDKException
      */
-    public static function create($appID, $appSecret, $accessToken, $pageID, $developmentMode = false) {
+    public static function create($appID, $appSecret, $accessToken, $pageID, $developmentMode = false)
+    {
         Type::enforce($appID, Type::STRING);
         Type::enforce($appSecret, Type::STRING);
         Type::enforce($accessToken, Type::STRING);
