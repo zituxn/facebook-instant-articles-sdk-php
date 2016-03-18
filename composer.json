@@ -20,9 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Facebook\\": ["src/"],
-            "Facebook\\InstantArticles\\": ["src/Facebook/"],
-            "Facebook\\InstantArticles\\Elements\\": ["src/Facebook/InstantArticles/"]
+            "Facebook\\InstantArticles\\": ["src/Facebook/InstantArticles/"]
         }
     }
 }
