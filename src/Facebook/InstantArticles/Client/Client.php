@@ -98,6 +98,17 @@ class Client
     }
 
     /**
+     * Removes an article from your Instant Articles library.
+     *
+     * @param string $canonicalURL The canonical URL of the article to get the status for.
+     */
+    public function removeArticle($canonicalURL) {
+        if ($articleID = $this->getArticleIDFromCanonicalURL($canonicalURL)) {
+            $this->facebook->delete($articleID);
+        }
+    }
+
+    /**
      * Get an Instant Article ID on its canonical URL.
      *
      * @param string $canonicalURL The canonical URL of the article to get the status for.
