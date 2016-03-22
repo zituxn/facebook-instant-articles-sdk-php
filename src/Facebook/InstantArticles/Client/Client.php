@@ -100,7 +100,7 @@ class Client
     /**
      * Removes an article from your Instant Articles library.
      *
-     * @param string $canonicalURL The canonical URL of the article to get the status for.
+     * @param string $canonicalURL The canonical URL of the article to delete.
      */
     public function removeArticle($canonicalURL) {
         if ($articleID = $this->getArticleIDFromCanonicalURL($canonicalURL)) {
