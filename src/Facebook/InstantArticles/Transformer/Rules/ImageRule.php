@@ -18,9 +18,6 @@ use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
 class ImageRule extends ConfigurationSelectorRule
 {
     const PROPERTY_IMAGE_URL = 'image.url';
-    const PROPERTY_CAPTION = 'image.caption';
-    const PROPERTY_AUDIO = 'image.audio';
-    const PROPERTY_MAP = 'image.map';
     const PROPERTY_LIKE = 'image.like';
     const PROPERTY_COMMENTS = 'image.comments';
 
@@ -46,9 +43,6 @@ class ImageRule extends ConfigurationSelectorRule
         $image_rule->withProperties(
             array(
                 self::PROPERTY_IMAGE_URL,
-                self::PROPERTY_CAPTION,
-                self::PROPERTY_AUDIO,
-                self::PROPERTY_MAP,
                 self::PROPERTY_LIKE,
                 self::PROPERTY_COMMENTS
             ),
@@ -71,21 +65,6 @@ class ImageRule extends ConfigurationSelectorRule
             throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_IMAGE_URL);
         }
 
-        $caption_node = $this->getProperty(self::PROPERTY_CAPTION, $node);
-        if ($caption_node) {
-            $transformer->transform($image, $node);
-        }
-
-        $audio_node = $this->getProperty(self::PROPERTY_AUDIO, $node);
-        if ($audio_node) {
-            $transformer->transform($image, $node);
-        }
-
-        $map_node = $this->getProperty(self::PROPERTY_MAP, $node);
-        if ($map_node) {
-            $transformer->transform($image, $node);
-        }
-
         if ($this->getProperty(self::PROPERTY_LIKE, $node)) {
             $image->enableLike();
         }
@@ -93,6 +72,8 @@ class ImageRule extends ConfigurationSelectorRule
         if ($this->getProperty(self::PROPERTY_COMMENTS, $node)) {
             $image->enableComments();
         }
+
+        $transformer->transform($image, $node);
 
         return $instant_article;
     }

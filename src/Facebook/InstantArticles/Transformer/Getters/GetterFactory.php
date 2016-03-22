@@ -18,6 +18,7 @@ class GetterFactory
     const TYPE_ELEMENT_GETTER = 'element';
     const TYPE_NEXTSIBLING_GETTER = 'sibling';
     const TYPE_UNESCAPED_GETTER = 'unescaped';
+    const TYPE_OUTER_UNESCAPED_GETTER = 'outer-unescaped';
     const TYPE_EXISTS_GETTER = 'exists';
     const TYPE_XPATH_GETTER = 'xpath';
 
@@ -28,6 +29,7 @@ class GetterFactory
         self::TYPE_ELEMENT_GETTER => ElementGetter::class,
         self::TYPE_NEXTSIBLING_GETTER => NextSiblingGetter::class,
         self::TYPE_UNESCAPED_GETTER => UnescapedGetter::class,
+        self::TYPE_OUTER_UNESCAPED_GETTER => OuterUnescapedGetter::class,
         self::TYPE_EXISTS_GETTER => ExistsGetter::class,
         self::TYPE_XPATH_GETTER => XpathGetter::class
     );
@@ -46,6 +48,7 @@ class GetterFactory
      * @see ElementGetter
      * @see NextSiblingGetter
      * @see UnescapedGetter
+     * @see OuterUnescapedGetter
      * @see ExistsGetter
      * @see XpathGetter
      * @param array<string, string> $getter_configuration that maps the properties for getter

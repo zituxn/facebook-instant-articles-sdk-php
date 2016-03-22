@@ -428,18 +428,6 @@
                         "selector" : "img",
                         "attribute": "src"
                     },
-                    "image.caption" : {
-                        "type" : "element",
-                        "selector" : "figcaption"
-                    },
-                    "image.audio" : {
-                        "type" : "element",
-                        "selector" : "audio"
-                    },
-                    "image.map" : {
-                        "type" : "element",
-                        "selector" : "script.op-geotag"
-                    },
                     "image.like" : {
                         "type" : "exists",
                         "selector" : "figure[data-feedback*='fb:likes']",
@@ -466,18 +454,6 @@
                         "type" : "string",
                         "selector" : "source",
                         "attribute": "type"
-                    },
-                    "video.caption" : {
-                        "type" : "element",
-                        "selector" : "figcaption"
-                    },
-                    "video.audio" : {
-                        "type" : "element",
-                        "selector" : "audio"
-                    },
-                    "video.map" : {
-                        "type" : "element",
-                        "selector" : "script.op-geotag"
                     },
                     "aspect-fit": {
                         "type": "exists",
@@ -519,21 +495,7 @@
             },
             {
                 "class": "MapRule",
-                "selector" : "figure.op-map",
-                "properties" : {
-                    "map.geotag" : {
-                        "type" : "string",
-                        "selector" : "script.op-geotag"
-                    },
-                    "map.caption" : {
-                        "type" : "element",
-                        "selector" : "figcaption"
-                    },
-                    "map.audio" : {
-                        "type" : "element",
-                        "selector" : "audio"
-                    }
-                }
+                "selector" : "figure.op-map"
             },
             {
                 "class": "GeoTagRule",
@@ -557,10 +519,6 @@
                     "socialembed.iframe" : {
                         "type" : "unescaped",
                         "selector" : "iframe"
-                    },
-                    "socialembed.caption" : {
-                        "type" : "element",
-                        "selector" : "figcaption"
                     }
                 }
             },
@@ -589,10 +547,6 @@
                     "interactive.iframe" : {
                         "type" : "unescaped",
                         "selector" : "iframe"
-                    },
-                    "interactive.caption" : {
-                        "type" : "element",
-                        "selector" : "figcaption"
                     }
                 }
             },
@@ -605,10 +559,6 @@
                         "type" : "string",
                         "selector" : "img",
                         "attribute": "src"
-                    },
-                    "image.caption" : {
-                        "type" : "string",
-                        "selector" : "figcaption"
                     }
                 }
             },
@@ -629,17 +579,7 @@
             },
             {
                 "class": "SlideshowRule",
-                "selector" : "figure.op-slideshow",
-                "properties" : {
-                    "image.caption" : {
-                        "type" : "element",
-                        "selector" : "figcaption"
-                    },
-                    "image.audio" : {
-                        "type" : "element",
-                        "selector" : "audio"
-                    }
-                }
+                "selector" : "figure.op-slideshow"
             },
             {
                 "class": "AdRule",
