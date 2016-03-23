@@ -291,8 +291,6 @@ class Caption extends FormattedText
             $element->appendChild($this->title->toDOMElement($document));
         }
 
-
-
      // subtitle markup optional
         if ($this->subTitle) {
             $element->appendChild($this->subTitle->toDOMElement($document));

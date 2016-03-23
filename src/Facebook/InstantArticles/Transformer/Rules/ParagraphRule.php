@@ -42,7 +42,7 @@ class ParagraphRule extends ConfigurationSelectorRule
         $p = Paragraph::create();
         $context_element->addChild($p);
         $transformer->transform($p, $element);
-        
+
         return $context_element;
     }
 

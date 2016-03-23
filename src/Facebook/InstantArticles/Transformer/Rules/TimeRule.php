@@ -13,6 +13,7 @@ use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
 use Facebook\InstantArticles\Transformer\Getters\StringGetter;
 use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class TimeRule extends ConfigurationSelectorRule
 {
@@ -62,7 +63,14 @@ class TimeRule extends ConfigurationSelectorRule
             $time->withDatetime(new \DateTime($time_string));
             $header->withTime($time);
         } else {
-            throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_TIME);
+            $transformer->addWarning(
+                new InvalidSelector(
+                    self::PROPERTY_TIME,
+                    $header,
+                    $node,
+                    $this
+                )
+            );
         }
 
         return $header;

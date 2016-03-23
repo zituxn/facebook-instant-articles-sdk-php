@@ -11,6 +11,7 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Interactive;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class InteractiveRule extends ConfigurationSelectorRule
 {
@@ -65,7 +66,14 @@ class InteractiveRule extends ConfigurationSelectorRule
         if ($iframe || $url) {
             $instant_article->addChild($interactive);
         } else {
-            throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_IFRAME);
+            $transformer->addWarning(
+                new InvalidSelector(
+                    self::PROPERTY_IFRAME,
+                    $instant_article,
+                    $node,
+                    $this
+                )
+            );
         }
 
         if ($this->getProperty(self::PROPERTY_WIDTH_COLUMN_WIDTH, $node)) {

@@ -14,6 +14,7 @@ use Facebook\InstantArticles\Elements\Map;
 use Facebook\InstantArticles\Elements\GeoTag;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class GeoTagRule extends ConfigurationSelectorRule
 {
@@ -52,7 +53,14 @@ class GeoTagRule extends ConfigurationSelectorRule
             $geo_tag->withScript($script);
             $media_container->withGeoTag($geo_tag);
         } else {
-            throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_MAP_GEOTAG);
+            $transformer->addWarning(
+                new InvalidSelector(
+                    self::PROPERTY_MAP_GEOTAG,
+                    $media_container,
+                    $node,
+                    $this
+                )
+            );
         }
 
         return $media_container;

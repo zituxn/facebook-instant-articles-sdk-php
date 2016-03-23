@@ -13,6 +13,7 @@ use Facebook\InstantArticles\Elements\RelatedArticles;
 use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
 use Facebook\InstantArticles\Transformer\Getters\StringGetter;
 use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class RelatedItemRule extends ConfigurationSelectorRule
 {
@@ -58,7 +59,14 @@ class RelatedItemRule extends ConfigurationSelectorRule
         if ($url) {
             $related_item->withURL($url);
         } else {
-            throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_URL);
+            $transformer->addWarning(
+                new InvalidSelector(
+                    self::PROPERTY_URL,
+                    $related_articles,
+                    $node,
+                    $this
+                )
+            );
         }
 
         if ($this->getProperty(self::PROPERTY_SPONSORED, $node)) {

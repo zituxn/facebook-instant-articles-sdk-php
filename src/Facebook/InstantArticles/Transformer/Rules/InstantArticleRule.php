@@ -14,6 +14,7 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
 use Facebook\InstantArticles\Transformer\Getters\StringGetter;
 use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class InstantArticleRule extends ConfigurationSelectorRule
 {
@@ -62,7 +63,14 @@ class InstantArticleRule extends ConfigurationSelectorRule
         if ($url) {
             $instant_article->withCanonicalURL($url);
         } else {
-            throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_CANONICAL);
+            $transformer->addWarning(
+                new InvalidSelector(
+                    self::PROPERTY_CANONICAL,
+                    $instant_article,
+                    $node,
+                    $this
+                )
+            );
         }
 
         $charset = $this->getProperty(self::PROPERTY_CHARSET, $node);

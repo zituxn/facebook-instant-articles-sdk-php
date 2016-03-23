@@ -32,6 +32,11 @@ class Transformer
         array_unshift($this->rules, $rule);
     }
 
+    public function addWarning($warning)
+    {
+        $this->warnings[] = $warning;
+    }
+
     public function transform($context, $node)
     {
         if (Type::is($context, InstantArticle::class)) {
@@ -76,7 +81,7 @@ class Transformer
                         $log->debug('empty content ignored');
                     }
 
-                    $this->warnings[] = new UnrecognizedElement($current_context, $child);
+                    $this->addWarning(new UnrecognizedElement($current_context, $child));
                 }
             }
         }

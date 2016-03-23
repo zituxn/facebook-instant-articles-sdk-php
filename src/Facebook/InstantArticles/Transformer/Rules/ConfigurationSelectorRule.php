@@ -94,4 +94,9 @@ abstract class ConfigurationSelectorRule extends Rule
         }
         return $value;
     }
+
+    public function getProperties()
+    {
+        return $this->properties;
+    }
 }

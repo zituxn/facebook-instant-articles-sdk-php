@@ -14,6 +14,7 @@ use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
 use Facebook\InstantArticles\Transformer\Getters\StringGetter;
 use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class HeaderImageRule extends ConfigurationSelectorRule
 {
@@ -58,7 +59,14 @@ class HeaderImageRule extends ConfigurationSelectorRule
             $image->withURL($url);
             $header->withCover($image);
         } else {
-            throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_IMAGE_URL);
+            $transformer->addWarning(
+                new InvalidSelector(
+                    self::PROPERTY_IMAGE_URL,
+                    $header,
+                    $node,
+                    $this
+                )
+            );
         }
 
         $suppress_warnings = $transformer->suppress_warnings;
