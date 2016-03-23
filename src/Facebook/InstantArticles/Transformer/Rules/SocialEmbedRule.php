@@ -11,6 +11,7 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\SocialEmbed;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class SocialEmbedRule extends ConfigurationSelectorRule
 {
@@ -59,7 +60,14 @@ class SocialEmbedRule extends ConfigurationSelectorRule
         if ($iframe || $url) {
             $instant_article->addChild($social_embed);
         } else {
-            // TODO: Add a warning to transformer
+            $transformer->addWarning(
+                new InvalidSelector(
+                    'iframe and/or url',
+                    $instant_article,
+                    $node,
+                    $this
+                )
+            );
         }
 
         $suppress_warnings = $transformer->suppress_warnings;

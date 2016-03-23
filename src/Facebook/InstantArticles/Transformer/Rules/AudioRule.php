@@ -15,6 +15,7 @@ use Facebook\InstantArticles\Elements\Audible;
 use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
 use Facebook\InstantArticles\Transformer\Getters\StringGetter;
 use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class AudioRule extends ConfigurationSelectorRule
 {
@@ -66,7 +67,14 @@ class AudioRule extends ConfigurationSelectorRule
             $audible->withAudio($audio);
         } else {
             // URL is a required field for Audio
-            throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_AUDIO_URL);
+            $transformer->addWarning(
+                new InvalidSelector(
+                    self::PROPERTY_AUDIO_URL,
+                    $audible,
+                    $node,
+                    $this
+                )
+            );
         }
 
         if ($title) {

@@ -13,6 +13,7 @@ use Facebook\InstantArticles\Elements\Author;
 use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
 use Facebook\InstantArticles\Transformer\Getters\StringGetter;
 use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class AuthorRule extends ConfigurationSelectorRule
 {
@@ -65,7 +66,14 @@ class AuthorRule extends ConfigurationSelectorRule
             $author->withName($name);
             $header->addAuthor($author);
         } else {
-            throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_AUTHOR_NAME);
+            $transformer->addWarning(
+                new InvalidSelector(
+                    self::PROPERTY_AUTHOR_NAME,
+                    $header,
+                    $node,
+                    $this
+                )
+            );
         }
 
         if ($role_contribution) {

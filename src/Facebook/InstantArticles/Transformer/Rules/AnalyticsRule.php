@@ -14,6 +14,7 @@ use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
 use Facebook\InstantArticles\Transformer\Getters\StringGetter;
 use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
 use Facebook\InstantArticles\Transformer\Getters\IntegerGetter;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class AnalyticsRule extends ConfigurationSelectorRule
 {
@@ -69,6 +70,15 @@ class AnalyticsRule extends ConfigurationSelectorRule
 
         if ($url || $embed_code) {
             $instant_article->addChild($analytics);
+        } else {
+            $transformer->addWarning(
+                new InvalidSelector(
+                    'embed code or url',
+                    $instant_article,
+                    $node,
+                    $this
+                )
+            );
         }
 
         return $instant_article;

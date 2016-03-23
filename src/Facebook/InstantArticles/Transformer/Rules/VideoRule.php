@@ -16,6 +16,7 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
 use Facebook\InstantArticles\Transformer\Getters\StringGetter;
 use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class VideoRule extends ConfigurationSelectorRule
 {
@@ -112,7 +113,14 @@ class VideoRule extends ConfigurationSelectorRule
             $video->withURL($url);
             $instant_article->addChild($video);
         } else {
-            throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_VIDEO_URL);
+            $transformer->addWarning(
+                new InvalidSelector(
+                    self::PROPERTY_VIDEO_URL,
+                    $instant_article,
+                    $node,
+                    $this
+                )
+            );
         }
 
         $video_type = $this->getProperty(self::PROPERTY_VIDEO_TYPE, $node);

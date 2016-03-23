@@ -14,6 +14,7 @@ use Facebook\InstantArticles\Elements\Slideshow;
 use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
 use Facebook\InstantArticles\Transformer\Getters\StringGetter;
 use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class SlideshowImageRule extends ConfigurationSelectorRule
 {
@@ -62,7 +63,14 @@ class SlideshowImageRule extends ConfigurationSelectorRule
             $image->withURL($url);
             $slideshow->addImage($image);
         } else {
-            throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_IMAGE_URL);
+            $transformer->addWarning(
+                new InvalidSelector(
+                    self::PROPERTY_IMAGE_URL,
+                    $slideshow,
+                    $node,
+                    $this
+                )
+            );
         }
 
         $caption = Caption::create();

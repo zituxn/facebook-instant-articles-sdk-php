@@ -34,11 +34,6 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
 
 class TransformerTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var InstantArticle
-     */
-    private $article;
-    private $input;
     public function setUp()
     {
         \Logger::configure(
