@@ -33,12 +33,16 @@ class AnalyticsTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderWithHTML()
     {
+        $inline =
+            '<h1>Some custom code</h1>'.
+            '<script>alert("test");</script>';
+        $document = new \DOMDocument();
+        $fragment = $document->createDocumentFragment();
+        $fragment->appendXML($inline);
+
         $analytics =
             Analytics::create()
-                ->withHTML(
-                    '<h1>Some custom code</h1>'.
-                    '<script>alert("test");</script>'
-                );
+                ->withHTML($fragment);
 
         $expected =
             '<figure class="op-tracker">'.
@@ -65,10 +69,13 @@ class AnalyticsTest extends \PHPUnit_Framework_TestCase
                 'ga("send", "pageview");'.
             '</script>'.
             '<!-- End Google Analytics -->';
+        $document = new \DOMDocument();
+        $fragment = $document->createDocumentFragment();
+        $fragment->appendXML($google_analytics);
 
         $analytics =
             Analytics::create()
-                ->withHTML($google_analytics);
+                ->withHTML($fragment);
 
         $expected =
             '<figure class="op-tracker">'.

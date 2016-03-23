@@ -49,7 +49,7 @@ class Interactive extends Element
     private $width;
 
     /**
-     * @var string The HTML of the content.
+     * @var \DOMNode The HTML of the content.
      */
     private $html;
 
@@ -125,11 +125,11 @@ class Interactive extends Element
     /**
      * Sets the unescaped HTML of your interactive graphic.
      *
-     * @param string The unescaped HTML of your interactive graphic.
+     * @param \DOMNode The unescaped HTML of your interactive graphic.
      */
     public function withHTML($html)
     {
-        Type::enforce($html, Type::STRING);
+        Type::enforce($html, \DOMNode::class);
         $this->html = $html;
 
         return $this;
@@ -168,7 +168,7 @@ class Interactive extends Element
     }
 
     /**
-     * @return string unescaped html
+     * @return \DOMNode unescaped html
      */
     public function getHtml()
     {

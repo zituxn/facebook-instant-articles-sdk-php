@@ -30,6 +30,14 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         date_default_timezone_set('UTC');
+
+        $inline =
+            '<h1>Some custom code</h1>'.
+            '<script>alert("test");</script>';
+        $document = new \DOMDocument();
+        $fragment = $document->createDocumentFragment();
+        $fragment->appendXML($inline);
+
         $this->article =
             InstantArticle::create()
                 ->withCanonicalUrl('http://foo.com/article.html')
@@ -126,10 +134,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                 // Analytics
                 ->addChild(
                     Analytics::create()
-                        ->withHTML(
-                            '<h1>Some custom code</h1>'.
-                            '<script>alert("test");</script>'
-                        )
+                        ->withHTML($fragment)
                 )
 
                 // Footer
@@ -148,6 +153,8 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
             '<head>'.
                 '<link rel="canonical" href="http://foo.com/article.html"/>'.
                 '<meta charset="utf-8"/>'.
+                '<meta property="op:generator" content="facebook-instant-articles-sdk-php"/>'.
+                '<meta property="op:generator:version" content="'.InstantArticle::CURRENT_VERSION.'"/>'.
                 '<meta property="op:markup_version" content="v1.0"/>'.
                 '<meta property="fb:use_automatic_ad_placement" content="true"/>'.
             '</head>'.

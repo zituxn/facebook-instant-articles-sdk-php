@@ -18,7 +18,6 @@ use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
 class HeaderImageRule extends ConfigurationSelectorRule
 {
     const PROPERTY_IMAGE_URL = 'image.url';
-    const PROPERTY_CAPTION = 'image.caption';
 
     public function __construct()
     {
@@ -41,8 +40,7 @@ class HeaderImageRule extends ConfigurationSelectorRule
 
         $image_rule->withProperties(
             array(
-                self::PROPERTY_IMAGE_URL,
-                self::PROPERTY_CAPTION
+                self::PROPERTY_IMAGE_URL
             ),
             $configuration
         );
@@ -63,10 +61,10 @@ class HeaderImageRule extends ConfigurationSelectorRule
             throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_IMAGE_URL);
         }
 
-        $caption_node = $this->getProperty(self::PROPERTY_CAPTION, $node);
-        if ($caption_node) {
-            $transformer->transform($image, $node);
-        }
+        $suppress_warnings = $transformer->suppress_warnings;
+        $transformer->suppress_warnings = true;
+        $transformer->transform($image, $node);
+        $transformer->suppress_warnings = $suppress_warnings;
 
         return $header;
     }

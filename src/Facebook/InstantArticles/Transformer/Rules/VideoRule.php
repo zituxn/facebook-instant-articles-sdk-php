@@ -21,9 +21,6 @@ class VideoRule extends ConfigurationSelectorRule
 {
     const PROPERTY_VIDEO_URL = 'video.url';
     const PROPERTY_VIDEO_TYPE = 'video.type';
-    const PROPERTY_CAPTION = 'video.caption';
-    const PROPERTY_AUDIO = 'video.audio';
-    const PROPERTY_MAP = 'video.map';
     const PROPERTY_PLAYBACK_MODE = 'video.playback';
     const PROPERTY_CONTROLS = 'video.controls';
     const PROPERTY_LIKE = 'video.like';
@@ -88,9 +85,6 @@ class VideoRule extends ConfigurationSelectorRule
             array(
                 self::PROPERTY_VIDEO_URL,
                 self::PROPERTY_VIDEO_TYPE,
-                self::PROPERTY_CAPTION,
-                self::PROPERTY_AUDIO,
-                self::PROPERTY_MAP,
 
                 Video::ASPECT_FIT,
                 Video::ASPECT_FIT_ONLY,
@@ -126,21 +120,6 @@ class VideoRule extends ConfigurationSelectorRule
             $video->withContentType($video_type);
         }
 
-        $caption_node = $this->getProperty(self::PROPERTY_CAPTION, $node);
-        if ($caption_node) {
-            $transformer->transform($video, $node);
-        }
-
-        $audio_node = $this->getProperty(self::PROPERTY_AUDIO, $node);
-        if ($audio_node) {
-            $transformer->transform($video, $node);
-        }
-
-        $map_node = $this->getProperty(self::PROPERTY_MAP, $node);
-        if ($map_node) {
-            $transformer->transform($video, $node);
-        }
-
         if ($this->getProperty(Video::ASPECT_FIT, $node)) {
             $video->withPresentation(Video::ASPECT_FIT);
         } elseif ($this->getProperty(Video::ASPECT_FIT_ONLY, $node)) {
@@ -166,6 +145,12 @@ class VideoRule extends ConfigurationSelectorRule
         if ($this->getProperty(self::PROPERTY_COMMENTS, $node)) {
             $video->enableComments();
         }
+
+        $suppress_warnings = $transformer->suppress_warnings;
+        $transformer->suppress_warnings = true;
+        $transformer->transform($video, $node);
+        $transformer->suppress_warnings = $suppress_warnings;
+
         return $instant_article;
     }
 }

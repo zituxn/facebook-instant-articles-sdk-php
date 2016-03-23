@@ -16,7 +16,6 @@ class SocialEmbedRule extends ConfigurationSelectorRule
 {
     const PROPERTY_IFRAME = 'socialembed.iframe';
     const PROPERTY_URL = 'socialembed.url';
-    const PROPERTY_CAPTION = 'socialembed.caption';
 
     public function getContextClass()
     {
@@ -36,8 +35,7 @@ class SocialEmbedRule extends ConfigurationSelectorRule
         $social_embed_rule->withProperties(
             array(
                 self::PROPERTY_IFRAME,
-                self::PROPERTY_URL,
-                self::PROPERTY_CAPTION
+                self::PROPERTY_URL
             ),
             $configuration
         );
@@ -61,13 +59,13 @@ class SocialEmbedRule extends ConfigurationSelectorRule
         if ($iframe || $url) {
             $instant_article->addChild($social_embed);
         } else {
-            throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_IFRAME);
+            // TODO: Add a warning to transformer
         }
 
-        $caption_node = $this->getProperty(self::PROPERTY_CAPTION, $node);
-        if ($caption_node) {
-            $transformer->transform($social_embed, $node);
-        }
+        $suppress_warnings = $transformer->suppress_warnings;
+        $transformer->suppress_warnings = true;
+        $transformer->transform($social_embed, $node);
+        $transformer->suppress_warnings = $suppress_warnings;
 
         return $instant_article;
     }

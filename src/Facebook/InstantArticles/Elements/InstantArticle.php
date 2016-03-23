@@ -33,6 +33,13 @@ use Facebook\InstantArticles\Validators\Type;
 */
 class InstantArticle extends Element
 {
+    const CURRENT_VERSION = '0.2.1';
+
+    /**
+     * The meta properties that are used on <head>
+     */
+    private $metaProperties = array();
+
     /**
      * @var string The canonical URL for the Instant Article
      */
@@ -85,6 +92,8 @@ class InstantArticle extends Element
     private function __construct()
     {
         $this->header = Header::create();
+        $this->addMetaProperty('op:generator', 'facebook-instant-articles-sdk-php');
+        $this->addMetaProperty('op:generator:version', self::CURRENT_VERSION);
     }
 
     /**
@@ -212,6 +221,18 @@ class InstantArticle extends Element
         return $this->children;
     }
 
+    /**
+     * Adds a meta property for the <head> of Instant Article.
+     * @param string $property_name name of meta attribute
+     * @param string $property_content content of meta attribute
+     * @return $this for builder pattern
+     */
+    public function addMetaProperty($property_name, $property_content)
+    {
+        $this->metaProperties[$property_name] = $property_content;
+        return $this;
+    }
+
     public function toDOMElement($document = null)
     {
         if (!$document) {
@@ -221,6 +242,7 @@ class InstantArticle extends Element
         // Builds and appends head to the HTML document
         $html = $document->createElement('html');
         $head = $document->createElement('head');
+        $html->appendChild($head);
 
         $link = $document->createElement('link');
         $link->setAttribute('rel', 'canonical');
@@ -231,17 +253,22 @@ class InstantArticle extends Element
         $charset->setAttribute('charset', $this->charset);
         $head->appendChild($charset);
 
-        $markup_version = $document->createElement('meta');
-        $markup_version->setAttribute('property', 'op:markup_version');
-        $markup_version->setAttribute('content', $this->markupVersion);
-        $head->appendChild($markup_version);
+        $this->addMetaProperty('op:markup_version', $this->markupVersion);
+        $this->addMetaProperty(
+            'fb:use_automatic_ad_placement',
+            $this->isAutomaticAdPlaced ? 'true' : 'false'
+        );
 
-        $ad_placement = $document->createElement('meta');
-        $ad_placement->setAttribute('property', 'fb:use_automatic_ad_placement');
-        $ad_placement->setAttribute('content', $this->isAutomaticAdPlaced ? 'true' : 'false');
-        $head->appendChild($ad_placement);
-
-        $html->appendChild($head);
+        // Adds all meta properties
+        foreach ($this->metaProperties as $property_name => $property_content) {
+            $head->appendChild(
+                $this->createMetaElement(
+                    $document,
+                    $property_name,
+                    $property_content
+                )
+            );
+        }
 
         // Build and append body and article tags to the HTML document
         $body = $document->createElement('body');
@@ -263,5 +290,13 @@ class InstantArticle extends Element
         }
 
         return $html;
+    }
+
+    private function createMetaElement($document, $property_name, $property_content)
+    {
+        $element = $document->createElement('meta');
+        $element->setAttribute('property', $property_name);
+        $element->setAttribute('content', $property_content);
+        return $element;
     }
 }

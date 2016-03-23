@@ -103,12 +103,16 @@ class InteractiveTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderInlineWithHeightAndWidth()
     {
+        $inline =
+            '<h1>Some custom code</h1>'.
+            '<script>alert("test");</script>';
+        $document = new \DOMDocument();
+        $fragment = $document->createDocumentFragment();
+        $fragment->appendXML($inline);
+
         $interactive =
             Interactive::create()
-                ->withHTML(
-                    '<h1>Some custom code</h1>'.
-                    '<script>alert("test");</script>'
-                )
+                ->withHTML($fragment)
                 ->withHeight(640)
                 ->withWidth(Interactive::NO_MARGIN);
 

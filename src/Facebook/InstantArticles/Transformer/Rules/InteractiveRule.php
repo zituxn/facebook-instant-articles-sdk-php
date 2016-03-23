@@ -19,7 +19,6 @@ class InteractiveRule extends ConfigurationSelectorRule
     const PROPERTY_WIDTH_NO_MARGIN = Interactive::NO_MARGIN;
     const PROPERTY_WIDTH_COLUMN_WIDTH = Interactive::COLUMN_WIDTH;
     const PROPERTY_HEIGHT = 'interactive.height';
-    const PROPERTY_CAPTION = 'interactive.caption';
 
     public function getContextClass()
     {
@@ -42,8 +41,7 @@ class InteractiveRule extends ConfigurationSelectorRule
                 self::PROPERTY_URL,
                 self::PROPERTY_WIDTH_NO_MARGIN,
                 self::PROPERTY_WIDTH_COLUMN_WIDTH,
-                self::PROPERTY_HEIGHT,
-                self::PROPERTY_CAPTION
+                self::PROPERTY_HEIGHT
             ),
             $configuration
         );
@@ -81,10 +79,10 @@ class InteractiveRule extends ConfigurationSelectorRule
             $interactive->withHeight($height);
         }
 
-        $caption_node = $this->getProperty(self::PROPERTY_CAPTION, $node);
-        if ($caption_node) {
-            $transformer->transform($interactive, $node);
-        }
+        $suppress_warnings = $transformer->suppress_warnings;
+        $transformer->suppress_warnings = true;
+        $transformer->transform($interactive, $node);
+        $transformer->suppress_warnings = $suppress_warnings;
 
         return $instant_article;
     }

@@ -16,9 +16,6 @@ use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
 
 class SlideshowRule extends ConfigurationSelectorRule
 {
-    const PROPERTY_AUDIO = 'slideshow.audio';
-    const PROPERTY_CAPTION = 'slideshow.caption';
-
     public function getContextClass()
     {
         return InstantArticle::class;
@@ -34,15 +31,6 @@ class SlideshowRule extends ConfigurationSelectorRule
         $slideshow_rule = self::create();
         $slideshow_rule->withSelector($configuration['selector']);
 
-        $slideshow_rule->withProperties(
-            array(
-                self::PROPERTY_AUDIO,
-                self::PROPERTY_CAPTION
-            ),
-            $configuration
-        );
-
-
         return $slideshow_rule;
     }
 
@@ -51,16 +39,8 @@ class SlideshowRule extends ConfigurationSelectorRule
         // Builds the slideshow
         $slideshow = Slideshow::create();
         $instant_article->addChild($slideshow);
-        $transformer->transform($slideshow, $node);
 
-        $audio_node = $this->getProperty(self::PROPERTY_AUDIO, $node);
-        if ($audio_node) {
-            $transformer->transform($slideshow, $node);
-        }
-        $caption_node = $this->getProperty(self::PROPERTY_CAPTION, $node);
-        if ($caption_node) {
-            $transformer->transform($slideshow, $node);
-        }
+        $transformer->transform($slideshow, $node);
 
         return $instant_article;
     }
