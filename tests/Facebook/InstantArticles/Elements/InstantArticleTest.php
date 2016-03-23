@@ -153,6 +153,8 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
             '<head>'.
                 '<link rel="canonical" href="http://foo.com/article.html"/>'.
                 '<meta charset="utf-8"/>'.
+                '<meta property="op:generator" content="facebook-instant-articles-sdk-php"/>'.
+                '<meta property="op:generator:version" content="'.InstantArticle::CURRENT_VERSION.'"/>'.
                 '<meta property="op:markup_version" content="v1.0"/>'.
                 '<meta property="fb:use_automatic_ad_placement" content="true"/>'.
             '</head>'.

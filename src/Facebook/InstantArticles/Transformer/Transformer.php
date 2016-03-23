@@ -9,9 +9,13 @@
 namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Transformer\Warnings\UnrecognizedElement;
+use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Validators\Type;
 
 class Transformer
 {
+    const CURRENT_VERSION = InstantArticle::CURRENT_VERSION;
+
     private $rules = array();
     private $warnings = array();
 
@@ -24,11 +28,17 @@ class Transformer
 
     public function addRule($rule)
     {
+        // Adds in reversed order for bottom-top processing rules
         array_unshift($this->rules, $rule);
     }
 
     public function transform($context, $node)
     {
+        if (Type::is($context, InstantArticle::class)) {
+            $context->addMetaProperty('op:transformer', 'facebook-instant-articles-sdk-php');
+            $context->addMetaProperty('op:transformer:version', self::CURRENT_VERSION);
+        }
+
         $log = \Logger::getLogger('facebook-instantarticles-transformer');
         if (!$node) {
             $e = new \Exception();
