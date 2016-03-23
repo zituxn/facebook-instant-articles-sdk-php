@@ -61,7 +61,10 @@ class HeaderImageRule extends ConfigurationSelectorRule
             throw new \InvalidArgumentException('Invalid selector for '.self::PROPERTY_IMAGE_URL);
         }
 
+        $suppress_warnings = $transformer->suppress_warnings;
+        $transformer->suppress_warnings = true;
         $transformer->transform($image, $node);
+        $transformer->suppress_warnings = $suppress_warnings;
 
         return $header;
     }

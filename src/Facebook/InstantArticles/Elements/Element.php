@@ -8,6 +8,8 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
+use Facebook\InstantArticles\Validators\Type;
+
 /**
  * Class Element
  * This class is the meta each tag element that contains rendering code for the
@@ -35,13 +37,14 @@ abstract class Element
 
     /**
      * Appends unescaped HTML to a element using the right strategy.
-     * @param DOMElement $element - The element to append the HTML to
-     * @param string $content - The unescaped HTML to append
+     * @param DOMNode $element - The element to append the HTML to
+     * @param DOMNode $content - The unescaped HTML to append
      */
     protected function dangerouslyAppendUnescapedHTML($element, $content)
     {
-        $raw_node = $element->ownerDocument->createDocumentFragment();
-        $raw_node->appendXML($content);
-        $element->appendChild($raw_node);
+        Type::enforce($content, \DOMNode::class);
+        Type::enforce($element, \DOMNode::class);
+        $imported = $element->ownerDocument->importNode($content, true);
+        $element->appendChild($imported);
     }
 }

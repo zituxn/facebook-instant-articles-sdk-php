@@ -73,7 +73,10 @@ class ImageRule extends ConfigurationSelectorRule
             $image->enableComments();
         }
 
+        $suppress_warnings = $transformer->suppress_warnings;
+        $transformer->suppress_warnings = true;
         $transformer->transform($image, $node);
+        $transformer->suppress_warnings = $suppress_warnings;
 
         return $instant_article;
     }

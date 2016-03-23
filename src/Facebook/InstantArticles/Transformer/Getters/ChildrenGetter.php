@@ -11,36 +11,19 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 use Facebook\InstantArticles\Validators\Type;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
-class ChildrenGetter extends AbstractGetter
+class ChildrenGetter extends ElementGetter
 {
-    protected $selector;
-
-    public function createFrom($properties)
-    {
-        return $this->withSelector($properties['selector']);
-    }
-
-    public function findAll($node)
-    {
-        $domXPath = new \DOMXPath($node->ownerDocument);
-        $converter = new CssSelectorConverter();
-        $xpath = $converter->toXPath($this->selector);
-        return $domXPath->query($xpath, $node);
-    }
-
-    public function withSelector($selector)
-    {
-        Type::enforce($selector, Type::STRING);
-        $this->selector = $selector;
-
-        return $this;
-    }
-
     public function get($node)
     {
-        $elements = self::findAll($node, $this->selector);
-        if (!empty($elements)) {
-            return $elements->item(0)->getChildren();
+        $element = parent::get($node);
+        if ($element) {
+            $fragment = $element->ownerDocument->createDocumentFragment();
+            foreach ($element->childNodes as $child) {
+                $fragment->appendChild($child->cloneNode(true));
+            }
+            if ($fragment->hasChildNodes()) {
+                return $fragment;
+            }
         }
         return null;
     }

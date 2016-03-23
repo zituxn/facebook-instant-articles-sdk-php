@@ -30,7 +30,7 @@ class SocialEmbed extends Element
     private $caption;
 
     /**
-     * @var string The HTML of the content.
+     * @var \DOMNode The HTML of the content.
      */
     private $html;
 
@@ -77,11 +77,11 @@ class SocialEmbed extends Element
     /**
      * Sets the unescaped HTML of your social embed.
      *
-     * @param string $html - The unescaped HTML of your social embed.
+     * @param \DOMNode $html - The unescaped HTML of your social embed.
      */
     public function withHTML($html)
     {
-        Type::enforce($html, Type::STRING);
+        Type::enforce($html, \DOMNode::class);
         $this->html = $html;
 
         return $this;
@@ -96,7 +96,7 @@ class SocialEmbed extends Element
     }
 
     /**
-     * @return string $html - The unescaped HTML of your social embed.
+     * @return \DOMNode $html - The unescaped HTML of your social embed.
      */
     public function getHtml()
     {

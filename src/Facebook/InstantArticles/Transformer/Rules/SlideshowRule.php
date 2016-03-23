@@ -39,7 +39,7 @@ class SlideshowRule extends ConfigurationSelectorRule
         // Builds the slideshow
         $slideshow = Slideshow::create();
         $instant_article->addChild($slideshow);
-        
+
         $transformer->transform($slideshow, $node);
 
         return $instant_article;

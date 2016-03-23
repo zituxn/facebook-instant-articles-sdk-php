@@ -15,6 +15,8 @@ class Transformer
     private $rules = array();
     private $warnings = array();
 
+    public $suppress_warnings = false;
+
     public function getWarnings()
     {
         return $this->warnings;
@@ -51,7 +53,8 @@ class Transformer
                 }
                 if (!$matched &&
                     !($child->nodeName === '#text' && empty(trim($child->textContent))) &&
-                    !($child->nodeName === '#comment')
+                    !($child->nodeName === '#comment') &&
+                    !$this->suppress_warnings
                     ) {
                     $tag_content = $child->ownerDocument->saveXML($child);
                     $tag_trimmed = trim($tag_content);

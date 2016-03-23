@@ -146,8 +146,11 @@ class VideoRule extends ConfigurationSelectorRule
             $video->enableComments();
         }
 
+        $suppress_warnings = $transformer->suppress_warnings;
+        $transformer->suppress_warnings = true;
         $transformer->transform($video, $node);
-        
+        $transformer->suppress_warnings = $suppress_warnings;
+
         return $instant_article;
     }
 }

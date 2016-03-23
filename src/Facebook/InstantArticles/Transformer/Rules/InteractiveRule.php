@@ -79,7 +79,10 @@ class InteractiveRule extends ConfigurationSelectorRule
             $interactive->withHeight($height);
         }
 
+        $suppress_warnings = $transformer->suppress_warnings;
+        $transformer->suppress_warnings = true;
         $transformer->transform($interactive, $node);
+        $transformer->suppress_warnings = $suppress_warnings;
 
         return $instant_article;
     }

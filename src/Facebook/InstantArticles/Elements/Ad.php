@@ -40,7 +40,7 @@ class Ad extends Element
     private $width;
 
     /**
-     * @var string The HTML of the content.
+     * @var \DOMNode The HTML of the content.
      */
     private $html;
 
@@ -118,11 +118,11 @@ class Ad extends Element
     /**
      * Sets the unescaped HTML of your ad.
      *
-     * @param string The unescaped HTML of your ad.
+     * @param \DOMNode $html The unescaped HTML of your ad.
      */
     public function withHTML($html)
     {
-        Type::enforce($html, Type::STRING);
+        Type::enforce($html, \DOMNode::class);
         $this->html = $html;
 
         return $this;
@@ -169,7 +169,7 @@ class Ad extends Element
     /**
      * Gets the unescaped HTML of your ad.
      *
-     * @return string The unescaped HTML of your ad.
+     * @return \DOMNode The unescaped HTML of your ad.
      */
     public function getHtml()
     {

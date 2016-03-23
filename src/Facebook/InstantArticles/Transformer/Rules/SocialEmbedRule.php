@@ -62,7 +62,10 @@ class SocialEmbedRule extends ConfigurationSelectorRule
             // TODO: Add a warning to transformer
         }
 
+        $suppress_warnings = $transformer->suppress_warnings;
+        $transformer->suppress_warnings = true;
         $transformer->transform($social_embed, $node);
+        $transformer->suppress_warnings = $suppress_warnings;
 
         return $instant_article;
     }

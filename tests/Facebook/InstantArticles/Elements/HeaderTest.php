@@ -20,6 +20,13 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     public function testCompleteHeader()
     {
         date_default_timezone_set('UTC');
+
+        $inline =
+            '<script>alert("test");</script>';
+        $document = new \DOMDocument();
+        $fragment = $document->createDocumentFragment();
+        $fragment->appendXML($inline);
+
         $header =
             Header::create()
                 ->withTitle('Big Top Title')
@@ -78,9 +85,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
                         ->withWidth(300)
                         ->withHeight(250)
                         ->enableDefaultForReuse()
-                        ->withHTML(
-                            '<script>alert("test");</script>'
-                        )
+                        ->withHTML($fragment)
                 );
 
         $expected =

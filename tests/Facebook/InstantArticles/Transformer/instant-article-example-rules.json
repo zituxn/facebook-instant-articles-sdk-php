@@ -517,7 +517,7 @@
                         "attribute": "src"
                     },
                     "socialembed.iframe" : {
-                        "type" : "unescaped",
+                        "type" : "children",
                         "selector" : "iframe"
                     }
                 }
@@ -545,7 +545,7 @@
                         "attribute": "height"
                     },
                     "interactive.iframe" : {
-                        "type" : "unescaped",
+                        "type" : "children",
                         "selector" : "iframe"
                     }
                 }
@@ -601,7 +601,7 @@
                         "attribute": "width"
                     },
                     "ad.embed" : {
-                        "type" : "unescaped",
+                        "type" : "children",
                         "selector" : "iframe"
                     }
                 }
@@ -626,7 +626,7 @@
                         "attribute": "width"
                     },
                     "ad.embed" : {
-                        "type" : "unescaped",
+                        "type" : "children",
                         "selector" : "iframe"
                     }
                 }
@@ -641,7 +641,7 @@
                         "attribute": "src"
                     },
                     "analytics.embed" : {
-                        "type" : "unescaped",
+                        "type" : "children",
                         "selector" : "iframe"
                     }
                 }

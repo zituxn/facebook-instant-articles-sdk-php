@@ -36,7 +36,7 @@ class Analytics extends Element
     private $source;
 
     /**
-     * @var string The HTML of the content.
+     * @var \DOMNode The HTML of the content.
      */
     private $html;
 
@@ -65,11 +65,11 @@ class Analytics extends Element
     /**
      * Sets the unescaped HTML of your ad.
      *
-     * @param string The unescaped HTML of your ad.
+     * @param \DOMNode The unescaped HTML of your ad.
      */
     public function withHTML($html)
     {
-        Type::enforce($html, Type::STRING);
+        Type::enforce($html, \DOMNode::class);
         $this->html = $html;
 
         return $this;
@@ -88,7 +88,7 @@ class Analytics extends Element
     /**
      * Gets the unescaped HTML of your analytics.
      *
-     * @return string The unescaped HTML of your analytics.
+     * @return \DOMNode The unescaped HTML of your analytics.
      */
     public function getHtml()
     {
