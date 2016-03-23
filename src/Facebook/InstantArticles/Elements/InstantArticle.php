@@ -260,7 +260,7 @@ class InstantArticle extends Element
         );
 
         // Adds all meta properties
-        foreach($this->metaProperties as $property_name => $property_content) {
+        foreach ($this->metaProperties as $property_name => $property_content) {
             $head->appendChild(
                 $this->createMetaElement(
                     $document,
@@ -299,5 +299,4 @@ class InstantArticle extends Element
         $element->setAttribute('content', $property_content);
         return $element;
     }
-
 }
