@@ -41,6 +41,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
         $this->article =
             InstantArticle::create()
                 ->withCanonicalUrl('http://foo.com/article.html')
+                ->withStyle('myarticlestyle')
                 ->withHeader(
                     Header::create()
                         ->withTitle('Big Top Title')
@@ -157,6 +158,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                 '<meta property="op:generator:version" content="'.InstantArticle::CURRENT_VERSION.'"/>'.
                 '<meta property="op:markup_version" content="v1.0"/>'.
                 '<meta property="fb:use_automatic_ad_placement" content="true"/>'.
+                '<meta property="fb:article_style" content="myarticlestyle"/>'.
             '</head>'.
             '<body>'.
                 '<article>'.

@@ -61,6 +61,11 @@ class InstantArticle extends Element
     private $charset = 'utf-8';
 
     /**
+     * @var string|null The style that will be applied to the article. Optional.
+     */
+    private $style;
+
+    /**
      * @var ArticleHeader element to hold header content, like images etc
      */
     private $header;
@@ -118,6 +123,19 @@ class InstantArticle extends Element
     {
         Type::enforce($charset, Type::STRING);
         $this->charset = $charset;
+
+        return $this;
+    }
+
+    /**
+     * Sets the style to be applied to this Instant Article
+     *
+     * @param string Name of the style
+     */
+    public function withStyle($style)
+    {
+        Type::enforce($style, Type::STRING);
+        $this->style = $style;
 
         return $this;
     }
@@ -258,6 +276,10 @@ class InstantArticle extends Element
             'fb:use_automatic_ad_placement',
             $this->isAutomaticAdPlaced ? 'true' : 'false'
         );
+
+        if ($this->style) {
+            $this->addMetaProperty('fb:article_style', $this->style);
+        }
 
         // Adds all meta properties
         foreach ($this->metaProperties as $property_name => $property_content) {
