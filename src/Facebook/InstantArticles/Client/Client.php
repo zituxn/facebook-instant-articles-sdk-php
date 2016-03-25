@@ -100,7 +100,7 @@ class Client
     /**
      * Removes an article from your Instant Articles library.
      *
-     * @param $canonicalURL
+     * @param string $canonicalURL The canonical URL of the article to delete.
      * @return \Facebook\InstantArticles\Client\InstantArticleStatus
      *
      * @todo Consider returning the \Facebook\FacebookResponse object sent by
