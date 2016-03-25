@@ -9,6 +9,7 @@
 namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Transformer\Warnings\UnrecognizedElement;
+use Facebook\InstantArticles\Transformer\Rules\Rule;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Validators\Type;
 
@@ -28,6 +29,7 @@ class Transformer
 
     public function addRule($rule)
     {
+        Type::enforce($rule, Rule::class);
         // Adds in reversed order for bottom-top processing rules
         array_unshift($this->rules, $rule);
     }
@@ -106,5 +108,34 @@ class Transformer
                 $this->addRule($factory_method->invoke(null, $configuration_rule));
             }
         }
+    }
+
+    /**
+     * Removes all rules already set in this transformer instance.
+     */
+    public function resetRules()
+    {
+        $this->rules = array();
+    }
+
+    /**
+     * Gets all rules already set in this transformer instance.
+     *
+     * @return array List of configured rules.
+     */
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    /**
+     * Overrides all rules already set in this transformer instance.
+     *
+     * @return array List of configured rules.
+     */
+    public function setRules($rules)
+    {
+        Type::enforceArrayOf($rules, Rule::class);
+        $this->rules = $rules;
     }
 }
