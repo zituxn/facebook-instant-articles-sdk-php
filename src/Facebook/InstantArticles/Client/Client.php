@@ -102,6 +102,10 @@ class Client
      *
      * @param $canonicalURL
      * @return \Facebook\InstantArticles\Client\InstantArticleStatus
+     *
+     * @todo Consider returning the \Facebook\FacebookResponse object sent by
+     *   \Facebook\Facebook::delete(). For now we trust that if an Instant
+     *   Article ID exists for the Canonical URL the delete operation will work.
      */
     public function removeArticle($canonicalURL)
     {
