@@ -251,6 +251,11 @@ class InstantArticle extends Element
         return $this;
     }
 
+    public function render($doctype = '<!doctype html>', $format = false)
+    {
+        return parent::render($doctype, $format);
+    }
+
     public function toDOMElement($document = null)
     {
         if (!$document) {

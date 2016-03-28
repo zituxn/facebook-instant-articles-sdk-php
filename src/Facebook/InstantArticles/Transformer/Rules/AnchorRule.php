@@ -30,7 +30,7 @@ class AnchorRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return $this->contextClass = TextContainer::class;
+        return TextContainer::class;
     }
 
     public static function createFrom($configuration)
