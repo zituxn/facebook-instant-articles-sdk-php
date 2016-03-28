@@ -212,6 +212,6 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
             '</body>'.
             '</html>';
 
-        $this->assertEquals($expected, $this->article->render('<!doctype html>'));
+        $this->assertEquals($expected, $this->article->render());
     }
 }
