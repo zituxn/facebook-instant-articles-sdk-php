@@ -117,7 +117,7 @@ class Client
 
         if ($articleID = $this->getArticleIDFromCanonicalURL($canonicalURL)) {
             $this->facebook->delete($articleID);
-            return InstantArticleStatus::success(array('An Instant Article ID ' . $articleID . ' was found for ' . $canonicalURL . ' in ' . __FUNCTION__ . '.'));
+            return InstantArticleStatus::success();
         }
         return InstantArticleStatus::notFound(array('An Instant Article ID ' . $articleID . ' was not found for ' . $canonicalURL . ' in ' . __FUNCTION__ . '.'));
     }
