@@ -99,6 +99,31 @@ class Client
     }
 
     /**
+     * Removes an article from your Instant Articles library.
+     *
+     * @param string $canonicalURL The canonical URL of the article to delete.
+     * @return \Facebook\InstantArticles\Client\InstantArticleStatus
+     *
+     * @todo Consider returning the \Facebook\FacebookResponse object sent by
+     *   \Facebook\Facebook::delete(). For now we trust that if an Instant
+     *   Article ID exists for the Canonical URL the delete operation will work.
+     */
+    public function removeArticle($canonicalURL)
+    {
+        if (!$canonicalURL) {
+            return InstantArticleStatus::notFound(array('$canonicalURL param not passed to ' . __FUNCTION__ . '.'));
+        }
+
+        Type::enforce($canonicalURL, Type::STRING);
+
+        if ($articleID = $this->getArticleIDFromCanonicalURL($canonicalURL)) {
+            $this->facebook->delete($articleID);
+            return InstantArticleStatus::success();
+        }
+        return InstantArticleStatus::notFound(array('An Instant Article ID ' . $articleID . ' was not found for ' . $canonicalURL . ' in ' . __FUNCTION__ . '.'));
+    }
+
+    /**
      * Get an Instant Article ID on its canonical URL.
      *
      * @param string $canonicalURL The canonical URL of the article to get the status for.
