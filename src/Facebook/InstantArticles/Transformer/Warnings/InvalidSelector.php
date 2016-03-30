@@ -48,7 +48,7 @@ class InvalidSelector
             $str_properties = $str_properties.' '.$name.'='.$value_name;
         }
         return "Invalid selector for fields ({$this->fields}). ".
-            "The node being treated was <{$this->node->nodeName}> in the ".
+            "The node being transformed was <{$this->node->nodeName}> in the ".
             "context of $class_name within the Rule $rule_name with these ".
             "properties: {{$str_properties}}";
     }
