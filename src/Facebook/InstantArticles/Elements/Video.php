@@ -116,7 +116,7 @@ class Video extends Element
 
     /**
      * Factory method
-     * @return the new instance from Video
+     * @return Video the new instance from Video
      */
     public static function create()
     {

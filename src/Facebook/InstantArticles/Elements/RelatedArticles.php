@@ -49,7 +49,7 @@ class RelatedArticles extends Element
 
     /**
      * Factory method for the RelatedArticles list
-     * @return the new instance of RelatedArticles
+     * @return RelatedArticles the new instance of RelatedArticles
      */
     public static function create()
     {
