@@ -49,7 +49,7 @@ class ListElement extends Element
 
     /**
      * Factory method for an Ordered list
-     * @return the new instance List as an ordered list
+     * @return ListElement the new instance List as an ordered list
      */
     public static function createOrdered()
     {
@@ -61,7 +61,7 @@ class ListElement extends Element
 
     /**
      * Factory method for an unrdered list
-     * @return the new instance List as an unordered list
+     * @return ListElement the new instance List as an unordered list
      */
     public static function createUnordered()
     {
