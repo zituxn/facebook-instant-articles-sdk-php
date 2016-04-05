@@ -8,6 +8,8 @@
  */
 namespace Facebook\InstantArticles\Transformer\Warnings;
 
+use Facebook\InstantArticles\Validators\Type;
+
 class UnrecognizedElement
 {
     private $context;
@@ -30,9 +32,11 @@ class UnrecognizedElement
         else {
             $nodeDescription = '<';
             $nodeDescription .= $nodeName;
-            $class = $this->node->getAttribute('class');
-            if ($class) {
-                $nodeDescription .= ' class="'. $class .'"';
+            if (Type::is($this->node, \DOMElement::class)) {
+                $class = $this->node->getAttribute('class');
+                if ($class) {
+                    $nodeDescription .= ' class="'. $class .'"';
+                }
             }
             $nodeDescription .= '>';
         }
