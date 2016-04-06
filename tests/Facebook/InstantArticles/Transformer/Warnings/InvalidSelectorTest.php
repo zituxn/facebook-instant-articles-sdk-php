@@ -50,7 +50,7 @@ class InvalidSelectorTest extends \PHPUnit_Framework_TestCase
 
         $result = $warning->__toString();
         $expected = 'Invalid selector for fields (field a and b). '.
-            'The node being treated was <figcaption> in the context of'.
+            'The node being transformed was <figcaption> in the context of'.
             ' InstantArticle within the Rule SocialEmbedRule with these'.
             ' properties: { socialembed.url=StringGetter}';
 

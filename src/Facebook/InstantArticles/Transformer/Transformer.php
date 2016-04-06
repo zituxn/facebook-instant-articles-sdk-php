@@ -15,8 +15,6 @@ use Facebook\InstantArticles\Validators\Type;
 
 class Transformer
 {
-    const CURRENT_VERSION = InstantArticle::CURRENT_VERSION;
-
     private $rules = array();
     private $warnings = array();
 
@@ -43,7 +41,7 @@ class Transformer
     {
         if (Type::is($context, InstantArticle::class)) {
             $context->addMetaProperty('op:transformer', 'facebook-instant-articles-sdk-php');
-            $context->addMetaProperty('op:transformer:version', self::CURRENT_VERSION);
+            $context->addMetaProperty('op:transformer:version', InstantArticle::CURRENT_VERSION);
         }
 
         $log = \Logger::getLogger('facebook-instantarticles-transformer');
