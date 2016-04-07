@@ -35,7 +35,7 @@ class StringGetter extends ChildrenGetter
 
     public function get($node)
     {
-        Type::enforce($node, \DOMNode::class);
+        Type::enforce($node, 'DOMNode');
         $elements = self::findAll($node, $this->selector);
         if (!empty($elements) && $elements->item(0)) {
             $element = $elements->item(0);

@@ -26,7 +26,7 @@ class Helper
      */
     public function __construct($facebook)
     {
-        Type::enforce($facebook, Facebook::class);
+        Type::enforce($facebook, 'Facebook\Facebook');
 
         // TODO throw if $facebook doesn't have a default_access_token
         $this->facebook = $facebook;
@@ -65,7 +65,7 @@ class Helper
      */
     public function getPagesAndTokens($accessToken)
     {
-        Type::enforce($accessToken, array(AccessToken::class));
+        Type::enforce($accessToken, 'Facebook\Authentication\AccessToken');
 
         // If we don't have a long-lived user token, exchange for one
         if (! $accessToken->isLongLived()) {

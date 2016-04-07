@@ -216,7 +216,7 @@ Context is the container element that is now in the pipe being processed. This i
 
 ```php
 public function getContextClass() {
-    return InstantArticle::class;
+    return InstantArticle::getClassName();
 }
 ```
 
@@ -224,7 +224,7 @@ If the `Rule` will be handling more than one context, it is possible by returnin
 
 ```php
 public function getContextClass() {
-    return array(InstantArticle::class, Header::class);
+    return array(InstantArticle::getClassName(), Header::getClassName());
 }
 ```
 

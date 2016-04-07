@@ -164,7 +164,7 @@ class InstantArticle extends Element
      */
     public function withHeader($header)
     {
-        Type::enforce($header, Header::class);
+        Type::enforce($header, Header::getClassName());
         $this->header = $header;
 
         return $this;
@@ -176,7 +176,7 @@ class InstantArticle extends Element
      */
     public function withFooter($footer)
     {
-        Type::enforce($footer, Footer::class);
+        Type::enforce($footer, Footer::getClassName());
         $this->footer = $footer;
 
         return $this;
@@ -191,23 +191,23 @@ class InstantArticle extends Element
         Type::enforce(
             $child,
             array(
-                Ad::class,
-                Analytics::class,
-                AnimatedGif::class,
-                Audio::class,
-                Blockquote::class,
-                Image::class,
-                H1::class,
-                H2::class,
-                Interactive::class,
-                ListElement::class,
-                Map::class,
-                Paragraph::class,
-                Pullquote::class,
-                RelatedArticles::class,
-                Slideshow::class,
-                SocialEmbed::class,
-                Video::class
+                Ad::getClassName(),
+                Analytics::getClassName(),
+                AnimatedGif::getClassName(),
+                Audio::getClassName(),
+                Blockquote::getClassName(),
+                Image::getClassName(),
+                H1::getClassName(),
+                H2::getClassName(),
+                Interactive::getClassName(),
+                ListElement::getClassName(),
+                Map::getClassName(),
+                Paragraph::getClassName(),
+                Pullquote::getClassName(),
+                RelatedArticles::getClassName(),
+                Slideshow::getClassName(),
+                SocialEmbed::getClassName(),
+                Video::getClassName()
             )
         );
         $this->children[] = $child;

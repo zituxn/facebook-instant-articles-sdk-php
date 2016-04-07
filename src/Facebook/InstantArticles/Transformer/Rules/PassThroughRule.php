@@ -21,7 +21,7 @@ class PassThroughRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return Element::class;
+        return Element::getClassName();
     }
 
     public static function create()

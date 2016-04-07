@@ -32,7 +32,7 @@ class ItalicRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return $this->contextClass = TextContainer::class;
+        return $this->contextClass = TextContainer::getClassName();
     }
 
     public function apply($transformer, $text_container, $element)

@@ -20,7 +20,7 @@ class H2Rule extends ConfigurationSelectorRule
 {
     public function getContextClass()
     {
-        return array(Caption::class, InstantArticle::class);
+        return array(Caption::getClassName(), InstantArticle::getClassName());
     }
 
     public static function create()
@@ -52,9 +52,9 @@ class H2Rule extends ConfigurationSelectorRule
     public function apply($transformer, $context_element, $node)
     {
         $h2 = H2::create();
-        if (Type::is($context_element, Caption::class)) {
+        if (Type::is($context_element, Caption::getClassName())) {
             $context_element->withSubTitle($h2);
-        } elseif (Type::is($context_element, InstantArticle::class)) {
+        } elseif (Type::is($context_element, InstantArticle::getClassName())) {
             $context_element->addChild($h2);
         }
 

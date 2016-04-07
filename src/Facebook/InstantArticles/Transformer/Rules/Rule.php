@@ -69,4 +69,13 @@ abstract class Rule
             return $array['properties'][$property_name];
         }
     }
+
+    /**
+     * Auxiliary method to extract full qualified class name.
+     * @return string The full qualified name of class
+     */
+    public static function getClassName() {
+        return get_called_class();
+    }
+
 }

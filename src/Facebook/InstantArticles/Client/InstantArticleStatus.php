@@ -45,7 +45,7 @@ class InstantArticleStatus
         );
         Type::enforceArrayOf(
             $messages,
-            ServerMessage::class
+            ServerMessage::getClassName()
         );
         $this->status = $status;
         $this->messages = $messages;
@@ -109,7 +109,7 @@ class InstantArticleStatus
     {
         Type::enforce(
             $message,
-            ServerMessage::class
+            ServerMessage::getClassName()
         );
         $this->messages[] = $message;
     }

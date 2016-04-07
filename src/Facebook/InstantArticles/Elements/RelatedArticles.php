@@ -62,7 +62,7 @@ class RelatedArticles extends Element
      */
     public function addRelated($item)
     {
-        Type::enforce($item, RelatedItem::class);
+        Type::enforce($item, RelatedItem::getClassName());
         $this->items[] = $item;
 
         return $this;

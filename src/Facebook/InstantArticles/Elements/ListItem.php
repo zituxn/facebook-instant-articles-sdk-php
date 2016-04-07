@@ -37,7 +37,7 @@ class ListItem extends TextContainer
      */
     public function withText($text)
     {
-        Type::enforce($text, array(TextContainer::class, Type::STRING));
+        Type::enforce($text, array(TextContainer::getClassName(), Type::STRING));
         $this->text = $text;
 
         return $this;

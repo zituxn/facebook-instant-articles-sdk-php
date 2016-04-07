@@ -97,7 +97,7 @@ class Caption extends FormattedText
      */
     public function withTitle($title)
     {
-        Type::enforce($title, array(Type::STRING, H1::class));
+        Type::enforce($title, array(Type::STRING, H1::getClassName()));
 
         if (Type::is($title, Type::STRING)) {
             $title = H1::create()->appendText($title);
@@ -114,7 +114,7 @@ class Caption extends FormattedText
      */
     public function withSubTitle($sub_title)
     {
-        Type::enforce($sub_title, array(Type::STRING, H2::class));
+        Type::enforce($sub_title, array(Type::STRING, H2::getClassName()));
         if (Type::is($sub_title, Type::STRING)) {
             $sub_title = H2::create()->appendText($sub_title);
         }
@@ -130,7 +130,7 @@ class Caption extends FormattedText
      */
     public function withCredit($credit)
     {
-        Type::enforce($credit, array(Type::STRING, Cite::class));
+        Type::enforce($credit, array(Type::STRING, Cite::getClassName()));
         if (Type::is($credit, Type::STRING)) {
             $credit = Cite::create()->appendText($credit);
         }

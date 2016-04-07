@@ -55,7 +55,7 @@ class SocialEmbed extends Element
      */
     public function withCaption($caption)
     {
-        Type::enforce($caption, Caption::class);
+        Type::enforce($caption, Caption::getClassName());
         $this->caption = $caption;
 
         return $this;
@@ -81,7 +81,7 @@ class SocialEmbed extends Element
      */
     public function withHTML($html)
     {
-        Type::enforce($html, \DOMNode::class);
+        Type::enforce($html, 'DOMNode');
         $this->html = $html;
 
         return $this;

@@ -28,7 +28,7 @@ class SlideshowImageRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return Slideshow::class;
+        return Slideshow::getClassName();
     }
 
     public static function create()

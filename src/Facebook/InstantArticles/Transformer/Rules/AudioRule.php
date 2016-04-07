@@ -26,7 +26,7 @@ class AudioRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return Audible::class;
+        return Audible::getClassName();
     }
 
     public static function create()

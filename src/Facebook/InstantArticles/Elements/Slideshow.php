@@ -81,7 +81,7 @@ class Slideshow extends Audible
      */
     public function withCaption($caption)
     {
-        Type::enforce($caption, Caption::class);
+        Type::enforce($caption, Caption::getClassName());
         $this->caption = $caption;
 
         return $this;
@@ -94,7 +94,7 @@ class Slideshow extends Audible
      */
     public function withImages($article_images)
     {
-        Type::enforceArrayOf($article_images, Image::class);
+        Type::enforceArrayOf($article_images, Image::getClassName());
         $this->article_images = $article_images;
 
         return $this;
@@ -107,7 +107,7 @@ class Slideshow extends Audible
      */
     public function addImage($article_image)
     {
-        Type::enforce($article_image, Image::class);
+        Type::enforce($article_image, Image::getClassName());
         $this->article_images[] = $article_image;
 
         return $this;
@@ -133,7 +133,7 @@ class Slideshow extends Audible
      */
     public function withAudio($audio)
     {
-        Type::enforce($audio, Audio::class);
+        Type::enforce($audio, Audio::getClassName());
         $this->audio = $audio;
 
         return $this;
