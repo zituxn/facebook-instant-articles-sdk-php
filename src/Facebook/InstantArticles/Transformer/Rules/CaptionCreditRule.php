@@ -18,7 +18,7 @@ class CaptionCreditRule extends ConfigurationSelectorRule
 {
     public function getContextClass()
     {
-        return Caption::class;
+        return Caption::getClassName();
     }
 
     public static function create()

@@ -107,7 +107,7 @@ class Time extends Element
      */
     public function withDatetime($date)
     {
-        Type::enforce($date, \DateTime::class);
+        Type::enforce($date, 'DateTime');
         $this->date = $date;
 
         return $this;

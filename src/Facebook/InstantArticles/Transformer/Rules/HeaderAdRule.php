@@ -24,7 +24,7 @@ class HeaderAdRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return Header::class;
+        return Header::getClassName();
     }
 
     public static function create()

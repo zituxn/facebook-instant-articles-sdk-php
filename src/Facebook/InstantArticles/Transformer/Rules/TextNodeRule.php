@@ -21,7 +21,7 @@ class TextNodeRule extends Rule
 
     public function getContextClass()
     {
-        return TextContainer::class;
+        return TextContainer::getClassName();
     }
 
     public static function create()

@@ -96,7 +96,7 @@ class Header extends Element
      */
     public function withCover($cover)
     {
-        Type::enforce($cover, array(Image::class, Video::class));
+        Type::enforce($cover, array(Image::getClassName(), Video::getClassName()));
         $this->cover = $cover;
 
         return $this;
@@ -132,7 +132,7 @@ class Header extends Element
      */
     public function addAuthor($author)
     {
-        Type::enforce($author, Author::class);
+        Type::enforce($author, Author::getClassName());
         $this->authors[] = $author;
 
         return $this;
@@ -144,7 +144,7 @@ class Header extends Element
      */
     public function withAuthors($authors)
     {
-        Type::enforceArrayOf($authors, Author::class);
+        Type::enforceArrayOf($authors, Author::getClassName());
         $this->authors = $authors;
 
         return $this;
@@ -156,7 +156,7 @@ class Header extends Element
      */
     public function withPublishTime($published)
     {
-        Type::enforce($published, Time::class);
+        Type::enforce($published, Time::getClassName());
         $this->published = $published;
 
         return $this;
@@ -168,7 +168,7 @@ class Header extends Element
      */
     public function withModifyTime($modified)
     {
-        Type::enforce($modified, Time::class);
+        Type::enforce($modified, Time::getClassName());
         $this->modified = $modified;
 
         return $this;
@@ -180,7 +180,7 @@ class Header extends Element
      */
     public function withTime($time)
     {
-        Type::enforce($time, Time::class);
+        Type::enforce($time, Time::getClassName());
         if ($time->getType() === Time::MODIFIED) {
             $this->withModifyTime($time);
         } else {
@@ -208,7 +208,7 @@ class Header extends Element
      */
     public function addAd($ad)
     {
-        Type::enforce($ad, Ad::class);
+        Type::enforce($ad, Ad::getClassName());
         $this->ads[] = $ad;
 
         return $this;
@@ -220,7 +220,7 @@ class Header extends Element
      */
     public function withAds($ads)
     {
-        Type::enforceArrayOf($ads, Ad::class);
+        Type::enforceArrayOf($ads, Ad::getClassName());
         $this->ads = $ads;
 
         return $this;

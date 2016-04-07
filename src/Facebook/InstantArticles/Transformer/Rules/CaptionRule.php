@@ -28,12 +28,12 @@ class CaptionRule extends ConfigurationSelectorRule
     {
         return
             array(
-                Map::class,
-                Image::class,
-                Interactive::class,
-                Slideshow::class,
-                SocialEmbed::class,
-                Video::class
+                Map::getClassName(),
+                Image::getClassName(),
+                Interactive::getClassName(),
+                Slideshow::getClassName(),
+                SocialEmbed::getClassName(),
+                Video::getClassName()
             );
     }
 

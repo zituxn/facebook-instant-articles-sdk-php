@@ -22,7 +22,7 @@ class LineBreakRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return $this->contextClass = TextContainer::class;
+        return $this->contextClass = TextContainer::getClassName();
     }
 
     public static function create()

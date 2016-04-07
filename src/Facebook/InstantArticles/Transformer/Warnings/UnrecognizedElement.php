@@ -32,7 +32,7 @@ class UnrecognizedElement
         else {
             $nodeDescription = '<';
             $nodeDescription .= $nodeName;
-            if (Type::is($this->node, \DOMElement::class)) {
+            if (Type::is($this->node, \DOMElement::getClassName())) {
                 $class = $this->node->getAttribute('class');
                 if ($class) {
                     $nodeDescription .= ' class="'. $class .'"';

@@ -27,7 +27,7 @@ class Transformer
 
     public function addRule($rule)
     {
-        Type::enforce($rule, Rule::class);
+        Type::enforce($rule, Rule::getClassName());
         // Adds in reversed order for bottom-top processing rules
         array_unshift($this->rules, $rule);
     }
@@ -39,7 +39,7 @@ class Transformer
 
     public function transform($context, $node)
     {
-        if (Type::is($context, InstantArticle::class)) {
+        if (Type::is($context, InstantArticle::getClassName())) {
             $context->addMetaProperty('op:transformer', 'facebook-instant-articles-sdk-php');
             $context->addMetaProperty('op:transformer:version', InstantArticle::CURRENT_VERSION);
         }
@@ -67,7 +67,7 @@ class Transformer
                     }
                 }
                 if (!$matched &&
-                    !($child->nodeName === '#text' && empty(trim($child->textContent))) &&
+                    !($child->nodeName === '#text' && trim($child->textContent) === '') &&
                     !($child->nodeName === '#comment') &&
                     !$this->suppress_warnings
                     ) {
@@ -133,7 +133,7 @@ class Transformer
      */
     public function setRules($rules)
     {
-        Type::enforceArrayOf($rules, Rule::class);
+        Type::enforceArrayOf($rules, Rule::getClassName());
         $this->rules = $rules;
     }
 }

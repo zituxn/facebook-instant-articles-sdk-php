@@ -26,7 +26,7 @@ class RelatedItemRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return RelatedArticles::class;
+        return RelatedArticles::getClassName();
     }
 
     public static function create()

@@ -42,9 +42,17 @@ abstract class Element
      */
     protected function dangerouslyAppendUnescapedHTML($element, $content)
     {
-        Type::enforce($content, \DOMNode::class);
-        Type::enforce($element, \DOMNode::class);
+        Type::enforce($content, 'DOMNode');
+        Type::enforce($element, 'DOMNode');
         $imported = $element->ownerDocument->importNode($content, true);
         $element->appendChild($imported);
+    }
+
+    /**
+     * Auxiliary method to extract all Elements full qualified class name.
+     * @return string The full qualified name of class
+     */
+    public static function getClassName() {
+        return get_called_class();
     }
 }

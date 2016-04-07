@@ -34,7 +34,7 @@ class VideoRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return InstantArticle::class;
+        return InstantArticle::getClassName();
     }
 
     public static function create()

@@ -24,7 +24,7 @@ class AuthorRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return $this->contextClass = Header::class;
+        return $this->contextClass = Header::getClassName();
     }
 
     public static function create()

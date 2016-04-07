@@ -35,7 +35,7 @@ class AuthorRuleTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->assertEquals(get_class($author_rule), AuthorRule::class);
+        $this->assertEquals(get_class($author_rule), AuthorRule::getClassName());
     }
 
     public function testCreate()
@@ -57,6 +57,6 @@ class AuthorRuleTest extends \PHPUnit_Framework_TestCase
                     "selector" => "span"
                 )
             );
-        $this->assertEquals(get_class($author_rule), AuthorRule::class);
+        $this->assertEquals(get_class($author_rule), AuthorRule::getClassName());
     }
 }

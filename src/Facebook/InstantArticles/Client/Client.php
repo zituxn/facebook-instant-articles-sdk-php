@@ -40,7 +40,7 @@ class Client
      */
     public function __construct($facebook, $pageID, $developmentMode = false)
     {
-        Type::enforce($facebook, Facebook::class);
+        Type::enforce($facebook, 'Facebook\Facebook');
         Type::enforce($pageID, Type::STRING);
         Type::enforce($developmentMode, Type::BOOLEAN);
 
@@ -84,7 +84,7 @@ class Client
      */
     public function importArticle($article, $takeLive = false)
     {
-        Type::enforce($article, InstantArticle::class);
+        Type::enforce($article, InstantArticle::getClassName());
         Type::enforce($takeLive, Type::BOOLEAN);
 
         // Never try to take live if we're in development (the API would throw an error if we tried)

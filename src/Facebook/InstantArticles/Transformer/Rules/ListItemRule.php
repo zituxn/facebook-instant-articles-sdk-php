@@ -22,7 +22,7 @@ class ListItemRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return ListElement::class;
+        return ListElement::getClassName();
     }
 
     public static function create()

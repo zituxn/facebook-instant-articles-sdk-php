@@ -31,7 +31,7 @@ class IgnoreRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return $this->contextClass = Element::class;
+        return $this->contextClass = Element::getClassName();
     }
 
     public function apply($transformer, $context, $element)

@@ -35,7 +35,7 @@ class XpathGetter extends ChildrenGetter
 
     public function get($node)
     {
-        Type::enforce($node, \DOMNode::class);
+        Type::enforce($node, 'DOMNode');
         $domXPath = new \DOMXPath($node->ownerDocument);
         $elements = $domXPath->query($this->selector, $node);
 

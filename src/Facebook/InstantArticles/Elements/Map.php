@@ -76,7 +76,7 @@ class Map extends Audible
      */
     public function withCaption($caption)
     {
-        Type::enforce($caption, Caption::class);
+        Type::enforce($caption, Caption::getClassName());
         $this->caption = $caption;
 
         return $this;
@@ -89,7 +89,7 @@ class Map extends Audible
      */
     public function withGeoTag($geo_tag)
     {
-        Type::enforce($geo_tag, GeoTag::class);
+        Type::enforce($geo_tag, GeoTag::getClassName());
         $this->geoTag = $geo_tag;
 
         return $this;
@@ -102,7 +102,7 @@ class Map extends Audible
      */
     public function withAudio($audio)
     {
-        Type::enforce($audio, Audio::class);
+        Type::enforce($audio, Audio::getClassName());
         $this->audio = $audio;
 
         return $this;
