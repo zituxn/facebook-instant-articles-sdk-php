@@ -86,7 +86,7 @@ class Helper
         // Request the list of pages and associated page tokens that are
         // connected to this user
         try {
-            $response = $this->facebook->get('/me/accounts');
+            $response = $this->facebook->get('/me/accounts?fields=name,id,access_token,supports_instant_articles');
         } catch (Facebook\Exceptions\FacebookResponseException $e) {
             throw new FacebookSDKException('Graph API returned an error: ' . $e.getMessage());
         }
