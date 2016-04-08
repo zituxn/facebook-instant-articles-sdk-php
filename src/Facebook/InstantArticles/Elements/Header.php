@@ -342,6 +342,7 @@ class Header extends Element
         }
 
         if (count($this->ads) === 1) {
+            $this->ads[0]->disableDefaultForReuse();
             $element->appendChild($this->ads[0]->toDOMElement($document));
         } elseif (count($this->ads) >= 2) {
             $ads_container = $document->createElement('section');
