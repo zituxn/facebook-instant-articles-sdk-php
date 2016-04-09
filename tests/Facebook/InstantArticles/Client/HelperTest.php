@@ -56,7 +56,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $this->facebook
             ->expects($this->once())
             ->method('get')
-            ->with('/me/accounts')
+            ->with('/me/accounts?fields=name,id,access_token,supports_instant_articles')
             ->will($this->returnValue($response));
 
         $pagesAndTokensReturned = $this->helper->getPagesAndTokens($accessToken);
