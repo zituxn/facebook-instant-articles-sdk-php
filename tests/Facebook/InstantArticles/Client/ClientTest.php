@@ -44,7 +44,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'take_live' => false,
-                'developmentMode' => false,
+                'development_mode' => false,
             ]);
 
         $this->client->importArticle($this->article);
@@ -58,7 +58,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'take_live' => true,
-                'developmentMode' => false,
+                'development_mode' => false,
             ]);
 
         $this->client->importArticle($this->article, true);
@@ -110,7 +110,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'take_live' => false,
-                'developmentMode' => true,
+                'development_mode' => true,
             ]);
 
         $this->client->importArticle($this->article);
@@ -129,7 +129,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'take_live' => false,
-                'developmentMode' => true,
+                'development_mode' => true,
             ]);
 
         $this->client->importArticle($this->article, true);
