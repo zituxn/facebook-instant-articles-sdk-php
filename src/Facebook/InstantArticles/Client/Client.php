@@ -94,7 +94,7 @@ class Client
         $this->facebook->post($this->pageID . Client::EDGE_NAME, [
           'html_source' => $article->render(),
           'take_live' => $takeLive,
-          'developmentMode' => $this->developmentMode,
+          'development_mode' => $this->developmentMode,
         ]);
     }
 
