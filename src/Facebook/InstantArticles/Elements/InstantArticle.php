@@ -193,7 +193,7 @@ class InstantArticle extends Element
             array(
                 Ad::getClassName(),
                 Analytics::getClassName(),
-                AnimatedGif::getClassName(),
+                AnimatedGIF::getClassName(),
                 Audio::getClassName(),
                 Blockquote::getClassName(),
                 Image::getClassName(),
