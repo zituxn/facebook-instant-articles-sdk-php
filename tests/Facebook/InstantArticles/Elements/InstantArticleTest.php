@@ -97,6 +97,17 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                         ->appendText('Other text to be within a second paragraph for testing.')
                 )
 
+                // Empty paragraph
+                ->addChild(
+                    Paragraph::create()
+                )
+
+                // Paragraph with only whitespace
+                ->addChild(
+                    Paragraph::create()
+                        ->appendText(" \n \t ")
+                )
+
                 // Slideshow
                 ->addChild(
                     SlideShow::create()

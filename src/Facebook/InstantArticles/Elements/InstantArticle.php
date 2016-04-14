@@ -309,6 +309,17 @@ class InstantArticle extends Element
         }
         if ($this->children) {
             foreach ($this->children as $child) {
+                if (Type::is($child, TextContainer::getClassName())) {
+                    if (count($child->getTextChildren()) === 0) {
+                        continue;
+                    }
+                    elseif (count($child->getTextChildren()) === 1) {
+                        if (Type::is($child->getTextChildren()[0], Type::STRING) &&
+                            trim($child->getTextChildren()[0]) === '') {
+                            continue;
+                        }
+                    }
+                }
                 $article->appendChild($child->toDOMElement($document));
             }
             if ($this->footer) {
