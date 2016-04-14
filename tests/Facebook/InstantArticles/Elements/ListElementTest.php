@@ -92,9 +92,9 @@ class ListElementTest extends \PHPUnit_Framework_TestCase
     {
         $list =
             ListElement::createUnordered()
-                ->addItem(ListItem::create()->withText(Paragraph::create()->appendText('Item 1')))
-                ->addItem(ListItem::create()->withText(Div::create()->appendText('Item 2')))
-                ->addItem(ListItem::create()->withText(Span::create()->appendText('Item 3')));
+                ->addItem(ListItem::create()->appendText(Paragraph::create()->appendText('Item 1')))
+                ->addItem(ListItem::create()->appendText(Div::create()->appendText('Item 2')))
+                ->addItem(ListItem::create()->appendText(Span::create()->appendText('Item 3')));
 
         $expected =
             '<ul>'.
