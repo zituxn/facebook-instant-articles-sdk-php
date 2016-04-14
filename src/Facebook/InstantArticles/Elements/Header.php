@@ -308,13 +308,17 @@ class Header extends Element
 
         if ($this->title) {
             $title_element = $document->createElement('h1');
-            $title_element->appendChild($document->createTextNode($this->title));
+            $title_fragment = $document->createDocumentFragment();
+            $title_fragment->appendXML($this->title);
+            $title_element->appendChild($title_fragment);
             $element->appendChild($title_element);
         }
 
         if ($this->subtitle) {
             $sub_title_element = $document->createElement('h2');
-            $sub_title_element->appendChild($document->createTextNode($this->subtitle));
+            $sub_title_fragment = $document->createDocumentFragment();
+            $sub_title_fragment->appendXML($this->subtitle);
+            $sub_title_element->appendChild($sub_title_fragment);
             $element->appendChild($sub_title_element);
         }
 
