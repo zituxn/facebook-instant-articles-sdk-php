@@ -277,10 +277,12 @@ class InstantArticle extends Element
         $head->appendChild($charset);
 
         $this->addMetaProperty('op:markup_version', $this->markupVersion);
-        $this->addMetaProperty(
-            'fb:use_automatic_ad_placement',
-            $this->isAutomaticAdPlaced ? 'true' : 'false'
-        );
+        if ($this->header && count($this->header->getAds()) > 0) {
+            $this->addMetaProperty(
+                'fb:use_automatic_ad_placement',
+                $this->isAutomaticAdPlaced ? 'true' : 'false'
+            );
+        }
 
         if ($this->style) {
             $this->addMetaProperty('fb:article_style', $this->style);
