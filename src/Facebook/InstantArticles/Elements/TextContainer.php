@@ -62,7 +62,8 @@ abstract class TextContainer extends Element
         // Generate markup
         foreach ($this->textChildren as $content) {
             if (Type::is($content, Type::STRING)) {
-                $fragment->appendXML($content);
+                $text = $document->createTextNode($content);
+                $fragment->appendChild($text);
             } else {
                 $fragment->appendChild($content->toDOMElement($document));
             }
