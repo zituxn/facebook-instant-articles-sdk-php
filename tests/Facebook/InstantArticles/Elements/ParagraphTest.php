@@ -16,7 +16,7 @@ use Facebook\InstantArticles\Elements\Anchor;
 
 class ParagraphTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
     }
 

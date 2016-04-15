@@ -15,7 +15,7 @@ use Facebook\InstantArticles\Elements\Anchor;
 
 class CiteTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
     }
 
