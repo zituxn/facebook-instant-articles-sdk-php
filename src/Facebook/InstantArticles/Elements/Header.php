@@ -235,7 +235,7 @@ class Header extends Element
     }
 
     /**
-     * @return string $title The title of the InstantArticle
+     * @return string|H1 $title The title of the InstantArticle
      */
     public function getTitle()
     {
@@ -243,7 +243,7 @@ class Header extends Element
     }
 
     /**
-     * @return string $subtitle The subtitle of the InstantArticle
+     * @return string|H2 $subtitle The subtitle of the InstantArticle
      */
     public function getSubtitle()
     {
@@ -317,7 +317,7 @@ class Header extends Element
         }
 
         if ($this->subtitle) {
-            if (Type::is($this->title, Type::STRING)) {
+            if (Type::is($this->subtitle, Type::STRING)) {
                 $sub_title_element = $document->createElement('h2');
                 $sub_title_element->appendChild($document->createTextNode($this->subtitle));
                 $element->appendChild($sub_title_element);
