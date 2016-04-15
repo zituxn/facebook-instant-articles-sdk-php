@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\Time;
 
 class TimeTest extends \PHPUnit_Framework_TestCase
 {

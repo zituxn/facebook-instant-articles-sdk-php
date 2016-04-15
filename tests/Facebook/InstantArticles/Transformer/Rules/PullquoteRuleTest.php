@@ -8,8 +8,6 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
-use Facebook\InstantArticles\Transformer\Rules\PullquoteRule;
-use Facebook\InstantArticles\Transformer\Rules\PullquoteCiteRule;
 use Facebook\InstantArticles\Transformer\Transformer;
 use Facebook\InstantArticles\Elements\InstantArticle;
 

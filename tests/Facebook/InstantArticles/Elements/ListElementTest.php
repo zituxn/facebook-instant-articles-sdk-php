@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\ListElement;
 
 class ListElementTest extends \PHPUnit_Framework_TestCase
 {

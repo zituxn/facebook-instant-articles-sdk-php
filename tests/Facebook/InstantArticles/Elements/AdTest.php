@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\Ad;
 
 class AdTest extends \PHPUnit_Framework_TestCase
 {

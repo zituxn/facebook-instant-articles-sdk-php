@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\Caption;
 
 class CaptionTest extends \PHPUnit_Framework_TestCase
 {

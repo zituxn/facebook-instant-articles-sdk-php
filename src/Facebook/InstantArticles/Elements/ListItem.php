@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Validators\Type;
 
 /**
  * Class List that represents a simple HTML list

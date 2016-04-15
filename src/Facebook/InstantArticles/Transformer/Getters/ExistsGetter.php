@@ -9,7 +9,6 @@
 namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
-use Symfony\Component\CssSelector\CssSelectorConverter;
 
 class ExistsGetter extends StringGetter
 {

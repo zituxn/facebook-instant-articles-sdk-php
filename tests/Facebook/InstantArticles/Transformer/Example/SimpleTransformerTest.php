@@ -8,29 +8,9 @@
  */
 namespace Facebook\InstantArticles\Transformer;
 
-use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
-use Facebook\InstantArticles\Elements\Header;
-use Facebook\InstantArticles\Elements\Time;
-use Facebook\InstantArticles\Elements\Author;
-use Facebook\InstantArticles\Elements\Image;
-use Facebook\InstantArticles\Elements\Caption;
-use Facebook\InstantArticles\Elements\Paragraph;
-use Facebook\InstantArticles\Elements\SlideShow;
-use Facebook\InstantArticles\Elements\Analytics;
-use Facebook\InstantArticles\Elements\Ad;
-use Facebook\InstantArticles\Elements\Footer;
-use Facebook\InstantArticles\Elements\Bold;
 
-use Facebook\InstantArticles\Transformer\Rules\ParagraphRule;
-use Facebook\InstantArticles\Transformer\Rules\TextNodeRule;
-use Facebook\InstantArticles\Transformer\Rules\ItalicRule;
-use Facebook\InstantArticles\Transformer\Rules\PassThroughRule;
-use Facebook\InstantArticles\Transformer\Rules\BoldRule;
-use Facebook\InstantArticles\Transformer\Rules\ImageRule;
-use Facebook\InstantArticles\Transformer\Rules\AuthorRule;
 
-use Symfony\Component\CssSelector\CssSelectorConverter;
 
 class SimpleTransformerTest extends \PHPUnit_Framework_TestCase
 {
