@@ -71,13 +71,13 @@ class CaptionRule extends ConfigurationSelectorRule
         $container_of_caption->withCaption($caption);
 
         if ($this->getProperty(Caption::POSITION_BELOW, $node)) {
-            $caption->withPostion(Caption::POSITION_BELOW);
+            $caption->withPosition(Caption::POSITION_BELOW);
         }
         if ($this->getProperty(Caption::POSITION_CENTER, $node)) {
-            $caption->withPostion(Caption::POSITION_CENTER);
+            $caption->withPosition(Caption::POSITION_CENTER);
         }
         if ($this->getProperty(Caption::POSITION_ABOVE, $node)) {
-            $caption->withPostion(Caption::POSITION_ABOVE);
+            $caption->withPosition(Caption::POSITION_ABOVE);
         }
 
         if ($this->getProperty(Caption::ALIGN_LEFT, $node)) {
