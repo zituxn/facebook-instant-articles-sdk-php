@@ -87,7 +87,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $rule2 = new ItalicRule();
         $transformer->addRule($rule1);
         $transformer->addRule($rule2);
-        $this->assertEquals(array($rule2, $rule1), $transformer->getRules());
+        $this->assertEquals(array($rule1, $rule2), $transformer->getRules());
     }
 
     public function testTransformerSetRules()
