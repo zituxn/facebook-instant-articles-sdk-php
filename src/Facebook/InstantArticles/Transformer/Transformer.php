@@ -40,8 +40,8 @@ class Transformer
     public function transform($context, $node)
     {
         if (Type::is($context, InstantArticle::getClassName())) {
-            $context->addMetaProperty('op:transformer', 'facebook-instant-articles-sdk-php');
-            $context->addMetaProperty('op:transformer:version', InstantArticle::CURRENT_VERSION);
+            $context->addMetaProperty('op:generator:transformer', 'facebook-instant-articles-sdk-php');
+            $context->addMetaProperty('op:generator:transformer:version', InstantArticle::CURRENT_VERSION);
         }
 
         $log = \Logger::getLogger('facebook-instantarticles-transformer');
