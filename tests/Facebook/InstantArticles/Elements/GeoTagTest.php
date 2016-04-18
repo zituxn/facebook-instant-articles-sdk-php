@@ -8,8 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\GeoTag;
-use Facebook\InstantArticles\Elements\Caption;
 
 class GeoTagTest extends \PHPUnit_Framework_TestCase
 {

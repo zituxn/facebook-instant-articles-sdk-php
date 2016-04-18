@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\Pullquote;
 
 class PullquoteTest extends \PHPUnit_Framework_TestCase
 {

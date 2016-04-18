@@ -8,8 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\SocialEmbed;
-use Facebook\InstantArticles\Elements\Caption;
 
 class SocialEmbedTest extends \PHPUnit_Framework_TestCase
 {

@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\Author;
 
 class AuthorTest extends \PHPUnit_Framework_TestCase
 {

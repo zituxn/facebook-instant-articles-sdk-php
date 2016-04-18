@@ -8,11 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\Paragraph;
-use Facebook\InstantArticles\Elements\Bold;
-use Facebook\InstantArticles\Elements\LineBreak;
-use Facebook\InstantArticles\Elements\Italic;
-use Facebook\InstantArticles\Elements\Anchor;
 
 class ParagraphTest extends \PHPUnit_Framework_TestCase
 {

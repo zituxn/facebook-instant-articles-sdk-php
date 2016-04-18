@@ -8,19 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\Element;
-use Facebook\InstantArticles\Elements\InstantArticle;
-use Facebook\InstantArticles\Elements\Header;
-use Facebook\InstantArticles\Elements\Time;
-use Facebook\InstantArticles\Elements\Author;
-use Facebook\InstantArticles\Elements\Image;
-use Facebook\InstantArticles\Elements\Caption;
-use Facebook\InstantArticles\Elements\Paragraph;
-use Facebook\InstantArticles\Elements\SlideShow;
-use Facebook\InstantArticles\Elements\Analytics;
-use Facebook\InstantArticles\Elements\Ad;
-use Facebook\InstantArticles\Elements\Footer;
-
 class InstantArticleTest extends \PHPUnit_Framework_TestCase
 {
     /**

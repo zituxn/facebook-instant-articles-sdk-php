@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\Audio;
 
 class AudioTest extends \PHPUnit_Framework_TestCase
 {

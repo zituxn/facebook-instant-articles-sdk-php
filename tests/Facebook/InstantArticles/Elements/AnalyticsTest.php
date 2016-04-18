@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\Analytics;
 
 class AnalyticsTest extends \PHPUnit_Framework_TestCase
 {

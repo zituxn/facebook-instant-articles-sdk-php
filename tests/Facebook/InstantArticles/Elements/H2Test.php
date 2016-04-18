@@ -8,10 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\H2;
-use Facebook\InstantArticles\Elements\Bold;
-use Facebook\InstantArticles\Elements\Italic;
-use Facebook\InstantArticles\Elements\Anchor;
 
 class H2Test extends \PHPUnit_Framework_TestCase
 {
