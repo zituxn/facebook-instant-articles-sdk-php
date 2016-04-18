@@ -101,7 +101,7 @@ class Image extends Audible
      */
     public function withCaption($caption)
     {
-        Type::enforce($caption, Caption::class);
+        Type::enforce($caption, Caption::getClassName());
         $this->caption = $caption;
 
         return $this;
@@ -192,10 +192,10 @@ class Image extends Audible
      */
     public function withGeoTag($geo_tag)
     {
-        Type::enforce($geo_tag, array(Type::STRING, GeoTag::class));
+        Type::enforce($geo_tag, array(Type::STRING, GeoTag::getClassName()));
         if (Type::is($geo_tag, Type::STRING)) {
             $this->geoTag = GeoTag::create()->withScript($geo_tag);
-        } elseif (Type::is($geo_tag, GeoTag::class)) {
+        } elseif (Type::is($geo_tag, GeoTag::getClassName())) {
             $this->geoTag = $geo_tag;
         }
 
@@ -209,7 +209,7 @@ class Image extends Audible
      */
     public function withAudio($audio)
     {
-        Type::enforce($audio, Audio::class);
+        Type::enforce($audio, Audio::getClassName());
         $this->audio = $audio;
 
         return $this;

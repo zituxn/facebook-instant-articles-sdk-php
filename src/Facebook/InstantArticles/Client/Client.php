@@ -40,7 +40,7 @@ class Client
      */
     public function __construct($facebook, $pageID, $developmentMode = false)
     {
-        Type::enforce($facebook, Facebook::class);
+        Type::enforce($facebook, 'Facebook\Facebook');
         Type::enforce($pageID, Type::STRING);
         Type::enforce($developmentMode, Type::BOOLEAN);
 
@@ -71,6 +71,7 @@ class Client
             'app_id' => $appID,
             'app_secret' => $appSecret,
             'default_access_token' => $accessToken,
+            'default_graph_version' => 'v2.5'
         ]);
 
         return new static($facebook, $pageID, $developmentMode);
@@ -84,7 +85,7 @@ class Client
      */
     public function importArticle($article, $takeLive = false)
     {
-        Type::enforce($article, InstantArticle::class);
+        Type::enforce($article, InstantArticle::getClassName());
         Type::enforce($takeLive, Type::BOOLEAN);
 
         // Never try to take live if we're in development (the API would throw an error if we tried)
@@ -94,8 +95,33 @@ class Client
         $this->facebook->post($this->pageID . Client::EDGE_NAME, [
           'html_source' => $article->render(),
           'take_live' => $takeLive,
-          'developmentMode' => $this->developmentMode,
+          'development_mode' => $this->developmentMode,
         ]);
+    }
+
+    /**
+     * Removes an article from your Instant Articles library.
+     *
+     * @param string $canonicalURL The canonical URL of the article to delete.
+     * @return \Facebook\InstantArticles\Client\InstantArticleStatus
+     *
+     * @todo Consider returning the \Facebook\FacebookResponse object sent by
+     *   \Facebook\Facebook::delete(). For now we trust that if an Instant
+     *   Article ID exists for the Canonical URL the delete operation will work.
+     */
+    public function removeArticle($canonicalURL)
+    {
+        if (!$canonicalURL) {
+            return InstantArticleStatus::notFound(array('$canonicalURL param not passed to ' . __FUNCTION__ . '.'));
+        }
+
+        Type::enforce($canonicalURL, Type::STRING);
+
+        if ($articleID = $this->getArticleIDFromCanonicalURL($canonicalURL)) {
+            $this->facebook->delete($articleID);
+            return InstantArticleStatus::success();
+        }
+        return InstantArticleStatus::notFound(array('An Instant Article ID ' . $articleID . ' was not found for ' . $canonicalURL . ' in ' . __FUNCTION__ . '.'));
     }
 
     /**

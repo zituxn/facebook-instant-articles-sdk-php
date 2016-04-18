@@ -22,7 +22,7 @@ class GeoTagRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return array(Image::class, Video::class, Map::class);
+        return array(Image::getClassName(), Video::getClassName(), Map::getClassName());
     }
 
     public static function create()

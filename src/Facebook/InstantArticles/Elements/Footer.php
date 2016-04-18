@@ -60,7 +60,7 @@ class Footer extends Element
      */
     public function withCredits($credits)
     {
-        Type::enforce($credits, array(Type::ARRAY_TYPE, Paragraph::class, Type::STRING));
+        Type::enforce($credits, array(Type::ARRAY_TYPE, Paragraph::getClassName(), Type::STRING));
         $this->credits = $credits;
 
         return $this;
@@ -73,7 +73,7 @@ class Footer extends Element
      */
     public function addCredit($credit)
     {
-        Type::enforce($credit, Paragraph::class);
+        Type::enforce($credit, Paragraph::getClassName());
         $this->credits[] = $credit;
 
         return $this;
@@ -99,7 +99,7 @@ class Footer extends Element
      */
     public function withRelatedArticles($related_articles)
     {
-        Type::enforce($related_articles, RelatedArticles::class);
+        Type::enforce($related_articles, RelatedArticles::getClassName());
         $this->relatedArticles = $related_articles;
 
         return $this;

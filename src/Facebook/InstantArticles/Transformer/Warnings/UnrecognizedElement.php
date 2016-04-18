@@ -8,6 +8,8 @@
  */
 namespace Facebook\InstantArticles\Transformer\Warnings;
 
+use Facebook\InstantArticles\Validators\Type;
+
 class UnrecognizedElement
 {
     private $context;
@@ -22,8 +24,23 @@ class UnrecognizedElement
     public function __toString()
     {
         $reflection = new \ReflectionClass(get_class($this->context));
-        $class_name = $reflection->getShortName();
-        return "No rules defined for <{$this->node->nodeName}> in the context of $class_name";
+        $className = $reflection->getShortName();
+        $nodeName = $this->node->nodeName;
+        if (substr($nodeName, 0, 1) === '#') {
+            $nodeDescription = '"'.mb_strimwidth($this->node->textContent, 0, 30, '...').'"';
+        }
+        else {
+            $nodeDescription = '<';
+            $nodeDescription .= $nodeName;
+            if (Type::is($this->node, 'DOMElement')) {
+                $class = $this->node->getAttribute('class');
+                if ($class) {
+                    $nodeDescription .= ' class="'. $class .'"';
+                }
+            }
+            $nodeDescription .= '>';
+        }
+        return "No rules defined for {$nodeDescription} in the context of $className";
     }
 
     public function getContext()

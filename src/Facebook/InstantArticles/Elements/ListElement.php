@@ -49,7 +49,7 @@ class ListElement extends Element
 
     /**
      * Factory method for an Ordered list
-     * @return the new instance List as an ordered list
+     * @return ListElement the new instance List as an ordered list
      */
     public static function createOrdered()
     {
@@ -61,7 +61,7 @@ class ListElement extends Element
 
     /**
      * Factory method for an unrdered list
-     * @return the new instance List as an unordered list
+     * @return ListElement the new instance List as an unordered list
      */
     public static function createUnordered()
     {
@@ -78,9 +78,9 @@ class ListElement extends Element
      */
     public function addItem($new_item)
     {
-        Type::enforce($new_item, array(ListItem::class, Type::STRING));
+        Type::enforce($new_item, array(ListItem::getClassName(), Type::STRING));
         if (Type::is($new_item, Type::STRING)) {
-            $new_item = ListItem::create()->withText($new_item);
+            $new_item = ListItem::create()->appendText($new_item);
         }
         $this->items[] = $new_item;
 
@@ -94,7 +94,7 @@ class ListElement extends Element
      */
     public function withItems($new_items)
     {
-        Type::enforceArrayOf($new_items, array(ListItem::class, Type::STRING));
+        Type::enforceArrayOf($new_items, array(ListItem::getClassName(), Type::STRING));
         foreach ($new_items as $new_item) {
             $this->addItem($new_item);
         }

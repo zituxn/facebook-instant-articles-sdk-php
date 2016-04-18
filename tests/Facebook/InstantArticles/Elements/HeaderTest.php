@@ -126,4 +126,29 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $rendered);
     }
+
+	public function testHeaderWithSingleDefaultAd()
+    {
+        $header =
+            Header::create()
+                ->addAd(
+                    Ad::create()
+                        ->withSource('http://foo.com')
+                        ->withWidth(350)
+                        ->withHeight(50)
+                        ->enableDefaultForReuse()
+                );
+
+        // It should not set op-ad-default
+        $expected =
+            '<header>'.
+                '<figure class="op-ad">'.
+                    '<iframe src="http://foo.com" width="350" height="50"></iframe>'.
+                '</figure>'.
+            '</header>';
+
+        $rendered = $header->render();
+
+        $this->assertEquals($expected, $rendered);
+    }
 }

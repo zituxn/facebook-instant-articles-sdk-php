@@ -43,7 +43,7 @@ class GeoTag extends Element
 
     /**
      * Private constructor.
-     * @see Map::create();.
+     * @see GeoTag::create();.
      */
     private function __construct()
     {
@@ -51,7 +51,7 @@ class GeoTag extends Element
 
     /**
      * Factory method for the Map
-     * @return Map the new instance
+     * @return GeoTag the new instance
      */
     public static function create()
     {

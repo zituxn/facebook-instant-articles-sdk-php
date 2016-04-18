@@ -44,7 +44,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'take_live' => false,
-                'developmentMode' => false,
+                'development_mode' => false,
             ]);
 
         $this->client->importArticle($this->article);
@@ -58,10 +58,43 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'take_live' => true,
-                'developmentMode' => false,
+                'development_mode' => false,
             ]);
 
         $this->client->importArticle($this->article, true);
+    }
+
+    /**
+     * Tests removing an article from an Instant Articles library.
+     *
+     * @covers Facebook\InstantArticles\Client\Client::removeArticle()
+     */
+    public function testRemoveArticle()
+    {
+        $canonicalURL = 'http://facebook.com';
+        $articleID = '1';
+
+        // Use a mocked client with stubbed getArticleIDFromCanonicalURL().
+        $this->client = $this->getMockBuilder('Facebook\InstantArticles\Client\Client')
+          ->setMethods(array('getArticleIDFromCanonicalURL'))
+          ->setConstructorArgs(array(
+            $this->facebook,
+            "PAGE_ID",
+            true // developmentMode
+          ))->getMock();
+
+        $this->client
+          ->expects($this->once())
+          ->method('getArticleIDFromCanonicalURL')
+          ->with($canonicalURL)
+          ->will($this->returnValue($articleID));;
+
+        $this->facebook
+          ->expects($this->once())
+          ->method('delete')
+          ->with($articleID);
+
+        $this->client->removeArticle($canonicalURL);
     }
 
     public function testImportArticleDevelopmentMode()
@@ -77,7 +110,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'take_live' => false,
-                'developmentMode' => true,
+                'development_mode' => true,
             ]);
 
         $this->client->importArticle($this->article);
@@ -96,7 +129,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'take_live' => false,
-                'developmentMode' => true,
+                'development_mode' => true,
             ]);
 
         $this->client->importArticle($this->article, true);

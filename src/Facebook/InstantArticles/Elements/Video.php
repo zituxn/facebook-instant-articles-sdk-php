@@ -116,7 +116,7 @@ class Video extends Element
 
     /**
      * Factory method
-     * @return the new instance from Video
+     * @return Video the new instance from Video
      */
     public static function create()
     {
@@ -131,7 +131,7 @@ class Video extends Element
      */
     public function withCaption($caption)
     {
-        Type::enforce($caption, Caption::class);
+        Type::enforce($caption, Caption::getClassName());
         $this->caption = $caption;
 
         return $this;
@@ -294,10 +294,10 @@ class Video extends Element
      */
     public function withGeoTag($geoTag)
     {
-        Type::enforce($geoTag, array(Type::STRING, GeoTag::class));
+        Type::enforce($geoTag, array(Type::STRING, GeoTag::getClassName()));
         if (Type::is($geoTag, Type::STRING)) {
             $this->geoTag = GeoTag::create()->withScript($geoTag);
-        } elseif (Type::is($geoTag, GeoTag::class)) {
+        } elseif (Type::is($geoTag, GeoTag::getClassName())) {
             $this->geoTag = $geoTag;
         }
 

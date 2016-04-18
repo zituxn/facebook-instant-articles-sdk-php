@@ -26,7 +26,7 @@ class Helper
      */
     public function __construct($facebook)
     {
-        Type::enforce($facebook, Facebook::class);
+        Type::enforce($facebook, 'Facebook\Facebook');
 
         // TODO throw if $facebook doesn't have a default_access_token
         $this->facebook = $facebook;
@@ -48,6 +48,7 @@ class Helper
         $facebook = new Facebook([
             'app_id' => $appID,
             'app_secret' => $appSecret,
+            'default_graph_version' => 'v2.5'
         ]);
 
         return new static($facebook);
@@ -65,7 +66,7 @@ class Helper
      */
     public function getPagesAndTokens($accessToken)
     {
-        Type::enforce($accessToken, array(AccessToken::class));
+        Type::enforce($accessToken, 'Facebook\Authentication\AccessToken');
 
         // If we don't have a long-lived user token, exchange for one
         if (! $accessToken->isLongLived()) {
@@ -86,7 +87,7 @@ class Helper
         // Request the list of pages and associated page tokens that are
         // connected to this user
         try {
-            $response = $this->facebook->get('/me/accounts');
+            $response = $this->facebook->get('/me/accounts?fields=name,id,access_token,supports_instant_articles');
         } catch (Facebook\Exceptions\FacebookResponseException $e) {
             throw new FacebookSDKException('Graph API returned an error: ' . $e.getMessage());
         }

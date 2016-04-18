@@ -79,4 +79,34 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         // print_r($warnings);
         $this->assertEquals($html_file, $result);
     }
+
+    public function testTransformerAddAndGetRules()
+    {
+        $transformer = new Transformer();
+        $rule1 = new ParagraphRule();
+        $rule2 = new ItalicRule();
+        $transformer->addRule($rule1);
+        $transformer->addRule($rule2);
+        $this->assertEquals(array($rule2, $rule1), $transformer->getRules());
+    }
+
+    public function testTransformerSetRules()
+    {
+        $transformer = new Transformer();
+        $rule1 = new ParagraphRule();
+        $rule2 = new ItalicRule();
+        $transformer->setRules(array($rule1, $rule2));
+        $this->assertEquals(array($rule1, $rule2), $transformer->getRules());
+    }
+
+    public function testTransformerResetRules()
+    {
+        $transformer = new Transformer();
+        $rule1 = new ParagraphRule();
+        $rule2 = new ItalicRule();
+        $transformer->addRule($rule1);
+        $transformer->addRule($rule2);
+        $transformer->resetRules();
+        $this->assertEquals(array(), $transformer->getRules());
+    }
 }

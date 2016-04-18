@@ -12,7 +12,7 @@ use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Video;
 use Facebook\InstantArticles\Elements\InstantArticle;
-use Facebook\InstantArticles\Elements\AnimatedGif;
+use Facebook\InstantArticles\Elements\AnimatedGIF;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Validators\Type;
 
@@ -28,7 +28,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testIsType()
     {
-        $result = Type::is(Caption::create(), array(Caption::class));
+        $result = Type::is(Caption::create(), array(Caption::getClassName()));
         $this->assertTrue($result);
     }
 
@@ -43,10 +43,10 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $result = Type::is(
             Caption::create(),
             array(
-                Caption::class,
-                InstantArticle::class,
-                Video::class,
-                Image::class
+                Caption::getClassName(),
+                InstantArticle::getClassName(),
+                Video::getClassName(),
+                Image::getClassName()
             )
         );
         $this->assertTrue($result);
@@ -57,7 +57,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $result = Type::is(
             Caption::create(),
             array(
-                Image::class
+                Image::getClassName()
             )
         );
         $this->assertFalse($result);
@@ -69,7 +69,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             $result = Type::enforce(
                 Caption::create(),
                 array(
-                    Image::class
+                    Image::getClassName()
                 )
             );
             $this->fail('Should throw exception');
@@ -107,9 +107,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $result = Type::is(
             Caption::create(),
             array(
-                InstantArticle::class,
-                Video::class,
-                Image::class
+                InstantArticle::getClassName(),
+                Video::getClassName(),
+                Image::getClassName()
             )
         );
         $this->assertFalse($result);
@@ -121,9 +121,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             $result = Type::enforce(
                 Caption::create(),
                 array(
-                    InstantArticle::class,
-                    Video::class,
-                    Image::class
+                    InstantArticle::getClassName(),
+                    Video::getClassName(),
+                    Image::getClassName()
                 )
             );
             $this->fail('Should throw exception');
@@ -136,9 +136,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     public function testIsInInheritance()
     {
         $result = Type::is(
-            AnimatedGif::create(),
+            AnimatedGIF::create(),
             array(
-                Image::class
+                Image::getClassName()
             )
         );
         $this->assertTrue($result);
@@ -147,9 +147,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     public function testIsNotInInheritance()
     {
         $result = Type::is(
-            AnimatedGif::create(),
+            AnimatedGIF::create(),
             array(
-                Video::class
+                Video::getClassName()
             )
         );
         $this->assertFalse($result);
@@ -159,9 +159,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $result = Type::enforce(
-                AnimatedGif::create(),
+                AnimatedGIF::create(),
                 array(
-                    Video::class
+                    Video::getClassName()
                 )
             );
             $this->fail('Should throw exception');
@@ -205,7 +205,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $result =
             Type::isArrayOf(
                 array(Image::create(), Image::create()),
-                Image::class
+                Image::getClassName()
             );
         $this->assertTrue($result);
     }
@@ -215,7 +215,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $result =
             Type::isArrayOf(
                 array(Image::create(), Video::create()),
-                array(Image::class, Video::class)
+                array(Image::getClassName(), Video::getClassName())
             );
         $this->assertTrue($result);
     }
@@ -223,8 +223,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     public function testIsArrayInInheritance()
     {
         $result = Type::isArrayOf(
-            array(Image::create(), AnimatedGif::create()),
-            Image::class
+            array(Image::create(), AnimatedGIF::create()),
+            Image::getClassName()
         );
         $this->assertTrue($result);
     }
@@ -234,7 +234,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $result =
             Type::isArrayOf(
                 array(Image::create(), Video::create()),
-                Image::class
+                Image::getClassName()
             );
         $this->assertFalse($result);
     }
@@ -245,7 +245,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             $result =
                 Type::enforceArrayOf(
                     array(Image::create(), Video::create()),
-                    Image::class
+                    Image::getClassName()
                 );
             $this->fail('Should throw exception');
         } catch (\Exception $e) {

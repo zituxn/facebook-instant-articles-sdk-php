@@ -49,7 +49,7 @@ class RelatedArticles extends Element
 
     /**
      * Factory method for the RelatedArticles list
-     * @return the new instance of RelatedArticles
+     * @return RelatedArticles the new instance of RelatedArticles
      */
     public static function create()
     {
@@ -62,7 +62,7 @@ class RelatedArticles extends Element
      */
     public function addRelated($item)
     {
-        Type::enforce($item, RelatedItem::class);
+        Type::enforce($item, RelatedItem::getClassName());
         $this->items[] = $item;
 
         return $this;
@@ -90,7 +90,7 @@ class RelatedArticles extends Element
     }
 
     /**
-     * @param string the name of related articles block
+     * @return string the name of related articles block
      */
     public function getTitle()
     {

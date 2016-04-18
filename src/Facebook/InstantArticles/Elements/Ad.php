@@ -122,7 +122,7 @@ class Ad extends Element
      */
     public function withHTML($html)
     {
-        Type::enforce($html, \DOMNode::class);
+        Type::enforce($html, 'DOMNode');
         $this->html = $html;
 
         return $this;

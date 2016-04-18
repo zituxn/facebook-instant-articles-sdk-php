@@ -18,7 +18,7 @@ class PullquoteCiteRule extends ConfigurationSelectorRule
 {
     public function getContextClass()
     {
-        return Pullquote::class;
+        return Pullquote::getClassName();
     }
 
     public static function create()

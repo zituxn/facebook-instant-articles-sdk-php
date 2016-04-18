@@ -9,13 +9,12 @@
 namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Transformer\Warnings\UnrecognizedElement;
+use Facebook\InstantArticles\Transformer\Rules\Rule;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Validators\Type;
 
 class Transformer
 {
-    const CURRENT_VERSION = InstantArticle::CURRENT_VERSION;
-
     private $rules = array();
     private $warnings = array();
 
@@ -28,6 +27,7 @@ class Transformer
 
     public function addRule($rule)
     {
+        Type::enforce($rule, Rule::getClassName());
         // Adds in reversed order for bottom-top processing rules
         array_unshift($this->rules, $rule);
     }
@@ -39,9 +39,9 @@ class Transformer
 
     public function transform($context, $node)
     {
-        if (Type::is($context, InstantArticle::class)) {
+        if (Type::is($context, InstantArticle::getClassName())) {
             $context->addMetaProperty('op:generator:transformer', 'facebook-instant-articles-sdk-php');
-            $context->addMetaProperty('op:generator:transformer:version', self::CURRENT_VERSION);
+            $context->addMetaProperty('op:generator:transformer:version', InstantArticle::CURRENT_VERSION);
         }
 
         $log = \Logger::getLogger('facebook-instantarticles-transformer');
@@ -67,7 +67,7 @@ class Transformer
                     }
                 }
                 if (!$matched &&
-                    !($child->nodeName === '#text' && empty(trim($child->textContent))) &&
+                    !($child->nodeName === '#text' && trim($child->textContent) === '') &&
                     !($child->nodeName === '#comment') &&
                     !$this->suppress_warnings
                     ) {
@@ -106,5 +106,34 @@ class Transformer
                 $this->addRule($factory_method->invoke(null, $configuration_rule));
             }
         }
+    }
+
+    /**
+     * Removes all rules already set in this transformer instance.
+     */
+    public function resetRules()
+    {
+        $this->rules = array();
+    }
+
+    /**
+     * Gets all rules already set in this transformer instance.
+     *
+     * @return array List of configured rules.
+     */
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    /**
+     * Overrides all rules already set in this transformer instance.
+     *
+     * @return array List of configured rules.
+     */
+    public function setRules($rules)
+    {
+        Type::enforceArrayOf($rules, Rule::getClassName());
+        $this->rules = $rules;
     }
 }

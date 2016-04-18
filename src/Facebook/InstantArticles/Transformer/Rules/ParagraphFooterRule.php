@@ -22,7 +22,7 @@ class ParagraphFooterRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return Footer::class;
+        return Footer::getClassName();
     }
 
     public static function create()
