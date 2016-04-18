@@ -36,7 +36,6 @@ class GetterFactory
      * @see ExistsGetter
      * @see XpathGetter
      * @param array<string, string> $getter_configuration that maps the properties for getter
-     * @throws InvalidArgumentException if the type is invalid
      */
     public static function create($getter_configuration)
     {
@@ -57,10 +56,5 @@ class GetterFactory
         $instance = new $clazz();
         $instance->createFrom($getter_configuration);
         return $instance;
-
-        throw new \InvalidArgumentException(
-            'Type not informed or unrecognized. The configuration must have'.
-            ' a type of "StringGetter" or "ChildrenGetter"'
-        );
     }
 }
