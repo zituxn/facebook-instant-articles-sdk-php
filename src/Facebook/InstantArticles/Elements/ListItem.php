@@ -17,10 +17,6 @@ namespace Facebook\InstantArticles\Elements;
  */
 class ListItem extends TextContainer
 {
-    /**
-     * @var TextContainer
-     */
-    private $text;
 
     private function __construct()
     {
