@@ -12,7 +12,7 @@ use Facebook\InstantArticles\Elements\Blockquote;
 
 class BlockquoteTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
     }
 

@@ -34,7 +34,7 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
 
 class TransformerTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         \Logger::configure(
             array(

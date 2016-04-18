@@ -12,7 +12,7 @@ use Facebook\InstantArticles\Elements\Analytics;
 
 class AnalyticsTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
     }
 

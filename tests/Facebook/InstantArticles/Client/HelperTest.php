@@ -17,7 +17,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     private $helper;
     private $facebook;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->facebook = $this->getMockBuilder('Facebook\Facebook')
             ->disableOriginalConstructor()

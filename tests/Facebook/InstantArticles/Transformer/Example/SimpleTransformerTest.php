@@ -39,7 +39,7 @@ class SimpleTransformerTest extends \PHPUnit_Framework_TestCase
      */
     private $article;
     private $input;
-    public function setUp()
+    protected function setUp()
     {
         \Logger::configure(
             array(
