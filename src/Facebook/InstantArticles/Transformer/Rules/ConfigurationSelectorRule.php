@@ -10,8 +10,6 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Symfony\Component\CssSelector\CssSelectorConverter;
 use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
-use Facebook\InstantArticles\Transformer\Getters\StringGetter;
-use Facebook\InstantArticles\Transformer\Getters\ChildrenGetter;
 use Facebook\InstantArticles\Validators\Type;
 
 abstract class ConfigurationSelectorRule extends Rule

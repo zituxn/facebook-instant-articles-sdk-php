@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Validators\Type;
 
 /**
  * Class List that represents a simple HTML list
@@ -18,10 +17,6 @@ use Facebook\InstantArticles\Validators\Type;
  */
 class ListItem extends TextContainer
 {
-    /**
-     * @var TextContainer
-     */
-    private $text;
 
     private function __construct()
     {
