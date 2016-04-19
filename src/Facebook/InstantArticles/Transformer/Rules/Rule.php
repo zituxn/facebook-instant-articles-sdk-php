@@ -16,6 +16,24 @@ abstract class Rule
 
         $matches_context = $this->matchesContext($context);
         $matches_node = $this->matchesNode($node);
+        if ($matches_context && $matches_node) {
+            $log->debug('context class: '.get_class($context));
+            $log->debug('context matches: '.($matches_context ? 'MATCHES' : 'no match'));
+            $log->debug('node name: <'.$node->nodeName.' />');
+            $log->debug('node matches: '.($matches_node ? 'MATCHES' : 'no match'));
+            $log->debug('rule: '.get_class($this));
+            $log->debug('-------');
+            return true;
+        }
+        if ($node->nodeName === 'img') {
+            $log->debug('context class: '.get_class($context));
+            $log->debug('context matches: '.($matches_context ? 'MATCHES' : 'no match'));
+            $log->debug('node name: <'.$node->nodeName.' />');
+            $log->debug('node: '.$node->ownerDocument->saveXML($node).' />');
+            $log->debug('node matches: '.($matches_node ? 'MATCHES' : 'no match'));
+            $log->debug('rule: '.get_class($this));
+            $log->debug('-------');
+        }
         return false;
     }
 
