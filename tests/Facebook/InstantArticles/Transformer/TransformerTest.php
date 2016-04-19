@@ -38,13 +38,13 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
 
     public function testSelfTransformerContent()
     {
-        $json_file = file_get_contents("instant-article-example-rules.json", true);
+        $json_file = file_get_contents(__DIR__ . '/instant-article-example-rules.json');
 
         $instant_article = InstantArticle::create();
         $transformer = new Transformer();
         $transformer->loadRules($json_file);
 
-        $html_file = file_get_contents("instant-article-example.html", true);
+        $html_file = file_get_contents(__DIR__ . '/instant-article-example.html');
 
         libxml_use_internal_errors(true);
         $document = new \DOMDocument();
