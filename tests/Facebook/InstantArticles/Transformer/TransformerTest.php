@@ -38,13 +38,13 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
 
     public function testSelfTransformerContent()
     {
-        $json_file = file_get_contents("instant-article-example-rules.json", true);
+        $json_file = file_get_contents(__DIR__ . '/instant-article-example-rules.json');
 
         $instant_article = InstantArticle::create();
         $transformer = new Transformer();
         $transformer->loadRules($json_file);
 
-        $html_file = file_get_contents("instant-article-example.html", true);
+        $html_file = file_get_contents(__DIR__ . '/instant-article-example.html');
 
         libxml_use_internal_errors(true);
         $document = new \DOMDocument();
@@ -69,7 +69,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $rule2 = new ItalicRule();
         $transformer->addRule($rule1);
         $transformer->addRule($rule2);
-        $this->assertEquals(array($rule2, $rule1), $transformer->getRules());
+        $this->assertEquals(array($rule1, $rule2), $transformer->getRules());
     }
 
     public function testTransformerSetRules()

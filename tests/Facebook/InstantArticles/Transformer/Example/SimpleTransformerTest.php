@@ -41,13 +41,13 @@ class SimpleTransformerTest extends \PHPUnit_Framework_TestCase
 
     public function testSelfTransformerContent()
     {
-        $json_file = file_get_contents("simple-rules.json", true);
+        $json_file = file_get_contents(__DIR__ . '/simple-rules.json');
 
         $instant_article = InstantArticle::create();
         $transformer = new Transformer();
         $transformer->loadRules($json_file);
 
-        $html_file = file_get_contents("simple.html", true);
+        $html_file = file_get_contents(__DIR__ . '/simple.html');
 
         libxml_use_internal_errors(true);
         $document = new \DOMDocument();
@@ -59,7 +59,7 @@ class SimpleTransformerTest extends \PHPUnit_Framework_TestCase
         $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
         $warnings = $transformer->getWarnings();
         $result = $instant_article->render('', true)."\n";
-        $expected = file_get_contents("simple-ia.xml", true);
+        $expected = file_get_contents(__DIR__ . '/simple-ia.xml');
 
         //var_dump($result);
         // print_r($warnings);
