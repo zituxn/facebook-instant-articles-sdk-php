@@ -108,6 +108,66 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
+    public function testRenderEmpty()
+    {
+        $paragraph =
+            Paragraph::create()
+                ->appendText('');
+
+        $expected = '';
+
+        $rendered = $paragraph->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderEmptyNBSP()
+    {
+        $paragraph =
+            Paragraph::create()
+                ->appendText('&nbsp;');
+
+        $expected = '';
+
+        $rendered = $paragraph->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderEmptySpaces()
+    {
+        $paragraph =
+            Paragraph::create()
+                ->appendText('  ');
+
+        $expected = '';
+
+        $rendered = $paragraph->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderWhiteSpaceChars()
+    {
+        $paragraph =
+            Paragraph::create()
+                ->appendText("\t\n\r");
+
+        $expected = '';
+
+        $rendered = $paragraph->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderEmptyFormatted()
+    {
+        $paragraph =
+            Paragraph::create()
+                ->appendText(Bold::create()->appendText('  '));
+
+        $expected = '';
+
+        $rendered = $paragraph->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderWithNestedFormattedText()
     {
         $paragraph =

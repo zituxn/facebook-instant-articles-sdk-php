@@ -30,9 +30,12 @@ abstract class Element
         $document = new \DOMDocument();
         $document->preserveWhiteSpace = !$formated;
         $document->formatOutput = $formated;
+
+        $rendered = '';
         $element = $this->toDOMElement($document);
         $document->appendChild($element);
-        return $doctype.$document->saveXML($element);
+        $rendered = $doctype.$document->saveXML($element);
+        return $rendered;
     }
 
     /**
@@ -52,7 +55,28 @@ abstract class Element
      * Auxiliary method to extract all Elements full qualified class name.
      * @return string The full qualified name of class
      */
-    public static function getClassName() {
+    public static function getClassName()
+    {
         return get_called_class();
+    }
+
+    /**
+     * Method that checks if the element is valid, not empty. If !valid() it wont be rendered.
+     * @since v1.0.6
+     */
+    public function isValid()
+    {
+        return true;
+    }
+
+    /**
+     * Method to create an empty fragment if @see isValid() is false in @see toDOMElement()
+     * @param DOMDocument $document the document that will contain the empty element.
+     */
+    protected function emptyElement($document)
+    {
+        $fragment = $document->createDocumentFragment();
+        $fragment->appendChild($document->createTextNode(''));
+        return $fragment;
     }
 }

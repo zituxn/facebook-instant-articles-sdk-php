@@ -75,4 +75,30 @@ abstract class TextContainer extends Element
 
         return $fragment;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid tag, false otherwise.
+     */
+    public function isValid() {
+        $textContent = '';
+
+        foreach ($this->textChildren as $content) {
+            // Recursive check on TextContainer, if something inside is valid, this is valid.
+            if (Type::is($content, TextContainer::getClassName()) && $content->isValid()) {
+                return true;
+            // If is string content, concat to check if it is not only a bunch of empty chars.
+            } else if (Type::is($content, Type::STRING)) {
+                $textContent = $textContent.$content;
+            }
+        }
+
+        // Stripes empty spaces, &nbsp;, <br/>, new lines
+        $textContent = strip_tags($textContent);
+        $textContent = preg_replace("/[\r\n\s]+/", "", $textContent);
+        $textContent = str_replace("&nbsp;", '', $textContent);
+
+        return !empty($textContent);
+    }
 }

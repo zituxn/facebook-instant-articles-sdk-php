@@ -262,6 +262,10 @@ class InstantArticle extends Element
             $document = new \DOMDocument();
         }
 
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         // Builds and appends head to the HTML document
         $html = $document->createElement('html');
         $head = $document->createElement('head');
