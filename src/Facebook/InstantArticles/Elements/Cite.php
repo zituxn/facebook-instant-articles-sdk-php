@@ -64,7 +64,7 @@ class Cite extends TextContainer
     }
 
     /**
-     * $deprecated
+     * @deprecated
      *
      * @param string $position
      * @return $this

@@ -17,7 +17,7 @@ abstract class AbstractGetter
     /**
      * Method that should be implemented so it can be Instantiated by @see GetterFactory
      * @param array(string-> string) $configuration With all properties of this Getter
-     * @return $this Returns the self instance configurated.
+     * @return $this Returns the self instance configured.
      */
     abstract public function createFrom($configuration);
 
