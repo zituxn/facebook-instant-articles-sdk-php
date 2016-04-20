@@ -43,14 +43,12 @@ When doing a pull request, consider if this diff has a testcase that was covered
 Run Code Sniffer against the `src/` and `tests/` directories.
 
 ``` bash
-$ vendor/bin/phpcs src --standard=psr2 -sp
-$ vendor/bin/phpcs tests --standard=psr2 -sp
+$ vendor/bin/phpcs --standard=phpcs.xml -p
 ```
 
 Give a try for the autofixer for code style
 
 ``` bash
-$ vendor/bin/phpcbf src --standard=psr2 -sp
-$ vendor/bin/phpcbf tests --standard=psr2 -sp
+$ vendor/bin/phpcbf --standard-phpcs.xml -p
 ```
 **Happy coding**!
