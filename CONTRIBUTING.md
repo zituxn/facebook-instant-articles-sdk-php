@@ -40,23 +40,17 @@ When doing a pull request, consider if this diff has a testcase that was covered
 
 ## Running PHP Code Sniffer
 
-You can install [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) globally with composer.
+Run Code Sniffer against the `src/` and `tests/` directories.
 
 ``` bash
-$ composer global require squizlabs/php_codesniffer
-```
-
-Then you can `cd` into the Facebook Instant Articles PHP SDK folder and run Code Sniffer against the `src/` directory.
-
-``` bash
-$ ~/.composer/vendor/bin/phpcs src --standard=psr2 -sp
-$ ~/.composer/vendor/bin/phpcs tests --standard=psr2 -sp
+$ vendor/bin/phpcs src --standard=psr2 -sp
+$ vendor/bin/phpcs tests --standard=psr2 -sp
 ```
 
 Give a try for the autofixer for code style
 
 ``` bash
-$ ~/.composer/vendor/bin/phpcbf src --standard=psr2 -sp
-$ ~/.composer/vendor/bin/phpcbf tests --standard=psr2 -sp
+$ vendor/bin/phpcbf src --standard=psr2 -sp
+$ vendor/bin/phpcbf tests --standard=psr2 -sp
 ```
 **Happy coding**!
