@@ -56,13 +56,13 @@ class H2Rule extends ConfigurationSelectorRule
         }
 
         if ($this->getProperty(Caption::POSITION_BELOW, $node)) {
-            $h2->withPostion(Caption::POSITION_BELOW);
+            $h2->withPosition(Caption::POSITION_BELOW);
         }
         if ($this->getProperty(Caption::POSITION_CENTER, $node)) {
-            $h2->withPostion(Caption::POSITION_CENTER);
+            $h2->withPosition(Caption::POSITION_CENTER);
         }
         if ($this->getProperty(Caption::POSITION_ABOVE, $node)) {
-            $h2->withPostion(Caption::POSITION_ABOVE);
+            $h2->withPosition(Caption::POSITION_ABOVE);
         }
 
         if ($this->getProperty(Caption::ALIGN_LEFT, $node)) {

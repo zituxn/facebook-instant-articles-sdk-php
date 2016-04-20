@@ -262,38 +262,38 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($serverResponseMock));
 
         $status = $this->client->getLastSubmissionStatus($articleID);
-        $this->assertEquals($status->getStatus(), InstantArticleStatus::SUCCESS);
+        $this->assertEquals(InstantArticleStatus::SUCCESS, $status->getStatus());
         $this->assertEquals(
-            $status->getMessages()[0]->getLevel(),
-            ServerMessage::WARNING
+            ServerMessage::WARNING,
+            $status->getMessages()[0]->getLevel()
         );
         $this->assertEquals(
-            $status->getMessages()[0]->getMessage(),
-            'Test warning'
+            'Test warning',
+            $status->getMessages()[0]->getMessage()
         );
         $this->assertEquals(
             $status->getMessages()[1]->getLevel(),
             ServerMessage::FATAL
         );
         $this->assertEquals(
-            $status->getMessages()[1]->getMessage(),
-            'Test fatal'
+            'Test fatal',
+            $status->getMessages()[1]->getMessage()
         );
         $this->assertEquals(
-            $status->getMessages()[2]->getLevel(),
-            ServerMessage::ERROR
+            ServerMessage::ERROR,
+            $status->getMessages()[2]->getLevel()
         );
         $this->assertEquals(
-            $status->getMessages()[2]->getMessage(),
-            'Test error'
+            'Test error',
+            $status->getMessages()[2]->getMessage()
         );
         $this->assertEquals(
-            $status->getMessages()[3]->getLevel(),
-            ServerMessage::INFO
+            ServerMessage::INFO,
+            $status->getMessages()[3]->getLevel()
         );
         $this->assertEquals(
-            $status->getMessages()[3]->getMessage(),
-            'Test info'
+            'Test info',
+            $status->getMessages()[3]->getMessage()
         );
     }
 }

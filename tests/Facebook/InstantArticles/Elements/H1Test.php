@@ -35,7 +35,7 @@ class H1Test extends \PHPUnit_Framework_TestCase
         $h1 =
             H1::create()
                 ->appendText('Title simple text.')
-                ->withPostion(Caption::POSITION_ABOVE);
+                ->withPosition(Caption::POSITION_ABOVE);
 
         $expected =
             '<h1 class="op-vertical-above">'.
@@ -67,7 +67,7 @@ class H1Test extends \PHPUnit_Framework_TestCase
         $h1 =
             H1::create()
                 ->appendText('Title simple text.')
-                ->withPostion(Caption::POSITION_ABOVE)
+                ->withPosition(Caption::POSITION_ABOVE)
                 ->withTextAlignment(Caption::ALIGN_LEFT);
 
         $expected =

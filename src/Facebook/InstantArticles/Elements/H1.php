@@ -64,15 +64,27 @@ class H1 extends TextContainer
     }
 
     /**
-    * The Text position that will be used.
-    *
-    * @see Caption::POSITION_ABOVE
-    * @see Caption::POSITION_BELOW
-    * @see Caption::POSITION_CENTER
-    *
-    * @param string position that will be used.
-    */
+     * @deprecated
+     *
+     * @param string $position
+     * @return $this
+     */
     public function withPostion($position)
+    {
+        return $this->withPosition($position);
+    }
+
+    /**
+     * The Text position that will be used.
+     *
+     * @see Caption::POSITION_ABOVE
+     * @see Caption::POSITION_BELOW
+     * @see Caption::POSITION_CENTER
+     *
+     * @param string $position that will be used.
+     * @return $this
+     */
+    public function withPosition($position)
     {
         Type::enforceWithin(
             $position,

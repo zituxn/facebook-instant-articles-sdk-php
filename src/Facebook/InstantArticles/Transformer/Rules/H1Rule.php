@@ -60,13 +60,13 @@ class H1Rule extends ConfigurationSelectorRule
         }
 
         if ($this->getProperty(Caption::POSITION_BELOW, $node)) {
-            $h1->withPostion(Caption::POSITION_BELOW);
+            $h1->withPosition(Caption::POSITION_BELOW);
         }
         if ($this->getProperty(Caption::POSITION_CENTER, $node)) {
-            $h1->withPostion(Caption::POSITION_CENTER);
+            $h1->withPosition(Caption::POSITION_CENTER);
         }
         if ($this->getProperty(Caption::POSITION_ABOVE, $node)) {
-            $h1->withPostion(Caption::POSITION_ABOVE);
+            $h1->withPosition(Caption::POSITION_ABOVE);
         }
 
         if ($this->getProperty(Caption::ALIGN_LEFT, $node)) {
