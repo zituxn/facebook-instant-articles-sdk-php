@@ -177,4 +177,20 @@ class ListElement extends Element
 
         return $element;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid ListElement that contains all ListItem's valid, false otherwise.
+     */
+    public function isValid()
+    {
+        foreach ($this->items as $item) {
+            if (!$item->isValid()) {
+                return false;
+            }
+        }
+        return count($this->items) > 0;
+    }
+
 }

@@ -126,4 +126,20 @@ class RelatedArticles extends Element
 
         return $element;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid RelatedArticles that contains all RelatedItem's valid, false otherwise.
+     */
+    public function isValid()
+    {
+        foreach ($this->items as $item) {
+            if (!$item->isValid()) {
+                return false;
+            }
+        }
+        return count($this->items) > 0;
+    }
+
 }

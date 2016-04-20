@@ -95,11 +95,6 @@ abstract class TextContainer extends Element
             }
         }
 
-        // Stripes empty spaces, &nbsp;, <br/>, new lines
-        $textContent = strip_tags($textContent);
-        $textContent = preg_replace("/[\r\n\s]+/", "", $textContent);
-        $textContent = str_replace("&nbsp;", '', $textContent);
-
-        return !empty($textContent);
+        return !Type::isTextEmpty($textContent);
     }
 }

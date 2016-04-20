@@ -224,4 +224,15 @@ class Ad extends Element
 
         return $figure;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid Ad that contains valid src or html, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->source) || $this->html;
+    }
+
 }

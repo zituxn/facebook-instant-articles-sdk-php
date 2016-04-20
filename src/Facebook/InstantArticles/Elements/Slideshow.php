@@ -226,4 +226,19 @@ class Slideshow extends Audible
 
         return $element;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid Slideshow that contains all Image's valid, false otherwise.
+     */
+    public function isValid()
+    {
+        foreach ($this->article_images as $item) {
+            if (!$item->isValid()) {
+                return false;
+            }
+        }
+        return count($this->article_images) > 0;
+    }
 }

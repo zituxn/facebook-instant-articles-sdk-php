@@ -157,4 +157,14 @@ class Time extends Element
 
         return $element;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid Time that contains valid date, false otherwise.
+     */
+    public function isValid()
+    {
+        return isset($this->date) && $this->date !== null;
+    }
 }

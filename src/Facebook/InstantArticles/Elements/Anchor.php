@@ -8,6 +8,8 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
+use Facebook\InstantArticles\Validators\Type;
+
 /**
  * An anchor.
  *
@@ -111,6 +113,6 @@ class Anchor extends FormattedText
      */
     public function isValid()
     {
-        return $this->href && !empty($this->href);
+        return !Type::isTextEmpty($this->href);
     }
 }

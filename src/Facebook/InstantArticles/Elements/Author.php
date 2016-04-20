@@ -190,4 +190,14 @@ class Author extends Element
 
         return $element;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid Author that contains not empty name, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->name);
+    }
 }

@@ -167,4 +167,15 @@ class Map extends Audible
 
         return $element;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid Map that contains valid GeoTag, false otherwise.
+     */
+    public function isValid()
+    {
+        return $this->geoTag && $this->geoTag->isValid();
+    }
+
 }

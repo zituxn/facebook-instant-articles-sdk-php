@@ -262,7 +262,6 @@ class Caption extends FormattedText
     /**
      * @return string the Font size.
      *
-     *
      * @see Caption::POSITION_ABOVE
      * @see Caption::POSITION_BELOW
      * @see Caption::POSITION_CENTER
@@ -333,6 +332,11 @@ class Caption extends FormattedText
      */
     public function isValid()
     {
-        return parent::isValid() || $this->title && !empty($this->title);
+        return
+            parent::isValid() ||
+            !Type::isTextEmpty($this->text) ||
+            ($this->title && $this->title->isValid()) ||
+            ($this->subTitle && $this->subTitle->isValid()) ||
+            ($this->credit && $this->credit->isValid());
     }
 }

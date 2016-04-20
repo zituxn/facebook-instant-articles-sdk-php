@@ -105,4 +105,14 @@ class GeoTag extends Element
 
         return $element;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid GeoTag that contains not empty script, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->script);
+    }
 }

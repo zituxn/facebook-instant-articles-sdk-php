@@ -153,4 +153,14 @@ class SocialEmbed extends Element
 
         return $figure;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid SocialEmbed that contains valid source or html, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->source) || $this->html;
+    }
 }

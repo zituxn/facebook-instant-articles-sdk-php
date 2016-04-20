@@ -87,4 +87,14 @@ class Blockquote extends TextContainer
 
         return $element;
     }
+
+    /**
+     * Overrides the @see TextContainer::isValid().
+     *
+     * @return true for valid Blockquote that contains text, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->text) || parent::isValid();
+    }
 }

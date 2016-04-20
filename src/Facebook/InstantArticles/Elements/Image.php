@@ -332,4 +332,15 @@ class Image extends Audible
 
         return $element;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid Image that contains valid url, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->url);
+    }
+
 }

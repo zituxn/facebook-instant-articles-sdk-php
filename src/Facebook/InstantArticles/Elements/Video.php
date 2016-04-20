@@ -475,4 +475,14 @@ class Video extends Element
 
         return $element;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid Video that contains not empty url, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->url);
+    }
 }

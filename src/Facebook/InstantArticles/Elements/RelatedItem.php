@@ -111,7 +111,17 @@ class RelatedItem extends Element
             Anchor::create()->withHref($this->url)->toDOMElement($document)
         );
 
-
         return $element;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid RelatedItem that contains valid url, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->url);
+    }
+
 }

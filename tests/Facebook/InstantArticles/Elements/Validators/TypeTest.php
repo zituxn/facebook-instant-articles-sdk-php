@@ -367,4 +367,21 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf('InvalidArgumentException', $e);
         }
     }
+
+    public function testStringNotEmpty()
+    {
+        $this->assertFalse(Type::isTextEmpty("not empty"));
+        $this->assertFalse(Type::isTextEmpty("\nnot empty\t"));
+        $this->assertFalse(Type::isTextEmpty(" not empty "));
+        $this->assertFalse(Type::isTextEmpty("&nbsp;not empty"));
+    }
+
+    public function testStringEmpty()
+    {
+        $this->assertTrue(Type::isTextEmpty(""));
+        $this->assertTrue(Type::isTextEmpty("  "));
+        $this->assertTrue(Type::isTextEmpty("\t\t"));
+        $this->assertTrue(Type::isTextEmpty("&nbsp;"));
+        $this->assertTrue(Type::isTextEmpty("\n"));
+    }
 }

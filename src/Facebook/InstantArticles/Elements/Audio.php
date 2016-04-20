@@ -197,4 +197,14 @@ class Audio extends Element
 
         return $element;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid Audio that contains not empty url, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->url);
+    }
 }
