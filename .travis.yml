@@ -13,6 +13,7 @@ cache:
 
 before_install:
   - travis_retry composer self-update
+  - composer validate
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist
