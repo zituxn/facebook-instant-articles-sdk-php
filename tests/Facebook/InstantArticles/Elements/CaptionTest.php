@@ -69,7 +69,7 @@ class CaptionTest extends \PHPUnit_Framework_TestCase
         $caption =
             Caption::create()
                 ->appendText('Caption Title')
-                ->withPostion(Caption::POSITION_BELOW);
+                ->withPosition(Caption::POSITION_BELOW);
 
         $expected =
             '<figcaption class="op-vertical-below">'.
@@ -118,7 +118,7 @@ class CaptionTest extends \PHPUnit_Framework_TestCase
             Caption::create()
                 ->appendText('Caption Title')
                 ->withFontsize(Caption::SIZE_LARGE)
-                ->withPostion(Caption::POSITION_BELOW)
+                ->withPosition(Caption::POSITION_BELOW)
                 ->withTextAlignment(Caption::ALIGN_LEFT);
 
         $expected =

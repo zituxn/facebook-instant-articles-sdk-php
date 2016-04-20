@@ -50,13 +50,13 @@ class CaptionCreditRule extends ConfigurationSelectorRule
         $caption->withCredit($cite);
 
         if ($this->getProperty(Caption::POSITION_BELOW, $node)) {
-            $cite->withPostion(Caption::POSITION_BELOW);
+            $cite->withPosition(Caption::POSITION_BELOW);
         }
         if ($this->getProperty(Caption::POSITION_CENTER, $node)) {
-            $cite->withPostion(Caption::POSITION_CENTER);
+            $cite->withPosition(Caption::POSITION_CENTER);
         }
         if ($this->getProperty(Caption::POSITION_ABOVE, $node)) {
-            $cite->withPostion(Caption::POSITION_ABOVE);
+            $cite->withPosition(Caption::POSITION_ABOVE);
         }
 
         if ($this->getProperty(Caption::ALIGN_LEFT, $node)) {

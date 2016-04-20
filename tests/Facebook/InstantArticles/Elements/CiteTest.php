@@ -35,7 +35,7 @@ class CiteTest extends \PHPUnit_Framework_TestCase
         $cite =
             Cite::create()
                 ->appendText('Citation simple text.')
-                ->withPostion(Caption::POSITION_ABOVE);
+                ->withPosition(Caption::POSITION_ABOVE);
 
         $expected =
             '<cite class="op-vertical-above">'.
@@ -67,7 +67,7 @@ class CiteTest extends \PHPUnit_Framework_TestCase
         $cite =
             Cite::create()
                 ->appendText('Citation simple text.')
-                ->withPostion(Caption::POSITION_ABOVE)
+                ->withPosition(Caption::POSITION_ABOVE)
                 ->withTextAlignment(Caption::ALIGN_LEFT);
 
         $expected =
