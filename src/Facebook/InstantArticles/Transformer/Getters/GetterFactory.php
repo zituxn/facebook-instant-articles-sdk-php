@@ -8,8 +8,6 @@
  */
 namespace Facebook\InstantArticles\Transformer\Getters;
 
-use Facebook\InstantArticles\Transformer\Validators\Type;
-
 class GetterFactory
 {
     const TYPE_STRING_GETTER = 'string';
