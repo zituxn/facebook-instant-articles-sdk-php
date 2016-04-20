@@ -58,6 +58,6 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($response));
 
         $pagesAndTokensReturned = $this->helper->getPagesAndTokens($accessToken);
-        $this->assertEquals($pagesAndTokensReturned, $pagesAndTokens);
+        $this->assertEquals($pagesAndTokens, $pagesAndTokensReturned);
     }
 }
