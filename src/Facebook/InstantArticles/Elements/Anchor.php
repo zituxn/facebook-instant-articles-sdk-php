@@ -85,6 +85,11 @@ class Anchor extends FormattedText
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $anchor = $document->createElement('a');
 
         if ($this->href) {
@@ -97,5 +102,15 @@ class Anchor extends FormattedText
         $anchor->appendChild($this->textToDOMDocumentFragment($document));
 
         return $anchor;
+    }
+
+    /**
+     * Overrides the @see TextContainer::isValid().
+     *
+     * @return true for valid Anchor when it has href, false otherwise.
+     */
+    public function isValid()
+    {
+        return $this->href && !empty($this->href);
     }
 }

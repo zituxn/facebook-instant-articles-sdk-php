@@ -121,6 +121,11 @@ class SocialEmbed extends Element
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $figure = $document->createElement('figure');
         $iframe = $document->createElement('iframe');
 

@@ -40,8 +40,22 @@ class LineBreak extends FormattedText
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $br = $document->createElement('br');
 
         return $br;
+    }
+
+    /**
+     * Overrides the @see TextContainer::isValid() to a always valid one, since
+     * <br> tag will never be "invalid".
+     */
+    public function isValid()
+    {
+        return true;
     }
 }

@@ -166,6 +166,11 @@ class Audio extends Element
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('audio');
 
         // title markup optional

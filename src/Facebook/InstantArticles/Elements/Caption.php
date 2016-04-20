@@ -188,14 +188,14 @@ class Caption extends FormattedText
     }
 
     /**
-    * The Text position that will be used.
-    *
-    * @see Caption::POSITION_ABOVE
-    * @see Caption::POSITION_BELOW
-    * @see Caption::POSITION_CENTER
-    *
-    * @param string position that will be used.
-    */
+     * The Text position that will be used.
+     *
+     * @see Caption::POSITION_ABOVE
+     * @see Caption::POSITION_BELOW
+     * @see Caption::POSITION_CENTER
+     *
+     * @param string position that will be used.
+     */
     public function withPostion($position)
     {
         Type::enforceWithin(
@@ -273,37 +273,42 @@ class Caption extends FormattedText
     }
 
     /**
-    * Structure and create the full ArticleImage in a XML format DOMElement.
-    *
-    * @param $document DOMDocument where this element will be appended. Optional
-    */
+     * Structure and create the full ArticleImage in a XML format DOMElement.
+     *
+     * @param $document DOMDocument where this element will be appended. Optional
+     */
     public function toDOMElement($document = null)
     {
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('figcaption');
 
-     // title markup REQUIRED
+        // title markup REQUIRED
         if ($this->title && (!$this->subTitle && !$this->credit)) {
             $element->appendChild($this->title->textToDOMDocumentFragment($document));
         } elseif ($this->title) {
             $element->appendChild($this->title->toDOMElement($document));
         }
 
-     // subtitle markup optional
+        // subtitle markup optional
         if ($this->subTitle) {
             $element->appendChild($this->subTitle->toDOMElement($document));
         }
 
         $element->appendChild($this->textToDOMDocumentFragment($document));
 
-     // credit markup optional
+        // credit markup optional
         if ($this->credit) {
             $element->appendChild($this->credit->toDOMElement($document));
         }
 
-     // Formating markup
+        // Formating markup
         if ($this->textAlignment || $this->fontSize || $this->position) {
             $classes = array();
             if ($this->textAlignment) {
@@ -319,5 +324,15 @@ class Caption extends FormattedText
         }
 
         return $element;
+    }
+
+    /**
+     * Overrides the @see TextContainer::isValid().
+     *
+     * @return true for valid Caption when it is filled, false otherwise.
+     */
+    public function isValid()
+    {
+        return parent::isValid() || $this->title && !empty($this->title);
     }
 }

@@ -145,6 +145,11 @@ class Footer extends Element
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $footer = $document->createElement('footer');
 
         // Footer markup

@@ -37,6 +37,11 @@ class ListItem extends TextContainer
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $list_item = $document->createElement('li');
 
         $list_item->appendChild($this->textToDOMDocumentFragment($document));

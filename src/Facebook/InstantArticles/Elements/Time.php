@@ -143,6 +143,10 @@ class Time extends Element
             $document = new \DOMDocument();
         }
 
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $datetime = $this->date->format('c');
         $date = $this->date->format('F jS, g:ia');
 

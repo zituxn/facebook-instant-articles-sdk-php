@@ -142,6 +142,11 @@ class Map extends Audible
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('figure');
         $element->setAttribute('class', 'op-map');
 
@@ -149,12 +154,6 @@ class Map extends Audible
         if ($this->geoTag) {
             $element->appendChild($this->geoTag->toDOMElement($document));
         }
-        // $script_element = $document->createElement('script');
-        // $script_element->setAttribute('type', 'application/json');
-        // $script_element->setAttribute('class', 'op-geoTag');
-        // $script_element->appendChild($document->createTextNode($this->geoTag));
-        // $element->appendChild($script_element);
-
 
         // Caption markup optional
         if ($this->caption) {

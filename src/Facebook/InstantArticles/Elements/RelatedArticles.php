@@ -108,6 +108,10 @@ class RelatedArticles extends Element
             $document = new \DOMDocument();
         }
 
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('ul');
         $element->setAttribute('class', 'op-related-articles');
         if ($this->title) {

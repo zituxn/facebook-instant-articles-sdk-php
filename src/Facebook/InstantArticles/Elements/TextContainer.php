@@ -81,7 +81,8 @@ abstract class TextContainer extends Element
      *
      * @return true for valid tag, false otherwise.
      */
-    public function isValid() {
+    public function isValid()
+    {
         $textContent = '';
 
         foreach ($this->textChildren as $content) {

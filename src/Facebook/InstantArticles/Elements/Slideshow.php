@@ -189,6 +189,11 @@ class Slideshow extends Audible
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('figure');
         $element->setAttribute('class', 'op-slideshow');
 

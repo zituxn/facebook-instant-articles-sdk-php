@@ -35,6 +35,11 @@ class Italic extends FormattedText
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $italic = $document->createElement('i');
 
         $italic->appendChild($this->textToDOMDocumentFragment($document));

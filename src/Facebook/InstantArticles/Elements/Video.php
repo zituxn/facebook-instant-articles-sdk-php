@@ -404,6 +404,11 @@ class Video extends Element
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('figure');
 
         // Presentation

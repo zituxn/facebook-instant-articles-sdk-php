@@ -300,6 +300,11 @@ class Header extends Element
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('header');
 
         if ($this->cover) {

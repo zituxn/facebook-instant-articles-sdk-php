@@ -285,6 +285,11 @@ class Image extends Audible
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('figure');
 
         // Like/comments markup optional
