@@ -66,6 +66,8 @@ class Interactive extends Element
      * Sets the caption for the social embed.
      *
      * @param Caption $caption - Descriptive text for your social embed.
+     *
+     * @return $this
      */
     public function withCaption($caption)
     {
@@ -78,7 +80,9 @@ class Interactive extends Element
     /**
      * Sets the height of your interactive graphic.
      *
-     * @param int The height of your interactive graphic.
+     * @param int $height The height of your interactive graphic.
+     *
+     * @return $this
      */
     public function withHeight($height)
     {
@@ -91,7 +95,9 @@ class Interactive extends Element
     /**
      * Sets the source for the interactive graphic.
      *
-     * @param string The source of the content for your interactive graphic.
+     * @param string $source The source of the content for your interactive graphic.
+     *
+     * @return $this
      */
     public function withSource($source)
     {
@@ -104,9 +110,12 @@ class Interactive extends Element
     /**
      * Sets the width setting of your interactive graphic.
      *
-     * @param string The width setting of your interactive graphic.
+     * @param string $width The width setting of your interactive graphic.
+     *
      * @see Interactive::NO_MARGIN
      * @see Interactive::COLUMN_WIDTH
+     *
+     * @return $this
      */
     public function withWidth($width)
     {
@@ -125,7 +134,9 @@ class Interactive extends Element
     /**
      * Sets the unescaped HTML of your interactive graphic.
      *
-     * @param \DOMNode The unescaped HTML of your interactive graphic.
+     * @param \DOMNode $html The unescaped HTML of your interactive graphic.
+     *
+     * @return $this
      */
     public function withHTML($html)
     {
@@ -178,7 +189,9 @@ class Interactive extends Element
     /**
      * Structure and create the full Interactive in a DOMElement.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

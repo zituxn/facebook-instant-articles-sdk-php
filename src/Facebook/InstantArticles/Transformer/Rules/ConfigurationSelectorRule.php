@@ -8,21 +8,41 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Transformer\Getters\AbstractGetter;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
 use Facebook\InstantArticles\Validators\Type;
 
 abstract class ConfigurationSelectorRule extends Rule
 {
+    /**
+     * @var string
+     */
     protected $selector;
+
+    /**
+     * @var AbstractGetter[]
+     */
     protected $properties = [];
 
+    /**
+     * @param string $selector
+     *
+     * @return $this
+     */
     public function withSelector($selector)
     {
         $this->selector = $selector;
+
         return $this;
     }
 
+    /**
+     * @param $property
+     * @param array $value
+     *
+     * @return $this
+     */
     public function withProperty($property, $value)
     {
         if ($value) {
@@ -111,6 +131,12 @@ abstract class ConfigurationSelectorRule extends Rule
         return false;
     }
 
+    /**
+     * @param \DOMNode $node
+     * @param string $selector
+     *
+     * @return \DOMNodeList
+     */
     public function findAll($node, $selector)
     {
         $domXPath = new \DOMXPath($node->ownerDocument);
@@ -119,6 +145,11 @@ abstract class ConfigurationSelectorRule extends Rule
         return $domXPath->query($xpath, $node);
     }
 
+    /**
+     * @param $property_name
+     * @param $node
+     * @return null
+     */
     public function getProperty($property_name, $node)
     {
         $value = null;

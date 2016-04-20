@@ -17,9 +17,20 @@ class ServerMessage
     const WARNING = 'warning';
     const INFO = 'info';
 
+    /**
+     * @var string
+     */
     private $level;
+
+    /**
+     * @var string
+     */
     private $message;
 
+    /**
+     * @param string $level
+     * @param string $message
+     */
     public function __construct($level, $message)
     {
         Type::enforceWithin(
@@ -68,27 +79,49 @@ class ServerMessage
         }
     }
 
+    /**
+     * @param string $message
+     *
+     * @return ServerMessage
+     */
     public static function fatal($message)
     {
         return new self(self::FATAL, $message);
     }
 
+    /**
+     * @param string $message
+     *
+     * @return ServerMessage
+     */
     public static function error($message)
     {
         return new self(self::ERROR, $message);
     }
 
+    /**
+     * @param string $message
+     *
+     * @return ServerMessage
+     */
     public static function warning($message)
     {
         return new self(self::WARNING, $message);
     }
 
+    /**
+     * @param string $message
+     *
+     * @return ServerMessage
+     */
     public static function info($message)
     {
         return new self(self::INFO, $message);
     }
 
-
+    /**
+     * @return string
+     */
     public function getMessage()
     {
         return $this->message;

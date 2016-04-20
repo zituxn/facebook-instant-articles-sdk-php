@@ -54,16 +54,14 @@ class Author extends Element
      */
     private $roleContribution;
 
-    /**
-     * Private constructor.
-     * @see ArticleTime::create();.
-     */
     private function __construct()
     {
     }
 
     /**
      * Creates an Author instance.
+     *
+     * @return Author
      */
     public static function create()
     {
@@ -72,7 +70,10 @@ class Author extends Element
 
     /**
      * Defines the link URL for the author
-     * @param string the URL link for author. Ex: "http://facebook.com/everton.rosario"
+     *
+     * @param string $url the URL link for author. Ex: "http://facebook.com/everton.rosario"
+     *
+     * @return $this
      */
     public function withURL($url)
     {
@@ -84,7 +85,10 @@ class Author extends Element
 
     /**
      * Author name.
-     * @param string Author name. Ex: "Everton Rosario"
+     *
+     * @param string $name Author name. Ex: "Everton Rosario"
+     *
+     * @return $this
      */
     public function withName($name)
     {
@@ -96,7 +100,10 @@ class Author extends Element
 
     /**
      * Author short description biography
-     * @param string Describe the author biography.
+     *
+     * @param string $description Describe the author biography.
+     *
+     * @return $this
      */
     public function withDescription($description)
     {
@@ -108,7 +115,10 @@ class Author extends Element
 
     /**
      * Author role/contribution
-     * @param string The author short text to characterize role or contribution
+     *
+     * @param string $role_contribution The author short text to characterize role or contribution
+     *
+     * @return $this
      */
     public function withRoleContribution($role_contribution)
     {
@@ -153,7 +163,9 @@ class Author extends Element
     /**
      * Structure and create the full Author in a XML format DOMElement.
      *
-     * @param $document DOMDocument where this element will be appended. Optional
+     * @param \DOMDocument $document where this element will be appended. Optional
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

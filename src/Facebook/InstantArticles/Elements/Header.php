@@ -85,6 +85,9 @@ class Header extends Element
     {
     }
 
+    /**
+     * @return Header
+     */
     public static function create()
     {
         return new self();
@@ -92,7 +95,10 @@ class Header extends Element
 
     /**
      * Sets the cover of InstantArticle with Image or Video
+     *
      * @param Image|Video $cover The cover for the header of the InstantArticle
+     *
+     * @return $this
      */
     public function withCover($cover)
     {
@@ -104,7 +110,10 @@ class Header extends Element
 
     /**
      * Sets the title of InstantArticle
+     *
      * @param string $title The title of the InstantArticle
+     *
+     * @return $this
      */
     public function withTitle($title)
     {
@@ -116,7 +125,10 @@ class Header extends Element
 
     /**
      * Sets the subtitle of InstantArticle
+     *
      * @param string $subtitle The subtitle of the InstantArticle
+     *
+     * @return $this
      */
     public function withSubTitle($subtitle)
     {
@@ -128,7 +140,10 @@ class Header extends Element
 
     /**
      * Append another author to the article
+     *
      * @param Author $author The author name
+     *
+     * @return $this
      */
     public function addAuthor($author)
     {
@@ -140,7 +155,10 @@ class Header extends Element
 
     /**
      * Replace all authors within this Article
-     * @param array<Author> $authors All the authors
+     *
+     * @param Author[] $authors All the authors
+     *
+     * @return $this
      */
     public function withAuthors($authors)
     {
@@ -152,7 +170,10 @@ class Header extends Element
 
     /**
      * Sets the publish Time for this article. REQUIRED
+     *
      * @param Time $published The time and date of publishing of this article. REQUIRED
+     *
+     * @return $this
      */
     public function withPublishTime($published)
     {
@@ -164,7 +185,10 @@ class Header extends Element
 
     /**
      * Sets the update Time for this article. Optional
+     *
      * @param Time $modified The time and date that this article was modified. Optional
+     *
+     * @return $this
      */
     public function withModifyTime($modified)
     {
@@ -176,7 +200,10 @@ class Header extends Element
 
     /**
      * Sets the update Time for this article. Optional
-     * @param Time $modified The time and date that this article was modified. Optional
+     *
+     * @param Time $time The time and date that this article was modified. Optional
+     *
+     * @return $this
      */
     public function withTime($time)
     {
@@ -192,7 +219,10 @@ class Header extends Element
 
     /**
      * Kicker text for the article header.
-     * @param string The kicker text to be set
+     *
+     * @param string $kicker The kicker text to be set
+     *
+     * @return $this
      */
     public function withKicker($kicker)
     {
@@ -204,7 +234,10 @@ class Header extends Element
 
     /**
      * Append another ad to the article
+     *
      * @param Ad $ad Code for displaying an ad
+     *
+     * @return $this
      */
     public function addAd($ad)
     {
@@ -216,7 +249,10 @@ class Header extends Element
 
     /**
      * Replace all ads within this Article
-     * @param array<Ad> $ads All the ads
+     *
+     * @param Ad[] $ads All the ads
+     *
+     * @return $this
      */
     public function withAds($ads)
     {
@@ -227,7 +263,7 @@ class Header extends Element
     }
 
     /**
-     * @return Image|Video $cover The cover for the header of the InstantArticle
+     * @return Image|Video The cover for the header of the InstantArticle
      */
     public function getCover()
     {
@@ -235,7 +271,7 @@ class Header extends Element
     }
 
     /**
-     * @return string $title The title of the InstantArticle
+     * @return string The title of the InstantArticle
      */
     public function getTitle()
     {
@@ -243,7 +279,7 @@ class Header extends Element
     }
 
     /**
-     * @return string $subtitle The subtitle of the InstantArticle
+     * @return string The subtitle of the InstantArticle
      */
     public function getSubtitle()
     {
@@ -251,7 +287,7 @@ class Header extends Element
     }
 
     /**
-     * @return array<Author> $authors All the authors
+     * @return Author[] All the authors
      */
     public function getAuthors()
     {
@@ -259,7 +295,7 @@ class Header extends Element
     }
 
     /**
-     * @return Time $published The time and date of publishing of this article
+     * @return Time The time and date of publishing of this article
      */
     public function getPublished()
     {
@@ -267,7 +303,7 @@ class Header extends Element
     }
 
     /**
-     * @return Time $modified The time and date that this article was modified.
+     * @return Time The time and date that this article was modified.
      */
     public function getModified()
     {
@@ -283,7 +319,7 @@ class Header extends Element
     }
 
     /**
-     * @return array<Ad> $ads All the ads
+     * @return Ad[] All the ads
      */
     public function getAds()
     {
@@ -293,7 +329,9 @@ class Header extends Element
     /**
      * Structure and create the full ArticleImage in a XML format DOMElement.
      *
-     * @param $document DOMDocument where this element will be appended. Optional
+     * @param \DOMDocument $document where this element will be appended. Optional
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

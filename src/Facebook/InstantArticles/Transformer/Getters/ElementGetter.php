@@ -23,6 +23,11 @@ class ElementGetter extends AbstractGetter
         return $this->withSelector($properties['selector']);
     }
 
+    /**
+     * @param \DOMNode $node
+     *
+     * @return \DOMNodeList
+     */
     public function findAll($node)
     {
         $domXPath = new \DOMXPath($node->ownerDocument);
@@ -31,6 +36,11 @@ class ElementGetter extends AbstractGetter
         return $domXPath->query($xpath, $node);
     }
 
+    /**
+     * @param string $selector
+     *
+     * @return $this
+     */
     public function withSelector($selector)
     {
         Type::enforce($selector, Type::STRING);

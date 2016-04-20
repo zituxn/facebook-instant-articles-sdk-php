@@ -15,11 +15,13 @@ namespace Facebook\InstantArticles\Elements;
  */
 class Bold extends FormattedText
 {
-
     private function __construct()
     {
     }
 
+    /**
+     * @return Bold
+     */
     public static function create()
     {
         return new self();
@@ -28,7 +30,9 @@ class Bold extends FormattedText
     /**
      * Structure and create <b> node.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

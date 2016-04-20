@@ -25,15 +25,14 @@ class RelatedItem extends Element
      */
     private $sponsored;
 
-    /**
-     * Private constructor.
-     */
     private function __construct()
     {
     }
 
     /**
      * Factory method for the RelatedItem
+     *
+     * @return RelatedItem
      */
     public static function create()
     {
@@ -42,7 +41,10 @@ class RelatedItem extends Element
 
     /**
      * Sets the article URL
-     * @param string The related article URL
+     *
+     * @param string $url The related article URL
+     *
+     * @return $this
      */
     public function withURL($url)
     {
@@ -54,6 +56,8 @@ class RelatedItem extends Element
 
     /**
      * Makes this item to be an sponsored one
+     *
+     * @return $this
      */
     public function enableSponsored()
     {
@@ -64,6 +68,8 @@ class RelatedItem extends Element
 
     /**
      * Makes this item to *NOT* be an sponsored one
+     *
+     * @return $this
      */
     public function disableSponsored()
     {
@@ -91,7 +97,9 @@ class RelatedItem extends Element
     /**
      * Structure and create the full ArticleVideo in a XML format DOMElement.
      *
-     * @param $document DOMDocument where this element will be appended. Optional
+     * @param \DOMDocument $document where this element will be appended. Optional
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

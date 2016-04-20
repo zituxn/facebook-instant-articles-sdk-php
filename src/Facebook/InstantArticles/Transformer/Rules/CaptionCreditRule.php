@@ -73,6 +73,9 @@ class CaptionCreditRule extends ConfigurationSelectorRule
         return $caption;
     }
 
+    /**
+     * @param array $configuration
+     */
     public function loadFrom($configuration)
     {
         $this->selector = $configuration['selector'];

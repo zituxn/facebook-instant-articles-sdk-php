@@ -15,18 +15,25 @@ abstract class AbstractGetter
 {
     /**
      * Method that should be implemented so it can be Instantiated by @see GetterFactory
-     * @param array(string-> string) $configuration With all properties of this Getter
-     * @return $this Returns the self instance configured.
+     *
+     * @param string[] $configuration With all properties of this Getter
+     *
+     * @return static
      */
     abstract public function createFrom($configuration);
 
     /**
      * Method that should retrieve
+     *
+     * @param \DOMNode $node
+     *
+     * @return mixed
      */
     abstract public function get($node);
 
     /**
      * Auxiliary method to extract full qualified class name.
+     *
      * @return string The full qualified name of class
      */
     public static function getClassName()

@@ -12,24 +12,22 @@ use Facebook\InstantArticles\Validators\Type;
 
 class InstantArticleStatus
 {
-    /**
-     * @var service The main Facebook service entity.
-     */
     const SUCCESS = 'success';
     const NOT_FOUND = 'not_found';
     const IN_PROGRESS = 'in_progress';
     const FAILED = 'failed';
     const UNKNOWN = 'unknown';
 
+    /**
+     * @var ServerMessage[]
+     */
     private $messages = [];
 
     /**
      * Instantiates a new InstantArticleStatus object.
      *
-     * @param string $app_id
-     * @param string $app_secret
-     *
-     * @throws FacebookSDKException
+     * @param string $status
+     * @param ServerMessage[] $messages
      */
     public function __construct($status, $messages = [])
     {
@@ -80,31 +78,59 @@ class InstantArticleStatus
         }
     }
 
+    /**
+     * @param ServerMessage[] $messages
+     *
+     * @return InstantArticleStatus
+     */
     public static function success($messages = [])
     {
         return new self(self::SUCCESS, $messages);
     }
 
+    /**
+     * @param ServerMessage[] $messages
+     *
+     * @return InstantArticleStatus
+     */
     public static function notFound($messages = [])
     {
         return new self(self::NOT_FOUND, $messages);
     }
 
+    /**
+     * @param ServerMessage[]  $messages
+     *
+     * @return InstantArticleStatus
+     */
     public static function inProgress($messages = [])
     {
         return new self(self::IN_PROGRESS, $messages);
     }
 
+    /**
+     * @param ServerMessage[] $messages
+     *
+     * @return InstantArticleStatus
+     */
     public static function failed($messages = [])
     {
         return new self(self::FAILED, $messages);
     }
 
+    /**
+     * @param ServerMessage[] $messages
+     *
+     * @return InstantArticleStatus
+     */
     public static function unknown($messages = [])
     {
         return new self(self::UNKNOWN, $messages);
     }
 
+    /**
+     * @param ServerMessage $message
+     */
     public function addMessage($message)
     {
         Type::enforce(
@@ -114,11 +140,17 @@ class InstantArticleStatus
         $this->messages[] = $message;
     }
 
+    /**
+     * @return ServerMessage[]
+     */
     public function getMessages()
     {
         return $this->messages;
     }
 
+    /**
+     * @return string
+     */
     public function getStatus()
     {
         return $this->status;

@@ -58,6 +58,9 @@ class Audio extends Element
     {
     }
 
+    /**
+     * @return Audio
+     */
     public static function create()
     {
         return new self();
@@ -66,7 +69,9 @@ class Audio extends Element
     /**
      * Sets the URL for the audio. It is REQUIRED.
      *
-     * @param string The url of image. Ie: http://domain.com/audiofile.mp3
+     * @param string $url The url of image. Ie: http://domain.com/audiofile.mp3
+     *
+     * @return $this
      */
     public function withURL($url)
     {
@@ -79,7 +84,9 @@ class Audio extends Element
     /**
      * The audio title.
      *
-     * @param string the audio title that will be shown
+     * @param string $title the audio title that will be shown
+     *
+     * @return $this
      */
     public function withTitle($title)
     {
@@ -91,6 +98,8 @@ class Audio extends Element
 
     /**
      * It will make audio start automatically.
+     *
+     * @return $this
      */
     public function enableAutoplay()
     {
@@ -101,6 +110,8 @@ class Audio extends Element
 
     /**
      * It will make audio *NOT* start automatically.
+     *
+     * @return $this
      */
     public function disableAutoplay()
     {
@@ -111,6 +122,8 @@ class Audio extends Element
 
     /**
      * It will make audio be muted initially.
+     *
+     * @return $this
      */
     public function enableMuted()
     {
@@ -121,6 +134,8 @@ class Audio extends Element
 
     /**
      * It will make audio laud.
+     *
+     * @return $this
      */
     public function disableMuted()
     {
@@ -131,6 +146,7 @@ class Audio extends Element
 
     /**
      * Gets the audio title
+     *
      * @return string Audio title
      */
     public function getTitle()
@@ -140,6 +156,7 @@ class Audio extends Element
 
     /**
      * Gets the url for the audio
+     *
      * @return string Audio url
      */
     public function getUrl()
@@ -149,6 +166,7 @@ class Audio extends Element
 
     /**
      * Gets the playback definition
+     *
      * @return string playback definition
      */
     public function getPlayback()
@@ -159,7 +177,9 @@ class Audio extends Element
     /**
      * Structure and create the full ArticleImage in a XML format DOMElement.
      *
-     * @param $document DOMDocument where this element will be appended. Optional
+     * @param \DOMDocument $document where this element will be appended. Optional
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

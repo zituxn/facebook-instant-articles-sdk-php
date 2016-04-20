@@ -22,7 +22,10 @@ abstract class Element
 
     /**
      * Renders the Element content
+     *
      * @param string $doctype the doctype will be applied to document. I.e.: '<!doctype html>'
+     * @param bool $formatted
+     *
      * @return string with the content rendered
      */
     public function render($doctype = '', $formatted = false)
@@ -37,8 +40,9 @@ abstract class Element
 
     /**
      * Appends unescaped HTML to a element using the right strategy.
-     * @param DOMNode $element - The element to append the HTML to
-     * @param DOMNode $content - The unescaped HTML to append
+     *
+     * @param \DOMNode $element - The element to append the HTML to
+     * @param \DOMNode $content - The unescaped HTML to append
      */
     protected function dangerouslyAppendUnescapedHTML($element, $content)
     {
@@ -50,6 +54,7 @@ abstract class Element
 
     /**
      * Auxiliary method to extract all Elements full qualified class name.
+     *
      * @return string The full qualified name of class
      */
     public static function getClassName()
