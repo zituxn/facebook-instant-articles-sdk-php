@@ -4,7 +4,7 @@
     "keywords": ["facebook", "sdk", "instant", "articles"],
     "type": "library",
     "homepage": "https://github.com/facebook/facebook-instant-articles-sdk-php",
-    "license": "Facebook Platform",
+    "license": "proprietary",
     "authors": [{
         "name": "Facebook",
         "homepage": "https://github.com/facebook/facebook-instant-articles-sdk-php/contributors"
