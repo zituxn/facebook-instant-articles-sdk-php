@@ -14,6 +14,7 @@ cache:
 before_install:
   - travis_retry composer self-update
   - composer validate
+  - composer config github-oauth.github.com $GITHUB_TOKEN
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist
