@@ -13,7 +13,6 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Rules\ParagraphRule;
 use Facebook\InstantArticles\Transformer\Rules\ItalicRule;
 
-
 class TransformerTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()

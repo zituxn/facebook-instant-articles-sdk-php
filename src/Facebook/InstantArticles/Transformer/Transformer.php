@@ -29,7 +29,8 @@ class Transformer
      * @param string $className - the name of the className
      * @return array of class names the provided class name is
      */
-    private static function getAllClassTypes($className) {
+    private static function getAllClassTypes($className)
+    {
         // Memoizes
         if (isset(self::$allClassTypes[$className])) {
             return self::$allClassTypes[$className];

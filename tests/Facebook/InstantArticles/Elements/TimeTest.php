@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-
 class TimeTest extends \PHPUnit_Framework_TestCase
 {
     private $timeDate;
