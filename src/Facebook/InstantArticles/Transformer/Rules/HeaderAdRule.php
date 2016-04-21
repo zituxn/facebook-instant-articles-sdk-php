@@ -34,12 +34,12 @@ class HeaderAdRule extends ConfigurationSelectorRule
         $ad_rule->withSelector($configuration['selector']);
 
         $ad_rule->withProperties(
-            array(
+            [
                 self::PROPERTY_AD_URL,
                 self::PROPERTY_AD_HEIGHT_URL,
                 self::PROPERTY_AD_WIDTH_URL,
                 self::PROPERTY_AD_EMBED_URL
-            ),
+            ],
             $configuration
         );
 

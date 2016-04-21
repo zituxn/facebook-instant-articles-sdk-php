@@ -16,20 +16,20 @@ class PullquoteRuleTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         \Logger::configure(
-            array(
-                'rootLogger' => array(
-                    'appenders' => array('facebook-instantarticles-transformer')
-                ),
-                'appenders' => array(
-                    'facebook-instantarticles-transformer' => array(
+            [
+                'rootLogger' => [
+                    'appenders' => ['facebook-instantarticles-transformer']
+                ],
+                'appenders' => [
+                    'facebook-instantarticles-transformer' => [
                         'class' => 'LoggerAppenderConsole',
                         'threshold' => 'INFO',
-                        'layout' => array(
+                        'layout' => [
                             'class' => 'LoggerLayoutSimple'
-                        )
-                    )
-                )
-            )
+                        ]
+                    ]
+                ]
+            ]
         );
     }
 

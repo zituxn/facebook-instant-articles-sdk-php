@@ -38,7 +38,7 @@ class ListElementTest extends \PHPUnit_Framework_TestCase
     {
         $list =
             ListElement::createOrdered()
-                ->withItems(array('Item 1', 'Item 2', 'Item 3'));
+                ->withItems(['Item 1', 'Item 2', 'Item 3']);
 
         $expected =
             '<ol>'.
@@ -74,7 +74,7 @@ class ListElementTest extends \PHPUnit_Framework_TestCase
     {
         $list =
             ListElement::createUnordered()
-                ->withItems(array('Item 1', 'Item 2', 'Item 3'));
+                ->withItems(['Item 1', 'Item 2', 'Item 3']);
 
         $expected =
             '<ul>'.

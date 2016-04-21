@@ -36,12 +36,12 @@ class AudioRule extends ConfigurationSelectorRule
         $audio_rule->withSelector($configuration['selector']);
 
         $audio_rule->withProperties(
-            array(
+            [
                 self::PROPERTY_AUDIO_URL,
                 self::PROPERTY_AUDIO_TITLE,
                 self::PROPERTY_AUDIO_AUTOPLAY,
                 self::PROPERTY_AUDIO_MUTED
-            ),
+            ],
             $configuration
         );
 

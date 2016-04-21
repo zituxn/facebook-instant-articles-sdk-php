@@ -21,7 +21,7 @@ class InstantArticleStatus
     const FAILED = 'failed';
     const UNKNOWN = 'unknown';
 
-    private $messages = array();
+    private $messages = [];
 
     /**
      * Instantiates a new InstantArticleStatus object.
@@ -31,17 +31,17 @@ class InstantArticleStatus
      *
      * @throws FacebookSDKException
      */
-    public function __construct($status, $messages = array())
+    public function __construct($status, $messages = [])
     {
         Type::enforceWithin(
             $status,
-            array(
+            [
                 self::SUCCESS,
                 self::NOT_FOUND,
                 self::IN_PROGRESS,
                 self::FAILED,
                 self::UNKNOWN
-            )
+            ]
         );
         Type::enforceArrayOf(
             $messages,
@@ -64,12 +64,12 @@ class InstantArticleStatus
         $status = strtolower($status);
         $validStatus = Type::isWithin(
             $status,
-            array(
+            [
                 self::SUCCESS,
                 self::NOT_FOUND,
                 self::IN_PROGRESS,
                 self::FAILED
-            )
+            ]
         );
         if ($validStatus) {
             return new self($status, $messages);
@@ -80,27 +80,27 @@ class InstantArticleStatus
         }
     }
 
-    public static function success($messages = array())
+    public static function success($messages = [])
     {
         return new self(self::SUCCESS, $messages);
     }
 
-    public static function notFound($messages = array())
+    public static function notFound($messages = [])
     {
         return new self(self::NOT_FOUND, $messages);
     }
 
-    public static function inProgress($messages = array())
+    public static function inProgress($messages = [])
     {
         return new self(self::IN_PROGRESS, $messages);
     }
 
-    public static function failed($messages = array())
+    public static function failed($messages = [])
     {
         return new self(self::FAILED, $messages);
     }
 
-    public static function unknown($messages = array())
+    public static function unknown($messages = [])
     {
         return new self(self::UNKNOWN, $messages);
     }

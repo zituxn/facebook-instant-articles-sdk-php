@@ -111,7 +111,7 @@ class Client
     public function removeArticle($canonicalURL)
     {
         if (!$canonicalURL) {
-            return InstantArticleStatus::notFound(array('$canonicalURL param not passed to ' . __FUNCTION__ . '.'));
+            return InstantArticleStatus::notFound(['$canonicalURL param not passed to ' . __FUNCTION__ . '.']);
         }
 
         Type::enforce($canonicalURL, Type::STRING);
@@ -120,7 +120,7 @@ class Client
             $this->facebook->delete($articleID);
             return InstantArticleStatus::success();
         }
-        return InstantArticleStatus::notFound(array('An Instant Article ID ' . $articleID . ' was not found for ' . $canonicalURL . ' in ' . __FUNCTION__ . '.'));
+        return InstantArticleStatus::notFound(['An Instant Article ID ' . $articleID . ' was not found for ' . $canonicalURL . ' in ' . __FUNCTION__ . '.']);
     }
 
     /**
@@ -163,7 +163,7 @@ class Client
         $response = $this->facebook->get($articleID . '?fields=most_recent_import_status');
         $articleStatus = $response->getGraphNode()->getField('most_recent_import_status');
 
-        $messages = array();
+        $messages = [];
         if (isset($articleStatus['errors'])) {
             foreach ($articleStatus['errors'] as $error) {
                 $messages[] = ServerMessage::fromLevel($error['level'], $error['message']);

@@ -15,13 +15,13 @@ use Facebook\InstantArticles\Validators\Type;
 
 class Transformer
 {
-    private $rules = array();
-    private $warnings = array();
+    private $rules = [];
+    private $warnings = [];
     private $ruleCount = 0;
 
     public $suppress_warnings = false;
 
-    private static $allClassTypes = array();
+    private static $allClassTypes = [];
 
     /**
      * Gets all types a given class is, including itself, parent classes and interfaces.
@@ -37,7 +37,7 @@ class Transformer
 
         $classParents = class_parents($className, true);
         $classInterfaces = class_implements($className, true);
-        $classNames = array($className);
+        $classNames = [$className];
         if ($classParents) {
             $classNames = array_merge($classNames, $classParents);
         }
@@ -62,12 +62,12 @@ class Transformer
 
         // Handles multiple contexts
         if (!is_array($contexts)) {
-            $contexts = array($contexts);
+            $contexts = [$contexts];
         }
 
         foreach ($contexts as $context) {
             if (!isset($this->rules[$context])) {
-                $this->rules[$context] = array();
+                $this->rules[$context] = [];
             }
             $this->rules[$context][$this->ruleCount++] = $rule;
         }
@@ -105,7 +105,7 @@ class Transformer
                 $contextClassNames = self::getAllClassTypes($context->getClassName());
 
                 // Look for rules applying to any of them as context
-                $matchingContextRules = array();
+                $matchingContextRules = [];
                 foreach ($contextClassNames as $contextClassName) {
                     if (isset($this->rules[$contextClassName])) {
                         // Use array union (+) instead of merge to preserve
@@ -177,7 +177,7 @@ class Transformer
      */
     public function resetRules()
     {
-        $this->rules = array();
+        $this->rules = [];
         $this->ruleCount = 0;
     }
 
@@ -190,7 +190,7 @@ class Transformer
     {
         // Do not expose internal map, just a simple array
         // to keep the interface backwards compatible.
-        $flatten_rules = array();
+        $flatten_rules = [];
         foreach ($this->rules as $ruleset) {
             foreach ($ruleset as $priority => $rule) {
                 $flatten_rules[$priority] = $rule;

@@ -76,12 +76,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         // Use a mocked client with stubbed getArticleIDFromCanonicalURL().
         $this->client = $this->getMockBuilder('Facebook\InstantArticles\Client\Client')
-          ->setMethods(array('getArticleIDFromCanonicalURL'))
-          ->setConstructorArgs(array(
+          ->setMethods(['getArticleIDFromCanonicalURL'])
+          ->setConstructorArgs([
             $this->facebook,
             "PAGE_ID",
             true // developmentMode
-          ))->getMock();
+          ])->getMock();
 
         $this->client
           ->expects($this->once())
@@ -229,27 +229,27 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getField')
             ->with($this->equalTo('most_recent_import_status'))
-            ->willReturn(array(
+            ->willReturn([
                 "status" => "success",
-                "errors" => array(
-                    array(
+                "errors" => [
+                    [
                         "level" => "warning",
                         "message" => "Test warning"
-                    ),
-                    array(
+                    ],
+                    [
                         "level" => "fatal",
                         "message" => "Test fatal"
-                    ),
-                    array(
+                    ],
+                    [
                         "level" => "error",
                         "message" => "Test error"
-                    ),
-                    array(
+                    ],
+                    [
                         "level" => "info",
                         "message" => "Test info"
-                    )
-                )
-            ));
+                    ]
+                ]
+            ]);
 
         $serverResponseMock
             ->expects($this->once())

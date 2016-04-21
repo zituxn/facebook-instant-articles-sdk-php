@@ -17,7 +17,7 @@ class H1Rule extends ConfigurationSelectorRule
 {
     public function getContextClass()
     {
-        return array(Caption::getClassName(), InstantArticle::getClassName());
+        return [Caption::getClassName(), InstantArticle::getClassName()];
     }
 
     public static function create()
@@ -31,7 +31,7 @@ class H1Rule extends ConfigurationSelectorRule
         $h1_rule->withSelector($configuration['selector']);
 
         $h1_rule->withProperties(
-            array(
+            [
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER,
                 Caption::POSITION_ABOVE,
@@ -43,7 +43,7 @@ class H1Rule extends ConfigurationSelectorRule
                 Caption::SIZE_MEDIUM,
                 Caption::SIZE_LARGE,
                 Caption::SIZE_XLARGE
-            ),
+            ],
             $configuration
         );
 

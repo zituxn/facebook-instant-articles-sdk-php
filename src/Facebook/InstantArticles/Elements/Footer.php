@@ -32,7 +32,7 @@ class Footer extends Element
     /**
      * @var string|Paragraph[] The text content of the credits
      */
-    private $credits = array();
+    private $credits = [];
 
     /**
      * @var string Copyright information of the article
@@ -60,7 +60,7 @@ class Footer extends Element
      */
     public function withCredits($credits)
     {
-        Type::enforce($credits, array(Type::ARRAY_TYPE, Paragraph::getClassName(), Type::STRING));
+        Type::enforce($credits, [Type::ARRAY_TYPE, Paragraph::getClassName(), Type::STRING]);
         $this->credits = $credits;
 
         return $this;

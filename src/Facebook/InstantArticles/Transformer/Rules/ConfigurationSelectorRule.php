@@ -15,7 +15,7 @@ use Facebook\InstantArticles\Validators\Type;
 abstract class ConfigurationSelectorRule extends Rule
 {
     protected $selector;
-    protected $properties = array();
+    protected $properties = [];
 
     public function withSelector($selector)
     {

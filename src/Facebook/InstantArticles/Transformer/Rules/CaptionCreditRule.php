@@ -29,7 +29,7 @@ class CaptionCreditRule extends ConfigurationSelectorRule
         $cite_rule->withSelector($configuration['selector']);
 
         $cite_rule->withProperties(
-            array(
+            [
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER,
                 Caption::POSITION_ABOVE,
@@ -37,7 +37,7 @@ class CaptionCreditRule extends ConfigurationSelectorRule
                 Caption::ALIGN_LEFT,
                 Caption::ALIGN_CENTER,
                 Caption::ALIGN_RIGHT
-            ),
+            ],
             $configuration
         );
 
