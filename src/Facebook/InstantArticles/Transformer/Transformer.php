@@ -60,7 +60,7 @@ class Transformer
         // Use context class as a key
         $contexts = $rule->getContextClass();
 
-        // Handles multiple contextes
+        // Handles multiple contexts
         if (!is_array($contexts)) {
             $contexts = array($contexts);
         }
@@ -157,13 +157,13 @@ class Transformer
         $configuration = json_decode($json_file, true);
         if ($configuration && isset($configuration['rules'])) {
             foreach ($configuration['rules'] as $configuration_rule) {
-                $clazz = $configuration_rule['class'];
+                $class = $configuration_rule['class'];
                 try {
-                    $factory_method = new \ReflectionMethod($clazz, 'createFrom');
+                    $factory_method = new \ReflectionMethod($class, 'createFrom');
                 } catch (\ReflectionException $e) {
                     $factory_method =
                         new \ReflectionMethod(
-                            'Facebook\\InstantArticles\\Transformer\\Rules\\'.$clazz,
+                            'Facebook\\InstantArticles\\Transformer\\Rules\\'.$class,
                             'createFrom'
                         );
                 }
@@ -189,7 +189,7 @@ class Transformer
     public function getRules()
     {
         // Do not expose internal map, just a simple array
-        // to keep the interace backwards compatible.
+        // to keep the interface backwards compatible.
         $flatten_rules = array();
         foreach ($this->rules as $ruleset) {
             foreach ($ruleset as $priority => $rule) {
@@ -209,7 +209,7 @@ class Transformer
     public function setRules($rules)
     {
         // Do not receive internal map, just a plain list
-        // to keep the interace backwards compatible.
+        // to keep the interface backwards compatible.
         Type::enforceArrayOf($rules, Rule::getClassName());
         $this->resetRules();
         foreach ($rules as $rule) {

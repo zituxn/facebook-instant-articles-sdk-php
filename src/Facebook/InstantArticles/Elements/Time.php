@@ -43,12 +43,12 @@ class Time extends Element
     const MODIFIED = 'op-modified';
 
     /**
-     * @const string The date formater
+     * @const string The date format
      */
     const DATE_FORMAT = 'F jS, g:ia';
 
     /**
-     * @var DateTime The date formater
+     * @var DateTime The date format
      */
     private $date;
 

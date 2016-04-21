@@ -266,7 +266,7 @@ class Video extends Element
     }
 
     /**
-     * Removes vide from cover on neewsfeed (and it becomes the og:image that was already defined on the link)
+     * Removes video from cover on newsfeed (and it becomes the og:image that was already defined on the link)
      */
     public function disableFeedCover()
     {

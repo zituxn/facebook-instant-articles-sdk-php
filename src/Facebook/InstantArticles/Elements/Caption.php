@@ -315,7 +315,7 @@ class Caption extends FormattedText
             $element->appendChild($this->credit->toDOMElement($document));
         }
 
-     // Formating markup
+     // Formatting markup
         if ($this->textAlignment || $this->fontSize || $this->position) {
             $classes = array();
             if ($this->textAlignment) {

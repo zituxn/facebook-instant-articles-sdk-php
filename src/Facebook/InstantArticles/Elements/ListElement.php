@@ -60,7 +60,7 @@ class ListElement extends Element
     }
 
     /**
-     * Factory method for an unrdered list
+     * Factory method for an unordered list
      * @return ListElement the new instance List as an unordered list
      */
     public static function createUnordered()

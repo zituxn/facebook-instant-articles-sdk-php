@@ -32,7 +32,7 @@ class Type
      * @param mixed $var The object that will be verified
      * @param mixed $types_allowed array of classes or one single class
      * @return boolean true when success, or throws exception when not satisfied
-     * @throws InvalidArgumentException when $var doesnt comply with $types_allowed
+     * @throws InvalidArgumentException when $var doesn't comply with $types_allowed
      */
     public static function enforce($var, $types_allowed)
     {
@@ -47,7 +47,7 @@ class Type
      * @param mixed $types_allowed array of classes or one single class
      * @param boolean $enforce If informed with true, it works as ()@see Type::enforce()) method
      * @return boolean true when success, false when failed the check
-     * @throws InvalidArgumentException if $enforced is true and $var doesnt comply with the $types_allowed
+     * @throws InvalidArgumentException if $enforced is true and $var doesn't comply with the $types_allowed
      */
     public static function is($var, $types_allowed, $enforce = false)
     {
@@ -124,7 +124,7 @@ class Type
 
     /**
      * Method that checks if all elements in one array comply with the types
-     * inside the $types_allowed. If any element on that array doesnt meet the
+     * inside the $types_allowed. If any element on that array doesn't meet the
      * expectations false will be returned
      *
      * @param array $var the target variable to be checked. REQUIRED must be array
@@ -223,7 +223,7 @@ class Type
      * I.e.: array (1,2,3), $min_size 4 = throws InvalidArgumentException
      * @param array $array the array that will be checked
      * @param int $min_size The EXACTLY size that array must have
-     * @throws InvalidArgumentException if $array doesnt have at least $min_size items
+     * @throws InvalidArgumentException if $array doesn't have at least $min_size items
      */
     public static function enforceArraySizeGreaterThan($array, $min_size)
     {
@@ -264,7 +264,7 @@ class Type
      * I.e.: array (1,2,3), $max_size 3 = true
      * I.e.: array (1,2,3), $max_size 2 = throws InvalidArgumentException
      * @param array $array the array that will be checked
-     * @param int $max_size The maximun items the array can have
+     * @param int $max_size The maximum number of items the array can have
      * @throws InvalidArgumentException if $array have more than $max_size items
      */
     public static function enforceArraySizeLowerThan($array, $max_size)
@@ -278,7 +278,7 @@ class Type
      * I.e.: array (1,2,3), $max_size 3 = true
      * I.e.: array (1,2,3), $max_size 2 = false
      * @param array $array the array that will be checked
-     * @param int $max_size The maximun items the array can have
+     * @param int $max_size The maximum number of items the array can have
      * @param boolean $enforce works as @see Type::enforceArrayMaxSize()
      * @return true if it has less elements than $max_size, false otherwise
      */
@@ -302,7 +302,7 @@ class Type
     }
 
     /*
-     * Utilitary method that constructs the message about array sizes an throws.
+     * Utility method that constructs the message about array sizes an throws.
      */
     private static function throwArrayException($array, $size, $message)
     {

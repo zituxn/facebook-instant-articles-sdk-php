@@ -47,11 +47,11 @@ class GetterFactory
             self::TYPE_XPATH_GETTER => XpathGetter::getClassName()
         );
 
-        $clazz = $getter_configuration['type'];
-        if (array_key_exists($clazz, $GETTERS)) {
-            $clazz = $GETTERS[$clazz];
+        $class = $getter_configuration['type'];
+        if (array_key_exists($class, $GETTERS)) {
+            $class = $GETTERS[$class];
         }
-        $instance = new $clazz();
+        $instance = new $class();
         $instance->createFrom($getter_configuration);
         return $instance;
     }

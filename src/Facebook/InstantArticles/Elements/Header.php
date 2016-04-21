@@ -19,7 +19,7 @@ use Facebook\InstantArticles\Validators\Type;
  *         <ui:image src={$this->getHeroBackground()} />
  *     </figure>
  *     <h1>{$this->name}</h1>
- *     <addres>
+ *     <address>
  *         <a rel="facebook" href="http://facebook.com/everton.rosario">Everton</a>
  *         Everton Rosario is a passionate mountain biker on Facebook
  *     </address>
@@ -152,7 +152,7 @@ class Header extends Element
 
     /**
      * Sets the publish Time for this article. REQUIRED
-     * @param Time $published The timedate of publishing of this article. REQUIRED
+     * @param Time $published The time and date of publishing of this article. REQUIRED
      */
     public function withPublishTime($published)
     {
@@ -164,7 +164,7 @@ class Header extends Element
 
     /**
      * Sets the update Time for this article. Optional
-     * @param Time $modified The timedate that this article was modified. Optional
+     * @param Time $modified The time and date that this article was modified. Optional
      */
     public function withModifyTime($modified)
     {
@@ -176,7 +176,7 @@ class Header extends Element
 
     /**
      * Sets the update Time for this article. Optional
-     * @param Time $modified The timedate that this article was modified. Optional
+     * @param Time $modified The time and date that this article was modified. Optional
      */
     public function withTime($time)
     {
@@ -259,7 +259,7 @@ class Header extends Element
     }
 
     /**
-     * @return Time $published The timedate of publishing of this article
+     * @return Time $published The time and date of publishing of this article
      */
     public function getPublished()
     {
@@ -267,7 +267,7 @@ class Header extends Element
     }
 
     /**
-     * @return Time $modified The timedate that this article was modified.
+     * @return Time $modified The time and date that this article was modified.
      */
     public function getModified()
     {
