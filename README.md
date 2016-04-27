@@ -1,6 +1,7 @@
 # Facebook Instant Articles PHP SDK #
 
 [![Build Status](https://travis-ci.org/facebook/facebook-instant-articles-sdk-php.svg?branch=master)](https://travis-ci.org/facebook/facebook-instant-articles-sdk-php)
+[![Latest Stable Version](https://poser.pugx.org/facebook/facebook-instant-articles-sdk-php/v/stable)](https://packagist.org/packages/facebook/facebook-instant-articles-sdk-php)
 
 The Facebook Instant Articles SDK for PHP provides a native interface for creating and publishing Instant Articles. The SDK enables developers to more easily integrate Instant Articles into content management systems and in turn enables journalist and publishers to easily publish Instant Articles.
 
