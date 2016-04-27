@@ -8,8 +8,6 @@
  */
 namespace Facebook\InstantArticles\Transformer\Getters;
 
-use Facebook\InstantArticles\Transformer\Validators\Type;
-
 class GetterFactory
 {
     const TYPE_STRING_GETTER = 'string';
@@ -36,11 +34,10 @@ class GetterFactory
      * @see ExistsGetter
      * @see XpathGetter
      * @param array<string, string> $getter_configuration that maps the properties for getter
-     * @throws InvalidArgumentException if the type is invalid
      */
     public static function create($getter_configuration)
     {
-        $GETTERS = array(
+        $GETTERS = [
             self::TYPE_STRING_GETTER => StringGetter::getClassName(),
             self::TYPE_INTEGER_GETTER => IntegerGetter::getClassName(),
             self::TYPE_CHILDREN_GETTER => ChildrenGetter::getClassName(),
@@ -48,19 +45,14 @@ class GetterFactory
             self::TYPE_NEXTSIBLING_GETTER => NextSiblingGetter::getClassName(),
             self::TYPE_EXISTS_GETTER => ExistsGetter::getClassName(),
             self::TYPE_XPATH_GETTER => XpathGetter::getClassName()
-        );
+        ];
 
-        $clazz = $getter_configuration['type'];
-        if (array_key_exists($clazz, $GETTERS)) {
-            $clazz = $GETTERS[$clazz];
+        $class = $getter_configuration['type'];
+        if (array_key_exists($class, $GETTERS)) {
+            $class = $GETTERS[$class];
         }
-        $instance = new $clazz();
+        $instance = new $class();
         $instance->createFrom($getter_configuration);
         return $instance;
-
-        throw new \InvalidArgumentException(
-            'Type not informed or unrecognized. The configuration must have'.
-            ' a type of "StringGetter" or "ChildrenGetter"'
-        );
     }
 }

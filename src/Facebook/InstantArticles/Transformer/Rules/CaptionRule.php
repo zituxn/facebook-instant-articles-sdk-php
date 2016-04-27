@@ -23,14 +23,14 @@ class CaptionRule extends ConfigurationSelectorRule
     public function getContextClass()
     {
         return
-            array(
+            [
                 Map::getClassName(),
                 Image::getClassName(),
                 Interactive::getClassName(),
                 Slideshow::getClassName(),
                 SocialEmbed::getClassName(),
                 Video::getClassName()
-            );
+            ];
     }
 
     public static function create()
@@ -44,7 +44,7 @@ class CaptionRule extends ConfigurationSelectorRule
         $caption_rule->withSelector($configuration['selector']);
 
         $caption_rule->withProperties(
-            array(
+            [
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER,
                 Caption::POSITION_ABOVE,
@@ -58,7 +58,7 @@ class CaptionRule extends ConfigurationSelectorRule
                 Caption::SIZE_XLARGE,
 
                 self::PROPERTY_DEFAULT
-            ),
+            ],
             $configuration
         );
 
@@ -71,13 +71,13 @@ class CaptionRule extends ConfigurationSelectorRule
         $container_of_caption->withCaption($caption);
 
         if ($this->getProperty(Caption::POSITION_BELOW, $node)) {
-            $caption->withPostion(Caption::POSITION_BELOW);
+            $caption->withPosition(Caption::POSITION_BELOW);
         }
         if ($this->getProperty(Caption::POSITION_CENTER, $node)) {
-            $caption->withPostion(Caption::POSITION_CENTER);
+            $caption->withPosition(Caption::POSITION_CENTER);
         }
         if ($this->getProperty(Caption::POSITION_ABOVE, $node)) {
-            $caption->withPostion(Caption::POSITION_ABOVE);
+            $caption->withPosition(Caption::POSITION_ABOVE);
         }
 
         if ($this->getProperty(Caption::ALIGN_LEFT, $node)) {

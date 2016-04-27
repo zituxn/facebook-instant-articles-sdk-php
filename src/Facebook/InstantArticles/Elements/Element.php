@@ -25,11 +25,11 @@ abstract class Element
      * @param string $doctype the doctype will be applied to document. I.e.: '<!doctype html>'
      * @return string with the content rendered
      */
-    public function render($doctype = '', $formated = false)
+    public function render($doctype = '', $formatted = false)
     {
         $document = new \DOMDocument();
-        $document->preserveWhiteSpace = !$formated;
-        $document->formatOutput = $formated;
+        $document->preserveWhiteSpace = !$formatted;
+        $document->formatOutput = $formatted;
         $element = $this->toDOMElement($document);
         $document->appendChild($element);
         return $doctype.$document->saveXML($element);

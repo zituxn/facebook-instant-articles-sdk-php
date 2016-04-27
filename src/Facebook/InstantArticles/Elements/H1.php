@@ -52,11 +52,11 @@ class H1 extends TextContainer
     {
         Type::enforceWithin(
             $text_alignment,
-            array(
+            [
                 Caption::ALIGN_RIGHT,
                 Caption::ALIGN_LEFT,
                 Caption::ALIGN_CENTER
-            )
+            ]
         );
         $this->textAlignment = $text_alignment;
 
@@ -64,23 +64,35 @@ class H1 extends TextContainer
     }
 
     /**
-    * The Text position that will be used.
-    *
-    * @see Caption::POSITION_ABOVE
-    * @see Caption::POSITION_BELOW
-    * @see Caption::POSITION_CENTER
-    *
-    * @param string position that will be used.
-    */
+     * @deprecated
+     *
+     * @param string $position
+     * @return $this
+     */
     public function withPostion($position)
+    {
+        return $this->withPosition($position);
+    }
+
+    /**
+     * The Text position that will be used.
+     *
+     * @see Caption::POSITION_ABOVE
+     * @see Caption::POSITION_BELOW
+     * @see Caption::POSITION_CENTER
+     *
+     * @param string $position that will be used.
+     * @return $this
+     */
+    public function withPosition($position)
     {
         Type::enforceWithin(
             $position,
-            array(
+            [
                 Caption::POSITION_ABOVE,
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER
-            )
+            ]
         );
         $this->position = $position;
 
@@ -99,7 +111,7 @@ class H1 extends TextContainer
         }
         $h1 = $document->createElement('h1');
 
-        $classes = array();
+        $classes = [];
         if ($this->position) {
             $classes[] = $this->position;
         }

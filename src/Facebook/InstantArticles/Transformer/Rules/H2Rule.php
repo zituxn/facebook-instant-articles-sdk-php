@@ -18,7 +18,7 @@ class H2Rule extends ConfigurationSelectorRule
 {
     public function getContextClass()
     {
-        return array(Header::getClassName(), Caption::getClassName(), InstantArticle::getClassName());
+        return [Header::getClassName(), Caption::getClassName(), InstantArticle::getClassName()];
     }
 
     public static function create()
@@ -32,7 +32,7 @@ class H2Rule extends ConfigurationSelectorRule
         $h2_rule->withSelector($configuration['selector']);
 
         $h2_rule->withProperties(
-            array(
+            [
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER,
                 Caption::POSITION_ABOVE,
@@ -40,7 +40,7 @@ class H2Rule extends ConfigurationSelectorRule
                 Caption::ALIGN_LEFT,
                 Caption::ALIGN_CENTER,
                 Caption::ALIGN_RIGHT
-            ),
+            ],
             $configuration
         );
 
@@ -57,13 +57,13 @@ class H2Rule extends ConfigurationSelectorRule
         }
 
         if ($this->getProperty(Caption::POSITION_BELOW, $node)) {
-            $h2->withPostion(Caption::POSITION_BELOW);
+            $h2->withPosition(Caption::POSITION_BELOW);
         }
         if ($this->getProperty(Caption::POSITION_CENTER, $node)) {
-            $h2->withPostion(Caption::POSITION_CENTER);
+            $h2->withPosition(Caption::POSITION_CENTER);
         }
         if ($this->getProperty(Caption::POSITION_ABOVE, $node)) {
-            $h2->withPostion(Caption::POSITION_ABOVE);
+            $h2->withPosition(Caption::POSITION_ABOVE);
         }
 
         if ($this->getProperty(Caption::ALIGN_LEFT, $node)) {

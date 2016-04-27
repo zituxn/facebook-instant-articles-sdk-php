@@ -71,7 +71,7 @@ class MapTest extends \PHPUnit_Framework_TestCase
                     Caption::create()
                         ->withTitle('Title of Image caption')
                         ->withCredit('Some caption to the image')
-                        ->withPostion(Caption::POSITION_BELOW)
+                        ->withPosition(Caption::POSITION_BELOW)
                 );
 
         $expected =

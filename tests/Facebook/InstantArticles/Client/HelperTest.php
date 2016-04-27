@@ -27,7 +27,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPagesAndTokes()
     {
-        $pagesAndTokens = array('page' => 'token');
+        $pagesAndTokens = ['page' => 'token'];
 
         $accessToken =
             $this->getMockBuilder('Facebook\Authentication\AccessToken')
@@ -36,7 +36,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $accessToken
             ->expects($this->once())
             ->method('isLongLived')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $this->facebook
             ->expects($this->once())
             ->method('setDefaultAccessToken')
@@ -49,15 +49,15 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $response
             ->expects($this->once())
             ->method('getGraphEdge')
-            ->will($this->returnValue($pagesAndTokens));
+            ->willReturn($pagesAndTokens);
 
         $this->facebook
             ->expects($this->once())
             ->method('get')
             ->with('/me/accounts?fields=name,id,access_token,supports_instant_articles')
-            ->will($this->returnValue($response));
+            ->willReturn($response);
 
         $pagesAndTokensReturned = $this->helper->getPagesAndTokens($accessToken);
-        $this->assertEquals($pagesAndTokensReturned, $pagesAndTokens);
+        $this->assertEquals($pagesAndTokens, $pagesAndTokensReturned);
     }
 }

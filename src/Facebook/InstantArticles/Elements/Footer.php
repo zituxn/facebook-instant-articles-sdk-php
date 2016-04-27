@@ -32,7 +32,7 @@ class Footer extends Element
     /**
      * @var string|Paragraph[] The text content of the credits
      */
-    private $credits = array();
+    private $credits = [];
 
     /**
      * @var string Copyright information of the article
@@ -56,11 +56,11 @@ class Footer extends Element
     /**
      * Sets the text content of the credits
      *
-     * @param string|array<paragrah> $credits - A list of paragraphs or a single string for the content of the credit.
+     * @param string|array<paragraph> $credits - A list of paragraphs or a single string for the content of the credit.
      */
     public function withCredits($credits)
     {
-        Type::enforce($credits, array(Type::ARRAY_TYPE, Paragraph::getClassName(), Type::STRING));
+        Type::enforce($credits, [Type::ARRAY_TYPE, Paragraph::getClassName(), Type::STRING]);
         $this->credits = $credits;
 
         return $this;
@@ -69,7 +69,7 @@ class Footer extends Element
     /**
      * Adds a new Paragraph to the credits
      *
-     * @param Paragrah $credit - One Paragraph to be added as a credit.
+     * @param Paragraph $credit - One Paragraph to be added as a credit.
      */
     public function addCredit($credit)
     {
@@ -108,7 +108,7 @@ class Footer extends Element
     /**
      * Gets the text content of the credits
      *
-     * @return string|array<paragrah> $credits - A list of paragraphs or a single string for the content of the credit.
+     * @return string|array<paragraph> $credits - A list of paragraphs or a single string for the content of the credit.
      */
     public function getCredits()
     {

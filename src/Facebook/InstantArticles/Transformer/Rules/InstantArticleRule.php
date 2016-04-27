@@ -39,12 +39,12 @@ class InstantArticleRule extends ConfigurationSelectorRule
         $canonical_rule->withSelector($configuration['selector']);
 
         $canonical_rule->withProperties(
-            array(
+            [
                 self::PROPERTY_CANONICAL,
                 self::PROPERTY_CHARSET,
                 self::PROPERTY_MARKUP_VERSION,
                 self::PROPERTY_AUTO_AD_PLACEMENT
-            ),
+            ],
             $configuration
         );
 

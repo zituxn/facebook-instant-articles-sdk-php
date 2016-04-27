@@ -37,10 +37,10 @@ class AnchorRule extends ConfigurationSelectorRule
         $anchor_rule->withSelector($configuration['selector']);
         $properties = $configuration['properties'];
         $anchor_rule->withProperties(
-            array(
+            [
                 self::PROPERTY_ANCHOR_HREF,
                 self::PROPERTY_ANCHOR_REL
-            ),
+            ],
             $properties
         );
 

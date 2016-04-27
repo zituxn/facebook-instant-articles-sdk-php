@@ -35,7 +35,7 @@ class H2Test extends \PHPUnit_Framework_TestCase
         $h2 =
             H2::create()
                 ->appendText('Sub title simple text.')
-                ->withPostion(Caption::POSITION_ABOVE);
+                ->withPosition(Caption::POSITION_ABOVE);
 
         $expected =
             '<h2 class="op-vertical-above">'.
@@ -67,7 +67,7 @@ class H2Test extends \PHPUnit_Framework_TestCase
         $h2 =
             H2::create()
                 ->appendText('Sub title simple text.')
-                ->withPostion(Caption::POSITION_ABOVE)
+                ->withPosition(Caption::POSITION_ABOVE)
                 ->withTextAlignment(Caption::ALIGN_LEFT);
 
         $expected =

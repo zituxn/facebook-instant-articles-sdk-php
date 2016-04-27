@@ -38,7 +38,7 @@ class InstantArticle extends Element
     /**
      * The meta properties that are used on <head>
      */
-    private $metaProperties = array();
+    private $metaProperties = [];
 
     /**
      * @var string The canonical URL for the Instant Article
@@ -78,7 +78,7 @@ class InstantArticle extends Element
     /**
      * @var Element[] of all elements an article can have.
      */
-    private $children = array();
+    private $children = [];
 
     /**
      * Factory method
@@ -190,7 +190,7 @@ class InstantArticle extends Element
     {
         Type::enforce(
             $child,
-            array(
+            [
                 Ad::getClassName(),
                 Analytics::getClassName(),
                 AnimatedGIF::getClassName(),
@@ -208,7 +208,7 @@ class InstantArticle extends Element
                 Slideshow::getClassName(),
                 SocialEmbed::getClassName(),
                 Video::getClassName()
-            )
+            ]
         );
         $this->children[] = $child;
 
