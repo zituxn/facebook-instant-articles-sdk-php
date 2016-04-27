@@ -17,7 +17,7 @@ class H2Rule extends ConfigurationSelectorRule
 {
     public function getContextClass()
     {
-        return array(Caption::getClassName(), InstantArticle::getClassName());
+        return [Caption::getClassName(), InstantArticle::getClassName()];
     }
 
     public static function create()
@@ -31,7 +31,7 @@ class H2Rule extends ConfigurationSelectorRule
         $h2_rule->withSelector($configuration['selector']);
 
         $h2_rule->withProperties(
-            array(
+            [
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER,
                 Caption::POSITION_ABOVE,
@@ -39,7 +39,7 @@ class H2Rule extends ConfigurationSelectorRule
                 Caption::ALIGN_LEFT,
                 Caption::ALIGN_CENTER,
                 Caption::ALIGN_RIGHT
-            ),
+            ],
             $configuration
         );
 

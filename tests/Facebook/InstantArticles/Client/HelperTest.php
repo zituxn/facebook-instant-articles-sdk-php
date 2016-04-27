@@ -27,7 +27,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPagesAndTokes()
     {
-        $pagesAndTokens = array('page' => 'token');
+        $pagesAndTokens = ['page' => 'token'];
 
         $accessToken =
             $this->getMockBuilder('Facebook\Authentication\AccessToken')

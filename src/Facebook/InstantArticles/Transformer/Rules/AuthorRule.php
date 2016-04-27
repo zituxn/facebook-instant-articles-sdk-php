@@ -36,12 +36,12 @@ class AuthorRule extends ConfigurationSelectorRule
         $author_rule->withSelector($configuration['selector']);
         $properties = $configuration['properties'];
         $author_rule->withProperties(
-            array(
+            [
                 self::PROPERTY_AUTHOR_URL,
                 self::PROPERTY_AUTHOR_NAME,
                 self::PROPERTY_AUTHOR_DESCRIPTION,
                 self::PROPERTY_AUTHOR_ROLE_CONTRIBUTION
-            ),
+            ],
             $properties
         );
 

@@ -37,7 +37,7 @@ class GetterFactory
      */
     public static function create($getter_configuration)
     {
-        $GETTERS = array(
+        $GETTERS = [
             self::TYPE_STRING_GETTER => StringGetter::getClassName(),
             self::TYPE_INTEGER_GETTER => IntegerGetter::getClassName(),
             self::TYPE_CHILDREN_GETTER => ChildrenGetter::getClassName(),
@@ -45,7 +45,7 @@ class GetterFactory
             self::TYPE_NEXTSIBLING_GETTER => NextSiblingGetter::getClassName(),
             self::TYPE_EXISTS_GETTER => ExistsGetter::getClassName(),
             self::TYPE_XPATH_GETTER => XpathGetter::getClassName()
-        );
+        ];
 
         $class = $getter_configuration['type'];
         if (array_key_exists($class, $GETTERS)) {

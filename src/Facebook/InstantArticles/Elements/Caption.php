@@ -97,7 +97,7 @@ class Caption extends FormattedText
      */
     public function withTitle($title)
     {
-        Type::enforce($title, array(Type::STRING, H1::getClassName()));
+        Type::enforce($title, [Type::STRING, H1::getClassName()]);
 
         if (Type::is($title, Type::STRING)) {
             $title = H1::create()->appendText($title);
@@ -114,7 +114,7 @@ class Caption extends FormattedText
      */
     public function withSubTitle($sub_title)
     {
-        Type::enforce($sub_title, array(Type::STRING, H2::getClassName()));
+        Type::enforce($sub_title, [Type::STRING, H2::getClassName()]);
         if (Type::is($sub_title, Type::STRING)) {
             $sub_title = H2::create()->appendText($sub_title);
         }
@@ -130,7 +130,7 @@ class Caption extends FormattedText
      */
     public function withCredit($credit)
     {
-        Type::enforce($credit, array(Type::STRING, Cite::getClassName()));
+        Type::enforce($credit, [Type::STRING, Cite::getClassName()]);
         if (Type::is($credit, Type::STRING)) {
             $credit = Cite::create()->appendText($credit);
         }
@@ -152,11 +152,11 @@ class Caption extends FormattedText
     {
         Type::enforceWithin(
             $font_size,
-            array(
+            [
                 Caption::SIZE_XLARGE,
                 Caption::SIZE_LARGE,
                 Caption::SIZE_MEDIUM
-            )
+            ]
         );
         $this->fontSize = $font_size;
 
@@ -176,11 +176,11 @@ class Caption extends FormattedText
     {
         Type::enforceWithin(
             $text_alignment,
-            array(
+            [
                 Caption::ALIGN_RIGHT,
                 Caption::ALIGN_LEFT,
                 Caption::ALIGN_CENTER
-            )
+            ]
         );
         $this->textAlignment = $text_alignment;
 
@@ -212,11 +212,11 @@ class Caption extends FormattedText
     {
         Type::enforceWithin(
             $position,
-            array(
+            [
                 Caption::POSITION_ABOVE,
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER
-            )
+            ]
         );
         $this->position = $position;
 
@@ -317,7 +317,7 @@ class Caption extends FormattedText
 
      // Formatting markup
         if ($this->textAlignment || $this->fontSize || $this->position) {
-            $classes = array();
+            $classes = [];
             if ($this->textAlignment) {
                 $classes[] = $this->textAlignment;
             }

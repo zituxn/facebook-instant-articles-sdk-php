@@ -37,10 +37,10 @@ class RelatedItemRule extends ConfigurationSelectorRule
         $related_item_rule->withSelector($configuration['selector']);
 
         $related_item_rule->withProperties(
-            array(
+            [
                 self::PROPERTY_SPONSORED,
                 self::PROPERTY_URL
-            ),
+            ],
             $configuration
         );
 

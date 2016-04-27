@@ -58,7 +58,7 @@ class Header extends Element
     /**
      * @var Author[] Authors of the article.
      */
-    private $authors = array();
+    private $authors = [];
 
     /**
      * @var Time of publishing for the article
@@ -79,7 +79,7 @@ class Header extends Element
     /**
      * @var Ad[] Ads of the article.
      */
-    private $ads = array();
+    private $ads = [];
 
     private function __construct()
     {
@@ -96,7 +96,7 @@ class Header extends Element
      */
     public function withCover($cover)
     {
-        Type::enforce($cover, array(Image::getClassName(), Video::getClassName()));
+        Type::enforce($cover, [Image::getClassName(), Video::getClassName()]);
         $this->cover = $cover;
 
         return $this;

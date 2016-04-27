@@ -26,13 +26,13 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testIsType()
     {
-        $result = Type::is(Caption::create(), array(Caption::getClassName()));
+        $result = Type::is(Caption::create(), [Caption::getClassName()]);
         $this->assertTrue($result);
     }
 
     public function testIsTypeWithArray()
     {
-        $result = Type::is(array(1, 2, 3), Type::ARRAY_TYPE);
+        $result = Type::is([1, 2, 3], Type::ARRAY_TYPE);
         $this->assertTrue($result);
     }
 
@@ -40,12 +40,12 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $result = Type::is(
             Caption::create(),
-            array(
+            [
                 Caption::getClassName(),
                 InstantArticle::getClassName(),
                 Video::getClassName(),
                 Image::getClassName()
-            )
+            ]
         );
         $this->assertTrue($result);
     }
@@ -54,9 +54,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $result = Type::is(
             Caption::create(),
-            array(
+            [
                 Image::getClassName()
-            )
+            ]
         );
         $this->assertFalse($result);
     }
@@ -66,9 +66,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         try {
             $result = Type::enforce(
                 Caption::create(),
-                array(
+                [
                     Image::getClassName()
-                )
+                ]
             );
             $this->fail('Should throw exception');
         } catch (\Exception $e) {
@@ -81,7 +81,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $result = Type::is(
             Caption::create(),
-            array()
+            []
         );
         $this->assertFalse($result);
     }
@@ -91,7 +91,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         try {
             $result = Type::enforce(
                 Caption::create(),
-                array()
+                []
             );
             $this->fail('Should throw exception');
         } catch (\Exception $e) {
@@ -104,11 +104,11 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $result = Type::is(
             Caption::create(),
-            array(
+            [
                 InstantArticle::getClassName(),
                 Video::getClassName(),
                 Image::getClassName()
-            )
+            ]
         );
         $this->assertFalse($result);
     }
@@ -118,11 +118,11 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         try {
             $result = Type::enforce(
                 Caption::create(),
-                array(
+                [
                     InstantArticle::getClassName(),
                     Video::getClassName(),
                     Image::getClassName()
-                )
+                ]
             );
             $this->fail('Should throw exception');
         } catch (\Exception $e) {
@@ -135,9 +135,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $result = Type::is(
             AnimatedGIF::create(),
-            array(
+            [
                 Image::getClassName()
-            )
+            ]
         );
         $this->assertTrue($result);
     }
@@ -146,9 +146,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $result = Type::is(
             AnimatedGIF::create(),
-            array(
+            [
                 Video::getClassName()
-            )
+            ]
         );
         $this->assertFalse($result);
     }
@@ -158,9 +158,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         try {
             $result = Type::enforce(
                 AnimatedGIF::create(),
-                array(
+                [
                     Video::getClassName()
-                )
+                ]
             );
             $this->fail('Should throw exception');
         } catch (\Exception $e) {
@@ -194,7 +194,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testIsArrayOfString()
     {
-        $result = Type::isArrayOf(array('1', '2'), Type::STRING);
+        $result = Type::isArrayOf(['1', '2'], Type::STRING);
         $this->assertTrue($result);
     }
 
@@ -202,7 +202,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $result =
             Type::isArrayOf(
-                array(Image::create(), Image::create()),
+                [Image::create(), Image::create()],
                 Image::getClassName()
             );
         $this->assertTrue($result);
@@ -212,8 +212,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $result =
             Type::isArrayOf(
-                array(Image::create(), Video::create()),
-                array(Image::getClassName(), Video::getClassName())
+                [Image::create(), Video::create()],
+                [Image::getClassName(), Video::getClassName()]
             );
         $this->assertTrue($result);
     }
@@ -221,7 +221,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     public function testIsArrayInInheritance()
     {
         $result = Type::isArrayOf(
-            array(Image::create(), AnimatedGIF::create()),
+            [Image::create(), AnimatedGIF::create()],
             Image::getClassName()
         );
         $this->assertTrue($result);
@@ -231,7 +231,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $result =
             Type::isArrayOf(
-                array(Image::create(), Video::create()),
+                [Image::create(), Video::create()],
                 Image::getClassName()
             );
         $this->assertFalse($result);
@@ -242,7 +242,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         try {
             $result =
                 Type::enforceArrayOf(
-                    array(Image::create(), Video::create()),
+                    [Image::create(), Video::create()],
                     Image::getClassName()
                 );
             $this->fail('Should throw exception');
@@ -257,38 +257,38 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testArraySize()
     {
-        $result = Type::isArraySize(array(1,2,3), 3);
+        $result = Type::isArraySize([1,2,3], 3);
         $this->assertTrue($result);
     }
 
     public function testArrayNotSize()
     {
-        $result = Type::isArraySize(array(1,2,3), 2);
+        $result = Type::isArraySize([1,2,3], 2);
         $this->assertFalse($result);
     }
 
     public function testArrayMinSizeExact()
     {
-        $result = Type::isArraySizeGreaterThan(array(1,2,3), 3);
+        $result = Type::isArraySizeGreaterThan([1,2,3], 3);
         $this->assertTrue($result);
     }
 
     public function testArrayMinSizeMore()
     {
-        $result = Type::isArraySizeGreaterThan(array(1,2,3), 2);
+        $result = Type::isArraySizeGreaterThan([1,2,3], 2);
         $this->assertTrue($result);
     }
 
     public function testArrayMinSizeFew()
     {
-        $result = Type::isArraySizeGreaterThan(array(1,2,3), 4);
+        $result = Type::isArraySizeGreaterThan([1,2,3], 4);
         $this->assertFalse($result);
     }
 
     public function testEnforceArrayMinSizeException()
     {
         try {
-            $result = Type::enforceArraySizeGreaterThan(array(1,2,3), 4);
+            $result = Type::enforceArraySizeGreaterThan([1,2,3], 4);
             $this->fail('Should throw exception');
         } catch (\Exception $e) {
             $this->assertInstanceOf('InvalidArgumentException', $e);
@@ -297,26 +297,26 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayMaxSizeExact()
     {
-        $result = Type::isArraySizeLowerThan(array(1,2,3), 3);
+        $result = Type::isArraySizeLowerThan([1,2,3], 3);
         $this->assertTrue($result);
     }
 
     public function testArrayMaxSizeFew()
     {
-        $result = Type::isArraySizeLowerThan(array(1,2,3), 4);
+        $result = Type::isArraySizeLowerThan([1,2,3], 4);
         $this->assertTrue($result);
     }
 
     public function testArrayMaxSizeMore()
     {
-        $result = Type::isArraySizeLowerThan(array(1,2,3), 2);
+        $result = Type::isArraySizeLowerThan([1,2,3], 2);
         $this->assertFalse($result);
     }
 
     public function testEnforceArrayMaxSizeException()
     {
         try {
-            $result = Type::enforceArraySizeLowerThan(array(1,2,3), 2);
+            $result = Type::enforceArraySizeLowerThan([1,2,3], 2);
             $this->fail('Should throw exception');
         } catch (\Exception $e) {
             $this->assertInstanceOf('InvalidArgumentException', $e);
@@ -325,7 +325,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testIsWithinTrueString()
     {
-        $result = Type::isWithin('x', array('x', 'y', 'z'));
+        $result = Type::isWithin('x', ['x', 'y', 'z']);
         $this->assertTrue($result);
     }
 
@@ -333,13 +333,13 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $image = Image::create();
         $video = Video::create();
-        $result = Type::isWithin($image, array($image, $video, 'z'));
+        $result = Type::isWithin($image, [$image, $video, 'z']);
         $this->assertTrue($result);
     }
 
     public function testIsWithinFalse()
     {
-        $result = Type::isWithin('a', array('x', 'y', 'z'));
+        $result = Type::isWithin('a', ['x', 'y', 'z']);
         $this->assertFalse($result);
     }
 
@@ -348,20 +348,20 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $image = Image::create();
         $video = Video::create();
         $anotherImg = Image::create();
-        $result = Type::isWithin($image, array($anotherImg, $video, 'z'));
+        $result = Type::isWithin($image, [$anotherImg, $video, 'z']);
         $this->assertFalse($result);
     }
 
     public function testEnforceWithinTrueString()
     {
-        $result = Type::enforceWithin('x', array('x', 'y', 'z'));
+        $result = Type::enforceWithin('x', ['x', 'y', 'z']);
         $this->assertTrue($result);
     }
 
     public function testEnforceWithinExceptionString()
     {
         try {
-            $result = Type::enforceWithin('a', array('x', 'y', 'z'));
+            $result = Type::enforceWithin('a', ['x', 'y', 'z']);
             $this->fail('Should trhow exception');
         } catch (\Exception $e) {
             $this->assertInstanceOf('InvalidArgumentException', $e);
