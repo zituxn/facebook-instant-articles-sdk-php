@@ -509,56 +509,49 @@ foreach ($pagesAndTokens as $pageAndToken) {
 
 ### Overview
 
-A valid Instant Article is comprised of a subset of standard HTML tags, detailed in the [Format Reference](https://developers.facebook.com/docs/instant-articles/reference). Adhering to these restrictions ensures content renders reliably and performant on mobile devices within Facebook but naturally adds
- constraints on what is allowed within your markup. What's more, the hierarchy of these permitted tags also matters.
+A valid Instant Article is comprised of a subset of standard HTML tags, detailed in the [Format Reference](https://developers.facebook.com/docs/instant-articles/reference). Adhering to these restrictions ensures that content renders reliably and performant on mobile devices within Facebook but naturally constrains what is allowed within the markup. What's more, the hierarchy of the allowed tags also matters.
 
 > For example, to render text **bold** in an Instant Articles, the `<strong>` tag *must* be used. But if your content makes use of `<b>` as a means to stylize text bold, you would find that your source markup is *valid HTML*, but ultimately is not *valid Instant Articles markup*.
 
-The Transformer of this SDK helps mitigate these constraints by handling the conversion of any input markup into Instant Articles markup, but what instructs it on what to do are the ***Transformer Rules*** which collectively specify a mapping between what is used in the source markup to what should be transformed into within the generated Instant Article. Analogous to a car, if the Transformer were the engine powering the conversion of the markup, the Transformer Rules would be the driver.
+The Transformer of this SDK helps mitigate these constraints by converting *any markup* into *Instant Articles markup*, and the ***Transformer Rules*** are what instructs it on how to do so. Collectively, these rules form a mapping between elements in the source markup and what they should be transformed into within the generated Instant Article. Analogous to a car, if the Transformer were the engine powering the conversion of the markup, the Transformer Rules would be the driver.
 
-Many rules [have been defined](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/tests/Facebook/InstantArticles/Transformer/instant-article-example-rules.json) which should cover most common scenarios. But new rules can be added or override existing ones.
+Many [example rules](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/tests/Facebook/InstantArticles/Transformer/instant-article-example-rules.json) have been defined which aim to cover most common scenarios. Additional rules can be added to amend or override existing ones.
 
 ### Custom Transformer Rules
 
-Configuring a transformer rule involves two high-level steps:
+At a high level, configuring a transformer rule involves two steps:
 
-1. Identify the source element in your markup
-2. Associate it with one of the existing Instant Article target rules
+1. Identifying a source element in your markup
+2. Associating it with an existing [Transformer Rule Class](#transformer-classes)
 
-Both CSS selectors and Xpath is supported for matching source elements, and all the available [Transformer Rule Classes](#transformer-classes) are listed below.
+Both CSS selectors and Xpath can be used for matching source elements.
 
-For a simple example, the following two rule configurations would be sufficient to ensure that both `<b>` and `<span class="bold">` elements are rendered in **bold** in the generated Instant Articles markup:
+Take the following example which would cause text within `<span class="bold">` to be stylized **bold** in the generated Instant Article:
 
-```
-// Rule for associating <b> to the `BoldRule` class
-{
-  "class": "BoldRule",
-  "selector": "b"
-}
-
-// Rule for associating <span class="bold"> to the `BoldRule` class
+```javascript
+// Transformer Rule associating <span class="bold"> to the `BoldRule` class
 {
   "class": "BoldRule",
   "selector": "span.bold"
 }
 ```
 
-*If you're curious, the resulting tag within the Instant Article markup would be `<strong>`, but the fact that this is abstracted by the Transformer is intentional and a powerful feature.*
+*If you're curious, the resulting markup within the Instant Article for the `BoldRule` class is the `<strong>` tag; the fact that this detail is abstracted by the Transformer is intentional.*
 
 #### Rule Context
 
-Due to the hierarchal nature of an HTML document, each element is contained within another one (except of course the first one, but that can be ignored for the time being). This hierarchal relationship implies an element lives within the *context* of a parent element. This *context* is an important concept regarding the Transfer Rules.
+The hierarchal nature of an HTML document implies that an element always exists within the context of a parent element. This concept also exists in the transformed elements, giving each one a *context* and plays an important part regarding the Transfer Rules since, along with the selector, it is a condition a processing a rule.
 
-The Transformer traverses the entire HTML document, hitting each tag element. For each tag element it encounters, it attempts to execute all the rules which have been defined, but only if two criteria are met for the current rule:
+As the Transformer traverses through the entire HTML document it attempts to execute all of the defined rules for every tag element it encounters. But two criteria need to first be met each time:
 
-1. the selector of the rule must match the current element
-2. the context in which the current element exists must match the allowed context(s) of the rule class
+1. the *selector* of the rule must match the current element
+2. the *context* of the rule must match one of the allowed context(s) of the rule class
 
-In summary, each rule is only permitted to execute within a *context* defined for the particular [Transformer Rule Class](#transformer-classes).
+In other words, as the Transformer progresses, it uses the rules to build a hierarchy of transformed elements, giving *context* to each subsequent rule. Rules are only permitted to execute within an allowed *context* defined for the [Rule Class](#transformer-classes) is uses.
 
-#### Transformer Classes
+#### <a name="transformer-classes"></a>Rule Classes
 
-Listed below are all the available *Transformer Rule Classes* whereby source markup can be mapped to via the selectors. They are grouped by which contexts they've been defined to execute in:
+Listed below are all the available *Transformer Rule Classes* whereby source markup can be mapped to a valid Instant Article component via the selectors of a rule. They are grouped by which contexts they've been defined to execute in:
 
 - ***InstantArticle***
   - `AdRule`
@@ -616,7 +609,7 @@ Listed below are all the available *Transformer Rule Classes* whereby source mar
 - ***Slideshow***
   - `SlideshowImageRule`
 
-These rule classes differ from the others because they are permitted in more than one *context*:
+These rule classes differ slightly from the others because they are permitted in more than one *context*:
 
 - `CaptionRule`
   - ***Map***
