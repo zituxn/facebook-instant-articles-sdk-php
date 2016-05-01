@@ -11,10 +11,6 @@ namespace Facebook\InstantArticles\Elements;
 
 class MapTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-    }
-
     public function testRenderWithGeotag()
     {
         $script =
