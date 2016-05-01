@@ -123,14 +123,6 @@ class ListElement extends Element
     }
 
     /**
-     * Auxiliary method to find the starting string
-     */
-    private static function startsWith($haystack, $needle)
-    {
-        return substr($haystack, 0, strlen($needle)) === $needle;
-    }
-
-    /**
      * @return string[] the list text items
      */
     public function getItems()
