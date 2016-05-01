@@ -19,7 +19,7 @@ class BoldRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return $this->contextClass = TextContainer::getClassName();
+        return TextContainer::getClassName();
     }
 
     public static function create()
