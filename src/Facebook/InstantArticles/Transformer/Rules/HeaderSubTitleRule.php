@@ -12,10 +12,6 @@ use Facebook\InstantArticles\Elements\Header;
 
 class HeaderSubTitleRule extends ConfigurationSelectorRule
 {
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return Header::getClassName();

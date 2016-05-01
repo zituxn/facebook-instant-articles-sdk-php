@@ -12,10 +12,6 @@ use Facebook\InstantArticles\Elements\Element;
 
 class IgnoreRule extends ConfigurationSelectorRule
 {
-    public function __construct()
-    {
-    }
-
     public static function create()
     {
         return new IgnoreRule();

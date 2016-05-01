@@ -13,10 +13,6 @@ use Facebook\InstantArticles\Elements\LineBreak;
 
 class LineBreakRule extends ConfigurationSelectorRule
 {
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return $this->contextClass = TextContainer::getClassName();

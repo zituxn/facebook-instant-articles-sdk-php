@@ -18,10 +18,6 @@ class ImageRule extends ConfigurationSelectorRule
     const PROPERTY_LIKE = 'image.like';
     const PROPERTY_COMMENTS = 'image.comments';
 
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return InstantArticle::getClassName();

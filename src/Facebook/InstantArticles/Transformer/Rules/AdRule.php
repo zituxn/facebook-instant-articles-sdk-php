@@ -21,10 +21,6 @@ class AdRule extends ConfigurationSelectorRule
 
     private $header = false;
 
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return InstantArticle::getClassName();

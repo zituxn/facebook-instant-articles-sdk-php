@@ -13,10 +13,6 @@ use Facebook\InstantArticles\Elements\Paragraph;
 
 class ParagraphRule extends ConfigurationSelectorRule
 {
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return InstantArticle::getClassName();
