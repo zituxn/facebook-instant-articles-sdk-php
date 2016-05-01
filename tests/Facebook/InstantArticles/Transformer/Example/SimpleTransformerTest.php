@@ -12,11 +12,6 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 
 class SimpleTransformerTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var InstantArticle
-     */
-    private $article;
-    private $input;
     protected function setUp()
     {
         \Logger::configure(
