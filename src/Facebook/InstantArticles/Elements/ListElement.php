@@ -184,5 +184,4 @@ class ListElement extends Element
         }
         return count($this->items) > 0;
     }
-
 }

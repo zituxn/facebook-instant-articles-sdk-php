@@ -177,5 +177,4 @@ class Map extends Audible
     {
         return $this->geoTag && $this->geoTag->isValid();
     }
-
 }

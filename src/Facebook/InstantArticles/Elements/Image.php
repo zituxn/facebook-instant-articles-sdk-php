@@ -342,5 +342,4 @@ class Image extends Audible
     {
         return !Type::isTextEmpty($this->url);
     }
-
 }

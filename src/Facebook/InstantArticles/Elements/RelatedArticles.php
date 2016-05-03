@@ -141,5 +141,4 @@ class RelatedArticles extends Element
         }
         return count($this->items) > 0;
     }
-
 }

@@ -123,5 +123,4 @@ class RelatedItem extends Element
     {
         return !Type::isTextEmpty($this->url);
     }
-
 }

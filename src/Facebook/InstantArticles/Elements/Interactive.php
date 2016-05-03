@@ -234,5 +234,4 @@ class Interactive extends Element
     {
         return !Type::isTextEmpty($this->source) || $this->html;
     }
-
 }
