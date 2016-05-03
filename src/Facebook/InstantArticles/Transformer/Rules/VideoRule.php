@@ -23,10 +23,10 @@ class VideoRule extends ConfigurationSelectorRule
     const PROPERTY_LIKE = 'video.like';
     const PROPERTY_COMMENTS = 'video.comments';
 
-
-    public function __construct()
-    {
-    }
+    /**
+     * @var string
+     */
+    private $childSelector;
 
     public function getContextClass()
     {
@@ -51,7 +51,6 @@ class VideoRule extends ConfigurationSelectorRule
             $matches_node = false;
             if ($node->hasChildNodes()) {
                 foreach ($node->childNodes as $child) {
-
                     $domXPath = new \DOMXPath($child->ownerDocument);
                     $converter = new CssSelectorConverter();
                     $xpath = $converter->toXPath($this->childSelector);
@@ -61,7 +60,6 @@ class VideoRule extends ConfigurationSelectorRule
                             $matches_node = true;
                         }
                     }
-
                 }
             }
         }

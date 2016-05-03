@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Transformer\Getters;
 
-
 class ChildrenGetter extends ElementGetter
 {
     public function get($node)

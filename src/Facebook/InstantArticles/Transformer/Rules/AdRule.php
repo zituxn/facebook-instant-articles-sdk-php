@@ -19,12 +19,6 @@ class AdRule extends ConfigurationSelectorRule
     const PROPERTY_AD_WIDTH_URL = 'ad.width';
     const PROPERTY_AD_EMBED_URL = 'ad.embed';
 
-    private $header = false;
-
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return InstantArticle::getClassName();

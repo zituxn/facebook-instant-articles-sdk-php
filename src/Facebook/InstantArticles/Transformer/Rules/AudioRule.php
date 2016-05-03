@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
-use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Audio;
 use Facebook\InstantArticles\Elements\Audible;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;

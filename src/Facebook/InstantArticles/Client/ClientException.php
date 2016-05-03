@@ -9,6 +9,6 @@
 
 namespace Facebook\InstantArticles\Client;
 
-class ClientException extends Exception
+class ClientException extends \Exception
 {
 }

@@ -64,7 +64,6 @@ abstract class ConfigurationSelectorRule extends Rule
 
         // Handles selector = .class
         if (preg_match('/^\.[a-zA-Z][a-zA-Z0-9-]*$/', $this->selector) === 1) {
-
             // Tries every class
             $classNames = explode(' ', $node->getAttribute('class'));
             foreach ($classNames as $className) {
@@ -79,7 +78,6 @@ abstract class ConfigurationSelectorRule extends Rule
 
         // Handles selector = tag.class
         if (preg_match('/^[a-zA-Z][a-zA-Z0-9-]*(\.[a-zA-Z][a-zA-Z0-9-]*)?$/', $this->selector) === 1) {
-
             // Tries every class
             $classNames = explode(' ', $node->getAttribute('class'));
             foreach ($classNames as $className) {

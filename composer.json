@@ -4,7 +4,7 @@
     "keywords": ["facebook", "sdk", "instant", "articles"],
     "type": "library",
     "homepage": "https://github.com/facebook/facebook-instant-articles-sdk-php",
-    "license": "Facebook Platform",
+    "license": "proprietary",
     "authors": [{
         "name": "Facebook",
         "homepage": "https://github.com/facebook/facebook-instant-articles-sdk-php/contributors"
@@ -16,7 +16,8 @@
         "apache/log4php": "2.3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8"
+        "phpunit/phpunit": "^4.8",
+        "squizlabs/php_codesniffer": "^2.6.0"
     },
     "autoload": {
         "psr-4": {

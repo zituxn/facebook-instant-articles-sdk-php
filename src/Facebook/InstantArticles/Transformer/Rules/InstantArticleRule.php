@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
-use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
@@ -18,10 +17,6 @@ class InstantArticleRule extends ConfigurationSelectorRule
     const PROPERTY_CHARSET = 'article.charset';
     const PROPERTY_MARKUP_VERSION = 'article.markup.version';
     const PROPERTY_AUTO_AD_PLACEMENT = 'article.auto.ad';
-
-    public function __construct()
-    {
-    }
 
     public function getContextClass()
     {

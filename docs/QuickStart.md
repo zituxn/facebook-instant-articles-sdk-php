@@ -5,6 +5,10 @@ This SDK contains three primary components:
 - [**Transformer**](#transformer) - Engine which transforms HTML into **Elements** objects
 - [**Client**](#client) - Client to publish Instant Articles
 
+[**Transformer Rules**](#custom-transformer-rules) - Within the Transformer are rules which define a mapping between elements in the *source markup* and valid *Instant Article components*. These rules are customizable to allow flexibility in the interpretation of the source markup and is a crucial part of the transformation process so it has a dedicated section.
+
+---
+
 ## Elements
 `Elements` is the object tree class that represents the structure of an Instant Article. This object tree structure ensures that no invalid Instant Article HTML markup is generated. Here is a simple and complete object tree structure, starting with the `InstantArticle` class that holds the full Instant Article.
 
@@ -498,3 +502,134 @@ foreach ($pagesAndTokens as $pageAndToken) {
     echo 'Page access token: ' . $pageAndToken->getField('access_token');
 }
 ```
+
+---
+
+## Transformer Rules
+
+### Overview
+
+A valid Instant Article is comprised of a subset of standard HTML tags, detailed in the [Format Reference](https://developers.facebook.com/docs/instant-articles/reference). Adhering to these restrictions ensures that content renders reliably and performant on mobile devices within Facebook but naturally constrains what is allowed within the markup. What's more, the hierarchy of the allowed tags also matters.
+
+> For example, to render text **bold** in an Instant Articles, the `<strong>` tag *must* be used. But if your content makes use of `<b>` as a means to stylize text bold, you would find that your source markup is *valid HTML*, but ultimately is not *valid Instant Articles markup*.
+
+The Transformer of this SDK helps mitigate these constraints by converting *any markup* into *Instant Articles markup*, and the ***Transformer Rules*** are what instructs it on how to do so. Collectively, these rules form a mapping between elements in the source markup and what they should be transformed into within the generated Instant Article. Analogous to a car, if the Transformer were the engine powering the conversion of the markup, the Transformer Rules would be the driver.
+
+Many [example rules](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/tests/Facebook/InstantArticles/Transformer/instant-article-example-rules.json) have been defined which aim to cover most common scenarios. Additional rules can be added to amend or override existing ones.
+
+### Custom Transformer Rules
+
+At a high level, configuring a transformer rule involves two steps:
+
+1. Identifying a source element in your markup
+2. Associating it with an existing [Transformer Rule Class](#transformer-classes)
+
+Both CSS selectors and Xpath can be used for matching source elements.
+
+Take the following example which would cause text within `<span class="bold">` to be stylized **bold** in the generated Instant Article:
+
+```javascript
+// Transformer Rule associating <span class="bold"> to the `BoldRule` class
+{
+  "class": "BoldRule",
+  "selector": "span.bold"
+}
+```
+
+*If you're curious, the resulting markup within the Instant Article for the `BoldRule` class is the `<strong>` tag; the fact that this detail is abstracted by the Transformer is intentional.*
+
+#### Rule Context
+
+The hierarchal nature of an HTML document implies that an element always exists within the context of a parent element. This concept also exists in the transformed elements, giving each one a *context* and plays an important part regarding the Transfer Rules since, along with the selector, it is a condition a processing a rule.
+
+As the Transformer traverses through the entire HTML document it attempts to execute all of the defined rules for every tag element it encounters. But two criteria need to first be met each time:
+
+1. the *selector* of the rule must match the current element
+2. the *context* of the rule must match one of the allowed context(s) of the rule class
+
+In other words, as the Transformer progresses, it uses the rules to build a hierarchy of transformed elements, giving *context* to each subsequent rule. Rules are only permitted to execute within an allowed *context* defined for the [Rule Class](#transformer-classes) is uses.
+
+#### <a name="transformer-classes"></a>Rule Classes
+
+Listed below are all the available *Transformer Rule Classes* whereby source markup can be mapped to a valid Instant Article component via the selectors of a rule. They are grouped by which contexts they've been defined to execute in:
+
+- ***InstantArticle***
+  - `AdRule`
+  - `AnalyticsRule`
+  - `BlockquoteRule`
+  - `FooterRule`
+  - `HeaderRule`
+  - `ImageRule`
+  - `InstantArticleRule`
+  - `InteractiveRule`
+  - `ListElementRule`
+  - `MapRule`
+  - `ParagraphRule`
+  - `PullquoteRule`
+  - `RelatedArticlesRule`
+  - `SlideshowRule`
+  - `SocialEmbedRule`
+  - `VideoRule`
+
+- ***TextContainer***
+  - `AnchorRule`
+  - `BoldRule`
+  - `ItalicRule`
+  - `LineBreakRule`
+  - `TextNodeRule`
+
+- ***ListElement***
+  - `ListItemRule`
+
+- ***Header***
+  - `AuthorRule`
+  - `HeaderAdRule`
+  - `HeaderImageRule`
+  - `HeaderKickerRule`
+  - `HeaderSubTitleRule`
+  - `HeaderTitleRule`
+  - `TimeRule`
+
+- ***Footer***
+  - `FooterRelatedArticlesRule`
+  - `ParagraphFooterRule`
+
+- ***Caption***
+  - `CaptionCreditRule`
+
+- ***Audible***
+  - `AudioRule`
+
+- ***Pullquote***
+  - `PullquoteCiteRule`
+
+- ***RelatedArticles***
+  - `RelatedItemRule`
+
+- ***Slideshow***
+  - `SlideshowImageRule`
+
+These rule classes differ slightly from the others because they are permitted in more than one *context*:
+
+- `CaptionRule`
+  - ***Map***
+  - ***Image***
+  - ***Interactive***
+  - ***Slideshow***
+  - ***SocialEmbed***
+  - ***Video***
+- `GeoTagRule`
+  - ***Image***
+  - ***Video***
+  - ***Map***
+- `H1Rule`
+  - ***Caption***
+  - ***InstantArticle***
+- `H2Rule`
+  - ***Caption***
+  - ***InstantArticle***
+
+##### Special Rule Classes
+
+- `IgnoreRule` - This rule class will effectively strip out an element tag which matches the associated `selector` of the rule.
+- `PassThroughRule` - This rule class instructs the Transformer to not process any transformation on element tags which match the associated  `selector` of the rule.

@@ -8,29 +8,25 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-
 class MapTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-    }
-
     public function testRenderWithGeotag()
     {
-        $script =
-            '{'.
-                '"type": "Feature",'.
-                '"geometry": {'.
-                    '"type": "Point",'.
-                    '"coordinates": [23.166667, 89.216667]'.
-                '},'.
-                '"properties": {'.
-                    '"title": "Jessore, Bangladesh",'.
-                    '"radius": 750000,'.
-                    '"pivot": true,'.
-                    '"style": "satellite"'.
-                '}'.
-            '}';
+        $script = <<<'JSON'
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [23.166667, 89.216667]
+    },
+    "properties": {
+        "title": "Jessore, Bangladesh",
+        "radius": 750000,
+        "pivot": true,
+        "style": "satellite"
+    }
+}
+JSON;
 
         $map =
             Map::create()
@@ -49,20 +45,21 @@ class MapTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderWithGeotagAndCaption()
     {
-        $script =
-            '{'.
-                '"type": "Feature",'.
-                '"geometry": {'.
-                    '"type": "Point",'.
-                    '"coordinates": [23.166667, 89.216667]'.
-                '},'.
-                '"properties": {'.
-                    '"title": "Jessore, Bangladesh",'.
-                    '"radius": 750000,'.
-                    '"pivot": true,'.
-                    '"style": "satellite"'.
-                '}'.
-            '}';
+        $script = <<<'JSON'
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [23.166667, 89.216667]
+    },
+    "properties": {
+        "title": "Jessore, Bangladesh",
+        "radius": 750000,
+        "pivot": true,
+        "style": "satellite"
+    }
+}
+JSON;
 
         $map =
             Map::create()

@@ -63,18 +63,14 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testIsNotInException()
     {
-        try {
-            $result = Type::enforce(
-                Caption::create(),
-                [
-                    Image::getClassName()
-                ]
-            );
-            $this->fail('Should throw exception');
-        } catch (\Exception $e) {
-            // success
-            $this->assertInstanceOf('InvalidArgumentException', $e);
-        }
+        $this->setExpectedException('InvalidArgumentException');
+
+        Type::enforce(
+            Caption::create(),
+            [
+                Image::getClassName()
+            ]
+        );
     }
 
     public function testIsNotInEmpty()
@@ -88,16 +84,12 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testIsNotInEmptyException()
     {
-        try {
-            $result = Type::enforce(
-                Caption::create(),
-                []
-            );
-            $this->fail('Should throw exception');
-        } catch (\Exception $e) {
-            // success
-            $this->assertInstanceOf('InvalidArgumentException', $e);
-        }
+        $this->setExpectedException('InvalidArgumentException');
+
+        Type::enforce(
+            Caption::create(),
+            []
+        );
     }
 
     public function testIsNotInSet()
@@ -115,20 +107,16 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testIsNotInSetException()
     {
-        try {
-            $result = Type::enforce(
-                Caption::create(),
-                [
-                    InstantArticle::getClassName(),
-                    Video::getClassName(),
-                    Image::getClassName()
-                ]
-            );
-            $this->fail('Should throw exception');
-        } catch (\Exception $e) {
-            // success
-            $this->assertInstanceOf('InvalidArgumentException', $e);
-        }
+        $this->setExpectedException('InvalidArgumentException');
+
+        Type::enforce(
+            Caption::create(),
+            [
+                InstantArticle::getClassName(),
+                Video::getClassName(),
+                Image::getClassName()
+            ]
+        );
     }
 
     public function testIsInInheritance()
@@ -155,18 +143,14 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testIsNotInInheritanceException()
     {
-        try {
-            $result = Type::enforce(
-                AnimatedGIF::create(),
-                [
-                    Video::getClassName()
-                ]
-            );
-            $this->fail('Should throw exception');
-        } catch (\Exception $e) {
-            // success
-            $this->assertInstanceOf('InvalidArgumentException', $e);
-        }
+        $this->setExpectedException('InvalidArgumentException');
+
+        Type::enforce(
+            AnimatedGIF::create(),
+            [
+                Video::getClassName()
+            ]
+        );
     }
 
     public function testIsString()
@@ -183,13 +167,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testIsNotStringException()
     {
-        try {
-            $result = Type::enforce(1, Type::STRING);
-            $this->fail('Should throw exception');
-        } catch (\Exception $e) {
-            // success
-            $this->assertInstanceOf('InvalidArgumentException', $e);
-        }
+        $this->setExpectedException('InvalidArgumentException');
+
+        Type::enforce(1, Type::STRING);
     }
 
     public function testIsArrayOfString()
@@ -239,17 +219,12 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testIsNotArrayInInheritanceException()
     {
-        try {
-            $result =
-                Type::enforceArrayOf(
-                    [Image::create(), Video::create()],
-                    Image::getClassName()
-                );
-            $this->fail('Should throw exception');
-        } catch (\Exception $e) {
-            // success
-            $this->assertInstanceOf('InvalidArgumentException', $e);
-        }
+        $this->setExpectedException('InvalidArgumentException');
+
+        Type::enforceArrayOf(
+            [Image::create(), Video::create()],
+            Image::getClassName()
+        );
     }
 
     /*
@@ -287,12 +262,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testEnforceArrayMinSizeException()
     {
-        try {
-            $result = Type::enforceArraySizeGreaterThan([1,2,3], 4);
-            $this->fail('Should throw exception');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('InvalidArgumentException', $e);
-        }
+        $this->setExpectedException('InvalidArgumentException');
+
+        Type::enforceArraySizeGreaterThan([1,2,3], 4);
     }
 
     public function testArrayMaxSizeExact()
@@ -315,12 +287,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testEnforceArrayMaxSizeException()
     {
-        try {
-            $result = Type::enforceArraySizeLowerThan([1,2,3], 2);
-            $this->fail('Should throw exception');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('InvalidArgumentException', $e);
-        }
+        $this->setExpectedException('InvalidArgumentException');
+
+        Type::enforceArraySizeLowerThan([1,2,3], 2);
     }
 
     public function testIsWithinTrueString()
@@ -360,11 +329,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testEnforceWithinExceptionString()
     {
-        try {
-            $result = Type::enforceWithin('a', ['x', 'y', 'z']);
-            $this->fail('Should trhow exception');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('InvalidArgumentException', $e);
-        }
+        $this->setExpectedException('InvalidArgumentException');
+
+        Type::enforceWithin('a', ['x', 'y', 'z']);
     }
 }

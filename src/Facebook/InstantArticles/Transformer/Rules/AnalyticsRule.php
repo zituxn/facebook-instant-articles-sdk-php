@@ -17,12 +17,6 @@ class AnalyticsRule extends ConfigurationSelectorRule
     const PROPERTY_TRACKER_URL = 'analytics.url';
     const PROPERTY_TRACKER_EMBED_URL = 'analytics.embed';
 
-    private $header = false;
-
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return InstantArticle::getClassName();

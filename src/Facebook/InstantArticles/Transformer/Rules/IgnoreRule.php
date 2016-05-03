@@ -12,10 +12,6 @@ use Facebook\InstantArticles\Elements\Element;
 
 class IgnoreRule extends ConfigurationSelectorRule
 {
-    public function __construct()
-    {
-    }
-
     public static function create()
     {
         return new IgnoreRule();
@@ -28,7 +24,7 @@ class IgnoreRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return $this->contextClass = Element::getClassName();
+        return Element::getClassName();
     }
 
     public function apply($transformer, $context, $element)

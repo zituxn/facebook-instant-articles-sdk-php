@@ -52,7 +52,8 @@ abstract class Element
      * Auxiliary method to extract all Elements full qualified class name.
      * @return string The full qualified name of class
      */
-    public static function getClassName() {
+    public static function getClassName()
+    {
         return get_called_class();
     }
 }

@@ -15,10 +15,6 @@ class RelatedArticlesRule extends ConfigurationSelectorRule
 {
     const PROPERTY_TITLE = 'related.title';
 
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return InstantArticle::getClassName();

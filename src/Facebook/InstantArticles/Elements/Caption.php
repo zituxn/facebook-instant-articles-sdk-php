@@ -62,11 +62,6 @@ class Caption extends FormattedText
     private $credit;
 
     /**
-     * @var string A free text not contained in the tags
-     */
-    private $text;
-
-    /**
      * @var string text Size. Values: "op-medium"|"op-large"|"op-extra-large"
      */
     private $fontSize;

@@ -35,39 +35,40 @@ class PullquoteRuleTest extends \PHPUnit_Framework_TestCase
 
     public function testTransformPullquote()
     {
-        $transformer_rules =
-            '{
-                "rules" :
-                    [
-                        {
-                            "class": "TextNodeRule"
-                        },
-                        {
-                            "class": "ItalicRule",
-                            "selector": "em"
-                        },
-                        {
-                            "class": "ParagraphRule",
-                            "selector": "p"
-                        },
-                        {
-                            "class": "PassThroughRule",
-                            "selector": "div.field-quote > p"
-                        },
-                        {
-                            "class": "PassThroughRule",
-                            "selector" : "div.field-quote"
-                        },
-                        {
-                            "class" : "PullquoteRule",
-                            "selector" : "blockquote.pull-quote"
-                        },
-                        {
-                            "class" : "PullquoteCiteRule",
-                            "selector" : "div.field-quote-author"
-                        }
-                    ]
-            }';
+        $transformer_rules = <<<'JSON'
+{
+    "rules" : [
+        {
+            "class": "TextNodeRule"
+        },
+        {
+            "class": "ItalicRule",
+            "selector": "em"
+        },
+        {
+            "class": "ParagraphRule",
+            "selector": "p"
+        },
+        {
+            "class": "PassThroughRule",
+            "selector": "div.field-quote > p"
+        },
+        {
+            "class": "PassThroughRule",
+            "selector" : "div.field-quote"
+        },
+        {
+            "class" : "PullquoteRule",
+            "selector" : "blockquote.pull-quote"
+        },
+        {
+            "class" : "PullquoteCiteRule",
+            "selector" : "div.field-quote-author"
+        }
+    ]
+}
+JSON;
+
 
         $html =
             '<blockquote class="pull-quote">'.
@@ -96,5 +97,4 @@ class PullquoteRuleTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $result);
     }
-
 }

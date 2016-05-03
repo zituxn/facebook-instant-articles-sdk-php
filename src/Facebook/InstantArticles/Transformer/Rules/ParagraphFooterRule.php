@@ -13,10 +13,6 @@ use Facebook\InstantArticles\Elements\Footer;
 
 class ParagraphFooterRule extends ConfigurationSelectorRule
 {
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return Footer::getClassName();

@@ -16,10 +16,6 @@ class AnchorRule extends ConfigurationSelectorRule
     const PROPERTY_ANCHOR_HREF = 'anchor.href';
     const PROPERTY_ANCHOR_REL = 'anchor.rel';
 
-    public function __construct()
-    {
-    }
-
     public static function create()
     {
         return new AnchorRule();

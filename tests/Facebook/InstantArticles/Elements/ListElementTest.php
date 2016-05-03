@@ -8,13 +8,8 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-
 class ListElementTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-    }
-
     public function testRenderOrdered()
     {
         $list =

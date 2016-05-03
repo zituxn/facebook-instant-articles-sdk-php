@@ -19,10 +19,6 @@ class SlideshowImageRule extends ConfigurationSelectorRule
     const PROPERTY_CAPTION_TITLE = 'caption.title';
     const PROPERTY_CAPTION_CREDIT = 'caption.credit';
 
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return Slideshow::getClassName();

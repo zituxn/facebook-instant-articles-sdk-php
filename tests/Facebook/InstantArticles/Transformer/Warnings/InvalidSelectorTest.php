@@ -13,32 +13,26 @@ use Facebook\InstantArticles\Transformer\Rules\SocialEmbedRule;
 
 class InvalidSelectorTest extends \PHPUnit_Framework_TestCase
 {
-    private $properties;
-
-    protected function setUp()
-    {
-
-    }
-
     public function testInvalidSelectorToString()
     {
+        $json = <<<'JSON'
+{
+    "class": "SocialEmbedRule",
+    "selector" : "figure.op-social",
+    "properties" : {
+        "socialembed.url" : {
+            "type" : "string",
+            "selector" : "iframe",
+            "attribute": "src"
+        },
+        "socialembed.iframe" : {
+            "type" : "children",
+            "selector" : "iframe"
+        }
+    }
+}
+JSON;
 
-        $json =
-          '{'.
-              '"class": "SocialEmbedRule",'.
-              '"selector" : "figure.op-social",'.
-              '"properties" : {'.
-                  '"socialembed.url" : {'.
-                      '"type" : "string",'.
-                      '"selector" : "iframe",'.
-                      '"attribute": "src"'.
-                  '},'.
-                  '"socialembed.iframe" : {'.
-                      '"type" : "children",'.
-                      '"selector" : "iframe"'.
-                  '}'.
-              '}'.
-          '}';
         $properties = json_decode($json, true);
 
         $instant_article = InstantArticle::create();

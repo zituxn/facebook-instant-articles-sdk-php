@@ -13,10 +13,6 @@ use Facebook\InstantArticles\Elements\ListItem;
 
 class ListItemRule extends ConfigurationSelectorRule
 {
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return ListElement::getClassName();
