@@ -13,8 +13,6 @@ use Facebook\InstantArticles\Transformer\Rules\SocialEmbedRule;
 
 class InvalidSelectorTest extends \PHPUnit_Framework_TestCase
 {
-    private $properties;
-
     public function testInvalidSelectorToString()
     {
         $json = <<<'JSON'
