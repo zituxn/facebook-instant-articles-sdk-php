@@ -12,20 +12,21 @@ class GeoTagTest extends \PHPUnit_Framework_TestCase
 {
     public function testRenderWithGeotag()
     {
-        $script =
-            '{'.
-                '"type": "Feature",'.
-                '"geometry": {'.
-                    '"type": "Point",'.
-                    '"coordinates": [23.166667, 89.216667]'.
-                '},'.
-                '"properties": {'.
-                    '"title": "Jessore, Bangladesh",'.
-                    '"radius": 750000,'.
-                    '"pivot": true,'.
-                    '"style": "satellite"'.
-                '}'.
-            '}';
+        $script = <<<'JSON'
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [23.166667, 89.216667]
+    },
+    "properties": {
+        "title": "Jessore, Bangladesh",
+        "radius": 750000,
+        "pivot": true,
+        "style": "satellite"
+    }
+}
+JSON;
 
         $geo_tag = GeoTag::create()->withScript($script);
 

@@ -196,20 +196,21 @@ class VideoTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderWithGeotag()
     {
-        $geotag =
-            '{'.
-                '"type": "Feature",'.
-                '"geometry": {'.
-                    '"type": "Point",'.
-                    '"coordinates": [23.166667, 89.216667]'.
-                '},'.
-                '"properties": {'.
-                    '"title": "Jessore, Bangladesh",'.
-                    '"radius": 750000,'.
-                    '"pivot": true,'.
-                    '"style": "satellite"'.
-                '}'.
-            '}';
+        $geotag = <<<'JSON'
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [23.166667, 89.216667]
+    },
+    "properties": {
+        "title": "Jessore, Bangladesh",
+        "radius": 750000,
+        "pivot": true,
+        "style": "satellite"
+    }
+}
+JSON;
 
         $video =
             Video::create()
