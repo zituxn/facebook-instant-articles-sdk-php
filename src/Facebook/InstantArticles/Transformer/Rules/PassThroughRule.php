@@ -12,10 +12,6 @@ use Facebook\InstantArticles\Elements\Element;
 
 class PassThroughRule extends ConfigurationSelectorRule
 {
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return Element::getClassName();

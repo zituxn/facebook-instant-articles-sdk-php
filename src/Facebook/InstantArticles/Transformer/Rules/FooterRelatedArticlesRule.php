@@ -15,10 +15,6 @@ class FooterRelatedArticlesRule extends ConfigurationSelectorRule
 {
     const PROPERTY_TITLE = 'related.title';
 
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return Footer::getClassName();

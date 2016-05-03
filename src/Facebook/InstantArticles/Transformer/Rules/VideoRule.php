@@ -23,11 +23,6 @@ class VideoRule extends ConfigurationSelectorRule
     const PROPERTY_LIKE = 'video.like';
     const PROPERTY_COMMENTS = 'video.comments';
 
-
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return InstantArticle::getClassName();

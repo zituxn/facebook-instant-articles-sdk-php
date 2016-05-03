@@ -18,10 +18,6 @@ class InstantArticleRule extends ConfigurationSelectorRule
     const PROPERTY_MARKUP_VERSION = 'article.markup.version';
     const PROPERTY_AUTO_AD_PLACEMENT = 'article.auto.ad';
 
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return InstantArticle::getClassName();
