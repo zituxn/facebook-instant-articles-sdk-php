@@ -15,11 +15,6 @@ class InvalidSelectorTest extends \PHPUnit_Framework_TestCase
 {
     private $properties;
 
-    protected function setUp()
-    {
-
-    }
-
     public function testInvalidSelectorToString()
     {
 

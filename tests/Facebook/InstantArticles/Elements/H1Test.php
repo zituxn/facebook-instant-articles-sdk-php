@@ -10,10 +10,6 @@ namespace Facebook\InstantArticles\Elements;
 
 class H1Test extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-    }
-
     public function testRenderBasic()
     {
         $h1 =
