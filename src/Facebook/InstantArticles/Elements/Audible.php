@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-
 /**
  * Abstract class Audible
  * This class represents all elements that can contain Audio

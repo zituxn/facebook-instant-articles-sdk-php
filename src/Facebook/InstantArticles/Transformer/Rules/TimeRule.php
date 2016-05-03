@@ -19,10 +19,6 @@ class TimeRule extends ConfigurationSelectorRule
 
     private $type = Time::PUBLISHED;
 
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return Header::getClassName();

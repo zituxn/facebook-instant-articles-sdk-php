@@ -36,13 +36,13 @@ class InteractiveRule extends ConfigurationSelectorRule
         $interactive_rule->withSelector($configuration['selector']);
 
         $interactive_rule->withProperties(
-            array(
+            [
                 self::PROPERTY_IFRAME,
                 self::PROPERTY_URL,
                 self::PROPERTY_WIDTH_NO_MARGIN,
                 self::PROPERTY_WIDTH_COLUMN_WIDTH,
                 self::PROPERTY_HEIGHT
-            ),
+            ],
             $configuration
         );
 

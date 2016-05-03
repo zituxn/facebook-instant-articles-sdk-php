@@ -28,8 +28,7 @@ class UnrecognizedElement
         $nodeName = $this->node->nodeName;
         if (substr($nodeName, 0, 1) === '#') {
             $nodeDescription = '"'.mb_strimwidth($this->node->textContent, 0, 30, '...').'"';
-        }
-        else {
+        } else {
             $nodeDescription = '<';
             $nodeDescription .= $nodeName;
             if (Type::is($this->node, 'DOMElement')) {

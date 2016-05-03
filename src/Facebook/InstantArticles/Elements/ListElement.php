@@ -37,7 +37,7 @@ class ListElement extends Element
     /**
      * @var ListItem[] Items of the list
      */
-    private $items = array();
+    private $items = [];
 
     /**
      * Private constructor.
@@ -60,7 +60,7 @@ class ListElement extends Element
     }
 
     /**
-     * Factory method for an unrdered list
+     * Factory method for an unordered list
      * @return ListElement the new instance List as an unordered list
      */
     public static function createUnordered()
@@ -78,7 +78,7 @@ class ListElement extends Element
      */
     public function addItem($new_item)
     {
-        Type::enforce($new_item, array(ListItem::getClassName(), Type::STRING));
+        Type::enforce($new_item, [ListItem::getClassName(), Type::STRING]);
         if (Type::is($new_item, Type::STRING)) {
             $new_item = ListItem::create()->appendText($new_item);
         }
@@ -94,7 +94,7 @@ class ListElement extends Element
      */
     public function withItems($new_items)
     {
-        Type::enforceArrayOf($new_items, array(ListItem::getClassName(), Type::STRING));
+        Type::enforceArrayOf($new_items, [ListItem::getClassName(), Type::STRING]);
         foreach ($new_items as $new_item) {
             $this->addItem($new_item);
         }
@@ -120,14 +120,6 @@ class ListElement extends Element
         $this->isOrdered = false;
 
         return $this;
-    }
-
-    /**
-     * Auxiliary method to find the starting string
-     */
-    private static function startsWith($haystack, $needle)
-    {
-        return substr($haystack, 0, strlen($needle)) === $needle;
     }
 
     /**

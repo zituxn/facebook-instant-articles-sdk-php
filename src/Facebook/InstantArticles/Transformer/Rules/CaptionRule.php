@@ -23,14 +23,14 @@ class CaptionRule extends ConfigurationSelectorRule
     public function getContextClass()
     {
         return
-            array(
+            [
                 Map::getClassName(),
                 Image::getClassName(),
                 Interactive::getClassName(),
                 Slideshow::getClassName(),
                 SocialEmbed::getClassName(),
                 Video::getClassName()
-            );
+            ];
     }
 
     public static function create()
@@ -44,7 +44,7 @@ class CaptionRule extends ConfigurationSelectorRule
         $caption_rule->withSelector($configuration['selector']);
 
         $caption_rule->withProperties(
-            array(
+            [
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER,
                 Caption::POSITION_ABOVE,
@@ -58,7 +58,7 @@ class CaptionRule extends ConfigurationSelectorRule
                 Caption::SIZE_XLARGE,
 
                 self::PROPERTY_DEFAULT
-            ),
+            ],
             $configuration
         );
 

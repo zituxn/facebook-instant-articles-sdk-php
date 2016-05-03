@@ -16,10 +16,6 @@ class HeaderImageRule extends ConfigurationSelectorRule
 {
     const PROPERTY_IMAGE_URL = 'image.url';
 
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return Header::getClassName();
@@ -36,9 +32,9 @@ class HeaderImageRule extends ConfigurationSelectorRule
         $image_rule->withSelector($configuration['selector']);
 
         $image_rule->withProperties(
-            array(
+            [
                 self::PROPERTY_IMAGE_URL
-            ),
+            ],
             $configuration
         );
 

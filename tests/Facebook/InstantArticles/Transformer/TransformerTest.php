@@ -13,26 +13,25 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Rules\ParagraphRule;
 use Facebook\InstantArticles\Transformer\Rules\ItalicRule;
 
-
 class TransformerTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
         \Logger::configure(
-            array(
-                'rootLogger' => array(
-                    'appenders' => array('facebook-instantarticles-transformer')
-                ),
-                'appenders' => array(
-                    'facebook-instantarticles-transformer' => array(
+            [
+                'rootLogger' => [
+                    'appenders' => ['facebook-instantarticles-transformer']
+                ],
+                'appenders' => [
+                    'facebook-instantarticles-transformer' => [
                         'class' => 'LoggerAppenderConsole',
                         'threshold' => 'INFO',
-                        'layout' => array(
+                        'layout' => [
                             'class' => 'LoggerLayoutSimple'
-                        )
-                    )
-                )
-            )
+                        ]
+                    ]
+                ]
+            ]
         );
     }
 
@@ -69,7 +68,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $rule2 = new ItalicRule();
         $transformer->addRule($rule1);
         $transformer->addRule($rule2);
-        $this->assertEquals(array($rule1, $rule2), $transformer->getRules());
+        $this->assertEquals([$rule1, $rule2], $transformer->getRules());
     }
 
     public function testTransformerSetRules()
@@ -77,8 +76,8 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $transformer = new Transformer();
         $rule1 = new ParagraphRule();
         $rule2 = new ItalicRule();
-        $transformer->setRules(array($rule1, $rule2));
-        $this->assertEquals(array($rule1, $rule2), $transformer->getRules());
+        $transformer->setRules([$rule1, $rule2]);
+        $this->assertEquals([$rule1, $rule2], $transformer->getRules());
     }
 
     public function testTransformerResetRules()
@@ -89,6 +88,6 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $transformer->addRule($rule1);
         $transformer->addRule($rule2);
         $transformer->resetRules();
-        $this->assertEquals(array(), $transformer->getRules());
+        $this->assertEquals([], $transformer->getRules());
     }
 }

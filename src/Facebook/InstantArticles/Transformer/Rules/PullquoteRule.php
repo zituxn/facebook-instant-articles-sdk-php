@@ -13,10 +13,6 @@ use Facebook\InstantArticles\Elements\Pullquote;
 
 class PullquoteRule extends ConfigurationSelectorRule
 {
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return InstantArticle::getClassName();

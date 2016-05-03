@@ -12,10 +12,6 @@ use Facebook\InstantArticles\Elements\TextContainer;
 
 class TextNodeRule extends Rule
 {
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return TextContainer::getClassName();

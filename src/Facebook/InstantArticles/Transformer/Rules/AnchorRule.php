@@ -16,10 +16,6 @@ class AnchorRule extends ConfigurationSelectorRule
     const PROPERTY_ANCHOR_HREF = 'anchor.href';
     const PROPERTY_ANCHOR_REL = 'anchor.rel';
 
-    public function __construct()
-    {
-    }
-
     public static function create()
     {
         return new AnchorRule();
@@ -37,10 +33,10 @@ class AnchorRule extends ConfigurationSelectorRule
         $anchor_rule->withSelector($configuration['selector']);
         $properties = $configuration['properties'];
         $anchor_rule->withProperties(
-            array(
+            [
                 self::PROPERTY_ANCHOR_HREF,
                 self::PROPERTY_ANCHOR_REL
-            ),
+            ],
             $properties
         );
 

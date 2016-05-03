@@ -27,11 +27,6 @@ class Anchor extends FormattedText
      */
     private $rel;
 
-    /**
-     * @var string content.
-     */
-    private $content;
-
     private function __construct()
     {
     }

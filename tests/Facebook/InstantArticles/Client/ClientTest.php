@@ -76,18 +76,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         // Use a mocked client with stubbed getArticleIDFromCanonicalURL().
         $this->client = $this->getMockBuilder('Facebook\InstantArticles\Client\Client')
-          ->setMethods(array('getArticleIDFromCanonicalURL'))
-          ->setConstructorArgs(array(
+          ->setMethods(['getArticleIDFromCanonicalURL'])
+          ->setConstructorArgs([
             $this->facebook,
             "PAGE_ID",
             true // developmentMode
-          ))->getMock();
+          ])->getMock();
 
         $this->client
           ->expects($this->once())
           ->method('getArticleIDFromCanonicalURL')
           ->with($canonicalURL)
-          ->will($this->returnValue($articleID));;
+          ->willReturn($articleID);
 
         $this->facebook
           ->expects($this->once())
@@ -158,21 +158,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getField')
             ->with($this->equalTo('id'))
-            ->will($this->returnValue($expectedArticleID));
+            ->willReturn($expectedArticleID);
         $graphNodeMock
             ->expects($this->once())
             ->method('getField')
             ->with($this->equalTo('instant_article'))
-            ->will($this->returnValue($instantArticleMock));
+            ->willReturn($instantArticleMock);
         $serverResponseMock
             ->expects($this->once())
             ->method('getGraphNode')
-            ->will($this->returnValue($graphNodeMock));
+            ->willReturn($graphNodeMock);
         $this->facebook
             ->expects($this->once())
             ->method('get')
             ->with($this->equalTo('?id='.$canonicalURL.'&fields=instant_article'))
-            ->will($this->returnValue($serverResponseMock));
+            ->willReturn($serverResponseMock);
 
         $articleID = $this->client->getArticleIDFromCanonicalURL($canonicalURL);
         $this->assertEquals($expectedArticleID, $articleID);
@@ -197,16 +197,16 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getField')
             ->with($this->equalTo('instant_article'))
-            ->will($this->returnValue(null));
+            ->willReturn(null);
         $serverResponseMock
             ->expects($this->once())
             ->method('getGraphNode')
-            ->will($this->returnValue($graphNodeMock));
+            ->willReturn($graphNodeMock);
         $this->facebook
             ->expects($this->once())
             ->method('get')
             ->with($this->equalTo('?id='.$canonicalURL.'&fields=instant_article'))
-            ->will($this->returnValue($serverResponseMock));
+            ->willReturn($serverResponseMock);
 
         $articleID = $this->client->getArticleIDFromCanonicalURL($canonicalURL);
         $this->assertEquals($expectedArticleID, $articleID);
@@ -229,37 +229,37 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getField')
             ->with($this->equalTo('most_recent_import_status'))
-            ->will($this->returnValue(array(
+            ->willReturn([
                 "status" => "success",
-                "errors" => array(
-                    array(
+                "errors" => [
+                    [
                         "level" => "warning",
                         "message" => "Test warning"
-                    ),
-                    array(
+                    ],
+                    [
                         "level" => "fatal",
                         "message" => "Test fatal"
-                    ),
-                    array(
+                    ],
+                    [
                         "level" => "error",
                         "message" => "Test error"
-                    ),
-                    array(
+                    ],
+                    [
                         "level" => "info",
                         "message" => "Test info"
-                    )
-                )
-            )));
+                    ]
+                ]
+            ]);
 
         $serverResponseMock
             ->expects($this->once())
             ->method('getGraphNode')
-            ->will($this->returnValue($graphNodeMock));
+            ->willReturn($graphNodeMock);
         $this->facebook
             ->expects($this->once())
             ->method('get')
             ->with($this->equalTo($articleID . '?fields=most_recent_import_status'))
-            ->will($this->returnValue($serverResponseMock));
+            ->willReturn($serverResponseMock);
 
         $status = $this->client->getLastSubmissionStatus($articleID);
         $this->assertEquals(InstantArticleStatus::SUCCESS, $status->getStatus());

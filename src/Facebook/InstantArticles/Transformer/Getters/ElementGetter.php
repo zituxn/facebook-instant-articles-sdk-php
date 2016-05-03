@@ -13,6 +13,11 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
 
 class ElementGetter extends AbstractGetter
 {
+    /**
+     * @var string
+     */
+    protected $selector;
+
     public function createFrom($properties)
     {
         return $this->withSelector($properties['selector']);

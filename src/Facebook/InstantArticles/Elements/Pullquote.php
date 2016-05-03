@@ -49,7 +49,7 @@ class Pullquote extends TextContainer
      */
     public function withAttribution($attribution)
     {
-        Type::enforce($attribution, array(Type::STRING, Cite::getClassName()));
+        Type::enforce($attribution, [Type::STRING, Cite::getClassName()]);
         if (Type::is($attribution, Type::STRING)) {
             $this->attribution = Cite::create()->appendText($attribution);
         } else {

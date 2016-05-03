@@ -15,13 +15,13 @@ use Facebook\InstantArticles\Validators\Type;
 
 class Transformer
 {
-    private $rules = array();
-    private $warnings = array();
+    private $rules = [];
+    private $warnings = [];
     private $ruleCount = 0;
 
     public $suppress_warnings = false;
 
-    private static $allClassTypes = array();
+    private static $allClassTypes = [];
 
     /**
      * Gets all types a given class is, including itself, parent classes and interfaces.
@@ -29,7 +29,8 @@ class Transformer
      * @param string $className - the name of the className
      * @return array of class names the provided class name is
      */
-    private static function getAllClassTypes($className) {
+    private static function getAllClassTypes($className)
+    {
         // Memoizes
         if (isset(self::$allClassTypes[$className])) {
             return self::$allClassTypes[$className];
@@ -37,7 +38,7 @@ class Transformer
 
         $classParents = class_parents($className, true);
         $classInterfaces = class_implements($className, true);
-        $classNames = array($className);
+        $classNames = [$className];
         if ($classParents) {
             $classNames = array_merge($classNames, $classParents);
         }
@@ -60,14 +61,14 @@ class Transformer
         // Use context class as a key
         $contexts = $rule->getContextClass();
 
-        // Handles multiple contextes
+        // Handles multiple contexts
         if (!is_array($contexts)) {
-            $contexts = array($contexts);
+            $contexts = [$contexts];
         }
 
         foreach ($contexts as $context) {
             if (!isset($this->rules[$context])) {
-                $this->rules[$context] = array();
+                $this->rules[$context] = [];
             }
             $this->rules[$context][$this->ruleCount++] = $rule;
         }
@@ -105,7 +106,7 @@ class Transformer
                 $contextClassNames = self::getAllClassTypes($context->getClassName());
 
                 // Look for rules applying to any of them as context
-                $matchingContextRules = array();
+                $matchingContextRules = [];
                 foreach ($contextClassNames as $contextClassName) {
                     if (isset($this->rules[$contextClassName])) {
                         // Use array union (+) instead of merge to preserve
@@ -157,13 +158,13 @@ class Transformer
         $configuration = json_decode($json_file, true);
         if ($configuration && isset($configuration['rules'])) {
             foreach ($configuration['rules'] as $configuration_rule) {
-                $clazz = $configuration_rule['class'];
+                $class = $configuration_rule['class'];
                 try {
-                    $factory_method = new \ReflectionMethod($clazz, 'createFrom');
+                    $factory_method = new \ReflectionMethod($class, 'createFrom');
                 } catch (\ReflectionException $e) {
                     $factory_method =
                         new \ReflectionMethod(
-                            'Facebook\\InstantArticles\\Transformer\\Rules\\'.$clazz,
+                            'Facebook\\InstantArticles\\Transformer\\Rules\\'.$class,
                             'createFrom'
                         );
                 }
@@ -177,7 +178,7 @@ class Transformer
      */
     public function resetRules()
     {
-        $this->rules = array();
+        $this->rules = [];
         $this->ruleCount = 0;
     }
 
@@ -189,8 +190,8 @@ class Transformer
     public function getRules()
     {
         // Do not expose internal map, just a simple array
-        // to keep the interace backwards compatible.
-        $flatten_rules = array();
+        // to keep the interface backwards compatible.
+        $flatten_rules = [];
         foreach ($this->rules as $ruleset) {
             foreach ($ruleset as $priority => $rule) {
                 $flatten_rules[$priority] = $rule;
@@ -209,7 +210,7 @@ class Transformer
     public function setRules($rules)
     {
         // Do not receive internal map, just a plain list
-        // to keep the interace backwards compatible.
+        // to keep the interface backwards compatible.
         Type::enforceArrayOf($rules, Rule::getClassName());
         $this->resetRules();
         foreach ($rules as $rule) {

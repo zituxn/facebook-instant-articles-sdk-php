@@ -39,7 +39,7 @@ class Slideshow extends Audible
     /**
      * @var Image[] the images hosted on web that will be shown on the slideshow
      */
-    private $article_images = array();
+    private $article_images = [];
 
     /**
      * @var string The json geotag content inside the script geotag

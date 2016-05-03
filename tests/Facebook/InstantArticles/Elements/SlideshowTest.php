@@ -8,13 +8,8 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-
 class SlideshowTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-    }
-
     public function testRenderBasic()
     {
         $slideshow =
@@ -110,20 +105,21 @@ class SlideshowTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderWithGeotag()
     {
-        $geotag =
-            '{'.
-                '"type": "Feature",'.
-                '"geometry": {'.
-                    '"type": "Point",'.
-                    '"coordinates": [23.166667, 89.216667]'.
-                '},'.
-                '"properties": {'.
-                    '"title": "Jessore, Bangladesh",'.
-                    '"radius": 750000,'.
-                    '"pivot": true,'.
-                    '"style": "satellite"'.
-                '}'.
-            '}';
+        $geotag = <<<'JSON'
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [23.166667, 89.216667]
+    },
+    "properties": {
+        "title": "Jessore, Bangladesh",
+        "radius": 750000,
+        "pivot": true,
+        "style": "satellite"
+    }
+}
+JSON;
 
         $slideshow =
             SlideShow::create()

@@ -8,13 +8,8 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-
 class AuthorTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-    }
-
     public function testRenderAuthorWithFB()
     {
         $author =

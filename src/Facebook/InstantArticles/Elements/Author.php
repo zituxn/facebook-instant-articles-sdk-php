@@ -13,21 +13,21 @@ use Facebook\InstantArticles\Validators\Type;
 /**
  * Represents an author of the article.
  *
- * <addres>
+ * <address>
  *    <a rel="facebook" href="http://facebook.com/everton.rosario">Everton</a>
  *    Everton Rosario is a passionate mountain biker on Facebook
  * </address>
  *
  * or
  *
- * <addres>
+ * <address>
  *    <a href="http://twitter.com/evertonrosario">Everton On Twitter</a>
  *    Everton Rosario is a passionate mountain biker on Twitter
  * </address>
  *
  * or
  *
- * <addres>
+ * <address>
  *    <a>Everton</a>
  *    Everton Rosario is a passionate mountain biker without Link
  * </address>
@@ -108,7 +108,7 @@ class Author extends Element
 
     /**
      * Author role/contribution
-     * @param string The author short text to caracterize role or contribution
+     * @param string The author short text to characterize role or contribution
      */
     public function withRoleContribution($role_contribution)
     {

@@ -17,10 +17,6 @@ class RelatedItemRule extends ConfigurationSelectorRule
     const PROPERTY_SPONSORED = 'related.sponsored';
     const PROPERTY_URL = 'related.url';
 
-    public function __construct()
-    {
-    }
-
     public function getContextClass()
     {
         return RelatedArticles::getClassName();
@@ -37,10 +33,10 @@ class RelatedItemRule extends ConfigurationSelectorRule
         $related_item_rule->withSelector($configuration['selector']);
 
         $related_item_rule->withProperties(
-            array(
+            [
                 self::PROPERTY_SPONSORED,
                 self::PROPERTY_URL
-            ),
+            ],
             $configuration
         );
 

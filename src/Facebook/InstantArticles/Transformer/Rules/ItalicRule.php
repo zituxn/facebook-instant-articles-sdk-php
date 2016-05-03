@@ -13,10 +13,6 @@ use Facebook\InstantArticles\Elements\Italic;
 
 class ItalicRule extends ConfigurationSelectorRule
 {
-    public function __construct()
-    {
-    }
-
     public static function create()
     {
         return new ItalicRule();
@@ -29,7 +25,7 @@ class ItalicRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return $this->contextClass = TextContainer::getClassName();
+        return TextContainer::getClassName();
     }
 
     public function apply($transformer, $text_container, $element)

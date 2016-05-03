@@ -8,31 +8,26 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
-
 class AuthorRuleTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-    }
-
     public function testCreateFromProperties()
     {
         $author_rule = AuthorRule::createFrom(
-            array(
+            [
                 "class" => "Facebook\\InstantArticles\\Transformer\\Rules\\AuthorRule",
                 "selector" => "div.post-content > p > em",
-                "properties" => array(
-                    "author.url" => array(
+                "properties" => [
+                    "author.url" => [
                         "type" => "string",
                         "selector" => "a",
                         "attribute" => "href"
-                    ),
-                    "author.description" => array(
+                    ],
+                    "author.description" => [
                         "type" => "string",
                         "selector" => "#text:nth-child(2)"
-                    )
-                )
-            )
+                    ]
+                ]
+            ]
         );
         $this->assertEquals(get_class($author_rule), AuthorRule::getClassName());
     }
@@ -43,18 +38,18 @@ class AuthorRuleTest extends \PHPUnit_Framework_TestCase
             ->withSelector("div.post-content > p > em")
             ->withProperty(
                 AuthorRule::PROPERTY_AUTHOR_URL,
-                array(
+                [
                     "type" => "string",
                     "selector" => "a",
                     "attribute" => "href"
-                )
+                ]
             )
             ->withProperty(
                 AuthorRule::PROPERTY_AUTHOR_NAME,
-                array(
+                [
                     "type" => "string",
                     "selector" => "span"
-                )
+                ]
             );
         $this->assertEquals(get_class($author_rule), AuthorRule::getClassName());
     }
