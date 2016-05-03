@@ -624,9 +624,11 @@ These rule classes differ slightly from the others because they are permitted in
   - ***Map***
 - `H1Rule`
   - ***Caption***
+  - ***Header***
   - ***InstantArticle***
 - `H2Rule`
   - ***Caption***
+  - ***Header***
   - ***InstantArticle***
 
 ##### Special Rule Classes
