@@ -10,8 +10,6 @@ namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
 
-
-
 class SimpleTransformerTest extends \PHPUnit_Framework_TestCase
 {
     /**

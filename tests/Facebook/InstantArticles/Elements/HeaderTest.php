@@ -120,7 +120,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-	public function testHeaderWithSingleDefaultAd()
+    public function testHeaderWithSingleDefaultAd()
     {
         $header =
             Header::create()

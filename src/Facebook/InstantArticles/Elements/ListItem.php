@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-
 /**
  * Class List that represents a simple HTML list
  *

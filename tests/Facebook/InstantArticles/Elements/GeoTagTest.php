@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-
 class GeoTagTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
