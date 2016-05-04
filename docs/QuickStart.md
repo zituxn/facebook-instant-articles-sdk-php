@@ -509,15 +509,15 @@ foreach ($pagesAndTokens as $pageAndToken) {
 
 ### Overview
 
-A valid Instant Article is comprised of a subset of standard HTML tags, detailed in the [Format Reference](https://developers.facebook.com/docs/instant-articles/reference). Adhering to these restrictions ensures that content renders reliably and performant on mobile devices within Facebook but naturally constrains what is allowed within the markup. What's more, the hierarchy of the allowed tags also matters.
+A valid Instant Article is comprised of a subset of standard HTML tags, detailed in the [Format Reference](https://developers.facebook.com/docs/instant-articles/reference). Adhering to these restrictions ensures that content renders reliably and performant on mobile devices within Facebook but naturally constrains what is allowed within the markup. What's more, the hierarchy of the permitted tags also matters.
 
-> For example, to render text **bold** in an Instant Articles, the `<strong>` tag *must* be used. But if your content makes use of `<b>` as a means to stylize text bold, you would find that your source markup is *valid HTML*, but ultimately is not *valid Instant Articles markup*.
+> For example, to render text **bold** in an Instant Article, the `<strong>` tag *must* be used. But if your content makes use of `<b>` as a means to stylize text bold, you would find that your source markup is *valid HTML*, but ultimately is not *valid Instant Articles markup*.
 
 The Transformer of this SDK helps mitigate these constraints by converting *any markup* into *Instant Articles markup*, and the ***Transformer Rules*** are what instructs it on how to do so. Collectively, these rules form a mapping between elements in the source markup and what they should be transformed into within the generated Instant Article. Analogous to a car, if the Transformer were the engine powering the conversion of the markup, the Transformer Rules would be the driver.
 
 Many [example rules](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/tests/Facebook/InstantArticles/Transformer/instant-article-example-rules.json) have been defined which aim to cover most common scenarios. Additional rules can be added to amend or override existing ones.
 
-### Custom Transformer Rules
+### <a name="custom-transformer-rules"></a>Configuring Transformer Rules
 
 At a high level, configuring a transformer rule involves two steps:
 
@@ -538,96 +538,65 @@ Take the following example which would cause text within `<span class="bold">` t
 
 *If you're curious, the resulting markup within the Instant Article for the `BoldRule` class is the `<strong>` tag; the fact that this detail is abstracted by the Transformer is intentional.*
 
+A caveat in the example above is that there is no mention of *context*. It turns out, the rule above would only work as expected if it were being processed within a particular parent context of the generated document.
+
 #### Rule Context
 
-The hierarchal nature of an HTML document implies that an element always exists within the context of a parent element. This concept also exists in the transformed elements, giving each one a *context* and plays an important part regarding the Transfer Rules since, along with the selector, it is a condition a processing a rule.
+The hierarchal nature of an HTML document implies that an element always exists within the *context of a parent element*. A similar hierarchy is built during a document's transformation into an Instant Article giving each individual element a *context*. This context plays an important role for the Transfer Rules since, along with the selector, it is a condition that must be matched before a rule is executed.
 
-As the Transformer traverses through the entire HTML document it attempts to execute all of the defined rules for every tag element it encounters. But two criteria need to first be met each time:
+As the Transformer traverses through the entire HTML document, it attempts to execute all of rules for every tag element it encounters. But two criteria need to be met each time:
 
 1. the *selector* of the rule must match the current element
-2. the *context* of the rule must match one of the allowed context(s) of the rule class
+2. the *context* in which the rule would be run must match one of the allowed context(s) of the rule class
 
 In other words, as the Transformer progresses, it uses the rules to build a hierarchy of transformed elements, giving *context* to each subsequent rule. Rules are only permitted to execute within an allowed *context* defined for the [Rule Class](#transformer-classes) is uses.
 
-#### <a name="transformer-classes"></a>Rule Classes
+### <a name="transformer-classes"></a>Rule Classes
 
-Listed below are all the available *Transformer Rule Classes* whereby source markup can be mapped to a valid Instant Article component via the selectors of a rule. They are grouped by which contexts they've been defined to execute in:
+Listed below are all the available *Transformer Rule Classes* whereby source markup can be mapped to a valid Instant Article component via the selectors of a rule.
 
-- ***InstantArticle***
-  - `AdRule`
-  - `AnalyticsRule`
-  - `BlockquoteRule`
-  - `FooterRule`
-  - `HeaderRule`
-  - `ImageRule`
-  - `InstantArticleRule`
-  - `InteractiveRule`
-  - `ListElementRule`
-  - `MapRule`
-  - `ParagraphRule`
-  - `PullquoteRule`
-  - `RelatedArticlesRule`
-  - `SlideshowRule`
-  - `SocialEmbedRule`
-  - `VideoRule`
-
-- ***TextContainer***
-  - `AnchorRule`
-  - `BoldRule`
-  - `ItalicRule`
-  - `LineBreakRule`
-  - `TextNodeRule`
-
-- ***ListElement***
-  - `ListItemRule`
-
-- ***Header***
-  - `AuthorRule`
-  - `HeaderAdRule`
-  - `HeaderImageRule`
-  - `HeaderKickerRule`
-  - `HeaderSubTitleRule`
-  - `HeaderTitleRule`
-  - `TimeRule`
-
-- ***Footer***
-  - `FooterRelatedArticlesRule`
-  - `ParagraphFooterRule`
-
-- ***Caption***
-  - `CaptionCreditRule`
-
-- ***Audible***
-  - `AudioRule`
-
-- ***Pullquote***
-  - `PullquoteCiteRule`
-
-- ***RelatedArticles***
-  - `RelatedItemRule`
-
-- ***Slideshow***
-  - `SlideshowImageRule`
-
-These rule classes differ slightly from the others because they are permitted in more than one *context*:
-
-- `CaptionRule`
-  - ***Map***
-  - ***Image***
-  - ***Interactive***
-  - ***Slideshow***
-  - ***SocialEmbed***
-  - ***Video***
-- `GeoTagRule`
-  - ***Image***
-  - ***Video***
-  - ***Map***
-- `H1Rule`
-  - ***Caption***
-  - ***InstantArticle***
-- `H2Rule`
-  - ***Caption***
-  - ***InstantArticle***
+Transformer Rule Class | Permitted Context | Notes
+--- | --- | ---
+`AdRule` | *InstantArticle* | 
+`AnalyticsRule` | *InstantArticle* | 
+`AnchorRule` | *TextContainer* | 
+`AudioRule` | *Audible* | 
+`AuthorRule` | *Header* | 
+`BlockquoteRule` | *InstantArticle* | 
+`BoldRule` | *TextContainer* | 
+`CaptionCreditRule` | *Caption* | 
+`CaptionRule` | *Map*, *Image*, *Interactive*, *Slideshow*, *SocialEmbed*, *Video* | 
+`FooterRelatedArticlesRule` | *Footer* | 
+`FooterRule` | *InstantArticle* | 
+`GeoTagRule` | *Image*, *Video*, *Map* | 
+`H1Rule` | *Caption*, *InstantArticle* | 
+`H2Rule` | *Caption*, *InstantArticle* | 
+`HeaderAdRule` | *Header* | 
+`HeaderImageRule` | *Header* | 
+`HeaderKickerRule` | *Header* | 
+`HeaderRule` | *InstantArticle* | 
+`HeaderSubTitleRule` | *Header* | 
+`HeaderTitleRule` | *Header* | 
+`ImageRule` | *InstantArticle* | 
+`InstantArticleRule` | *InstantArticle* | 
+`InteractiveRule` | *InstantArticle* | 
+`ItalicRule` | *TextContainer* | 
+`LineBreakRule` | *TextContainer* | 
+`ListElementRule` | *InstantArticle* | 
+`ListItemRule` | *ListElement* | 
+`MapRule` | *InstantArticle* | 
+`ParagraphFooterRule` | *Footer* | 
+`ParagraphRule` | *InstantArticle* | 
+`PullquoteCiteRule` | *Pullquote* | 
+`PullquoteRule` | *InstantArticle* | 
+`RelatedArticlesRule` | *InstantArticle* | 
+`RelatedItemRule` | *RelatedArticles* | 
+`SlideshowImageRule` | *Slideshow* | 
+`SlideshowRule` | *InstantArticle* | 
+`SocialEmbedRule` | *InstantArticle* | 
+`TextNodeRule` | *TextContainer* | 
+`TimeRule` | *Header* | 
+`VideoRule` | *InstantArticle* | 
 
 ##### Special Rule Classes
 
