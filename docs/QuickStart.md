@@ -547,58 +547,82 @@ The hierarchal nature of an HTML document implies that an element always exists 
 As the Transformer traverses through the entire HTML document, it attempts to execute all of rules for every tag element it encounters. But two criteria need to be met each time:
 
 1. the *selector* of the rule must match the current element
-2. the *context* in which the rule would be run must match one of the allowed context(s) of the rule class
+2. the *context* in which the rule would run must match one of the allowed context(s) of the rule class
 
 In other words, as the Transformer progresses, it uses the rules to build a hierarchy of transformed elements, giving *context* to each subsequent rule. Rules are only permitted to execute within an allowed *context* defined for the [Rule Class](#transformer-classes) is uses.
 
 ### <a name="transformer-classes"></a>Rule Classes
 
-Listed below are all the available *Transformer Rule Classes* whereby source markup can be mapped to a valid Instant Article component via the selectors of a rule.
+Listed below are all the available *Transformer Rule Classes* whereby source markup can be mapped to a valid Instant Article component via the selectors of a rule. They are arranged into logical groups by function.
+
+##### Formatting
+
+Transformer Rule Class | Permitted Context | Notes
+--- | --- | ---
+`AnchorRule` | *TextContainer* | 
+`BoldRule` | *TextContainer* | 
+`ItalicRule` | *TextContainer* | 
+`LineBreakRule` | *TextContainer* | 
+
+##### Layout
+
+Transformer Rule Class | Permitted Context | Notes
+--- | --- | ---
+`BlockquoteRule` | *InstantArticle* | 
+`H1Rule` | *Caption*, *InstantArticle* | 
+`H2Rule` | *Caption*, *InstantArticle* | 
+`HeaderRule` | *InstantArticle* | Can apply to all headers (`HeaderKickerRule`, `HeaderSubTitleRule`, `HeaderTitleRule`)
+`ListElementRule` | *InstantArticle* | 
+`ListItemRule` | *ListElement* | 
+`ParagraphRule` | *InstantArticle* | 
+`PullquoteCiteRule` | *Pullquote* | 
+`PullquoteRule` | *InstantArticle* | 
+
+##### Graphic
 
 Transformer Rule Class | Permitted Context | Notes
 --- | --- | ---
 `AdRule` | *InstantArticle* | 
 `AnalyticsRule` | *InstantArticle* | 
-`AnchorRule` | *TextContainer* | 
-`AudioRule` | *Audible* | 
-`AuthorRule` | *Header* | 
-`BlockquoteRule` | *InstantArticle* | 
-`BoldRule` | *TextContainer* | 
-`CaptionCreditRule` | *Caption* | 
-`CaptionRule` | *Map*, *Image*, *Interactive*, *Slideshow*, *SocialEmbed*, *Video* | 
-`FooterRelatedArticlesRule` | *Footer* | 
-`FooterRule` | *InstantArticle* | 
 `GeoTagRule` | *Image*, *Video*, *Map* | 
-`H1Rule` | *Caption*, *InstantArticle* | 
-`H2Rule` | *Caption*, *InstantArticle* | 
 `HeaderAdRule` | *Header* | 
 `HeaderImageRule` | *Header* | 
-`HeaderKickerRule` | *Header* | 
-`HeaderRule` | *InstantArticle* | 
-`HeaderSubTitleRule` | *Header* | 
-`HeaderTitleRule` | *Header* | 
 `ImageRule` | *InstantArticle* | 
-`InstantArticleRule` | *InstantArticle* | 
 `InteractiveRule` | *InstantArticle* | 
-`ItalicRule` | *TextContainer* | 
-`LineBreakRule` | *TextContainer* | 
-`ListElementRule` | *InstantArticle* | 
-`ListItemRule` | *ListElement* | 
 `MapRule` | *InstantArticle* | 
-`ParagraphFooterRule` | *Footer* | 
-`ParagraphRule` | *InstantArticle* | 
-`PullquoteCiteRule` | *Pullquote* | 
-`PullquoteRule` | *InstantArticle* | 
+
+##### Media
+
+Transformer Rule Class | Permitted Context | Notes
+--- | --- | ---
+`AudioRule` | *Audible* | 
 `RelatedArticlesRule` | *InstantArticle* | 
 `RelatedItemRule` | *RelatedArticles* | 
 `SlideshowImageRule` | *Slideshow* | 
 `SlideshowRule` | *InstantArticle* | 
 `SocialEmbedRule` | *InstantArticle* | 
-`TextNodeRule` | *TextContainer* | 
-`TimeRule` | *Header* | 
 `VideoRule` | *InstantArticle* | 
 
-##### Special Rule Classes
+##### Article Structure
 
-- `IgnoreRule` - This rule class will effectively strip out an element tag which matches the associated `selector` of the rule.
-- `PassThroughRule` - This rule class instructs the Transformer to not process any transformation on element tags which match the associated  `selector` of the rule.
+Transformer Rule Class | Permitted Context | Notes
+--- | --- | ---
+`AuthorRule` | *Header* | 
+`CaptionCreditRule` | *Caption* | 
+`CaptionRule` | *Map*, *Image*, *Interactive*, *Slideshow*, *SocialEmbed*, *Video* | 
+`FooterRelatedArticlesRule` | *Footer* | 
+`FooterRule` | *InstantArticle* | 
+`HeaderKickerRule` | *Header* | 
+`HeaderSubTitleRule` | *Header* | 
+`HeaderTitleRule` | *Header* | 
+`ParagraphFooterRule` | *Footer* | 
+`TimeRule` | *Header* | 
+
+##### Special
+
+Transformer Rule Class | Permitted Context | Notes
+--- | --- | ---
+`IgnoreRule` | *(any)* | This rule class will effectively strip out an element tag which matches the associated ***selector*** of the rule.
+`PassThroughRule` | *(any)* | This rule class instructs the Transformer to not process any transformation on element tags which match the associated  ***selector*** of the rule.
+`InstantArticleRule` | *InstantArticle* | 
+`TextNodeRule` | *TextContainer* | 
