@@ -557,12 +557,12 @@ Listed below are all the available *Transformer Rule Classes* whereby source mar
 
 ##### Formatting
 
-Transformer Rule Class | Permitted Context | Notes
+Transformer Rule Class | Properties | Permitted Context | Notes
 --- | --- | ---
-`AnchorRule` | *TextContainer* | 
-`BoldRule` | *TextContainer* | 
-`ItalicRule` | *TextContainer* | 
-`LineBreakRule` | *TextContainer* | 
+`AnchorRule` | `anchor.href`<br>`anchor.rel` | *TextContainer* | 
+`BoldRule` |  | *TextContainer* | 
+`ItalicRule` |  | *TextContainer* | 
+`LineBreakRule` |  | *TextContainer* | 
 
 ##### Layout
 
@@ -580,49 +580,49 @@ Transformer Rule Class | Permitted Context | Notes
 
 ##### Graphic
 
-Transformer Rule Class | Permitted Context | Notes
+Transformer Rule Class | Properties | Permitted Context | Notes
 --- | --- | ---
-`AdRule` | *InstantArticle* | 
-`AnalyticsRule` | *InstantArticle* | 
-`GeoTagRule` | *Image*, *Video*, *Map* | 
-`HeaderAdRule` | *Header* | 
-`HeaderImageRule` | *Header* | 
-`ImageRule` | *InstantArticle* | 
-`InteractiveRule` | *InstantArticle* | 
-`MapRule` | *InstantArticle* | 
+`AdRule` | `ad.url`<br>`ad.height`<br>`ad.width`<br>`ad.embed` | *InstantArticle* |
+`AnalyticsRule` | `analytics.url`<br>`analytics.embed` | *InstantArticle* |
+`GeoTagRule` | `map.geotag` | *Image*, *Video*, *Map* | 
+`HeaderAdRule` | `ad.url`<br>`ad.height`<br>`ad.width`<br>`ad.embed` | *Header* |
+`HeaderImageRule` | `image.url` | *Header* | 
+`ImageRule` | `image.url`<br>`image.like`<br>`image.comments` | *InstantArticle* |
+`InteractiveRule` | `interactive.iframe`<br>`interactive.url`<br>`interactive.height`<br>`no-margin`<br>`column-width` | *InstantArticle* | 
+`MapRule` |  | *InstantArticle* | 
 
 ##### Media
 
-Transformer Rule Class | Permitted Context | Notes
+Transformer Rule Class | Properties | Permitted Context | Notes
 --- | --- | ---
-`AudioRule` | *Audible* | 
-`RelatedArticlesRule` | *InstantArticle* | 
-`RelatedItemRule` | *RelatedArticles* | 
-`SlideshowImageRule` | *Slideshow* | 
-`SlideshowRule` | *InstantArticle* | 
-`SocialEmbedRule` | *InstantArticle* | 
-`VideoRule` | *InstantArticle* | 
+`AudioRule` | `audio.url`<br>`audio.title`<br>`audio.autoplay`<br>`audio.muted` | *Audible* |
+`RelatedArticlesRule` | `related.title` | *InstantArticle* | 
+`RelatedItemRule` | `related.sponsored`<br>`related.url` | *RelatedArticles* |
+`SlideshowImageRule` | `image.url`<br>`caption.title`<br>`caption.credit` | *Slideshow* |
+`SlideshowRule` |  | *InstantArticle* | 
+`SocialEmbedRule` | `socialembed.iframe`<br>`socialembed.url` | *InstantArticle* |
+`VideoRule` | `video.url`<br>`video.type`<br>`video.playback`<br>`video.controls`<br>`video.like`<br>`video.comments` | *InstantArticle* |
 
 ##### Article Structure
 
-Transformer Rule Class | Permitted Context | Notes
+Transformer Rule Class | Properties | Permitted Context | Notes
 --- | --- | ---
-`AuthorRule` | *Header* | 
-`CaptionCreditRule` | *Caption* | 
-`CaptionRule` | *Map*, *Image*, *Interactive*, *Slideshow*, *SocialEmbed*, *Video* | 
-`FooterRelatedArticlesRule` | *Footer* | 
-`FooterRule` | *InstantArticle* | 
-`HeaderKickerRule` | *Header* | 
-`HeaderSubTitleRule` | *Header* | 
-`HeaderTitleRule` | *Header* | 
-`ParagraphFooterRule` | *Footer* | 
-`TimeRule` | *Header* | 
+`AuthorRule` | `author.url`<br>`author.name`<br>`author.role_contribution`<br>`author.description` | *Header* | 
+`CaptionCreditRule` |  | *Caption* | 
+`CaptionRule` | `caption.default` | *Map*, *Image*, *Interactive*, *Slideshow*, *SocialEmbed*, *Video* | 
+`FooterRelatedArticlesRule` | `related.title` | *Footer* | 
+`FooterRule` |  | *InstantArticle* | 
+`HeaderKickerRule` |  | *Header* | 
+`HeaderSubTitleRule` |  | *Header* | 
+`HeaderTitleRule` |  | *Header* | 
+`ParagraphFooterRule` |  | *Footer* | 
+`TimeRule` | `article.time`<br>`article.time_type` | *Header* |
 
 ##### Special
 
-Transformer Rule Class | Permitted Context | Notes
+Transformer Rule Class | Properties | Permitted Context | Notes
 --- | --- | ---
-`IgnoreRule` | *(any)* | This rule class will effectively strip out an element tag which matches the associated ***selector*** of the rule.
-`PassThroughRule` | *(any)* | This rule class instructs the Transformer to not process any transformation on element tags which match the associated  ***selector*** of the rule.
-`InstantArticleRule` | *InstantArticle* | 
-`TextNodeRule` | *TextContainer* | 
+`IgnoreRule` |  | *(any)* | This rule class will effectively strip out an element tag which matches the associated ***selector*** of the rule.
+`PassThroughRule` |  | *(any)* | This rule class instructs the Transformer to not process any transformation on element tags which match the associated  ***selector*** of the rule.
+`InstantArticleRule` | `article.canonical`<br>`article.charset`<br>`article.markup.version`<br>`article.auto.ad` | *InstantArticle* |
+`TextNodeRule` |  | *TextContainer* | 
