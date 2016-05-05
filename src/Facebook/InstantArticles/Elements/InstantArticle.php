@@ -308,7 +308,7 @@ class InstantArticle extends Element
         $article = $document->createElement('article');
         $body->appendChild($article);
         $html->appendChild($body);
-        if ($this->header) {
+        if ($this->header && $this->header->isValid()) {
             $article->appendChild($this->header->toDOMElement($document));
         }
         if ($this->children) {
@@ -325,7 +325,7 @@ class InstantArticle extends Element
                 }
                 $article->appendChild($child->toDOMElement($document));
             }
-            if ($this->footer) {
+            if ($this->footer && $this->footer->isValid()) {
                 $article->appendChild($this->footer->toDOMElement($document));
             }
         } else {

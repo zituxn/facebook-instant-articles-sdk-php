@@ -62,7 +62,8 @@ abstract class Element
 
     /**
      * Method that checks if the element is valid, not empty. If !valid() it wont be rendered.
-     * @since v1.0.6
+     * @since v1.0.7
+     * @return boolean true for valid element, false otherwise.
      */
     public function isValid()
     {
