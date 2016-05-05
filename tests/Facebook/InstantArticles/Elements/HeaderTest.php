@@ -156,12 +156,17 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
                 ->withSubTitle(
                     H2::create()
                         ->appendText('Smaller SubTitle')
+                )
+                ->withKicker(
+                    H3::create()
+                        ->appendText('Kicker')
                 );
 
         $expected =
             '<header>'.
                 '<h1>Big Top Title</h1>'.
                 '<h2>Smaller SubTitle</h2>'.
+                '<h3 class="op-kicker">Kicker</h3>'.
             '</header>';
 
         $rendered = $header->render();
@@ -182,12 +187,18 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
                     H2::create()
                         ->appendText('Smaller SubTitle ')
                         ->appendText(Bold::create()->appendText('in Bold'))
+                )
+                ->withKicker(
+                    H3::create()
+                        ->appendText('Kicker ')
+                        ->appendText(Bold::create()->appendText('in Bold'))
                 );
 
         $expected =
             '<header>'.
                 '<h1>Big Top Title <b>in Bold</b></h1>'.
                 '<h2>Smaller SubTitle <b>in Bold</b></h2>'.
+                '<h3 class="op-kicker">Kicker <b>in Bold</b></h3>'.
             '</header>';
 
         $rendered = $header->render();
