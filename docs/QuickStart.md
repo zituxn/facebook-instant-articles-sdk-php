@@ -554,7 +554,7 @@ Key name | Required? | Notes
 --- | --- | ---
 `type` | *Required* | Defines the behavior of the `selector` (below). Possible values: `"string"`, `"int"`, `"exists"`, `"sibling"`, `"children"`, `"xpath"`.
 `selector` | *Required* | The interpretation of the value of this item is affected by the `type` (above).
-`attribute` | *Required only if `type` is `"string"`* | The name of the attribute on the element, identified by the value in `selector`, whose value you want to use as the content for the property of the Transformer Rule.<br><br>When `type` is `"exists"`, the value of the property will be `true` simply by the presence of the attribute, regardless of its value.
+`attribute` | *Required only if `type` is one of: `"string"`, `"int"`, `"exists"`, `"xpath"`* | The name of the attribute on the element, identified by the value in `selector`, whose value you want to use as the content for the property of the Transformer Rule.<br><br>When `type` is `"exists"`, the value of the property will be `true` simply by the presence of the attribute, regardless of its value.
 
 ##### Examples
 
@@ -616,7 +616,7 @@ Listed below are all the available *Rule Classes*, along with their supported `p
 **Formatting**
 
 Transformer Rule Class | Properties | Permitted Context | Notes
---- | --- | ---
+--- | --- | --- | ---
 `AnchorRule` | `anchor.href`<br>`anchor.rel` | *TextContainer* | 
 `BoldRule` |  | *TextContainer* | 
 `ItalicRule` |  | *TextContainer* | 
@@ -625,7 +625,7 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 **Layout**
 
 Transformer Rule Class | Properties | Permitted Context | Notes
---- | --- | ---
+--- | --- | --- | ---
 `BlockquoteRule` |  | *InstantArticle* | 
 `H1Rule` |  | *Caption*, *InstantArticle* | 
 `H2Rule` |  | *Caption*, *InstantArticle* | 
@@ -639,7 +639,7 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 **Graphic**
 
 Transformer Rule Class | Properties | Permitted Context | Notes
---- | --- | ---
+--- | --- | --- | ---
 `AdRule` | `ad.url`<br>`ad.height`<br>`ad.width`<br>`ad.embed` | *InstantArticle* |
 `AnalyticsRule` | `analytics.url`<br>`analytics.embed` | *InstantArticle* |
 `GeoTagRule` | `map.geotag` | *Image*, *Video*, *Map* | 
@@ -652,7 +652,7 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 **Media**
 
 Transformer Rule Class | Properties | Permitted Context | Notes
---- | --- | ---
+--- | --- | --- | ---
 `AudioRule` | `audio.url`<br>`audio.title`<br>`audio.autoplay`<br>`audio.muted` | *Audible* |
 `RelatedArticlesRule` | `related.title` | *InstantArticle* | 
 `RelatedItemRule` | `related.sponsored`<br>`related.url` | *RelatedArticles* |
@@ -664,7 +664,7 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 **Article Structure**
 
 Transformer Rule Class | Properties | Permitted Context | Notes
---- | --- | ---
+--- | --- | --- | ---
 `AuthorRule` | `author.url`<br>`author.name`<br>`author.description`<br>`author.role_contribution` | *Header* | 
 `CaptionCreditRule` |  | *Caption* | 
 `CaptionRule` | `caption.default` | *Map*, *Image*, *Interactive*, *Slideshow*, *SocialEmbed*, *Video* | 
@@ -679,7 +679,7 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 **Special**
 
 Transformer Rule Class | Properties | Permitted Context | Notes
---- | --- | ---
+--- | --- | --- | ---
 `IgnoreRule` |  | *(any)* | This rule class will effectively strip out an element tag which matches the associated ***selector*** of the rule.
 `PassThroughRule` |  | *(any)* | This rule class instructs the Transformer to not process any transformation on element tags which match the associated  ***selector*** of the rule.
 `InstantArticleRule` | `article.canonical`<br>`article.charset`<br>`article.markup.version`<br>`article.auto.ad` | *InstantArticle* | This is the entry point, or root node, of the hierarchy.
