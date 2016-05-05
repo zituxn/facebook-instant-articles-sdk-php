@@ -586,7 +586,7 @@ As a contrived example, here's a rule which would transform source markup format
 
    "anchor.href" : {
      "type" : "string",
-     "selector" : "span",
+     "selector" : "span.custom-href",
      "attribute": "data-link"
    }
 
