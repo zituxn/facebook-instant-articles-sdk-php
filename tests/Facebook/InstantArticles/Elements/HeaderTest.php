@@ -168,4 +168,30 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $rendered);
     }
+
+    public function testHeaderWithTitlesFormatted()
+    {
+        $header =
+            Header::create()
+                ->withTitle(
+                    H1::create()
+                        ->appendText('Big Top Title ')
+                        ->appendText(Bold::create()->appendText('in Bold'))
+                )
+                ->withSubTitle(
+                    H2::create()
+                        ->appendText('Smaller SubTitle ')
+                        ->appendText(Bold::create()->appendText('in Bold'))
+                );
+
+        $expected =
+            '<header>'.
+                '<h1>Big Top Title <b>in Bold</b></h1>'.
+                '<h2>Smaller SubTitle <b>in Bold</b></h2>'.
+            '</header>';
+
+        $rendered = $header->render();
+
+        $this->assertEquals($expected, $rendered);
+    }
 }
