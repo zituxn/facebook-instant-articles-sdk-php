@@ -15,11 +15,13 @@ namespace Facebook\InstantArticles\Elements;
  */
 class Div extends TextContainer
 {
-
     private function __construct()
     {
     }
 
+    /**
+     * @return Div
+     */
     public static function create()
     {
         return new self();
@@ -28,7 +30,9 @@ class Div extends TextContainer
     /**
      * Structure and create <div> node.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

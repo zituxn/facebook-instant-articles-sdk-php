@@ -80,6 +80,9 @@ class Caption extends FormattedText
     {
     }
 
+    /**
+     * @return Caption
+     */
     public static function create()
     {
         return new self();
@@ -88,7 +91,9 @@ class Caption extends FormattedText
     /**
      * The caption title. REQUIRED.
      *
-     * @param H1|string the caption text that will be shown
+     * @param H1|string $title the caption text that will be shown
+     *
+     * @return $this
      */
     public function withTitle($title)
     {
@@ -105,7 +110,9 @@ class Caption extends FormattedText
     /**
      * The caption sub title. optional.
      *
-     * @param string the caption sub title text that will be shown
+     * @param string $sub_title the caption sub title text that will be shown
+     *
+     * @return $this
      */
     public function withSubTitle($sub_title)
     {
@@ -121,7 +128,9 @@ class Caption extends FormattedText
     /**
      * The caption credit. optional.
      *
-     * @param string the caption credit text that will be shown
+     * @param string $credit the caption credit text that will be shown
+     *
+     * @return $this
      */
     public function withCredit($credit)
     {
@@ -141,7 +150,9 @@ class Caption extends FormattedText
      * @see Caption::SIZE_LARGE
      * @see Caption::SIZE_XLARGE
      *
-     * @param string the caption font size that will be used.
+     * @param string $font_size the caption font size that will be used.
+     *
+     * @return $this
      */
     public function withFontsize($font_size)
     {
@@ -165,7 +176,9 @@ class Caption extends FormattedText
      * @see Caption::ALIGN_LEFT
      * @see Caption::ALIGN_CENTER
      *
-     * @param string alignment option that will be used.
+     * @param string $text_alignment alignment option that will be used.
+     *
+     * @return $this
      */
     public function withTextAlignment($text_alignment)
     {
@@ -186,6 +199,7 @@ class Caption extends FormattedText
      * @deprecated
      *
      * @param string $position
+     *
      * @return $this
      */
     public function withPostion($position)
@@ -201,6 +215,7 @@ class Caption extends FormattedText
      * @see Caption::POSITION_CENTER
      *
      * @param string $position that will be used.
+     *
      * @return $this
      */
     public function withPosition($position)
@@ -282,7 +297,9 @@ class Caption extends FormattedText
     /**
     * Structure and create the full ArticleImage in a XML format DOMElement.
     *
-    * @param $document DOMDocument where this element will be appended. Optional
+    * @param \DOMDocument $document where this element will be appended. Optional
+     *
+    * @return \DOMElement
     */
     public function toDOMElement($document = null)
     {

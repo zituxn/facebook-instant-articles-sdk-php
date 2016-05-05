@@ -97,7 +97,9 @@ class Image extends Audible
      * This sets figcaption tag as documentation. It overrides all sets
      * made with @see Caption.
      *
-     * @param Caption the caption the image will have
+     * @param Caption $caption the caption the image will have
+     *
+     * @return $this
      */
     public function withCaption($caption)
     {
@@ -110,7 +112,9 @@ class Image extends Audible
     /**
      * Sets the URL for the image. It is REQUIRED.
      *
-     * @param string The url of image. Ie: http://domain.com/img.png
+     * @param string $url The url of image. Ie: http://domain.com/img.png
+     *
+     * @return $this
      */
     public function withURL($url)
     {
@@ -128,6 +132,8 @@ class Image extends Audible
      * @see Image::ASPECT_FIT_ONLY
      * @see Image::FULLSCREEN
      * @see Image::NON_INTERACTIVE
+     *
+     * @return $this
      */
     public function withPresentation($presentation)
     {
@@ -205,7 +211,9 @@ class Image extends Audible
     /**
      * Adds audio to this image.
      *
-     * @param Audio The audio object
+     * @param Audio $audio The audio object
+     *
+     * @return $this
      */
     public function withAudio($audio)
     {
@@ -278,7 +286,9 @@ class Image extends Audible
     /**
      * Structure and create the full Image in a XML format DOMElement.
      *
-     * @param $document DOMDocument where this element will be appended. Optional
+     * @param \DOMDocument $document where this element will be appended. Optional
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

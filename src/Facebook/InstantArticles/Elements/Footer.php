@@ -48,6 +48,9 @@ class Footer extends Element
     {
     }
 
+    /**
+     * @return Footer
+     */
     public static function create()
     {
         return new self();
@@ -56,7 +59,9 @@ class Footer extends Element
     /**
      * Sets the text content of the credits
      *
-     * @param string|array<paragraph> $credits - A list of paragraphs or a single string for the content of the credit.
+     * @param string|string[]|Paragraph[] $credits - A list of paragraphs or a single string for the content of the credit.
+     *
+     * @return $this
      */
     public function withCredits($credits)
     {
@@ -70,6 +75,8 @@ class Footer extends Element
      * Adds a new Paragraph to the credits
      *
      * @param Paragraph $credit - One Paragraph to be added as a credit.
+     *
+     * @return $this
      */
     public function addCredit($credit)
     {
@@ -83,6 +90,8 @@ class Footer extends Element
      * Sets the copyright information for the article.
      *
      * @param string $copyright - The copyright information.
+     *
+     * @return $this
      */
     public function withCopyright($copyright)
     {
@@ -96,6 +105,8 @@ class Footer extends Element
      * Sets the related articles within the footer of the article.
      *
      * @param RelatedArticles $related_articles - The related articles
+     *
+     * @return $this
      */
     public function withRelatedArticles($related_articles)
     {
@@ -108,7 +119,7 @@ class Footer extends Element
     /**
      * Gets the text content of the credits
      *
-     * @return string|array<paragraph> $credits - A list of paragraphs or a single string for the content of the credit.
+     * @return string|string[]|Paragraph[] A list of paragraphs or a single string for the content of the credit.
      */
     public function getCredits()
     {
@@ -118,7 +129,7 @@ class Footer extends Element
     /**
      * Gets the copyright information for the article.
      *
-     * @return string $copyright - The copyright information.
+     * @return string The copyright information.
      */
     public function getCopyright()
     {
@@ -128,7 +139,7 @@ class Footer extends Element
     /**
      * Gets the related articles within the footer of the article.
      *
-     * @return RelatedArticles $related_articles - The related articles
+     * @return RelatedArticles The related articles
      */
     public function getRelatedArticles()
     {
@@ -138,7 +149,9 @@ class Footer extends Element
     /**
      * Structure and create the full Footer in a DOMElement.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

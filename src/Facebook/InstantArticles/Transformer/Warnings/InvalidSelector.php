@@ -8,16 +8,40 @@
  */
 namespace Facebook\InstantArticles\Transformer\Warnings;
 
+use Facebook\InstantArticles\Elements\Element;
+use Facebook\InstantArticles\Transformer\Rules\ConfigurationSelectorRule;
+
 /**
  * Class InvalidSelector warning to show that an invalid selector for a required property was used
  */
 class InvalidSelector
 {
+    /**
+     * @var string
+     */
     private $fields;
+
+    /**
+     * @var Element
+     */
     private $context;
+
+    /**
+     * @var \DOMNode
+     */
     private $node;
+
+    /**
+     * @var ConfigurationSelectorRule
+     */
     private $rule;
 
+    /**
+     * @param string $fields
+     * @param Element $context
+     * @param \DOMNode $node
+     * @param ConfigurationSelectorRule $rule
+     */
     public function __construct($fields, $context, $node, $rule)
     {
         $this->fields = $fields;
@@ -26,6 +50,9 @@ class InvalidSelector
         $this->rule = $rule;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         $reflection = new \ReflectionClass(get_class($this->context));
@@ -53,11 +80,17 @@ class InvalidSelector
             "properties: {{$str_properties}}";
     }
 
+    /**
+     * @return Element
+     */
     public function getContext()
     {
         return $this->context;
     }
 
+    /**
+     * @return \DOMNode
+     */
     public function getNode()
     {
         return $this->node;

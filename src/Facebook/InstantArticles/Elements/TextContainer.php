@@ -28,7 +28,9 @@ abstract class TextContainer extends Element
     /**
      * Adds content to the formatted text.
      *
-     * @param string|FormattedText The content can be a string or a FormattedText.
+     * @param string|FormattedText|TextContainer The content can be a string or a FormattedText.
+     *
+     * @return $this
      */
     public function appendText($child)
     {
@@ -39,7 +41,7 @@ abstract class TextContainer extends Element
     }
 
     /**
-     * @return array<string|FormattedText> All text token for this text container.
+     * @return string[]|FormattedText[]|TextContainer[] All text token for this text container.
      */
     public function getTextChildren()
     {
@@ -49,7 +51,9 @@ abstract class TextContainer extends Element
     /**
      * Structure and create the full text in a DOMDocumentFragment.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMDocumentFragment
      */
     public function textToDOMDocumentFragment($document = null)
     {

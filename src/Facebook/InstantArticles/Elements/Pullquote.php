@@ -27,7 +27,6 @@ use Facebook\InstantArticles\Validators\Type;
  */
 class Pullquote extends TextContainer
 {
-
     /**
      * @var Cite Content that will be shown on <cite>...</cite> tags.
      */
@@ -37,6 +36,9 @@ class Pullquote extends TextContainer
     {
     }
 
+    /**
+     * @return Pullquote
+     */
     public static function create()
     {
         return new self();
@@ -45,7 +47,9 @@ class Pullquote extends TextContainer
     /**
      * Sets the attribution string
      *
-     * @param The attribution text
+     * @param string|Cite $attribution The attribution text
+     *
+     * @return $this
      */
     public function withAttribution($attribution)
     {
@@ -70,7 +74,9 @@ class Pullquote extends TextContainer
     /**
      * Structure and create the full Pullquote in a DOMElement.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

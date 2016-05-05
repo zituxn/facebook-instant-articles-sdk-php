@@ -34,6 +34,9 @@ class Cite extends TextContainer
     {
     }
 
+    /**
+     * @return Cite
+     */
     public static function create()
     {
         return new self();
@@ -46,7 +49,9 @@ class Cite extends TextContainer
      * @see Caption::ALIGN_LEFT
      * @see Caption::ALIGN_CENTER
      *
-     * @param string alignment option that will be used.
+     * @param string $text_alignment alignment option that will be used.
+     *
+     * @return $this
      */
     public function withTextAlignment($text_alignment)
     {
@@ -102,7 +107,9 @@ class Cite extends TextContainer
     /**
      * Structure and create the <cite> in a DOMElement.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {
