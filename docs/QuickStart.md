@@ -513,49 +513,107 @@ A valid Instant Article is comprised of a subset of standard HTML tags, detailed
 
 > For example, to render text **bold** in an Instant Article, the `<strong>` tag *must* be used. But if your content makes use of `<b>` as a means to stylize text bold, you would find that your source markup is *valid HTML*, but ultimately is not *valid Instant Articles markup*.
 
-The Transformer of this SDK helps mitigate these constraints by converting *any markup* into *Instant Articles markup*, and the ***Transformer Rules*** are what instructs it on how to do so. Collectively, these rules form a mapping between elements in the source markup and what they should be transformed into within the generated Instant Article. Analogous to a car, if the Transformer were the engine powering the conversion of the markup, the Transformer Rules would be the driver.
+The Transformer of this SDK helps mitigate these constraints by converting *any markup* into *Instant Articles markup*, and it's the ***Transformer Rules*** which instructs it on how to do so. Collectively, these rules form a mapping between elements in the source markup and what they should be transformed into within the generated Instant Article. Analogous to a car, if the Transformer were the engine powering the conversion of the markup, the Transformer Rules would be the driver.
 
 Many [example rules](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/tests/Facebook/InstantArticles/Transformer/instant-article-example-rules.json) have been defined which aim to cover most common scenarios. Additional rules can be added to amend or override existing ones.
 
 ### <a name="custom-transformer-rules"></a>Configuring Transformer Rules
 
-At a high level, configuring a transformer rule involves two steps:
+At a high level, configuring a Transformer Rule involves three steps:
 
 1. Identifying a source element in your markup
-2. Associating it with an existing [Transformer Rule Class](#transformer-classes)
+2. Associating it with an existing [Transformer Rule Class](#transformer-classes) in a permitted context
+3. Defining any value for attributes on the transformed element that the Rule Class expects (not always needed)
 
-Both CSS selectors and Xpath can be used for matching source elements.
-
-Take the following example which would cause text within `<span class="bold">` to be stylized **bold** in the generated Instant Article:
+Take the following example which would cause text within `<span class="bold">` to be stylized **bold** in the generated Instant Article.
 
 ```javascript
 // Transformer Rule associating <span class="bold"> to the `BoldRule` class
 {
   "class": "BoldRule",
   "selector": "span.bold"
+  //"properties": {} // Not needed since the `BoldRule` class has no properties
 }
 ```
 
 *If you're curious, the resulting markup within the Instant Article for the `BoldRule` class is the `<strong>` tag; the fact that this detail is abstracted by the Transformer is intentional.*
 
-A caveat in the example above is that there is no mention of *context*. It turns out, the rule above would only work as expected if it were being processed within a particular parent context of the generated document.
+> Caveat: the example above makes no mention of *context*. It turns out, the rule above would only work as expected if it were being processed within a particular parent context of the generated document. Read more about [rule context](#rule-context).
 
-#### Rule Context
+#### Transformer Rule: Selector
 
-The hierarchal nature of an HTML document implies that an element always exists within the *context of a parent element*. A similar hierarchy is built during a document's transformation into an Instant Article giving each individual element a *context*. This context plays an important role for the Transfer Rules since, along with the selector, it is a condition that must be matched before a rule is executed.
+The selector is used to identify elements in the source markup. Both **CSS selectors** and **Xpath** are supported formats.
 
-As the Transformer traverses through the entire HTML document, it attempts to execute all of rules for every tag element it encounters. But two criteria need to be met each time:
+#### Transformer Rule: Properties
 
-1. the *selector* of the rule must match the current element
-2. the *context* in which the rule would run must match one of the allowed context(s) of the rule class
+Some Transformer Rules have properties who's value are obtained from content in the source markup. The content itself isn't specified in the rule; rather, the rule defines where in the source element the value is located, again by use of a selector.
 
-In other words, as the Transformer progresses, it uses the rules to build a hierarchy of transformed elements, giving *context* to each subsequent rule. Rules are only permitted to execute within an allowed *context* defined for the [Rule Class](#transformer-classes) is uses.
+In the configuration of your rule, you instruct the transformer where the value can be obtained from within the source markup with the following key-value pairs allowed for a property:
 
-### <a name="transformer-classes"></a>Rule Classes
+Key name | Required? | Notes
+--- | --- | ---
+`type` | *Required* | Defines the behavior of the `selector` (below). Possible values: `"string"`, `"int"`, `"exists"`, `"sibling"`, `"children"`, `"xpath"`.
+`selector` | *Required* | The interpretation of the value of this item is affected by the `type` (above).
+`attribute` | *Required only if `type` is `"string"`* | The name of the attribute on the element, identified by the value in `selector`, whose value you want to use as the content for the property of the Transformer Rule.<br><br>When `type` is `"exists"`, the value of the property will be `true` simply by the presence of the attribute, regardless of its value.
 
-Listed below are all the available *Transformer Rule Classes* whereby source markup can be mapped to a valid Instant Article component via the selectors of a rule. They are arranged into logical groups by function.
+##### Examples
 
-##### Formatting
+For example, take the standard case of configuring the transformer to recognize anchor tags, such as `<a href="http://example.com">` for generating links with an Instant Article:
+
+```javascript
+{
+ "class": "AnchorRule",  // Rule class
+ "selector": "a",        // Matching source element (CSS selector)
+ "properties" : {        // All supported properties
+
+   "anchor.href" : {     // Name of property
+     "type" : "string",
+     "selector" : "a",   // Additional selector specific to this property
+     "attribute": "href" // Attribute whose value to use
+   }
+
+ }
+}
+```
+
+As a contrived example, here's a rule which would transform source markup formatted as such: `<span class="custom-href" data-link="http://example.com">` into the same links within the generated Instant Article:
+
+```javascript
+{
+ "class": "AnchorRule",
+ "selector": "span.custom-href",
+ "properties" : {
+
+   "anchor.href" : {
+     "type" : "string",
+     "selector" : "span",
+     "attribute": "data-link"
+   }
+
+ }
+}
+```
+
+#### <a name="transformer-classes"></a>Transformer Rule: Class
+
+A *Rule Class* is simply a pre-determined link to a valid Instant Article component. It defines supported `properties` and permitted *context(s)* for the Rule.
+
+> <a name="rule-context"></a> **Rule Context**
+
+> The hierarchal nature of an HTML document implies that an element always exists within the *context of a parent element*. A similar hierarchy is built during a document's transformation into an Instant Article giving each individual element a *context*. This context plays an important role for the Transfer Rules since, along with the selector, it is a condition that must be matched before a rule is executed.
+
+> As the Transformer traverses through the entire HTML document, it attempts to execute all of rules for every tag element it encounters. But two criteria need to be met each time:
+
+> 1. the *selector* of the rule must match the current element
+> 2. the *context* in which the rule would run must match one of the allowed context(s) of the rule class
+
+> In other words, as the Transformer progresses, it uses the rules to build a hierarchy of transformed elements, giving *context* to each subsequent rule. Rules are only permitted to execute within an allowed *context* defined for the [Rule Class](#transformer-classes) is uses.
+
+##### Available Rule Classes
+
+Listed below are all the available *Rule Classes*, along with their supported `properties` and permitted *context(s)*, whereby source markup can be mapped to a valid Instant Article component via its selectors. They are arranged into logical groups by function.
+
+**Formatting**
 
 Transformer Rule Class | Properties | Permitted Context | Notes
 --- | --- | ---
@@ -564,21 +622,21 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 `ItalicRule` |  | *TextContainer* | 
 `LineBreakRule` |  | *TextContainer* | 
 
-##### Layout
+**Layout**
 
-Transformer Rule Class | Permitted Context | Notes
+Transformer Rule Class | Properties | Permitted Context | Notes
 --- | --- | ---
-`BlockquoteRule` | *InstantArticle* | 
-`H1Rule` | *Caption*, *InstantArticle* | 
-`H2Rule` | *Caption*, *InstantArticle* | 
-`HeaderRule` | *InstantArticle* | Can apply to all headers (`HeaderKickerRule`, `HeaderSubTitleRule`, `HeaderTitleRule`)
-`ListElementRule` | *InstantArticle* | 
-`ListItemRule` | *ListElement* | 
-`ParagraphRule` | *InstantArticle* | 
-`PullquoteCiteRule` | *Pullquote* | 
-`PullquoteRule` | *InstantArticle* | 
+`BlockquoteRule` |  | *InstantArticle* | 
+`H1Rule` |  | *Caption*, *InstantArticle* | 
+`H2Rule` |  | *Caption*, *InstantArticle* | 
+`HeaderRule` |  | *InstantArticle* | Can apply to all headers (`HeaderKickerRule`, `HeaderSubTitleRule`, `HeaderTitleRule`)
+`ListElementRule` |  | *InstantArticle* | 
+`ListItemRule` |  | *ListElement* | 
+`ParagraphRule` |  | *InstantArticle* | 
+`PullquoteCiteRule` |  | *Pullquote* | 
+`PullquoteRule` |  | *InstantArticle* | 
 
-##### Graphic
+**Graphic**
 
 Transformer Rule Class | Properties | Permitted Context | Notes
 --- | --- | ---
@@ -591,7 +649,7 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 `InteractiveRule` | `interactive.iframe`<br>`interactive.url`<br>`interactive.height`<br>`no-margin`<br>`column-width` | *InstantArticle* | 
 `MapRule` |  | *InstantArticle* | 
 
-##### Media
+**Media**
 
 Transformer Rule Class | Properties | Permitted Context | Notes
 --- | --- | ---
@@ -603,11 +661,11 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 `SocialEmbedRule` | `socialembed.iframe`<br>`socialembed.url` | *InstantArticle* |
 `VideoRule` | `video.url`<br>`video.type`<br>`video.playback`<br>`video.controls`<br>`video.like`<br>`video.comments` | *InstantArticle* |
 
-##### Article Structure
+**Article Structure**
 
 Transformer Rule Class | Properties | Permitted Context | Notes
 --- | --- | ---
-`AuthorRule` | `author.url`<br>`author.name`<br>`author.role_contribution`<br>`author.description` | *Header* | 
+`AuthorRule` | `author.url`<br>`author.name`<br>`author.description`<br>`author.role_contribution` | *Header* | 
 `CaptionCreditRule` |  | *Caption* | 
 `CaptionRule` | `caption.default` | *Map*, *Image*, *Interactive*, *Slideshow*, *SocialEmbed*, *Video* | 
 `FooterRelatedArticlesRule` | `related.title` | *Footer* | 
@@ -618,11 +676,11 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 `ParagraphFooterRule` |  | *Footer* | 
 `TimeRule` | `article.time`<br>`article.time_type` | *Header* |
 
-##### Special
+**Special**
 
 Transformer Rule Class | Properties | Permitted Context | Notes
 --- | --- | ---
 `IgnoreRule` |  | *(any)* | This rule class will effectively strip out an element tag which matches the associated ***selector*** of the rule.
 `PassThroughRule` |  | *(any)* | This rule class instructs the Transformer to not process any transformation on element tags which match the associated  ***selector*** of the rule.
-`InstantArticleRule` | `article.canonical`<br>`article.charset`<br>`article.markup.version`<br>`article.auto.ad` | *InstantArticle* |
+`InstantArticleRule` | `article.canonical`<br>`article.charset`<br>`article.markup.version`<br>`article.auto.ad` | *InstantArticle* | This is the entry point, or root node, of the hierarchy.
 `TextNodeRule` |  | *TextContainer* | 
