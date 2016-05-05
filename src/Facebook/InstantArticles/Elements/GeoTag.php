@@ -41,17 +41,12 @@ class GeoTag extends Element
      */
     private $script;
 
-    /**
-     * Private constructor.
-     * @see GeoTag::create();.
-     */
     private function __construct()
     {
     }
 
     /**
-     * Factory method for the Map
-     * @return GeoTag the new instance
+     * @return GeoTag
      */
     public static function create()
     {
@@ -62,6 +57,10 @@ class GeoTag extends Element
      * Sets the geotag on the image.
      *
      * @see {link:http://geojson.org/}
+     *
+     * @param string $script
+     *
+     * @return $this
      */
     public function withScript($script)
     {
@@ -82,7 +81,9 @@ class GeoTag extends Element
     /**
      * Structure and create the full Map in a XML format DOMElement.
      *
-     * @param $document DOMDocument where this element will be appended. Optional
+     * @param \DOMDocument $document where this element will be appended. Optional
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

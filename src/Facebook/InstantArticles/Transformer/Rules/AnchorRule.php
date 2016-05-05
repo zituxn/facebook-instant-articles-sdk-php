@@ -62,6 +62,9 @@ class AnchorRule extends ConfigurationSelectorRule
         return $text_container;
     }
 
+    /**
+     * @param array $configuration
+     */
     public function loadFrom($configuration)
     {
         $this->selector = $configuration['selector'];

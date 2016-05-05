@@ -16,11 +16,13 @@ namespace Facebook\InstantArticles\Elements;
  */
 class ListItem extends TextContainer
 {
-
     private function __construct()
     {
     }
 
+    /**
+     * @return ListItem
+     */
     public static function create()
     {
         return new self();
@@ -29,7 +31,9 @@ class ListItem extends TextContainer
     /**
      * Structure and create the full ListItem <li> in a DOMElement.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

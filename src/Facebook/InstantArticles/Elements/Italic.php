@@ -28,7 +28,9 @@ class Italic extends FormattedText
     /**
      * Structure and create <i> node.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

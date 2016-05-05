@@ -18,7 +18,7 @@ class Client
     const EDGE_NAME = '/instant_articles';
 
     /**
-     * @var facebook The main Facebook service client.
+     * @var Facebook The main Facebook service client.
      */
     private $facebook;
 
@@ -33,7 +33,7 @@ class Client
     protected $developmentMode = false;
 
     /**
-     * @param Facebook\Facebook $facebook the main Facebook service client
+     * @param Facebook $facebook the main Facebook service client
      * @param string $pageID Specify the Facebook Page to use for Instant Articles
      * @param bool $developmentMode|false Configure the service to use the Instant Articles development sandbox
      */
@@ -52,11 +52,13 @@ class Client
     /**
      * Creates a client with a proper Facebook client instance.
      *
-     * @param string $app_id
-     * @param string $app_secret
+     * @param string $appID
+     * @param string $appSecret
      * @param string $accessToken The page access token used to query the Facebook Graph API
      * @param string $pageID Specify the Facebook Page to use for Instant Articles
      * @param bool $developmentMode|false Configure the service to use the Instant Articles development sandbox
+     *
+     * @return static
      *
      * @throws FacebookSDKException
      */
@@ -80,7 +82,7 @@ class Client
      * Import an article into your Instant Articles library.
      *
      * @param InstantArticle $article The article to import
-     * @param bool|false $take_live Specifies if this article should be taken live or not. Optional. Default: false.
+     * @param bool|false $takeLive Specifies if this article should be taken live or not. Optional. Default: false.
      */
     public function importArticle($article, $takeLive = false)
     {
@@ -102,7 +104,8 @@ class Client
      * Removes an article from your Instant Articles library.
      *
      * @param string $canonicalURL The canonical URL of the article to delete.
-     * @return \Facebook\InstantArticles\Client\InstantArticleStatus
+     *
+     * @return InstantArticleStatus
      *
      * @todo Consider returning the \Facebook\FacebookResponse object sent by
      *   \Facebook\Facebook::delete(). For now we trust that if an Instant

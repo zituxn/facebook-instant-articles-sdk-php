@@ -36,6 +36,9 @@ class BlockquoteRule extends ConfigurationSelectorRule
         return $instant_article;
     }
 
+    /**
+     * @param array $configuration
+     */
     public function loadFrom($configuration)
     {
         $this->selector = $configuration['selector'];

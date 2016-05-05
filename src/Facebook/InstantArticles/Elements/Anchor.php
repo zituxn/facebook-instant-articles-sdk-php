@@ -29,13 +29,18 @@ class Anchor extends FormattedText
     {
     }
 
+    /**
+     * @return Anchor
+     */
     public static function create()
     {
         return new self();
     }
 
     /**
-     * @param string the anchor link
+     * @param string $href the anchor link
+     *
+     * @return $this
      */
     public function withHref($href)
     {
@@ -45,7 +50,9 @@ class Anchor extends FormattedText
     }
 
     /**
-     * @param string the anchor rel attribute
+     * @param string $rel the anchor rel attribute
+     *
+     * @return $this
      */
     public function withRel($rel)
     {
@@ -73,7 +80,9 @@ class Anchor extends FormattedText
     /**
      * Structure and create <a> node.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {
