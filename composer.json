@@ -28,5 +28,19 @@
         "psr-4": {
             "Facebook\\InstantArticles\\": "tests/Facebook/InstantArticles/"
         }
+    },
+    "scripts": {
+        "all": [
+            "@cs",
+            "@test"
+        ],
+        "cs": [
+            "composer install",
+            "phpcbf --standard=phpcs.xml -p || phpcs --standard=phpcs.xml -p"
+        ],
+        "test": [
+            "composer install",
+            "phpunit"
+        ]
     }
 }
