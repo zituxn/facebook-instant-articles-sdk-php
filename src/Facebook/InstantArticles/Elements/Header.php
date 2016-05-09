@@ -358,35 +358,37 @@ class Header extends Element
 
         $element = $document->createElement('header');
 
-        if ($this->cover) {
+        if ($this->cover && $this->cover->isValid()) {
             $element->appendChild($this->cover->toDOMElement($document));
         }
 
-        if ($this->title) {
+        if ($this->title && $this->title->isValid()) {
             $element->appendChild($this->title->toDOMElement($document));
         }
 
-        if ($this->subtitle) {
+        if ($this->subtitle && $this->subtitle->isValid()) {
             $element->appendChild($this->subtitle->toDOMElement($document));
         }
 
-        if ($this->published) {
+        if ($this->published && $this->published->isValid()) {
             $published_element = $this->published->toDOMElement($document);
             $element->appendChild($published_element);
         }
 
-        if ($this->modified) {
+        if ($this->modified && $this->modified->isValid()) {
             $modified_element = $this->modified->toDOMElement($document);
             $element->appendChild($modified_element);
         }
 
         if ($this->authors) {
             foreach ($this->authors as $author) {
-                $element->appendChild($author->toDOMElement($document));
+                if ($author->isValid()) {
+                    $element->appendChild($author->toDOMElement($document));
+                }
             }
         }
 
-        if ($this->kicker) {
+        if ($this->kicker && $this->kicker->isValid()) {
             $kicker_element = $this->kicker->toDOMElement($document);
             $kicker_element->setAttribute('class', 'op-kicker');
             $element->appendChild($kicker_element);
@@ -394,12 +396,15 @@ class Header extends Element
 
         if (count($this->ads) === 1) {
             $this->ads[0]->disableDefaultForReuse();
-            $element->appendChild($this->ads[0]->toDOMElement($document));
+            if ($this->ads[0]->isValid()) {
+                $element->appendChild($this->ads[0]->toDOMElement($document));
+            }
         } elseif (count($this->ads) >= 2) {
             $ads_container = $document->createElement('section');
             $ads_container->setAttribute('class', 'op-ad-template');
 
             $default_is_set = false;
+            $has_valid_add = false;
             foreach ($this->ads as $ad) {
                 if ($default_is_set) {
                     $ad->disableDefaultForReuse();
@@ -409,11 +414,39 @@ class Header extends Element
                     $default_is_set = true;
                 }
 
-                $ads_container->appendChild($ad->toDOMElement($document));
+                if ($ad->isValid()) {
+                    $ads_container->appendChild($ad->toDOMElement($document));
+                    $has_valid_add = true;
+                }
             }
-            $element->appendChild($ads_container);
+            if ($has_valid_add) {
+                $element->appendChild($ads_container);
+            }
         }
 
         return $element;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid tag, false otherwise.
+     */
+    public function isValid()
+    {
+        $has_add = count($this->ads) > 0;
+        $has_valid_add = false;
+        if ($has_add) {
+            foreach ($this->ads as $add) {
+                if ($add->isValid()) {
+                    $has_valid_add = true;
+                    break;
+                }
+            }
+        }
+        return
+            ($this->title && $this->title->isValid()) ||
+             $has_valid_add;
+    }
+
 }
