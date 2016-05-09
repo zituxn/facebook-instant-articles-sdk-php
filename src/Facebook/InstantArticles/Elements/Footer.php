@@ -194,4 +194,17 @@ class Footer extends Element
 
         return $footer;
     }
+
+    /**
+     * Overrides the @see Element::isValid().
+     *
+     * @return true for valid Footer when it is filled, false otherwise.
+     */
+    public function isValid()
+    {
+        return
+            $this->credits ||
+            $this->copyright ||
+            $this->relatedArticles;
+    }
 }
