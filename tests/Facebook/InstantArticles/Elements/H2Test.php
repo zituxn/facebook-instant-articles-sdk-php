@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class H2Test extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $h2 = H2::create();
+
+        $expected = '';
+
+        $rendered = $h2->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $h2 =

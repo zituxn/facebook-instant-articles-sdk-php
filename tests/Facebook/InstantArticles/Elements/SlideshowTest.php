@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class SlideshowTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $slideshow = SlideShow::create();
+
+        $expected = '';
+
+        $rendered = $slideshow->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $slideshow =

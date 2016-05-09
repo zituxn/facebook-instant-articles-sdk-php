@@ -284,4 +284,94 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $this->article->render());
     }
+
+    public function testInstantArticleAlmostEmpty()
+    {
+        $article =
+            InstantArticle::create()
+                ->withCanonicalUrl('')
+                ->withHeader(Header::create())
+                // Paragraph1
+                ->addChild(
+                    Paragraph::create()
+                        ->appendText('Some text to be within a paragraph for testing.')
+                )
+
+                // Empty paragraph
+                ->addChild(
+                    Paragraph::create()
+                )
+
+                // Paragraph with only whitespace
+                ->addChild(
+                    Paragraph::create()
+                        ->appendText(" \n \t ")
+                )
+
+                ->addChild(
+                    // Image without src
+                    Image::create()
+                )
+
+                ->addChild(
+                    // Image with empty src
+                    Image::create()
+                        ->withURL('')
+                )
+
+                // Slideshow
+                ->addChild(
+                    SlideShow::create()
+                        ->addImage(
+                            Image::create()
+                                ->withURL('https://jpeg.org/images/jpegls-home.jpg')
+                        )
+                        ->addImage(
+                            // Image without src URL for image
+                            Image::create()
+                        )
+                )
+
+                // Empty Ad
+                ->addChild(
+                    Ad::create()
+                )
+
+                // Paragraph4
+                ->addChild(
+                    Paragraph::create()
+                        ->appendText('Other text to be within a second paragraph for testing.')
+                )
+
+                // Empty Analytics
+                ->addChild(
+                    Analytics::create()
+                )
+
+                // Empty Footer
+                ->withFooter(
+                    Footer::create()
+                );
+
+        $expected =
+            '<!doctype html>'.
+            '<html>'.
+                '<head>'.
+                    '<link rel="canonical" href=""/>'.
+                    '<meta charset="utf-8"/>'.
+                    '<meta property="op:generator" content="facebook-instant-articles-sdk-php"/>'.
+                    '<meta property="op:generator:version" content="1.0.6"/>'.
+                    '<meta property="op:markup_version" content="v1.0"/>'.
+                '</head>'.
+                '<body>'.
+                    '<article>'.
+                        '<p>Some text to be within a paragraph for testing.</p>'.
+                        '<p>Other text to be within a second paragraph for testing.</p>'.
+                    '</article>'.
+                '</body>'.
+            '</html>';
+
+        $result = $article->render();
+        $this->assertEquals($expected, $result);
+    }
 }

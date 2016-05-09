@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class H1Test extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $h1 = H1::create();
+
+        $expected = '';
+
+        $rendered = $h1->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $h1 =
@@ -154,7 +164,7 @@ class H1Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderEmpty()
+    public function testRenderEmptySpace()
     {
         $h1 =
             H1::create()

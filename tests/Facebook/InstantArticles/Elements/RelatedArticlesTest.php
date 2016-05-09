@@ -10,6 +10,17 @@ namespace Facebook\InstantArticles\Elements;
 
 class RelatedArticlesTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $element =
+            RelatedArticles::create();
+
+        $expected = '';
+
+        $rendered = $element->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $element =

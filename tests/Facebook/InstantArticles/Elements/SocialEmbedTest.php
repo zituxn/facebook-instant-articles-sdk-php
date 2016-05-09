@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class SocialEmbedTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $social_embed = SocialEmbed::create();
+
+        $expected = '';
+
+        $rendered = $social_embed->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $social_embed =

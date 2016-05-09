@@ -10,11 +10,21 @@ namespace Facebook\InstantArticles\Elements;
 
 class AudioTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $audio = Audio::create();
+
+        $expected = '';
+
+        $rendered = $audio->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $audio =
-        Audio::create()
-            ->withURL('http://foo.com/mp3');
+            Audio::create()
+                ->withURL('http://foo.com/mp3');
 
         $expected =
             '<audio>'.

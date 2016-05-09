@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class MapTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $map = Map::create();
+
+        $expected = '';
+
+        $rendered = $map->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderWithGeotag()
     {
         $script = <<<'JSON'

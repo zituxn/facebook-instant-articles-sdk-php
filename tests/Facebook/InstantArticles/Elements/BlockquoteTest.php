@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class BlockquoteTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $blockquote = Blockquote::create();
+
+        $expected = '';
+
+        $rendered = $blockquote->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $blockquote =

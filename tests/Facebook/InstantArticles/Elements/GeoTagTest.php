@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class GeoTagTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $geo_tag = GeoTag::create();
+
+        $expected = '';
+
+        $rendered = $geo_tag->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderWithGeotag()
     {
         $script = <<<'JSON'

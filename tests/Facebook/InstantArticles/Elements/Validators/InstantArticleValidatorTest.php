@@ -128,7 +128,6 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
                 '</head>'.
                 '<body>'.
                     '<article>'.
-                        '<header/>'.
                         '<p>Some text to be within a paragraph for testing.</p>'.
                         '<figure class="op-ad">'.
                             '<iframe src="http://foo.com"></iframe>'.

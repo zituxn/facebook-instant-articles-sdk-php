@@ -10,16 +10,11 @@ namespace Facebook\InstantArticles\Elements;
 
 class ParagraphTest extends \PHPUnit_Framework_TestCase
 {
-    public function testRenderBasic()
+    public function testRenderEmpty()
     {
-        $paragraph =
-            Paragraph::create()
-                ->appendText('Some text to be within a paragraph for testing.');
+        $paragraph = Paragraph::create();
 
-        $expected =
-            '<p>'.
-                'Some text to be within a paragraph for testing.'.
-            '</p>';
+        $expected = '';
 
         $rendered = $paragraph->render();
         $this->assertEquals($expected, $rendered);
@@ -103,7 +98,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderEmpty()
+    public function testRenderEmptyText()
     {
         $paragraph =
             Paragraph::create()

@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class VideoTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $video = Video::create();
+
+        $expected = '';
+
+        $rendered = $video->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $video =

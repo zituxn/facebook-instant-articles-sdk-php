@@ -13,13 +13,9 @@ class PullquoteTest extends \PHPUnit_Framework_TestCase
     public function testRenderBasic()
     {
         $analytics =
-            Pullquote::create()
-                ->appendText('Some text to be within an aside for testing.');
+            Pullquote::create();
 
-        $expected =
-            '<aside>'.
-                'Some text to be within an aside for testing.'.
-            '</aside>';
+        $expected = '';
 
         $rendered = $analytics->render();
         $this->assertEquals($expected, $rendered);

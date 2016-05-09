@@ -13,6 +13,16 @@ use Facebook\InstantArticles\Elements\Interactive;
 
 class InteractiveTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $interactive = Interactive::create();
+
+        $expected = '';
+
+        $rendered = $interactive->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $interactive =
@@ -27,7 +37,6 @@ class InteractiveTest extends \PHPUnit_Framework_TestCase
         $rendered = $interactive->render();
         $this->assertEquals($expected, $rendered);
     }
-
 
     public function testRenderBasicWithCaption()
     {
