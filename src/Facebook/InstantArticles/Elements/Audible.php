@@ -28,7 +28,9 @@ abstract class Audible extends Element
     /**
      * Adds audio to this image.
      *
-     * @param Audio The audio object
+     * @param Audio $audio The audio object
+     *
+     * @return $this
      */
     abstract public function withAudio($audio);
 }

@@ -12,6 +12,9 @@ use Facebook\InstantArticles\Validators\Type;
 
 class XpathGetter extends ChildrenGetter
 {
+    /**
+     * @var string
+     */
     protected $attribute;
 
     public function createFrom($properties)
@@ -24,6 +27,11 @@ class XpathGetter extends ChildrenGetter
         }
     }
 
+    /**
+     * @param string $attribute
+     *
+     * @return $this
+     */
     public function withAttribute($attribute)
     {
         Type::enforce($attribute, Type::STRING);

@@ -15,11 +15,13 @@ namespace Facebook\InstantArticles\Elements;
  */
 class Span extends TextContainer
 {
-
     private function __construct()
     {
     }
 
+    /**
+     * @return Span
+     */
     public static function create()
     {
         return new self();
@@ -28,7 +30,9 @@ class Span extends TextContainer
     /**
      * Structure and create <span> node.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

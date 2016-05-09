@@ -34,11 +34,13 @@ class H2 extends TextContainer
     {
     }
 
+    /**
+     * @return H2
+     */
     public static function create()
     {
         return new self();
     }
-
 
     /**
      * The Text alignment that will be used.
@@ -47,7 +49,9 @@ class H2 extends TextContainer
      * @see Caption::ALIGN_LEFT
      * @see Caption::ALIGN_CENTER
      *
-     * @param string alignment option that will be used.
+     * @param string $text_alignment alignment option that will be used.
+     *
+     * @return $this
      */
     public function withTextAlignment($text_alignment)
     {
@@ -68,6 +72,7 @@ class H2 extends TextContainer
      * @deprecated
      *
      * @param string $position
+     *
      * @return $this
      */
     public function withPostion($position)
@@ -83,6 +88,7 @@ class H2 extends TextContainer
      * @see Caption::POSITION_CENTER
      *
      * @param string $position
+     *
      * @return $this
      */
     public function withPosition($position)
@@ -103,7 +109,9 @@ class H2 extends TextContainer
     /**
      * Structure and create the H2 in a DOMElement.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

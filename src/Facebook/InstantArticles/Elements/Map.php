@@ -37,7 +37,7 @@ use Facebook\InstantArticles\Validators\Type;
 class Map extends Audible
 {
     /**
-     * @var ArticleCaption The caption for Image
+     * @var Caption The caption for Image
      */
     private $caption;
 
@@ -51,16 +51,13 @@ class Map extends Audible
      */
     private $audio;
 
-    /**
-     * Private constructor.
-     * @see Map::create();.
-     */
     private function __construct()
     {
     }
 
     /**
      * Factory method for the Map
+     *
      * @return Map the new instance
      */
     public static function create()
@@ -72,7 +69,9 @@ class Map extends Audible
      * This sets figcaption tag as documentation. It overrides all sets
      * made with @see Caption.
      *
-     * @param Caption the caption the map will have
+     * @param Caption $caption the caption the map will have
+     *
+     * @return $this
      */
     public function withCaption($caption)
     {
@@ -84,8 +83,12 @@ class Map extends Audible
 
     /**
      * Sets the geoTag on the image.
-     * @param GeoTag The tag to be set on the map object
+     *
+     * @param GeoTag $geo_tag The tag to be set on the map object
+     *
      * @see {link:http://geojson.org/}
+     *
+     * @return $this
      */
     public function withGeoTag($geo_tag)
     {
@@ -98,7 +101,9 @@ class Map extends Audible
     /**
      * Adds audio to this image.
      *
-     * @param Audio The audio object
+     * @param Audio $audio The audio object
+     *
+     * @return $this
      */
     public function withAudio($audio)
     {
@@ -135,7 +140,9 @@ class Map extends Audible
     /**
      * Structure and create the full Map in a XML format DOMElement.
      *
-     * @param $document DOMDocument where this element will be appended. Optional
+     * @param \DOMDocument $document where this element will be appended. Optional
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

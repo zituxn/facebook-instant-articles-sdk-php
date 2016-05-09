@@ -8,19 +8,34 @@
  */
 namespace Facebook\InstantArticles\Transformer\Warnings;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Validators\Type;
 
 class UnrecognizedElement
 {
+    /**
+     * @var Element
+     */
     private $context;
+
+    /**
+     * @var \DOMNode
+     */
     private $node;
 
+    /**
+     * @param Element $context
+     * @param \DOMNode $node
+     */
     public function __construct($context, $node)
     {
         $this->context = $context;
         $this->node = $node;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         $reflection = new \ReflectionClass(get_class($this->context));
@@ -42,11 +57,17 @@ class UnrecognizedElement
         return "No rules defined for {$nodeDescription} in the context of $className";
     }
 
+    /**
+     * @return Element
+     */
     public function getContext()
     {
         return $this->context;
     }
 
+    /**
+     * @return \DOMNode
+     */
     public function getNode()
     {
         return $this->node;

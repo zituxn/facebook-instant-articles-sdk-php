@@ -16,12 +16,12 @@ use Facebook\InstantArticles\Validators\Type;
 class Helper
 {
     /**
-     * @var service The main Facebook service client.
+     * @var Facebook The main Facebook service client.
      */
     protected $facebook;
 
     /**
-     * @param Facebook\Facebook $facebook the main Facebook service client
+     * @param Facebook $facebook the main Facebook service client
      */
     public function __construct($facebook)
     {
@@ -36,6 +36,8 @@ class Helper
      *
      * @param string $appID
      * @param string $appSecret
+     *
+     * @return static
      *
      * @throws FacebookSDKException
      */

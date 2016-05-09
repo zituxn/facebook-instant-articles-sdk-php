@@ -43,6 +43,9 @@ class SocialEmbed extends Element
     {
     }
 
+    /**
+     * @return SocialEmbed
+     */
     public static function create()
     {
         return new self();
@@ -52,6 +55,8 @@ class SocialEmbed extends Element
      * Sets the caption for the social embed.
      *
      * @param Caption $caption - Descriptive text for your social embed.
+     *
+     * @return $this
      */
     public function withCaption($caption)
     {
@@ -65,6 +70,8 @@ class SocialEmbed extends Element
      * Sets the source for the social embed.
      *
      * @param string $source - The source of the content for your social embed.
+     *
+     * @return $this
      */
     public function withSource($source)
     {
@@ -78,6 +85,8 @@ class SocialEmbed extends Element
      * Sets the unescaped HTML of your social embed.
      *
      * @param \DOMNode $html - The unescaped HTML of your social embed.
+     *
+     * @return $this
      */
     public function withHTML($html)
     {
@@ -96,7 +105,7 @@ class SocialEmbed extends Element
     }
 
     /**
-     * @return \DOMNode $html - The unescaped HTML of your social embed.
+     * @return \DOMNode The unescaped HTML of your social embed.
      */
     public function getHtml()
     {
@@ -104,7 +113,7 @@ class SocialEmbed extends Element
     }
 
     /**
-     * @return string $source - The source of the content for your social embed.
+     * @return string The source of the content for your social embed.
      */
     public function getSource()
     {
@@ -114,7 +123,9 @@ class SocialEmbed extends Element
     /**
      * Structure and create the full SocialEmbed in a DOMElement.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

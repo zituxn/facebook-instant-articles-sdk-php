@@ -33,7 +33,10 @@ class GetterFactory
      * @see NextSiblingGetter
      * @see ExistsGetter
      * @see XpathGetter
-     * @param array<string, string> $getter_configuration that maps the properties for getter
+     *
+     * @param string[] $getter_configuration that maps the properties for getter
+     *
+     * @return AbstractGetter
      */
     public static function create($getter_configuration)
     {

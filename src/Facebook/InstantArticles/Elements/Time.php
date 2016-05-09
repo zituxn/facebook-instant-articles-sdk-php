@@ -48,7 +48,7 @@ class Time extends Element
     const DATE_FORMAT = 'F jS, g:ia';
 
     /**
-     * @var DateTime The date format
+     * @var \DateTime The date format
      */
     private $date;
 
@@ -68,9 +68,12 @@ class Time extends Element
     }
 
     /**
-     * @param string The type of this Article time (MODIFIED or PUBLISHED)
+     * @param string $type The type of this Article time (MODIFIED or PUBLISHED)
+     *
      * @see Time::MODIFIED
      * @see Time::PUBLISHED
+     *
+     * @return Time
      */
     public static function create($type)
     {
@@ -81,10 +84,12 @@ class Time extends Element
     /**
      * Overwrites the current type of time
      *
-     * @param string The type of this Article time (MODIFIED or PUBLISHED)
+     * @param string $type The type of this Article time (MODIFIED or PUBLISHED)
      *
      * @see Time::MODIFIED
      * @see Time::PUBLISHED
+     *
+     * @return $this
      */
     public function withType($type)
     {
@@ -103,7 +108,9 @@ class Time extends Element
     /**
      * Overwrites the current date in the object
      *
-     * @param DateTime The date formater
+     * @param \DateTime $date The date and time
+     *
+     * @return $this
      */
     public function withDatetime($date)
     {
@@ -114,7 +121,7 @@ class Time extends Element
     }
 
     /**
-     * @return DateTime The date
+     * @return \DateTime The date
      */
     public function getDatetime()
     {
@@ -135,7 +142,9 @@ class Time extends Element
     /**
      * Structure and create the full Time in a XML format DOMElement.
      *
-     * @param $document DOMDocument where this element will be appended. Optional
+     * @param \DOMDocument $document where this element will be appended. Optional
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

@@ -22,11 +22,13 @@ namespace Facebook\InstantArticles\Elements;
  */
 class Paragraph extends TextContainer
 {
-
     private function __construct()
     {
     }
 
+    /**
+     * @return Paragraph
+     */
     public static function create()
     {
         return new self();
@@ -35,7 +37,9 @@ class Paragraph extends TextContainer
     /**
      * Structure and create the full Paragraph in a DOMElement.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

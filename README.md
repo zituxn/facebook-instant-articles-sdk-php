@@ -25,17 +25,32 @@ composer require facebook/facebook-instant-articles-sdk-php
 
 [Composer](https://getcomposer.org/) is a prerequisite for testing and developing. [Install composer globally](https://getcomposer.org/doc/00-intro.md#globally), then install project dependencies by running this command in the project root directory:
 ```sh
-composer install
+$ composer install
 ```
 
 To run the tests:
+
 ```sh
-./vendor/bin/phpunit
+$ composer test
 ```
+
+To fix and check for coding style issues:
+
+```sh
+$ composer cs
+```
+
+Extra lazy? Run
+
+```sh
+$ composer all
+```
+
+to fix and check for coding style issues, and run the tests.
 
 If you change structure, paths, namespaces, etc., make sure you run the [autoload generator](https://getcomposer.org/doc/03-cli.md#dump-autoload):
 ```sh
-composer dump-autoload
+$ composer dump-autoload
 ```
 
 ## Contributing

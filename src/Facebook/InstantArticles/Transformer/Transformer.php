@@ -15,18 +15,36 @@ use Facebook\InstantArticles\Validators\Type;
 
 class Transformer
 {
+    /**
+     * @var Rule[]
+     */
     private $rules = [];
+
+    /**
+     * @var array
+     */
     private $warnings = [];
+
+    /**
+     * @var int
+     */
     private $ruleCount = 0;
 
+    /**
+     * @var bool
+     */
     public $suppress_warnings = false;
 
+    /**
+     * @var array
+     */
     private static $allClassTypes = [];
 
     /**
      * Gets all types a given class is, including itself, parent classes and interfaces.
      *
      * @param string $className - the name of the className
+     *
      * @return array of class names the provided class name is
      */
     private static function getAllClassTypes($className)
@@ -49,11 +67,17 @@ class Transformer
         return $classNames;
     }
 
+    /**
+     * @return array
+     */
     public function getWarnings()
     {
         return $this->warnings;
     }
 
+    /**
+     * @param Rule $rule
+     */
     public function addRule($rule)
     {
         Type::enforce($rule, Rule::getClassName());
@@ -74,11 +98,20 @@ class Transformer
         }
     }
 
+    /**
+     * @param $warning
+     */
     public function addWarning($warning)
     {
         $this->warnings[] = $warning;
     }
 
+    /**
+     * @param InstantArticle $context
+     * @param \DOMNode $node
+     *
+     * @return mixed
+     */
     public function transform($context, $node)
     {
         if (Type::is($context, InstantArticle::getClassName())) {
@@ -153,6 +186,9 @@ class Transformer
         return $context;
     }
 
+    /**
+     * @param string $json_file
+     */
     public function loadRules($json_file)
     {
         $configuration = json_decode($json_file, true);
@@ -185,7 +221,7 @@ class Transformer
     /**
      * Gets all rules already set in this transformer instance.
      *
-     * @return array List of configured rules.
+     * @return Rule[] List of configured rules.
      */
     public function getRules()
     {
@@ -205,7 +241,7 @@ class Transformer
     /**
      * Overrides all rules already set in this transformer instance.
      *
-     * @return array List of configured rules.
+     * @return Rule[] List of configured rules.
      */
     public function setRules($rules)
     {

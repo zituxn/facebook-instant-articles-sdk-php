@@ -14,11 +14,11 @@ use Facebook\InstantArticles\Validators\Type;
  * Title for the Document
  *
  * Example:
- * <cite> This is the first Instant Article</cite>
+ * <h3> This is the first Instant Article</h3>
  *  or
- * <cite> This is the <b>first</b> Instant Article</cite>
+ * <h3> This is the <b>first</b> Instant Article</h3>
  */
-class Cite extends TextContainer
+class H3 extends TextContainer
 {
     /**
      * @var string text align. Values: "op-left"|"op-center"|"op-right"
@@ -34,13 +34,11 @@ class Cite extends TextContainer
     {
     }
 
-    /**
-     * @return Cite
-     */
     public static function create()
     {
         return new self();
     }
+
 
     /**
      * The Text alignment that will be used.
@@ -49,9 +47,7 @@ class Cite extends TextContainer
      * @see Caption::ALIGN_LEFT
      * @see Caption::ALIGN_CENTER
      *
-     * @param string $text_alignment alignment option that will be used.
-     *
-     * @return $this
+     * @param string alignment option that will be used.
      */
     public function withTextAlignment($text_alignment)
     {
@@ -86,7 +82,7 @@ class Cite extends TextContainer
      * @see Caption::POSITION_BELOW
      * @see Caption::POSITION_CENTER
      *
-     * @param string $position that will be used.
+     * @param string $position
      * @return $this
      */
     public function withPosition($position)
@@ -105,23 +101,16 @@ class Cite extends TextContainer
     }
 
     /**
-     * Structure and create the <cite> in a DOMElement.
+     * Structure and create the H3 in a DOMElement.
      *
-     * @param \DOMDocument $document - The document where this element will be appended (optional).
-     *
-     * @return \DOMElement
+     * @param DOMDocument $document - The document where this element will be appended (optional).
      */
     public function toDOMElement($document = null)
     {
         if (!$document) {
             $document = new \DOMDocument();
         }
-
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
-        $cite = $document->createElement('cite');
+        $h3 = $document->createElement('h3');
 
         $classes = [];
         if ($this->position) {
@@ -131,10 +120,11 @@ class Cite extends TextContainer
             $classes[] = $this->textAlignment;
         }
         if (!empty($classes)) {
-            $cite->setAttribute('class', implode(' ', $classes));
+            $h3->setAttribute('class', implode(' ', $classes));
         }
-        $cite->appendChild($this->textToDOMDocumentFragment($document));
 
-        return $cite;
+        $h3->appendChild($this->textToDOMDocumentFragment($document));
+
+        return $h3;
     }
 }

@@ -39,16 +39,13 @@ class ListElement extends Element
      */
     private $items = [];
 
-    /**
-     * Private constructor.
-     * @see List::createOrdered() and @see List::createUnordered().
-     */
     private function __construct()
     {
     }
 
     /**
      * Factory method for an Ordered list
+     *
      * @return ListElement the new instance List as an ordered list
      */
     public static function createOrdered()
@@ -61,6 +58,7 @@ class ListElement extends Element
 
     /**
      * Factory method for an unordered list
+     *
      * @return ListElement the new instance List as an unordered list
      */
     public static function createUnordered()
@@ -74,7 +72,9 @@ class ListElement extends Element
     /**
      * Adds a new item to the List
      *
-     * @param ListItem The new item that will be pushed to the end of the list
+     * @param string|ListItem $new_item The new item that will be pushed to the end of the list
+     *
+     * @return $this
      */
     public function addItem($new_item)
     {
@@ -90,7 +90,9 @@ class ListElement extends Element
     /**
      * Sets all items of the list as the array on the parameter
      *
-     * @param ListItem[] The new items. Replaces all items from the list
+     * @param string|[]ListItem[] $new_items The new items. Replaces all items from the list
+     *
+     * @return $this
      */
     public function withItems($new_items)
     {
@@ -104,6 +106,8 @@ class ListElement extends Element
 
     /**
      * Makes the list become ordered
+     *
+     * @return $this
      */
     public function enableOrdered()
     {
@@ -114,6 +118,8 @@ class ListElement extends Element
 
     /**
      * Makes the list become unordered
+     *
+     * @return $this
      */
     public function disableOrdered()
     {
@@ -123,7 +129,7 @@ class ListElement extends Element
     }
 
     /**
-     * @return string[] the list text items
+     * @return string[]|ListItem[] the list text items
      */
     public function getItems()
     {
@@ -141,7 +147,9 @@ class ListElement extends Element
     /**
      * Structure and create the full Video in a XML format DOMElement.
      *
-     * @param $document DOMDocument where this element will be appended. Optional
+     * @param \DOMDocument $document where this element will be appended. Optional
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {

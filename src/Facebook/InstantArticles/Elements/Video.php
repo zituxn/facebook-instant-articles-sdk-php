@@ -68,6 +68,7 @@ class Video extends Element
 
     /**
      * @var boolean Makes the video the cover on news feed.
+     *
      * @see {link:https://developers.facebook.com/docs/instant-articles/reference/feed-preview}
      */
     private $isFeedCover;
@@ -79,6 +80,7 @@ class Video extends Element
 
     /**
      * @var string The picture size for the video.
+     *
      * @see Video::ASPECT_FIT
      * @see Video::ASPECT_FIT_ONLY
      * @see Video::FULLSCREEN
@@ -106,16 +108,13 @@ class Video extends Element
      */
     private $isControlsShown = false;
 
-    /**
-     * Private constructor.
-     * @see Video::create();.
-     */
     private function __construct()
     {
     }
 
     /**
      * Factory method
+     *
      * @return Video the new instance from Video
      */
     public static function create()
@@ -127,7 +126,9 @@ class Video extends Element
      * This sets figcaption tag as documentation. It overrides all sets
      * made with @see Caption.
      *
-     * @param Caption the caption the video will have
+     * @param Caption $caption the caption the video will have
+     *
+     * @return $this
      */
     public function withCaption($caption)
     {
@@ -140,7 +141,9 @@ class Video extends Element
     /**
      * Sets the URL for the video. It is REQUIRED.
      *
-     * @param string The url of video. Ie: http://domain.com/video.mp4
+     * @param string $url The url of video. Ie: http://domain.com/video.mp4
+     *
+     * @return $this
      */
     public function withURL($url)
     {
@@ -153,11 +156,14 @@ class Video extends Element
     /**
      * Sets the aspect ration presentation for the video.
      *
-     * @param string one of the constants ASPECT_FIT, ASPECT_FIT_ONLY, FULLSCREEN or NON_INTERACTIVE
+     * @param string $presentation one of the constants ASPECT_FIT, ASPECT_FIT_ONLY, FULLSCREEN or NON_INTERACTIVE
+     *
      * @see Video::ASPECT_FIT
      * @see Video::ASPECT_FIT_ONLY
      * @see Video::FULLSCREEN
      * @see Video::NON_INTERACTIVE
+     *
+     * @return $this
      */
     public function withPresentation($presentation)
     {
@@ -177,6 +183,8 @@ class Video extends Element
 
     /**
      * Makes like enabled for this video.
+     *
+     * @return $this
      */
     public function enableLike()
     {
@@ -187,6 +195,8 @@ class Video extends Element
 
     /**
      * Makes like disabled for this video.
+     *
+     * @return $this
      */
     public function disableLike()
     {
@@ -197,6 +207,8 @@ class Video extends Element
 
     /**
      * Makes comments enabled for this video.
+     *
+     * @return $this
      */
     public function enableComments()
     {
@@ -207,6 +219,8 @@ class Video extends Element
 
     /**
      * Makes comments disabled for this video.
+     *
+     * @return $this
      */
     public function disableComments()
     {
@@ -217,6 +231,8 @@ class Video extends Element
 
     /**
      * Enables the video controls
+     *
+     * @return $this
      */
     public function enableControls()
     {
@@ -227,6 +243,8 @@ class Video extends Element
 
     /**
      * Disable the video controls
+     *
+     * @return $this
      */
     public function disableControls()
     {
@@ -237,6 +255,8 @@ class Video extends Element
 
     /**
      * Enables the video autoplay
+     *
+     * @return $this
      */
     public function enableAutoplay()
     {
@@ -247,6 +267,8 @@ class Video extends Element
 
     /**
      * Disable the video autoplay
+     *
+     * @return $this
      */
     public function disableAutoplay()
     {
@@ -257,6 +279,8 @@ class Video extends Element
 
     /**
      * Makes video be the cover on newsfeed
+     *
+     * @return $this
      */
     public function enableFeedCover()
     {
@@ -267,6 +291,8 @@ class Video extends Element
 
     /**
      * Removes video from cover on newsfeed (and it becomes the og:image that was already defined on the link)
+     *
+     * @return $this
      */
     public function disableFeedCover()
     {
@@ -277,7 +303,9 @@ class Video extends Element
 
 
     /**
-     * @param string content type of the video. Ex: "video/mp4"
+     * @param string $contentType content type of the video. Ex: "video/mp4"
+     *
+     * @return $this
      */
     public function withContentType($contentType)
     {
@@ -291,6 +319,10 @@ class Video extends Element
      * Sets the geotag on the video.
      *
      * @see {link:http://geojson.org/}
+     *
+     * @param string $geoTag
+     *
+     * @return $this
      */
     public function withGeoTag($geoTag)
     {
@@ -308,7 +340,9 @@ class Video extends Element
     /**
      * Sets the attribution string
      *
-     * @param The attribution text
+     * @param string $attribution The attribution text
+     *
+     * @return $this
      */
     public function withAttribution($attribution)
     {
@@ -376,6 +410,7 @@ class Video extends Element
 
     /**
      * @return string one of the constants ASPECT_FIT, ASPECT_FIT_ONLY, FULLSCREEN or NON_INTERACTIVE
+     *
      * @see Video::ASPECT_FIT
      * @see Video::ASPECT_FIT_ONLY
      * @see Video::FULLSCREEN
@@ -397,7 +432,9 @@ class Video extends Element
     /**
      * Structure and create the full Video in a XML format DOMElement.
      *
-     * @param $document DOMDocument where this element will be appended. Optional
+     * @param \DOMDocument $document where this element will be appended. Optional
+     *
+     * @return \DOMElement
      */
     public function toDOMElement($document = null)
     {
