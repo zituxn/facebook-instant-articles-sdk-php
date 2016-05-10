@@ -31,27 +31,7 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
         $article =
             InstantArticle::create()
                 ->withCanonicalUrl('')
-                ->withHeader(
-                    Header::create()
-                        // ->withTitle('Big Top Title')
-                        // ->withSubTitle('Smaller SubTitle')
-                        // No publish time
-                        // ->withPublishTime(
-                        //     Time::create(Time::PUBLISHED)
-                        //         ->withDatetime(
-                        //             \DateTime::createFromFormat(
-                        //                 'j-M-Y G:i:s',
-                        //                 '14-Aug-1984 19:30:00'
-                        //             )
-                        //         )
-                        // )
-                        // No author!
-                        // ->addAuthor(
-                        //     Author::create()
-                        //         ->withName('Author Name')
-                        //         ->withDescription('Author more detailed description')
-                        // )
-                )
+                ->withHeader(Header::create())
                 // Paragraph1
                 ->addChild(
                     Paragraph::create()
@@ -59,15 +39,10 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
                 )
 
                 // Empty paragraph
-                ->addChild(
-                    Paragraph::create()
-                )
+                ->addChild(Paragraph::create())
 
                 // Paragraph with only whitespace
-                ->addChild(
-                    Paragraph::create()
-                        ->appendText(" \n \t ")
-                )
+                ->addChild(Paragraph::create()->appendText(" \n \t "))
 
                 ->addChild(
                     // Image without src
@@ -76,8 +51,7 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
 
                 ->addChild(
                     // Image with empty src
-                    Image::create()
-                        ->withURL('')
+                    Image::create()->withURL('')
                 )
 
                 // Slideshow
@@ -94,10 +68,7 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
                 )
 
                 // Ad
-                ->addChild(
-                    Ad::create()
-                        ->withSource('http://foo.com')
-                )
+                ->addChild(Ad::create()->withSource('http://foo.com'))
 
                 // Paragraph4
                 ->addChild(
@@ -112,9 +83,7 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
                 )
 
                 // Empty Footer
-                ->withFooter(
-                    Footer::create()
-                );
+                ->withFooter(Footer::create());
 
         $expected =
             '<!doctype html>'.

@@ -9,13 +9,8 @@
 namespace Facebook\InstantArticles\Validators;
 
 /**
- * Class that have all the typechecks and sizechecks for elements and classes
- * that needs to be well checked.
- *
- * is*() prefixed methods return boolean
- *
- * enforce*() prefixed methods return true for success and throw
- * InvalidArgumentException for the invalid cases.
+ * Class that navigates thru InstantArticle object tree to validate it and report
+ * warnings related to each object tree.
  */
 class InstantArticleValidation
 {
@@ -28,9 +23,7 @@ class InstantArticleValidation
     public static function check($article)
     {
         Type::enforce($article, Article::getClassName());
-        $header = $article->getHeader();
-        $children = $article->getChildren();
-        $footer = $article->getFooter();
-        var_dump($header->isValid());
+        $children = $article->getContainerChildren();
+        var_dump($children);
     }
 }

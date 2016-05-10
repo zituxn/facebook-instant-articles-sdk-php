@@ -190,5 +190,4 @@ class SocialEmbed extends Element implements Container
 
         return $children;
     }
-
 }

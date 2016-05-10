@@ -12,7 +12,8 @@
   * Interface Container
   * This interface specifies the navigatable objects that have children.
   */
-interface Container {
+interface Container
+{
 
     /**
      * Must return an array of Element typed objects.

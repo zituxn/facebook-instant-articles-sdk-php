@@ -496,5 +496,4 @@ class Header extends Element implements Container
 
         return $children;
     }
-
 }

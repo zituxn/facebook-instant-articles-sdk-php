@@ -543,5 +543,4 @@ class Video extends Element implements Container
 
         return $children;
     }
-
 }

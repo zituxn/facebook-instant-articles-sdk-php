@@ -237,5 +237,4 @@ class Footer extends Element implements Container
 
         return $children;
     }
-
 }

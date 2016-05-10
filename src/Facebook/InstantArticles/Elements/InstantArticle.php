@@ -31,7 +31,7 @@ use Facebook\InstantArticles\Validators\Type;
   *    </html>
   *
 */
-class InstantArticle extends Element
+class InstantArticle extends Element implements Container
 {
     const CURRENT_VERSION = '1.0.6';
 
@@ -358,5 +358,29 @@ class InstantArticle extends Element
         $element->setAttribute('property', $property_name);
         $element->setAttribute('content', $property_content);
         return $element;
+    }
+
+    public function getContainerChildren()
+    {
+        $children = array();
+
+        $header = $article->getHeader();
+        if ($header) {
+            $children[] = $header;
+        }
+
+        $items = $article->getChildren();
+        if ($items) {
+            foreach ($items as $item) {
+                $children[] = $item;
+            }
+        }
+
+        $footer = $article->getFooter();
+        if ($footer) {
+            $children[] = $footer;
+        }
+
+        return $children;
     }
 }
