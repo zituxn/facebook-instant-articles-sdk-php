@@ -450,11 +450,11 @@ class Header extends Element implements Container
     }
 
     /**
-     * Implements the @see Container::getChildren().
+     * Implements the @see Container::getContainerChildren().
      *
      * @return array of Elements contained by Header.
      */
-    public function getChildren()
+    public function getContainerChildren()
     {
         $children = array();
 

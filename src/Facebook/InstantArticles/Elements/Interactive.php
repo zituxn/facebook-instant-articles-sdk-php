@@ -249,11 +249,11 @@ class Interactive extends Element implements Container
     }
 
     /**
-     * Implements the @see Container::getChildren().
+     * Implements the @see Container::getContainerChildren().
      *
      * @return array of Elements contained by Image.
      */
-    public function getChildren()
+    public function getContainerChildren()
     {
         $children = array();
         if ($this->caption) {

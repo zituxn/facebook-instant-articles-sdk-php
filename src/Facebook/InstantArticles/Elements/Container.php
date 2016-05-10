@@ -27,5 +27,5 @@ interface Container {
      *
      * @return array(<Element>) All implementing classes returns an array of Elements.
      */
-    public function getChildren();
+    public function getContainerChildren();
 }
