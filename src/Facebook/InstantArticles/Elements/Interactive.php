@@ -21,7 +21,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/interactive}
  */
-class Interactive extends Element
+class Interactive extends Element implements Container
 {
     const NO_MARGIN = 'no-margin';
     const COLUMN_WIDTH = 'column-width';
@@ -246,5 +246,19 @@ class Interactive extends Element
     public function isValid()
     {
         return !Type::isTextEmpty($this->source) || $this->html;
+    }
+
+    /**
+     * Implements the @see Container::getChildren().
+     *
+     * @return array of Elements contained by Image.
+     */
+    public function getChildren()
+    {
+        $children = array();
+        if ($this->caption) {
+            $children[] = $this->caption;
+        }
+        return $children;
     }
 }

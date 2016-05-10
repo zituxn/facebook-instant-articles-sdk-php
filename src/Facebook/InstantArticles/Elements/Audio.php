@@ -200,12 +200,12 @@ class Audio extends Element
 
         // Autoplay mode markup optional
         if ($this->autoplay) {
-            $element->setAttribute('autoplay', 'autoplay'); // TODO Confirm this will work
+            $element->setAttribute('autoplay', 'autoplay');
         }
 
         // Autoplay mode markup optional
         if ($this->muted) {
-            $element->setAttribute('muted', 'muted'); // TODO Confirm this will work
+            $element->setAttribute('muted', 'muted');
         }
 
         // Audio URL markup. REQUIRED

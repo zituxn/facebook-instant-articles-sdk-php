@@ -27,7 +27,7 @@ use Facebook\InstantArticles\Validators\Type;
  *     <li>Sleep</li>
  * </ol>
  */
-class ListElement extends Element
+class ListElement extends Element implements Container
 {
     /**
      * @var boolean Checks if it is ordered or unordered
@@ -191,5 +191,21 @@ class ListElement extends Element
             }
         }
         return count($this->items) > 0;
+    }
+
+    /**
+     * Implements the @see Container::getChildren().
+     *
+     * @return array of Elements contained by Image.
+     */
+    public function getChildren()
+    {
+        $children = array();
+        if ($this->items) {
+            foreach ($this->items as $item) {
+                $children[] = $item;
+            }
+        }
+        return $children;
     }
 }

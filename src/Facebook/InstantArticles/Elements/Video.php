@@ -30,7 +30,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @package Facebook\InstantArticle\Elements
 */
-class Video extends Element
+class Video extends Element implements Container
 {
     const ASPECT_FIT = 'aspect-fit';
     const ASPECT_FIT_ONLY = 'aspect-fit-only';
@@ -41,7 +41,7 @@ class Video extends Element
     const DATA_FADE = 'data-fade';
 
     /**
-     * @var string The caption for Video
+     * @var Caption The caption for Video
      */
     private $caption;
 
@@ -522,4 +522,26 @@ class Video extends Element
     {
         return !Type::isTextEmpty($this->url);
     }
+
+    /**
+     * Implements the @see Container::getChildren().
+     *
+     * @return array of Elements contained by Video.
+     */
+    public function getChildren()
+    {
+        $children = array();
+
+        if ($this->caption) {
+            $children[] = $this->caption;
+        }
+
+        // Geotag markup optional
+        if ($this->geoTag) {
+            $children[] = $this->geoTag;
+        }
+
+        return $children;
+    }
+
 }

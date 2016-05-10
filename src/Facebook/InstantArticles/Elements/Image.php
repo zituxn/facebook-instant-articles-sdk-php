@@ -29,7 +29,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
-class Image extends Audible
+class Image extends Audible implements Container
 {
     const ASPECT_FIT = 'aspect-fit';
     const ASPECT_FIT_ONLY = 'aspect-fit-only';
@@ -351,5 +351,31 @@ class Image extends Audible
     public function isValid()
     {
         return !Type::isTextEmpty($this->url);
+    }
+
+    /**
+     * Implements the @see Container::getChildren().
+     *
+     * @return array of Elements contained by Image.
+     */
+    public function getChildren()
+    {
+        $children = array();
+
+        if ($this->caption) {
+            $children[] = $this->caption;
+        }
+
+        // Geotag markup optional
+        if ($this->geoTag) {
+            $children[] = $this->geoTag;
+        }
+
+        // Audio markup optional
+        if ($this->audio) {
+            $children[] = $this->audio;
+        }
+
+        return $children;
     }
 }

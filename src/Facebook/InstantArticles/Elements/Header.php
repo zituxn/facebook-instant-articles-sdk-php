@@ -35,7 +35,7 @@ use Facebook\InstantArticles\Validators\Type;
  *     </time>
  * </header>
  */
-class Header extends Element
+class Header extends Element implements Container
 {
     /**
      * @var Image|Video|null for the image or video on the header.
@@ -447,6 +447,54 @@ class Header extends Element
         return
             ($this->title && $this->title->isValid()) ||
              $has_valid_add;
+    }
+
+    /**
+     * Implements the @see Container::getChildren().
+     *
+     * @return array of Elements contained by Header.
+     */
+    public function getChildren()
+    {
+        $children = array();
+
+        if ($this->cover) {
+            $children[] = $this->cover;
+        }
+
+        if ($this->title) {
+            $children[] = $this->title;
+        }
+
+        if ($this->subtitle) {
+            $children[] = $this->subtitle;
+        }
+
+        if ($this->published) {
+            $children[] = $this->published;
+        }
+
+        if ($this->modified) {
+            $children[] = $this->modified;
+        }
+
+        if ($this->authors) {
+            foreach ($this->authors as $author) {
+                $children[] = $author;
+            }
+        }
+
+        if ($this->kicker) {
+            $children[] = $this->kicker;
+        }
+
+        if (count($this->ads) > 0) {
+            foreach ($this->ads as $ad) {
+                $children[] = $ad;
+            }
+        }
+
+        return $children;
     }
 
 }

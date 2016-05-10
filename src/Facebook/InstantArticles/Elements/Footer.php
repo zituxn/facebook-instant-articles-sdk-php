@@ -27,7 +27,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/footer}
  */
-class Footer extends Element
+class Footer extends Element implements Container
 {
     /**
      * @var string|Paragraph[] The text content of the credits
@@ -207,4 +207,35 @@ class Footer extends Element
             $this->copyright ||
             $this->relatedArticles;
     }
+
+    /**
+     * Implements the @see Container::getChildren().
+     *
+     * @return array of Paragraph|RelatedArticles
+     */
+    public function getChildren()
+    {
+        $children = array();
+
+        if ($this->credits) {
+            if (is_array($this->credits)) {
+                foreach ($this->credits as $paragraph) {
+                    if (Type::is($paragraph, Element::getClassName())) {
+                        $children[] = $paragraph;
+                    }
+                }
+            } else {
+                if (Type::is($this->credits, Element::getClassName())) {
+                    $children[] = $this->credits;
+                }
+            }
+        }
+
+        if ($this->relatedArticles) {
+            $children[] = $this->relatedArticles;
+        }
+
+        return $children;
+    }
+
 }

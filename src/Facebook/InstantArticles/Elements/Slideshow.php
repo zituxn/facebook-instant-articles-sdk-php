@@ -29,7 +29,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
-class Slideshow extends Audible
+class Slideshow extends Audible implements Container
 {
     /**
      * @var Caption The caption for the Slideshow
@@ -251,5 +251,37 @@ class Slideshow extends Audible
             }
         }
         return count($this->article_images) > 0;
+    }
+
+    /**
+     * Implements the @see Container::getChildren().
+     *
+     * @return array of Elements contained by Image.
+     */
+    public function getChildren()
+    {
+        $children = array();
+
+        if ($this->article_images) {
+            foreach ($this->article_images as $article_image) {
+                $children[] = $article_image;
+            }
+        }
+
+        if ($this->caption) {
+            $children[] = $this->caption;
+        }
+
+        // // Geotag markup optional
+        // if ($this->geoTag) {
+        //     $children[] = $this->geoTag;
+        // }
+
+        // Audio markup optional
+        if ($this->audio) {
+            $children[] = $this->audio;
+        }
+
+        return $children;
     }
 }

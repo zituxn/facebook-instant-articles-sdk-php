@@ -22,7 +22,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/social}
  */
-class SocialEmbed extends Element
+class SocialEmbed extends Element implements Container
 {
     /**
      * @var Caption Descriptive text for your social embed.
@@ -174,4 +174,21 @@ class SocialEmbed extends Element
     {
         return !Type::isTextEmpty($this->source) || $this->html;
     }
+
+    /**
+     * Implements the @see Container::getChildren().
+     *
+     * @return array of Elements contained by Image.
+     */
+    public function getChildren()
+    {
+        $children = array();
+
+        if ($this->caption) {
+            $children[] = $this->caption;
+        }
+
+        return $children;
+    }
+
 }

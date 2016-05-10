@@ -18,7 +18,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/body-text}
  */
-abstract class TextContainer extends Element
+abstract class TextContainer extends Element implements Container
 {
     /**
      * @var array The content is a list of strings and FormattingElements
@@ -100,5 +100,24 @@ abstract class TextContainer extends Element
         }
 
         return !Type::isTextEmpty($textContent);
+    }
+
+    /**
+     * Implements the @see Container::getChildren().
+     *
+     * @return array of TextContainer
+     */
+    public function getChildren()
+    {
+        $children = array();
+
+        foreach ($this->textChildren as $content) {
+            // Recursive check on TextContainer, if something inside is valid, this is valid.
+            if (Type::is($content, TextContainer::getClassName())) {
+                $children[] = $content;
+            }
+        }
+
+        return $children;
     }
 }

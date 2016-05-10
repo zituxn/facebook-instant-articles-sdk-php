@@ -23,7 +23,7 @@ namespace Facebook\InstantArticles\Elements;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
-abstract class Audible extends Element
+abstract class Audible extends Element implements Container
 {
     /**
      * Adds audio to this image.
