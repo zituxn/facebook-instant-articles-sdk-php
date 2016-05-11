@@ -20,7 +20,7 @@ use Facebook\InstantArticles\Validators\Type;
  *     </iframe>
  * </figure>
  *
- * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/audio}
+ * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/ad}
  */
 class Ad extends Element
 {
