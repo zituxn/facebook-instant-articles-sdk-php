@@ -24,7 +24,7 @@ abstract class Element
      * Renders the Element content
      *
      * @param string $doctype the doctype will be applied to document. I.e.: '<!doctype html>'.
-     * @param bool $formatted If the element will have formatted output.
+     * @param bool $formatted Whether to format output.
      *
      * @return string with the content rendered.
      */
