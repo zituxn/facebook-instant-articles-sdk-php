@@ -139,8 +139,8 @@ class Analytics extends Element
     }
 
     /**
-     * Overrides the @see Element::isValid().
-     *
+    * Overrides the Element::isValid().
+    * @see Element::isValid().
      * @return true for valid Analytics that contains valid source or html, false otherwise.
      */
     public function isValid()

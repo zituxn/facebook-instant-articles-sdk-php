@@ -204,8 +204,9 @@ class Author extends Element
     }
 
     /**
-     * Overrides the @see Element::isValid().
+     * Overrides the Element::isValid().
      *
+     * @see Element::isValid().
      * @return true for valid Author that contains not empty name, false otherwise.
      */
     public function isValid()

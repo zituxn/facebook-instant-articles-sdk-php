@@ -11,7 +11,8 @@ namespace Facebook\InstantArticles\Elements;
 use Facebook\InstantArticles\Validators\Type;
 
 /**
- * Class RelatedItem to represent each of the @see RelatedArticles
+ * Class RelatedItem to represent each of the RelatedArticles.
+ * @see RelatedArticles
  */
 class RelatedItem extends Element
 {
@@ -123,8 +124,9 @@ class RelatedItem extends Element
     }
 
     /**
-     * Overrides the @see Element::isValid().
+     * Overrides the Element::isValid().
      *
+     * @see Element::isValid().
      * @return true for valid RelatedItem that contains valid url, false otherwise.
      */
     public function isValid()

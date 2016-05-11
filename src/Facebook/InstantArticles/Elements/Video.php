@@ -15,10 +15,10 @@ use Facebook\InstantArticles\Validators\Type;
  * This element Class is the video for the article.
  * Also consider to use one of the other media types for an article:
  * <ul>
- *     <li>@see Audio</li>
- *     <li>@see Image</li>
- *     <li>@see SlideShow</li>
- *     <li>@see Map</li>
+ *     <li>Audio</li>
+ *     <li>Image</li>
+ *     <li>SlideShow</li>
+ *     <li>Map</li>
  * </ul>
  *
  * Example:
@@ -28,8 +28,12 @@ use Facebook\InstantArticles\Validators\Type;
  *      </video>
  *  </figure>
  *
+ * @see Audio
+ * @see Image
+ * @see SlideShow
+ * @see Map
  * @package Facebook\InstantArticle\Elements
-*/
+ */
 class Video extends Element implements Container
 {
     const ASPECT_FIT = 'aspect-fit';
@@ -124,10 +128,10 @@ class Video extends Element implements Container
 
     /**
      * This sets figcaption tag as documentation. It overrides all sets
-     * made with @see Caption.
+     * made with Caption.
      *
      * @param Caption $caption the caption the video will have
-     *
+     * @see Caption.
      * @return $this
      */
     public function withCaption($caption)
@@ -514,8 +518,9 @@ class Video extends Element implements Container
     }
 
     /**
-     * Overrides the @see Element::isValid().
+     * Overrides the Element::isValid().
      *
+     * @see Element::isValid().
      * @return true for valid Video that contains not empty url, false otherwise.
      */
     public function isValid()
@@ -524,8 +529,9 @@ class Video extends Element implements Container
     }
 
     /**
-     * Implements the @see Container::getContainerChildren().
+     * Implements the Container::getContainerChildren().
      *
+     * @see Container::getContainerChildren().
      * @return array of Elements contained by Video.
      */
     public function getContainerChildren()

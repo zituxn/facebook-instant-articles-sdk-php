@@ -179,8 +179,9 @@ class ListElement extends Element implements Container
     }
 
     /**
-     * Overrides the @see Element::isValid().
+     * Overrides the Element::isValid().
      *
+     * @see Element::isValid().
      * @return true for valid ListElement that contains all ListItem's valid, false otherwise.
      */
     public function isValid()
@@ -194,8 +195,9 @@ class ListElement extends Element implements Container
     }
 
     /**
-     * Implements the @see Container::getContainerChildren().
+     * Implements the Container::getContainerChildren().
      *
+     * @see Container::getContainerChildren().
      * @return array of Elements contained by Image.
      */
     public function getContainerChildren()

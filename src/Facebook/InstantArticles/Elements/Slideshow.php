@@ -72,8 +72,9 @@ class Slideshow extends Audible implements Container
 
     /**
      * This sets figcaption tag as documentation. It overrides all sets
-     * made with @see Caption.
+     * made with Caption.
      *
+     * @see Caption.
      * @param Caption $caption the caption the slideshow will have
      *
      * @return $this
@@ -239,8 +240,9 @@ class Slideshow extends Audible implements Container
     }
 
     /**
-     * Overrides the @see Element::isValid().
+     * Overrides the Element::isValid().
      *
+     * @see Element::isValid().
      * @return true for valid Slideshow that contains all Image's valid, false otherwise.
      */
     public function isValid()
@@ -254,8 +256,9 @@ class Slideshow extends Audible implements Container
     }
 
     /**
-     * Implements the @see Container::getContainerChildren().
+     * Implements the Container::getContainerChildren().
      *
+     * @see Container::getContainerChildren().
      * @return array of Elements contained by Image.
      */
     public function getContainerChildren()

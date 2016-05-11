@@ -236,8 +236,8 @@ class Ad extends Element
     }
 
     /**
-     * Overrides the @see Element::isValid().
-     *
+     * Overrides the Element::isValid().
+     * @see Element::isValid().
      * @return true for valid Ad that contains valid src or html, false otherwise.
      */
     public function isValid()

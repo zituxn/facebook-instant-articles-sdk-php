@@ -196,8 +196,9 @@ class Footer extends Element implements Container
     }
 
     /**
-     * Overrides the @see Element::isValid().
+     * Overrides the Element::isValid().
      *
+     * @see Element::isValid().
      * @return true for valid Footer when it is filled, false otherwise.
      */
     public function isValid()
@@ -209,8 +210,9 @@ class Footer extends Element implements Container
     }
 
     /**
-     * Implements the @see Container::getContainerChildren().
+     * Implements the Container::getContainerChildren().
      *
+     * @see Container::getContainerChildren()
      * @return array of Paragraph|RelatedArticles
      */
     public function getContainerChildren()

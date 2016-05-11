@@ -21,7 +21,8 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\AnimatedGIF;
 
 /**
- * Test unit agains @see InstantArticleValidator
+ * Test unit against InstantArticleValidator
+ * @see InstantArticleValidator
  */
 class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
 {

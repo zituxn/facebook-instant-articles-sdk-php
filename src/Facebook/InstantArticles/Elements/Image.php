@@ -15,10 +15,10 @@ use Facebook\InstantArticles\Validators\Type;
  * This element Class is the image for the article.
  * Also consider to use one of the other media types for an article:
  * <ul>
- *     <li>@see Audio</li>
- *     <li>@see Video</li>
- *     <li>@see SlideShow</li>
- *     <li>@see Map</li>
+ *     <li>Audio</li>
+ *     <li>Video</li>
+ *     <li>SlideShow</li>
+ *     <li>Map</li>
  * </ul>.
  *
  * Example:
@@ -27,6 +27,10 @@ use Facebook\InstantArticles\Validators\Type;
  *      <figcaption>This image is amazing</figcaption>
  *  </figure>
  *
+ * @see Audio
+ * @see Video
+ * @see SlideShow
+ * @see Map
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
 class Image extends Audible implements Container
@@ -95,7 +99,7 @@ class Image extends Audible implements Container
 
     /**
      * This sets figcaption tag as documentation. It overrides all sets
-     * made with @see Caption.
+     * made with Caption.
      *
      * @param Caption $caption the caption the image will have
      *
@@ -344,8 +348,9 @@ class Image extends Audible implements Container
     }
 
     /**
-     * Overrides the @see Element::isValid().
+     * Overrides the Element::isValid().
      *
+     * @see Element::isValid().
      * @return true for valid Image that contains valid url, false otherwise.
      */
     public function isValid()
@@ -354,8 +359,9 @@ class Image extends Audible implements Container
     }
 
     /**
-     * Implements the @see Container::getContainerChildren().
+     * Implements the Container::getContainerChildren().
      *
+     * @see Container::getContainerChildren().
      * @return array of Elements contained by Image.
      */
     public function getContainerChildren()

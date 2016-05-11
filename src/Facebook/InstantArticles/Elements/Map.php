@@ -67,8 +67,9 @@ class Map extends Audible implements Container
 
     /**
      * This sets figcaption tag as documentation. It overrides all sets
-     * made with @see Caption.
+     * made with Caption.
      *
+     * @see Caption.
      * @param Caption $caption the caption the map will have
      *
      * @return $this
@@ -176,8 +177,9 @@ class Map extends Audible implements Container
     }
 
     /**
-     * Overrides the @see Element::isValid().
+     * Overrides the Element::isValid().
      *
+     * @see Element::isValid().
      * @return true for valid Map that contains valid GeoTag, false otherwise.
      */
     public function isValid()
@@ -186,8 +188,9 @@ class Map extends Audible implements Container
     }
 
     /**
-     * Implements the @see Container::getContainerChildren().
+     * Implements the Container::getContainerChildren().
      *
+     * @see Container::getContainerChildren().
      * @return array of Elements contained by Image.
      */
     public function getContainerChildren()

@@ -81,8 +81,9 @@ abstract class TextContainer extends Element implements Container
     }
 
     /**
-     * Overrides the @see Element::isValid().
+     * Overrides the Element::isValid().
      *
+     * @see Element::isValid().
      * @return true for valid tag, false otherwise.
      */
     public function isValid()
@@ -103,8 +104,9 @@ abstract class TextContainer extends Element implements Container
     }
 
     /**
-     * Implements the @see Container::getContainerChildren().
+     * Implements the Container::getContainerChildren().
      *
+     * @see Container::getContainerChildren().
      * @return array of TextContainer
      */
     public function getContainerChildren()

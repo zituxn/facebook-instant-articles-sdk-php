@@ -14,11 +14,11 @@ use Facebook\InstantArticles\Validators\Type;
  * A caption for any element.
  * A caption can be included in any of the items:
  * <ul>
- *     <li>@see Image</li>
- *     <li>@see Video</li>
- *     <li>@see SlideShow</li>
- *     <li>@see Map</li>
- *     <li>@see SocialEmbed</li>
+ *     <li>Image</li>
+ *     <li>Video</li>
+ *     <li>SlideShow</li>
+ *     <li>Map</li>
+ *     <li>SocialEmbed</li>
  * </ul>.
  *
  * Example:
@@ -27,6 +27,11 @@ use Facebook\InstantArticles\Validators\Type;
  *        <h2>Caption SubTitle</h2>
  *    </figcaption>
  *
+ * @see Image
+ * @see Video
+ * @see SlideShow
+ * @see Map
+ * @see SocialEmbed
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/caption}
  */
 class Caption extends FormattedText
@@ -349,8 +354,9 @@ class Caption extends FormattedText
     }
 
     /**
-     * Overrides the @see TextContainer::isValid().
+     * Overrides the TextContainer::isValid().
      *
+     * @see TextContainer::isValid().
      * @return true for valid Caption when it is filled, false otherwise.
      */
     public function isValid()

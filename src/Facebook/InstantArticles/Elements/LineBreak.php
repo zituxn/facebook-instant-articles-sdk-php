@@ -55,8 +55,9 @@ class LineBreak extends FormattedText
     }
 
     /**
-     * Overrides the @see TextContainer::isValid() to a always valid one, since
+     * Overrides the TextContainer::isValid() to a always valid one, since
      * <br> tag will never be "invalid".
+     * @see TextContainer::isValid().
      */
     public function isValid()
     {

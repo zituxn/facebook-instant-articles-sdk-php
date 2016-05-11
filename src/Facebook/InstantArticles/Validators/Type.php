@@ -43,11 +43,12 @@ class Type
      * This method checks if the $var param is instanceof one of the $types_allowed informed.
      * It will return the success of the check.
      *
-     * @param mixed $var The object that will be verified
-     * @param mixed $types_allowed array of classes or one single class
-     * @param boolean $enforce If informed with true, it works as ()@see Type::enforce()) method
-     * @return boolean true when success, false when failed the check
-     * @throws InvalidArgumentException if $enforced is true and $var doesn't comply with the $types_allowed
+     * @param mixed $var The object that will be verified.
+     * @param mixed $types_allowed array of classes or one single class.
+     * @param boolean $enforce If informed with true, it works as (Type::enforce()) method.
+     * @return boolean true when success, false when failed the check.
+     * @throws InvalidArgumentException if $enforced is true and $var doesn't comply with the $types_allowed.
+     * @see Type::enforce().
      */
     public static function is($var, $types_allowed, $enforce = false)
     {
@@ -298,7 +299,8 @@ class Type
      *
      * @param array $array the array that will be checked
      * @param int $max_size The maximum number of items the array can have
-     * @param boolean $enforce works as @see Type::enforceArrayMaxSize()
+     * @param boolean $enforce works as Type::enforceArrayMaxSize().
+     * @see Type::enforceArrayMaxSize().
      *
      * @return bool true if it has less elements than $max_size, false otherwise
      */

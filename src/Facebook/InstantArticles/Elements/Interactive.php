@@ -239,8 +239,9 @@ class Interactive extends Element implements Container
     }
 
     /**
-     * Overrides the @see Element::isValid().
+     * Overrides the Element::isValid().
      *
+     * @see Element::isValid().
      * @return true for valid Interactive that contains valid source or html, false otherwise.
      */
     public function isValid()
@@ -249,8 +250,9 @@ class Interactive extends Element implements Container
     }
 
     /**
-     * Implements the @see Container::getContainerChildren().
+     * Implements the Container::getContainerChildren().
      *
+     * @see Container::getContainerChildren().
      * @return array of Elements contained by Image.
      */
     public function getContainerChildren()

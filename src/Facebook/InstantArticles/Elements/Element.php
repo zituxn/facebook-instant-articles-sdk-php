@@ -76,8 +76,10 @@ abstract class Element
     }
 
     /**
-     * Method to create an empty fragment if @see isValid() is false in @see toDOMElement()
+     * Method to create an empty fragment if isValid() is false in toDOMElement()
      * @param DOMDocument $document the document that will contain the empty element.
+     * @see self::isValid().
+     * @see self::toDOMElement().
      */
     protected function emptyElement($document)
     {

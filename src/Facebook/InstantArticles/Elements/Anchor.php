@@ -111,8 +111,8 @@ class Anchor extends FormattedText
     }
 
     /**
-     * Overrides the @see TextContainer::isValid().
-     *
+    * Overrides the TextContainer::isValid().
+    * @see TextContainer::isValid().
      * @return true for valid Anchor when it has href, false otherwise.
      */
     public function isValid()

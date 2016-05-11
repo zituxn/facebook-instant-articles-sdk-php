@@ -132,8 +132,9 @@ class RelatedArticles extends Element implements Container
     }
 
     /**
-     * Overrides the @see Element::isValid().
+     * Overrides the Element::isValid().
      *
+     * @see Element::isValid().
      * @return true for valid RelatedArticles that contains all RelatedItem's valid, false otherwise.
      */
     public function isValid()
@@ -147,8 +148,9 @@ class RelatedArticles extends Element implements Container
     }
 
     /**
-     * Implements the @see Container::getContainerChildren().
+     * Implements the Container::getContainerChildren().
      *
+     * @see Container::getContainerChildren().
      * @return array of Elements contained by Image.
      */
     public function getContainerChildren()

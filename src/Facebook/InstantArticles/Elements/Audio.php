@@ -14,10 +14,10 @@ use Facebook\InstantArticles\Validators\Type;
  * An audio within for the article.
  * Also consider to use one of the other media types for an article:
  * <ul>
- *     <li>@see Image</li>
- *     <li>@see Video</li>
- *     <li>@see SlideShow</li>
- *     <li>@see Map</li>
+ *     <li>Image</li>
+ *     <li>Video</li>
+ *     <li>SlideShow</li>
+ *     <li>Map</li>
  * </ul>.
  *
  * Example:
@@ -25,6 +25,10 @@ use Facebook\InstantArticles\Validators\Type;
  *        <source src="http://foo.com/mp3">
  *    </audio>
  *
+ * @see Image
+ * @see Video
+ * @see SlideShow
+ * @see Map
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/audio}
  */
 class Audio extends Element
@@ -219,8 +223,9 @@ class Audio extends Element
     }
 
     /**
-     * Overrides the @see Element::isValid().
+     * Overrides the Element::isValid().
      *
+     * @see Element::isValid().
      * @return true for valid Audio that contains not empty url, false otherwise.
      */
     public function isValid()
