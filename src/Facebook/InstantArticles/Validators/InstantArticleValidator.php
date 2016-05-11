@@ -10,6 +10,7 @@ namespace Facebook\InstantArticles\Validators;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Container;
+use Facebook\InstantArticles\Transformer\Warnings\ValidatorWarning;
 
 /**
  * Class that navigates thru InstantArticle object tree to validate it and report
@@ -17,7 +18,7 @@ use Facebook\InstantArticles\Elements\Container;
  */
 class InstantArticleValidator
 {
-
+    private static $configuration;
     /**
      * This method navigates thru the tree structure and validates the article content.
      *
@@ -44,7 +45,7 @@ class InstantArticleValidator
         foreach ($elements as $element) {
             if (!$element->isValid()) {
                 // Adds a warning to the result report.
-                $warnings[] = Type::stringify($element);
+                $warnings[] = new ValidatorWarning($element);
             }
             if ($element instanceof Container) {
                 self::getReport($element->getContainerChildren(), $warnings);
