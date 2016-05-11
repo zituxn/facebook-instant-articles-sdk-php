@@ -243,16 +243,16 @@ class Slideshow extends Audible implements Container
      * Overrides the Element::isValid().
      *
      * @see Element::isValid().
-     * @return true for valid Slideshow that contains all Image's valid, false otherwise.
+     * @return true for valid Slideshow that contains at least one Image valid, false otherwise.
      */
     public function isValid()
     {
         foreach ($this->article_images as $item) {
-            if (!$item->isValid()) {
-                return false;
+            if ($item->isValid()) {
+                return true;
             }
         }
-        return count($this->article_images) > 0;
+        return false;
     }
 
     /**
