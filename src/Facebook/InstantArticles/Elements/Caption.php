@@ -356,9 +356,6 @@ class Caption extends FormattedText
     public function isValid()
     {
         return
-            parent::isValid() ||
-            ($this->title && $this->title->isValid()) ||
-            ($this->subTitle && $this->subTitle->isValid()) ||
-            ($this->credit && $this->credit->isValid());
+            parent::isValid() || ($this->title && $this->title->isValid());
     }
 }
