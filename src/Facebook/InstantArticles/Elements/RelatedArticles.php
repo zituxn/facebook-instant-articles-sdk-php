@@ -135,16 +135,16 @@ class RelatedArticles extends Element implements Container
      * Overrides the Element::isValid().
      *
      * @see Element::isValid().
-     * @return true for valid RelatedArticles that contains all RelatedItem's valid, false otherwise.
+     * @return true for valid RelatedArticles that contains at least one RelatedItem's valid, false otherwise.
      */
     public function isValid()
     {
         foreach ($this->items as $item) {
-            if (!$item->isValid()) {
-                return false;
+            if ($item->isValid()) {
+                return true;
             }
         }
-        return count($this->items) > 0;
+        return false;
     }
 
     /**

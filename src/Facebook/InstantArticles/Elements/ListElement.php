@@ -182,16 +182,16 @@ class ListElement extends Element implements Container
      * Overrides the Element::isValid().
      *
      * @see Element::isValid().
-     * @return true for valid ListElement that contains all ListItem's valid, false otherwise.
+     * @return true for valid ListElement that contains at least one ListItem's valid, false otherwise.
      */
     public function isValid()
     {
         foreach ($this->items as $item) {
-            if (!$item->isValid()) {
-                return false;
+            if ($item->isValid()) {
+                return true;
             }
         }
-        return count($this->items) > 0;
+        return false;
     }
 
     /**
