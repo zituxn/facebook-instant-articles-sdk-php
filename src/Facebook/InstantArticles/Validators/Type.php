@@ -367,15 +367,8 @@ class Type
 
     private static function throwNotWithinException($value, $universe)
     {
-      // stringify the $value parameter
-        ob_start();
-        var_dump($value);
-        $value_str = ob_get_clean();
-
-      // stringify the $universe parameter
-        ob_start();
-        var_dump($universe);
-        $universe_str = ob_get_clean();
+        $value_str = self::stringify($value);
+        $universe_str = self::stringify($universe);
 
         throw new \InvalidArgumentException(
             "Method expects this value \n----[\n".$value_str."]----\n".
@@ -405,5 +398,17 @@ class Type
         $text = str_replace("&nbsp;", "", $text);
 
         return empty($text);
+    }
+
+    /**
+     * Auxiliary method that stringify an object as var_dump does.
+     * @return string $object var_dump result.
+     */
+    public static function stringify($object)
+    {
+          // stringify the $object parameter
+          ob_start();
+          var_dump($object);
+          return ob_get_clean();
     }
 }
