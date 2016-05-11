@@ -29,4 +29,11 @@ interface Container
      * @return array(<Element>) All implementing classes returns an array of Elements.
      */
     public function getContainerChildren();
+
+    /**
+     * Auxiliary method to extract all Elements full qualified class name.
+     *
+     * @return string The full qualified name of class
+     */
+    public static function getClassName();
 }
