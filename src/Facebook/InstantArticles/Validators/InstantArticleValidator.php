@@ -8,22 +8,47 @@
  */
 namespace Facebook\InstantArticles\Validators;
 
+use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Elements\Container;
+
 /**
  * Class that navigates thru InstantArticle object tree to validate it and report
  * warnings related to each object tree.
  */
-class InstantArticleValidation
+class InstantArticleValidator
 {
 
     /**
      * This method navigates thru the tree structure and validates the article content.
      *
-     * @param InstantArticle $article The article that will be checked
+     * @param InstantArticle $article The article that will be checked.
+     * @return array of string with the warnings raised during the check.
      */
     public static function check($article)
     {
-        Type::enforce($article, Article::getClassName());
+        Type::enforce($article, InstantArticle::getClassName());
         $children = $article->getContainerChildren();
-        var_dump($children);
+        $warnings = array();
+        self::getReport($children, $warnings);
+        return $warnings;
+    }
+
+    /**
+     * Auxiliary method to do a recursive checker that will raise all warnings
+     * related to the element tree about the Instant Article.
+     * @param array $elements Element[] to all elements that will be checked.
+     * @param array $warnings string[] to all warnings related to the elements informed.
+     */
+    public static function getReport($elements, &$warnings)
+    {
+        foreach ($elements as $element) {
+            if (!$element->isValid()) {
+                // Adds a warning to the result report.
+                $warnings[] = Type::stringify($element);
+            }
+            if ($element instanceof Container) {
+                self::getReport($element->getContainerChildren(), $warnings);
+            }
+        }
     }
 }

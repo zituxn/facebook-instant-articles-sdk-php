@@ -21,7 +21,7 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\AnimatedGIF;
 
 /**
- *
+ * Test unit agains @see InstantArticleValidator
  */
 class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,9 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $article =
             InstantArticle::create()
+                // Warning 1 - Invalid canonicalURL
                 ->withCanonicalUrl('')
+                // Warning 2 - Invalid empty header
                 ->withHeader(Header::create())
                 // Paragraph1
                 ->addChild(
@@ -38,19 +40,19 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
                         ->appendText('Some text to be within a paragraph for testing.')
                 )
 
-                // Empty paragraph
+                // Warning 3 - Invalid paragraph
                 ->addChild(Paragraph::create())
 
-                // Paragraph with only whitespace
+                // Warning 4 - Invalid paragraph
                 ->addChild(Paragraph::create()->appendText(" \n \t "))
 
                 ->addChild(
-                    // Image without src
+                    // Warning 5 - Invalid image without URL
                     Image::create()
                 )
 
                 ->addChild(
-                    // Image with empty src
+                    // Warning 6 - Invalid image with empty URL
                     Image::create()->withURL('')
                 )
 
@@ -62,7 +64,7 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
                                 ->withURL('https://jpeg.org/images/jpegls-home.jpg')
                         )
                         ->addImage(
-                            // Image without src URL for image
+                            // Warning 7 - Invalid image with empty URL
                             Image::create()
                         )
                 )
@@ -76,13 +78,12 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
                         ->appendText('Other text to be within a second paragraph for testing.')
                 )
 
-                // Analytics
+                // Warning 8 - Invalid Analytics with empty content/src
                 ->addChild(
-                    // Empty fragment
                     Analytics::create()
                 )
 
-                // Empty Footer
+                // Warning 9 - Invalid empty Footer
                 ->withFooter(Footer::create());
 
         $expected =
@@ -108,5 +109,20 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
 
         $result = $article->render();
         $this->assertEquals($expected, $result);
+
+        $warnings = InstantArticleValidator::check($article);
+        $this->assertEquals(9, count($warnings));
+    }
+
+    public function testFooter()
+    {
+        $footer = Footer::create();
+        $expected = '';
+        $result = $footer->render();
+        $this->assertEquals($expected, $result);
+
+        $warnings = array();
+        InstantArticleValidator::getReport(array($footer), $warnings);
+        $this->assertEquals(1, count($warnings));
     }
 }
