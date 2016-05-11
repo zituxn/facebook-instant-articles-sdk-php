@@ -364,19 +364,19 @@ class InstantArticle extends Element implements Container
     {
         $children = array();
 
-        $header = $article->getHeader();
+        $header = $this->getHeader();
         if ($header) {
             $children[] = $header;
         }
 
-        $items = $article->getChildren();
+        $items = $this->getChildren();
         if ($items) {
             foreach ($items as $item) {
                 $children[] = $item;
             }
         }
 
-        $footer = $article->getFooter();
+        $footer = $this->getFooter();
         if ($footer) {
             $children[] = $footer;
         }
