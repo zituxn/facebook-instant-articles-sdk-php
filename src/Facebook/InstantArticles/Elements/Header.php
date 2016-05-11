@@ -404,7 +404,7 @@ class Header extends Element implements Container
             $ads_container->setAttribute('class', 'op-ad-template');
 
             $default_is_set = false;
-            $has_valid_add = false;
+            $has_valid_ad = false;
             foreach ($this->ads as $ad) {
                 if ($default_is_set) {
                     $ad->disableDefaultForReuse();
@@ -416,10 +416,10 @@ class Header extends Element implements Container
 
                 if ($ad->isValid()) {
                     $ads_container->appendChild($ad->toDOMElement($document));
-                    $has_valid_add = true;
+                    $has_valid_ad = true;
                 }
             }
-            if ($has_valid_add) {
+            if ($has_valid_ad) {
                 $element->appendChild($ads_container);
             }
         }
@@ -436,18 +436,18 @@ class Header extends Element implements Container
     public function isValid()
     {
         $has_add = count($this->ads) > 0;
-        $has_valid_add = false;
+        $has_valid_ad = false;
         if ($has_add) {
             foreach ($this->ads as $add) {
                 if ($add->isValid()) {
-                    $has_valid_add = true;
+                    $has_valid_ad = true;
                     break;
                 }
             }
         }
         return
             ($this->title && $this->title->isValid()) ||
-             $has_valid_add;
+             $has_valid_ad;
     }
 
     /**
