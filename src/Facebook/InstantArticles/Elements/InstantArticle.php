@@ -279,10 +279,6 @@ class InstantArticle extends Element implements Container
             $document = new \DOMDocument();
         }
 
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         // Builds and appends head to the HTML document
         $html = $document->createElement('html');
         $head = $document->createElement('head');
@@ -358,6 +354,37 @@ class InstantArticle extends Element implements Container
         $element->setAttribute('property', $property_name);
         $element->setAttribute('content', $property_content);
         return $element;
+    }
+
+    public function isValid()
+    {
+        $header_valid = false;
+        if ($this->getHeader()) {
+            $header_valid = $this->getHeader()->isValid();
+        }
+
+        $items = $this->getChildren();
+        $one_item_valid = false;
+        if ($items) {
+            foreach ($items as $item) {
+                if ($item->isValid()) {
+                    $one_item_valid = true;
+                    break;
+                }
+            }
+        }
+
+        $footer_valid = false;
+        if ($this->getFooter()) {
+            $footer_valid = $this->getFooter()->isValid();
+        }
+
+        return
+            $this->canonicalURL &&
+            !Type::isTextEmpty($this->canonicalURL) &&
+            $header_valid &&
+            $footer_valid &&
+            $one_item_valid;
     }
 
     public function getContainerChildren()

@@ -366,6 +366,11 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                 '<body>'.
                     '<article>'.
                         '<p>Some text to be within a paragraph for testing.</p>'.
+                        '<figure class="op-slideshow">'.
+                            '<figure>'.
+                                '<img src="https://jpeg.org/images/jpegls-home.jpg"/>'.
+                            '</figure>'.
+                        '</figure>'.
                         '<p>Other text to be within a second paragraph for testing.</p>'.
                     '</article>'.
                 '</body>'.

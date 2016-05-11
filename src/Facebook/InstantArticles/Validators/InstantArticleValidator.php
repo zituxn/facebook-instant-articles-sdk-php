@@ -28,9 +28,8 @@ class InstantArticleValidator
     public static function check($article)
     {
         Type::enforce($article, InstantArticle::getClassName());
-        $children = $article->getContainerChildren();
         $warnings = array();
-        self::getReport($children, $warnings);
+        self::getReport(array($article), $warnings);
         return $warnings;
     }
 

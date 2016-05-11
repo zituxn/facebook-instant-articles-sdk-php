@@ -410,8 +410,6 @@ class Type
     public static function stringify($object)
     {
           // stringify the $object parameter
-          ob_start();
-          var_dump($object);
-          return ob_get_clean();
+          return var_export($object, true);
     }
 }
