@@ -69,4 +69,21 @@ class SocialEmbedTest extends \PHPUnit_Framework_TestCase
         $rendered = $social_embed->render();
         $this->assertEquals($expected, $rendered);
     }
+
+    public function testRenderWithWidthAndHeight()
+    {
+        $social_embed =
+            SocialEmbed::create()
+                ->withSource('http://foo.com')
+                ->withWidth(640)
+                ->withHeight(480);
+
+        $expected =
+            '<figure class="op-social">'.
+                '<iframe src="http://foo.com" width="640" height="480"></iframe>'.
+            '</figure>';
+
+        $rendered = $social_embed->render();
+        $this->assertEquals($expected, $rendered);
+    }
 }

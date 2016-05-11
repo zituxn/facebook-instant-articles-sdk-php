@@ -658,7 +658,7 @@ Rule Class | Properties | Permitted Context | Notes
 `RelatedItemRule` | `related.sponsored`<br>`related.url` | *RelatedArticles* | For individual articles within a `RelatedArticlesRule`
 `SlideshowImageRule` | `image.url`<br>`caption.title`<br>`caption.credit` | *Slideshow* | For individual images within a `SlideshowRule`
 `SlideshowRule` |  | *InstantArticle* | Wrapper for a [Slideshow](https://developers.facebook.com/docs/instant-articles/reference/slideshow) component
-`SocialEmbedRule` | `socialembed.iframe`<br>`socialembed.url` | *InstantArticle* |
+`SocialEmbedRule` | `socialembed.iframe`<br>`socialembed.url`<br>`socialembed.width`<br>`socialembed.height` | *InstantArticle* |
 `VideoRule` | `video.url`<br>`video.type`<br>`video.playback`<br>`video.controls`<br>`video.like`<br>`video.comments`<br><br>`type` = `"exists"` for any of the video player options:<br>`loop`<br>`data-fade`<br><br>one of the following:<br>`aspect-fit`<br>`aspect-fit-only`<br>`fullscreen`<br>`non-interactive` | *InstantArticle* |
 
 **Article Structure**

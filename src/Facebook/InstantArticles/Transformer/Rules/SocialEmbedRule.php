@@ -16,6 +16,8 @@ class SocialEmbedRule extends ConfigurationSelectorRule
 {
     const PROPERTY_IFRAME = 'socialembed.iframe';
     const PROPERTY_URL = 'socialembed.url';
+    const PROPERTY_WIDTH = 'socialembed.width';
+    const PROPERTY_HEIGHT = 'socialembed.height';
 
     public function getContextClass()
     {
@@ -35,7 +37,9 @@ class SocialEmbedRule extends ConfigurationSelectorRule
         $social_embed_rule->withProperties(
             [
                 self::PROPERTY_IFRAME,
-                self::PROPERTY_URL
+                self::PROPERTY_URL,
+                self::PROPERTY_WIDTH,
+                self::PROPERTY_HEIGHT
             ],
             $configuration
         );
@@ -67,6 +71,16 @@ class SocialEmbedRule extends ConfigurationSelectorRule
                     $this
                 )
             );
+        }
+
+        // Dimensions
+        $width = $this->getProperty(self::PROPERTY_WIDTH, $node);
+        $height = $this->getProperty(self::PROPERTY_HEIGHT, $node);
+        if ($width) {
+            $social_embed->withWidth($width);
+        }
+        if ($height) {
+            $social_embed->withHeight($height);
         }
 
         $suppress_warnings = $transformer->suppress_warnings;
