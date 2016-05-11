@@ -536,7 +536,7 @@ Take the following example which would cause text within `<span class="bold">` t
 }
 ```
 
-*If you're curious, the resulting markup within the Instant Article for the `BoldRule` class is the `<strong>` tag; the fact that this detail is abstracted by the Transformer is intentional.*
+*If you're curious, the resulting markup within the Instant Article for the `BoldRule` class is the `<b>` tag; the fact that this detail is abstracted by the Transformer is intentional.*
 
 > Caveat: the example above makes no mention of *context*. It turns out, the rule above would only work as expected if it were being processed within a particular parent context of the generated document. Read more about [rule context](#rule-context).
 
@@ -611,11 +611,11 @@ A *Rule Class* is simply a pre-determined link to a valid Instant Article compon
 
 ##### Available Rule Classes
 
-Listed below are all the available *Rule Classes*, along with their supported `properties` and permitted *context(s)*, whereby source markup can be mapped to a valid Instant Article component via its selectors. They are arranged into logical groups by function.
+Listed below are all the available *Rule Classes*, along with their supported `properties` and permitted *context(s)*, whereby source markup can be mapped to a valid Instant Article component via its selectors. They are arranged into logical groups by function. For the `properties`, assume `type` of `"string"` unless noted otherwise.
 
 **Formatting**
 
-Transformer Rule Class | Properties | Permitted Context | Notes
+Rule Class | Properties | Permitted Context | Notes
 --- | --- | --- | ---
 `AnchorRule` | `anchor.href`<br>`anchor.rel` | *TextContainer* | 
 `BoldRule` |  | *TextContainer* | 
@@ -624,12 +624,12 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 
 **Layout**
 
-Transformer Rule Class | Properties | Permitted Context | Notes
+Rule Class | Properties | Permitted Context | Notes
 --- | --- | --- | ---
 `BlockquoteRule` |  | *InstantArticle* | 
-`H1Rule` |  | *Caption*, *Header*, *InstantArticle* | 
-`H2Rule` |  | *Caption*, *Header*, *InstantArticle* | 
-`HeaderRule` |  | *InstantArticle* | Can apply to all headers (`HeaderKickerRule`, `HeaderSubTitleRule`, `HeaderTitleRule`)
+`H1Rule` | `type` = `"exists"` for one of either text alignment options:<br> `op-left`<br>`op-center`<br>`op-right`<br><br>`type` = `"exists"` for one of either vertical position options:<br>`op-vertical-below`<br>`op-vertical-above`<br>`op-vertical-center` <br><br>`type` = `"exists"` for one of either size options:<br>`op-size-medium`<br>`op-size-large`<br>`op-size-extra-large` | *Caption*, *InstantArticle* | Used to specify the Header value for multiple **Element** types.
+`H2Rule` | `type` = `"exists"` for one of either text alignment options:<br> `op-left`<br>`op-center`<br>`op-right`<br><br>`type` = `"exists"` for one of either vertical position options:<br>`op-vertical-below`<br>`op-vertical-above`<br>`op-vertical-center` | *Caption*, *InstantArticle* | 
+`HeaderRule` |  | *InstantArticle* | 
 `ListElementRule` |  | *InstantArticle* | 
 `ListItemRule` |  | *ListElement* | 
 `ParagraphRule` |  | *InstantArticle* | 
@@ -638,11 +638,11 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 
 **Graphic**
 
-Transformer Rule Class | Properties | Permitted Context | Notes
+Rule Class | Properties | Permitted Context | Notes
 --- | --- | --- | ---
 `AdRule` | `ad.url`<br>`ad.height`<br>`ad.width`<br>`ad.embed` | *InstantArticle* |
 `AnalyticsRule` | `analytics.url`<br>`analytics.embed` | *InstantArticle* |
-`GeoTagRule` | `map.geotag` | *Image*, *Video*, *Map* | 
+`GeoTagRule` | `map.geotag` | *Image*, *Video*, *Map* | Used to specify the [Geotag](https://developers.facebook.com/docs/instant-articles/reference/map) value for multiple **Element** types.<br><br>Multiple definitions of the same `map.geotag` property are allowed and each one will be processed independently.
 `HeaderAdRule` | `ad.url`<br>`ad.height`<br>`ad.width`<br>`ad.embed` | *Header* |
 `HeaderImageRule` | `image.url` | *Header* | 
 `ImageRule` | `image.url`<br>`image.like`<br>`image.comments` | *InstantArticle* |
@@ -651,23 +651,23 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 
 **Media**
 
-Transformer Rule Class | Properties | Permitted Context | Notes
+Rule Class | Properties | Permitted Context | Notes
 --- | --- | --- | ---
 `AudioRule` | `audio.url`<br>`audio.title`<br>`audio.autoplay`<br>`audio.muted` | *Audible* |
-`RelatedArticlesRule` | `related.title` | *InstantArticle* | 
-`RelatedItemRule` | `related.sponsored`<br>`related.url` | *RelatedArticles* |
-`SlideshowImageRule` | `image.url`<br>`caption.title`<br>`caption.credit` | *Slideshow* |
-`SlideshowRule` |  | *InstantArticle* | 
+`RelatedArticlesRule` | `related.title` | *InstantArticle* | Wrapper for a [Related Article](https://developers.facebook.com/docs/instant-articles/reference/related-articles) component
+`RelatedItemRule` | `related.sponsored`<br>`related.url` | *RelatedArticles* | For individual articles within a `RelatedArticlesRule`
+`SlideshowImageRule` | `image.url`<br>`caption.title`<br>`caption.credit` | *Slideshow* | For individual images within a `SlideshowRule`
+`SlideshowRule` |  | *InstantArticle* | Wrapper for a [Slideshow](https://developers.facebook.com/docs/instant-articles/reference/slideshow) component
 `SocialEmbedRule` | `socialembed.iframe`<br>`socialembed.url` | *InstantArticle* |
-`VideoRule` | `video.url`<br>`video.type`<br>`video.playback`<br>`video.controls`<br>`video.like`<br>`video.comments` | *InstantArticle* |
+`VideoRule` | `video.url`<br>`video.type`<br>`video.playback`<br>`video.controls`<br>`video.like`<br>`video.comments`<br><br>`type` = `"exists"` for any of the video player options:<br>`loop`<br>`data-fade`<br><br>one of the following:<br>`aspect-fit`<br>`aspect-fit-only`<br>`fullscreen`<br>`non-interactive` | *InstantArticle* |
 
 **Article Structure**
 
-Transformer Rule Class | Properties | Permitted Context | Notes
+Rule Class | Properties | Permitted Context | Notes
 --- | --- | --- | ---
 `AuthorRule` | `author.url`<br>`author.name`<br>`author.description`<br>`author.role_contribution` | *Header* | 
-`CaptionCreditRule` |  | *Caption* | 
-`CaptionRule` | `caption.default` | *Map*, *Image*, *Interactive*, *Slideshow*, *SocialEmbed*, *Video* | 
+`CaptionCreditRule` | `type` = `"exists"` for one of either text alignment options:<br> `op-left`<br>`op-center`<br>`op-right`<br><br>`type` = `"exists"` for one of either vertical position options:<br>`op-vertical-below`<br>`op-vertical-above`<br>`op-vertical-center` | *Caption* | 
+`CaptionRule` | `caption.default`<br><br>`type` = `"exists"` for one of either text alignment options:<br> `op-left`<br>`op-center`<br>`op-right`<br><br>`type` = `"exists"` for one of either vertical position options:<br>`op-vertical-below`<br>`op-vertical-above`<br>`op-vertical-center` <br><br>`type` = `"exists"` for one of either size options:<br>`op-size-medium`<br>`op-size-large`<br>`op-size-extra-large` | *Map*, *Image*, *Interactive*, *Slideshow*, *SocialEmbed*, *Video* | Used to specify the [Caption](https://developers.facebook.com/docs/instant-articles/reference/caption) value for multiple **Element** types.<br><br>Multiple definitions of the same `caption.default` property are allowed and each one will be processed independently.
 `FooterRelatedArticlesRule` | `related.title` | *Footer* | 
 `FooterRule` |  | *InstantArticle* | 
 `HeaderKickerRule` |  | *Header* | 
@@ -678,7 +678,7 @@ Transformer Rule Class | Properties | Permitted Context | Notes
 
 **Special**
 
-Transformer Rule Class | Properties | Permitted Context | Notes
+Rule Class | Properties | Permitted Context | Notes
 --- | --- | --- | ---
 `IgnoreRule` |  | *(any)* | This rule class will effectively strip out an element tag which matches the associated ***selector*** of the rule.
 `PassThroughRule` |  | *(any)* | This rule class instructs the Transformer to not process any transformation on element tags which match the associated  ***selector*** of the rule.
