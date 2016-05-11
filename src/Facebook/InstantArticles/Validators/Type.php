@@ -380,6 +380,7 @@ class Type
 
     /**
      * Checks the thext if it is empty.
+     * Examples:
      * "" => true
      * "    " => true
      * "\n" => true
