@@ -39,6 +39,16 @@ class SocialEmbed extends Element implements Container
      */
     private $source;
 
+    /**
+     * @var int The width of your social embed.
+     */
+    private $width;
+
+    /**
+     * @var int The height of your social embed.
+     */
+    private $height;
+
     private function __construct()
     {
     }
@@ -97,6 +107,36 @@ class SocialEmbed extends Element implements Container
     }
 
     /**
+     * Sets the width of your social embed.
+     *
+     * @param int $width The width of your social embed.
+     *
+     * @return $this
+     */
+    public function withWidth($width)
+    {
+        Type::enforce($width, Type::INTEGER);
+        $this->width = $width;
+
+        return $this;
+    }
+
+    /**
+     * Sets the height of your social embed.
+     *
+     * @param int $height The height of your social embed.
+     *
+     * @return $this
+     */
+    public function withHeight($height)
+    {
+        Type::enforce($height, Type::INTEGER);
+        $this->height = $height;
+
+        return $this;
+    }
+
+    /**
      * @return Caption - The caption for social embed block
      */
     public function getCaption()
@@ -118,6 +158,22 @@ class SocialEmbed extends Element implements Container
     public function getSource()
     {
         return $this->source;
+    }
+
+    /**
+     * @return int the width
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * @return int the height
+     */
+    public function getHeight()
+    {
+        return $this->height;
     }
 
     /**
@@ -149,6 +205,14 @@ class SocialEmbed extends Element implements Container
 
         if ($this->source) {
             $iframe->setAttribute('src', $this->source);
+        }
+
+        if ($this->width) {
+            $iframe->setAttribute('width', $this->width);
+        }
+
+        if ($this->height) {
+            $iframe->setAttribute('height', $this->height);
         }
 
         $figure->setAttribute('class', 'op-social');
