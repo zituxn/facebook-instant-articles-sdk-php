@@ -69,10 +69,8 @@ class Footer extends Element implements Container
 
         // Checks if it is array to apply the enforce of param types as documented.
         if (Type::is($credits, Type::ARRAY_TYPE)) {
-
             if (!Type::isArrayOf($credits, Type::STRING) &&
                 !Type::isArrayOf($credits, Paragraph::getClassName())) {
-
                 Type::enforceArrayOf($credits, Type::STRING);
                 Type::enforceArrayOf($credits, Paragraph::getClassName());
             }
