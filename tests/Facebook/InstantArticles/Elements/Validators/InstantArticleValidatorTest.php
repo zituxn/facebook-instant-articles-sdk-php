@@ -129,6 +129,6 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
         $warnings = array();
         InstantArticleValidator::getReport(array($footer), $warnings);
         $this->assertEquals(1, count($warnings));
-        $this->assertContains('Footer must have at least one of those', $warnings[0]->__toString());
+        $this->assertContains('Footer must have at least one of the', $warnings[0]->__toString());
     }
 }
