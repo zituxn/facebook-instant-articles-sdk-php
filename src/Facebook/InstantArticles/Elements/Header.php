@@ -435,11 +435,11 @@ class Header extends Element implements Container
      */
     public function isValid()
     {
-        $has_add = count($this->ads) > 0;
+        $has_ad = count($this->ads) > 0;
         $has_valid_ad = false;
-        if ($has_add) {
-            foreach ($this->ads as $add) {
-                if ($add->isValid()) {
+        if ($has_ad) {
+            foreach ($this->ads as $ad) {
+                if ($ad->isValid()) {
                     $has_valid_ad = true;
                     break;
                 }
