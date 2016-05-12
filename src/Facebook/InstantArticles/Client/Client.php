@@ -12,6 +12,7 @@ namespace Facebook\InstantArticles\Client;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Elements\InstantArticleInterface;
 use Facebook\InstantArticles\Validators\Type;
 
 class Client
@@ -87,7 +88,7 @@ class Client
      */
     public function importArticle($article, $takeLive = false)
     {
-        Type::enforce($article, InstantArticle::getClassName());
+        Type::enforce($article, 'Facebook\InstantArticles\Elements\InstantArticleInterface');
         Type::enforce($takeLive, Type::BOOLEAN);
 
         // Never try to take live if we're in development (the API would throw an error if we tried)
