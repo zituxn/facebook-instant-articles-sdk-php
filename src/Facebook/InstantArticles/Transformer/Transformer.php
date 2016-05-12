@@ -167,6 +167,8 @@ class Transformer
                 if (!$matched &&
                     !($child->nodeName === '#text' && trim($child->textContent) === '') &&
                     !($child->nodeName === '#comment') &&
+                    !($child->nodeName === 'html' && Type::is($child, 'DOMDocumentType')) &&
+                    !($child->nodeName === 'xml' && Type::is($child, 'DOMProcessingInstruction')) &&
                     !$this->suppress_warnings
                     ) {
                     $tag_content = $child->ownerDocument->saveXML($child);
