@@ -380,6 +380,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result);
     }
 
+
     public function testIsValid()
     {
         $ia =
@@ -411,5 +412,10 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                         ->appendText(' Man kind.')
                 );
         $this->assertTrue($ia->isValid());
+    }
+    
+    public function testImplementsInterface()
+    {
+        $this->assertInstanceOf(InstantArticleInterface::class, $this->article);
     }
 }
