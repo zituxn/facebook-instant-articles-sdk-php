@@ -11,7 +11,8 @@ namespace Facebook\InstantArticles\Elements;
 use Facebook\InstantArticles\Validators\Type;
 
 /**
- * Class RelatedItem to represent each of the @see RelatedArticles
+ * Class RelatedItem to represent each of the RelatedArticles.
+ * @see RelatedArticles
  */
 class RelatedItem extends Element
 {
@@ -107,6 +108,10 @@ class RelatedItem extends Element
             $document = new \DOMDocument();
         }
 
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('li');
         if ($this->sponsored) {
             $element->setAttribute('data-sponsored', 'true');
@@ -115,7 +120,17 @@ class RelatedItem extends Element
             Anchor::create()->withHref($this->url)->toDOMElement($document)
         );
 
-
         return $element;
+    }
+
+    /**
+     * Overrides the Element::isValid().
+     *
+     * @see Element::isValid().
+     * @return true for valid RelatedItem that contains valid url, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->url);
     }
 }

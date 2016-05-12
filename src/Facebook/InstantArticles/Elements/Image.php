@@ -15,10 +15,10 @@ use Facebook\InstantArticles\Validators\Type;
  * This element Class is the image for the article.
  * Also consider to use one of the other media types for an article:
  * <ul>
- *     <li>@see Audio</li>
- *     <li>@see Video</li>
- *     <li>@see SlideShow</li>
- *     <li>@see Map</li>
+ *     <li>Audio</li>
+ *     <li>Video</li>
+ *     <li>SlideShow</li>
+ *     <li>Map</li>
  * </ul>.
  *
  * Example:
@@ -27,9 +27,13 @@ use Facebook\InstantArticles\Validators\Type;
  *      <figcaption>This image is amazing</figcaption>
  *  </figure>
  *
+ * @see Audio
+ * @see Video
+ * @see SlideShow
+ * @see Map
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
-class Image extends Audible
+class Image extends Audible implements Container
 {
     const ASPECT_FIT = 'aspect-fit';
     const ASPECT_FIT_ONLY = 'aspect-fit-only';
@@ -95,7 +99,7 @@ class Image extends Audible
 
     /**
      * This sets figcaption tag as documentation. It overrides all sets
-     * made with @see Caption.
+     * made with Caption.
      *
      * @param Caption $caption the caption the image will have
      *
@@ -295,6 +299,11 @@ class Image extends Audible
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('figure');
 
         // Like/comments markup optional
@@ -336,5 +345,43 @@ class Image extends Audible
         }
 
         return $element;
+    }
+
+    /**
+     * Overrides the Element::isValid().
+     *
+     * @see Element::isValid().
+     * @return true for valid Image that contains valid url, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->url);
+    }
+
+    /**
+     * Implements the Container::getContainerChildren().
+     *
+     * @see Container::getContainerChildren().
+     * @return array of Elements contained by Image.
+     */
+    public function getContainerChildren()
+    {
+        $children = array();
+
+        if ($this->caption) {
+            $children[] = $this->caption;
+        }
+
+        // Geotag markup optional
+        if ($this->geoTag) {
+            $children[] = $this->geoTag;
+        }
+
+        // Audio markup optional
+        if ($this->audio) {
+            $children[] = $this->audio;
+        }
+
+        return $children;
     }
 }

@@ -10,6 +10,17 @@ namespace Facebook\InstantArticles\Elements;
 
 class AuthorTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $author =
+            Author::create();
+
+        $expected = '';
+
+        $rendered = $author->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderAuthorWithFB()
     {
         $author =

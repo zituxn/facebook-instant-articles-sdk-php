@@ -10,6 +10,32 @@ namespace Facebook\InstantArticles\Elements;
 
 class ListElementTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $list =
+            ListElement::createOrdered();
+
+        $expected = '';
+
+        $rendered = $list->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderListItemsAllEmpty()
+    {
+        $list =
+            ListElement::createOrdered()
+                ->addItem('')
+                ->addItem(' ')
+                ->addItem("\t")
+                ->addItem("\n \t");
+
+        $expected = '';
+
+        $rendered = $list->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderOrdered()
     {
         $list =

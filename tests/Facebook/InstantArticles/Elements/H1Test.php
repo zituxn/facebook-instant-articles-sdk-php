@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class H1Test extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $h1 = H1::create();
+
+        $expected = '';
+
+        $rendered = $h1->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $h1 =
@@ -149,6 +159,66 @@ class H1Test extends \PHPUnit_Framework_TestCase
             '<h1>'.
                 '<b>Some <i>nested formatting</i>.</b>'.
             '</h1>';
+
+        $rendered = $h1->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderEmptySpace()
+    {
+        $h1 =
+            H1::create()
+                ->appendText('');
+
+        $expected = '';
+
+        $rendered = $h1->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderEmptyNBSP()
+    {
+        $h1 =
+            H1::create()
+                ->appendText('&nbsp;');
+
+        $expected = '';
+
+        $rendered = $h1->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderEmptySpaces()
+    {
+        $h1 =
+            H1::create()
+                ->appendText('  ');
+
+        $expected = '';
+
+        $rendered = $h1->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderWhiteSpaceChars()
+    {
+        $h1 =
+            H1::create()
+                ->appendText("\t\n\r");
+
+        $expected = '';
+
+        $rendered = $h1->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderEmptyFormatted()
+    {
+        $h1 =
+            H1::create()
+                ->appendText(Bold::create()->appendText('  '));
+
+        $expected = '';
 
         $rendered = $h1->render();
         $this->assertEquals($expected, $rendered);

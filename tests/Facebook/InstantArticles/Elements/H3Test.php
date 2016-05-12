@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class H3Test extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $h3 = H3::create();
+
+        $expected = '';
+
+        $rendered = $h3->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $h3 =

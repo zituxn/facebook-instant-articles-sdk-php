@@ -10,6 +10,15 @@ namespace Facebook\InstantArticles\Elements;
 
 class HeaderTest extends \PHPUnit_Framework_TestCase
 {
+
+    public function testHeaderEmpty()
+    {
+        $header = Header::create();
+        $expected = '';
+        $rendered = $header->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testCompleteHeader()
     {
         date_default_timezone_set('UTC');

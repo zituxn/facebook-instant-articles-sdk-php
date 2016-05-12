@@ -10,6 +10,17 @@ namespace Facebook\InstantArticles\Elements;
 
 class AnalyticsTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $analytics =
+            Analytics::create();
+
+        $expected = '';
+
+        $rendered = $analytics->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $analytics =

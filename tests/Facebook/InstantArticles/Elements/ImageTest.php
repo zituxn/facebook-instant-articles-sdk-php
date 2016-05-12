@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $image = Image::create();
+
+        $expected = '';
+
+        $rendered = $image->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $image =

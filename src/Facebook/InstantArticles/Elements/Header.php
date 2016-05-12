@@ -35,7 +35,7 @@ use Facebook\InstantArticles\Validators\Type;
  *     </time>
  * </header>
  */
-class Header extends Element
+class Header extends Element implements Container
 {
     /**
      * @var Image|Video|null for the image or video on the header.
@@ -351,37 +351,44 @@ class Header extends Element
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('header');
 
-        if ($this->cover) {
+        if ($this->cover && $this->cover->isValid()) {
             $element->appendChild($this->cover->toDOMElement($document));
         }
 
-        if ($this->title) {
+        if ($this->title && $this->title->isValid()) {
             $element->appendChild($this->title->toDOMElement($document));
         }
 
-        if ($this->subtitle) {
+        if ($this->subtitle && $this->subtitle->isValid()) {
             $element->appendChild($this->subtitle->toDOMElement($document));
         }
 
-        if ($this->published) {
+        if ($this->published && $this->published->isValid()) {
             $published_element = $this->published->toDOMElement($document);
             $element->appendChild($published_element);
         }
 
-        if ($this->modified) {
+        if ($this->modified && $this->modified->isValid()) {
             $modified_element = $this->modified->toDOMElement($document);
             $element->appendChild($modified_element);
         }
 
         if ($this->authors) {
             foreach ($this->authors as $author) {
-                $element->appendChild($author->toDOMElement($document));
+                if ($author->isValid()) {
+                    $element->appendChild($author->toDOMElement($document));
+                }
             }
         }
 
-        if ($this->kicker) {
+        if ($this->kicker && $this->kicker->isValid()) {
             $kicker_element = $this->kicker->toDOMElement($document);
             $kicker_element->setAttribute('class', 'op-kicker');
             $element->appendChild($kicker_element);
@@ -389,12 +396,15 @@ class Header extends Element
 
         if (count($this->ads) === 1) {
             $this->ads[0]->disableDefaultForReuse();
-            $element->appendChild($this->ads[0]->toDOMElement($document));
+            if ($this->ads[0]->isValid()) {
+                $element->appendChild($this->ads[0]->toDOMElement($document));
+            }
         } elseif (count($this->ads) >= 2) {
             $ads_container = $document->createElement('section');
             $ads_container->setAttribute('class', 'op-ad-template');
 
             $default_is_set = false;
+            $has_valid_ad = false;
             foreach ($this->ads as $ad) {
                 if ($default_is_set) {
                     $ad->disableDefaultForReuse();
@@ -404,11 +414,88 @@ class Header extends Element
                     $default_is_set = true;
                 }
 
-                $ads_container->appendChild($ad->toDOMElement($document));
+                if ($ad->isValid()) {
+                    $ads_container->appendChild($ad->toDOMElement($document));
+                    $has_valid_ad = true;
+                }
             }
-            $element->appendChild($ads_container);
+            if ($has_valid_ad) {
+                $element->appendChild($ads_container);
+            }
         }
 
         return $element;
+    }
+
+    /**
+     * Overrides the Element::isValid().
+     *
+     * @see Element::isValid().
+     * @return true for valid tag, false otherwise.
+     */
+    public function isValid()
+    {
+        $has_ad = count($this->ads) > 0;
+        $has_valid_ad = false;
+        if ($has_ad) {
+            foreach ($this->ads as $ad) {
+                if ($ad->isValid()) {
+                    $has_valid_ad = true;
+                    break;
+                }
+            }
+        }
+        return
+            ($this->title && $this->title->isValid()) ||
+             $has_valid_ad;
+    }
+
+    /**
+     * Implements the Container::getContainerChildren().
+     *
+     * @see Container::getContainerChildren().
+     * @return array of Elements contained by Header.
+     */
+    public function getContainerChildren()
+    {
+        $children = array();
+
+        if ($this->cover) {
+            $children[] = $this->cover;
+        }
+
+        if ($this->title) {
+            $children[] = $this->title;
+        }
+
+        if ($this->subtitle) {
+            $children[] = $this->subtitle;
+        }
+
+        if ($this->published) {
+            $children[] = $this->published;
+        }
+
+        if ($this->modified) {
+            $children[] = $this->modified;
+        }
+
+        if ($this->authors) {
+            foreach ($this->authors as $author) {
+                $children[] = $author;
+            }
+        }
+
+        if ($this->kicker) {
+            $children[] = $this->kicker;
+        }
+
+        if (count($this->ads) > 0) {
+            foreach ($this->ads as $ad) {
+                $children[] = $ad;
+            }
+        }
+
+        return $children;
     }
 }

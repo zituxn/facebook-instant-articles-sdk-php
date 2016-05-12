@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class CiteTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $cite = Cite::create();
+
+        $expected = '';
+
+        $rendered = $cite->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $cite =

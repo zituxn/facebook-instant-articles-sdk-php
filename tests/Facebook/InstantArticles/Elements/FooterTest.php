@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class FooterTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $footer = Footer::create();
+
+        $expected = '';
+
+        $rendered = $footer->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $footer =

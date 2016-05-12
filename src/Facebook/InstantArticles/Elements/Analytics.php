@@ -111,6 +111,11 @@ class Analytics extends Element
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $figure = $document->createElement('figure');
         $iframe = $document->createElement('iframe');
 
@@ -131,5 +136,15 @@ class Analytics extends Element
         }
 
         return $figure;
+    }
+
+    /**
+    * Overrides the Element::isValid().
+    * @see Element::isValid().
+     * @return true for valid Analytics that contains valid source or html, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->source) || $this->html;
     }
 }

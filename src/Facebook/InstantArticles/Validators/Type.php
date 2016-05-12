@@ -43,11 +43,12 @@ class Type
      * This method checks if the $var param is instanceof one of the $types_allowed informed.
      * It will return the success of the check.
      *
-     * @param mixed $var The object that will be verified
-     * @param mixed $types_allowed array of classes or one single class
-     * @param boolean $enforce If informed with true, it works as ()@see Type::enforce()) method
-     * @return boolean true when success, false when failed the check
-     * @throws InvalidArgumentException if $enforced is true and $var doesn't comply with the $types_allowed
+     * @param mixed $var The object that will be verified.
+     * @param mixed $types_allowed array of classes or one single class.
+     * @param boolean $enforce If informed with true, it works as (Type::enforce()) method.
+     * @return boolean true when success, false when failed the check.
+     * @throws InvalidArgumentException if $enforced is true and $var doesn't comply with the $types_allowed.
+     * @see Type::enforce().
      */
     public static function is($var, $types_allowed, $enforce = false)
     {
@@ -298,7 +299,8 @@ class Type
      *
      * @param array $array the array that will be checked
      * @param int $max_size The maximum number of items the array can have
-     * @param boolean $enforce works as @see Type::enforceArrayMaxSize()
+     * @param boolean $enforce works as Type::enforceArrayMaxSize().
+     * @see Type::enforceArrayMaxSize().
      *
      * @return bool true if it has less elements than $max_size, false otherwise
      */
@@ -367,19 +369,47 @@ class Type
 
     private static function throwNotWithinException($value, $universe)
     {
-      // stringify the $value parameter
-        ob_start();
-        var_dump($value);
-        $value_str = ob_get_clean();
-
-      // stringify the $universe parameter
-        ob_start();
-        var_dump($universe);
-        $universe_str = ob_get_clean();
+        $value_str = self::stringify($value);
+        $universe_str = self::stringify($universe);
 
         throw new \InvalidArgumentException(
             "Method expects this value \n----[\n".$value_str."]----\n".
             " to be within this universe of values \n====[\n".$universe_str."]===="
         );
+    }
+
+    /**
+     * Checks the thext if it is empty.
+     * Examples:
+     * "" => true
+     * "    " => true
+     * "\n" => true
+     * "a" => false
+     * "  a  " => false
+     *
+     * @param string $text The text that will be checked.
+     * @return true if empty, false otherwise.
+     */
+    public static function isTextEmpty($text)
+    {
+        if (!isset($text) || $text === null || !self::is($text, self::STRING)) {
+            return true;
+        }
+        // Stripes empty spaces, &nbsp;, <br/>, new lines
+        $text = strip_tags($text);
+        $text = preg_replace("/[\r\n\s]+/", "", $text);
+        $text = str_replace("&nbsp;", "", $text);
+
+        return empty($text);
+    }
+
+    /**
+     * Auxiliary method that stringify an object as var_dump does.
+     * @return string $object var_dump result.
+     */
+    public static function stringify($object)
+    {
+          // stringify the $object parameter
+          return var_export($object, true);
     }
 }

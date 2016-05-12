@@ -14,9 +14,10 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 abstract class AbstractGetter
 {
     /**
-     * Method that should be implemented so it can be Instantiated by @see GetterFactory
+     * Method that should be implemented so it can be Instantiated by GetterFactory
      *
      * @param string[] $configuration With all properties of this Getter
+     * @see GetterFactory.
      *
      * @return static
      */

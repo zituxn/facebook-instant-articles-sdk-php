@@ -21,6 +21,16 @@ class TimeTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRenderEmpty()
+    {
+        $time = Time::create(Time::PUBLISHED);
+
+        $expected = '';
+
+        $rendered = $time->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $time =

@@ -10,16 +10,11 @@ namespace Facebook\InstantArticles\Elements;
 
 class ParagraphTest extends \PHPUnit_Framework_TestCase
 {
-    public function testRenderBasic()
+    public function testRenderEmpty()
     {
-        $paragraph =
-            Paragraph::create()
-                ->appendText('Some text to be within a paragraph for testing.');
+        $paragraph = Paragraph::create();
 
-        $expected =
-            '<p>'.
-                'Some text to be within a paragraph for testing.'.
-            '</p>';
+        $expected = '';
 
         $rendered = $paragraph->render();
         $this->assertEquals($expected, $rendered);
@@ -98,6 +93,66 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
             '<p>'.
                 'Some <a href="http://foo.com">link</a>.'.
             '</p>';
+
+        $rendered = $paragraph->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderEmptyText()
+    {
+        $paragraph =
+            Paragraph::create()
+                ->appendText('');
+
+        $expected = '';
+
+        $rendered = $paragraph->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderEmptyNBSP()
+    {
+        $paragraph =
+            Paragraph::create()
+                ->appendText('&nbsp;');
+
+        $expected = '';
+
+        $rendered = $paragraph->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderEmptySpaces()
+    {
+        $paragraph =
+            Paragraph::create()
+                ->appendText('  ');
+
+        $expected = '';
+
+        $rendered = $paragraph->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderWhiteSpaceChars()
+    {
+        $paragraph =
+            Paragraph::create()
+                ->appendText("\t\n\r");
+
+        $expected = '';
+
+        $rendered = $paragraph->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderEmptyFormatted()
+    {
+        $paragraph =
+            Paragraph::create()
+                ->appendText(Bold::create()->appendText('  '));
+
+        $expected = '';
 
         $rendered = $paragraph->render();
         $this->assertEquals($expected, $rendered);

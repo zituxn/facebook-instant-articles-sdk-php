@@ -101,8 +101,6 @@ class CaptionRule extends ConfigurationSelectorRule
         }
 
         $text_default = $this->getProperty(self::PROPERTY_DEFAULT, $node);
-        $log = \Logger::getLogger('facebook-instantarticles-transformer');
-        $log->debug($node->ownerDocument->saveXML($node));
         if ($text_default) {
             $caption->withTitle($text_default);
         } else {

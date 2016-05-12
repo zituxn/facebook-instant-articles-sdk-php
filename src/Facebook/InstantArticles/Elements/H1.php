@@ -117,6 +117,11 @@ class H1 extends TextContainer
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $h1 = $document->createElement('h1');
 
         $classes = [];

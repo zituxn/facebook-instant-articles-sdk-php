@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class CaptionTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $caption = Caption::create();
+
+        $expected = '';
+
+        $rendered = $caption->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $caption =

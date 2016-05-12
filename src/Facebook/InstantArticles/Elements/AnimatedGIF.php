@@ -12,11 +12,11 @@ namespace Facebook\InstantArticles\Elements;
  * An AnimatedGIF
  * Also consider to use one of the other media types for an article:
  * <ul>
- *     <li>@see Audio</li>
-*      <li>@see Image</li>
- *     <li>@see Video</li>
- *     <li>@see SlideShow</li>
- *     <li>@see Map</li>
+ *     <li>Audio</li>
+*      <li>Image</li>
+ *     <li>Video</li>
+ *     <li>SlideShow</li>
+ *     <li>Map</li>
  * </ul>.
  *
  * Example:
@@ -25,6 +25,11 @@ namespace Facebook\InstantArticles\Elements;
  *      <figcaption>This image is amazing</figcaption>
  *  </figure>
  *
+ * @see Audio
+ * @see Image
+ * @see Video
+ * @see SlideShow
+ * @see Map
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/animated-gif}
  */
 class AnimatedGIF extends Image

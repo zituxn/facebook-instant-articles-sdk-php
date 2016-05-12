@@ -31,7 +31,7 @@ use Facebook\InstantArticles\Validators\Type;
   *    </html>
   *
 */
-class InstantArticle extends Element
+class InstantArticle extends Element implements Container
 {
     const CURRENT_VERSION = '1.0.6';
 
@@ -321,7 +321,7 @@ class InstantArticle extends Element
         $article = $document->createElement('article');
         $body->appendChild($article);
         $html->appendChild($body);
-        if ($this->header) {
+        if ($this->header && $this->header->isValid()) {
             $article->appendChild($this->header->toDOMElement($document));
         }
         if ($this->children) {
@@ -338,7 +338,7 @@ class InstantArticle extends Element
                 }
                 $article->appendChild($child->toDOMElement($document));
             }
-            if ($this->footer) {
+            if ($this->footer && $this->footer->isValid()) {
                 $article->appendChild($this->footer->toDOMElement($document));
             }
         } else {
@@ -354,5 +354,60 @@ class InstantArticle extends Element
         $element->setAttribute('property', $property_name);
         $element->setAttribute('content', $property_content);
         return $element;
+    }
+
+    public function isValid()
+    {
+        $header_valid = false;
+        if ($this->getHeader()) {
+            $header_valid = $this->getHeader()->isValid();
+        }
+
+        $items = $this->getChildren();
+        $one_item_valid = false;
+        if ($items) {
+            foreach ($items as $item) {
+                if ($item->isValid()) {
+                    $one_item_valid = true;
+                    break;
+                }
+            }
+        }
+
+        $footer_valid = false;
+        if ($this->getFooter()) {
+            $footer_valid = $this->getFooter()->isValid();
+        }
+
+        return
+            $this->canonicalURL &&
+            !Type::isTextEmpty($this->canonicalURL) &&
+            $header_valid &&
+            $footer_valid &&
+            $one_item_valid;
+    }
+
+    public function getContainerChildren()
+    {
+        $children = array();
+
+        $header = $this->getHeader();
+        if ($header) {
+            $children[] = $header;
+        }
+
+        $items = $this->getChildren();
+        if ($items) {
+            foreach ($items as $item) {
+                $children[] = $item;
+            }
+        }
+
+        $footer = $this->getFooter();
+        if ($footer) {
+            $children[] = $footer;
+        }
+
+        return $children;
     }
 }

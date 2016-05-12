@@ -83,6 +83,11 @@ class Pullquote extends TextContainer
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('aside');
 
         $element->appendChild($this->textToDOMDocumentFragment($document));

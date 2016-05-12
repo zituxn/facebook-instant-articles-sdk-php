@@ -22,7 +22,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/social}
  */
-class SocialEmbed extends Element
+class SocialEmbed extends Element implements Container
 {
     /**
      * @var Caption Descriptive text for your social embed.
@@ -132,6 +132,11 @@ class SocialEmbed extends Element
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $figure = $document->createElement('figure');
         $iframe = $document->createElement('iframe');
 
@@ -158,5 +163,33 @@ class SocialEmbed extends Element
         }
 
         return $figure;
+    }
+
+    /**
+     * Overrides the Element::isValid().
+     *
+     * @see Element::isValid().
+     * @return true for valid SocialEmbed that contains valid source or html, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->source) || $this->html;
+    }
+
+    /**
+     * Implements the Container::getContainerChildren().
+     *
+     * @see Container::getContainerChildren().
+     * @return array of Elements contained by Image.
+     */
+    public function getContainerChildren()
+    {
+        $children = array();
+
+        if ($this->caption) {
+            $children[] = $this->caption;
+        }
+
+        return $children;
     }
 }

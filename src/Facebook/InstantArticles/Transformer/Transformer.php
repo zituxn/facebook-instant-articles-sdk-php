@@ -12,6 +12,7 @@ use Facebook\InstantArticles\Transformer\Warnings\UnrecognizedElement;
 use Facebook\InstantArticles\Transformer\Rules\Rule;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Validators\InstantArticleValidator;
 
 class Transformer
 {
@@ -185,6 +186,14 @@ class Transformer
                 }
             }
         }
+
+        if (Type::is($context, InstantArticle::getClassName())) {
+            $ia_warnings = InstantArticleValidator::check($context);
+            foreach ($ia_warnings as $ia_warning) {
+                $this->addWarning($ia_warning);
+            }
+        }
+
         return $context;
     }
 

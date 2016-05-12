@@ -10,6 +10,16 @@ namespace Facebook\InstantArticles\Elements;
 
 class AdTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRenderEmpty()
+    {
+        $ad = Ad::create();
+
+        $expected = '';
+
+        $rendered = $ad->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasic()
     {
         $ad =

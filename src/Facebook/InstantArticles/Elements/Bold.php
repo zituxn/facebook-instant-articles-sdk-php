@@ -39,6 +39,11 @@ class Bold extends FormattedText
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $bold = $document->createElement('b');
 
         $bold->appendChild($this->textToDOMDocumentFragment($document));

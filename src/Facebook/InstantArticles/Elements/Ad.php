@@ -20,7 +20,7 @@ use Facebook\InstantArticles\Validators\Type;
  *     </iframe>
  * </figure>
  *
- * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/audio}
+ * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/ad}
  */
 class Ad extends Element
 {
@@ -196,6 +196,11 @@ class Ad extends Element
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $figure = $document->createElement('figure');
         $iframe = $document->createElement('iframe');
 
@@ -228,5 +233,15 @@ class Ad extends Element
         }
 
         return $figure;
+    }
+
+    /**
+     * Overrides the Element::isValid().
+     * @see Element::isValid().
+     * @return true for valid Ad that contains valid src or html, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->source) || $this->html;
     }
 }

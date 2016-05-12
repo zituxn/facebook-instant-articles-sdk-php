@@ -34,7 +34,7 @@ use Facebook\InstantArticles\Validators\Type;
  *  </figure>
  *
  */
-class Map extends Audible
+class Map extends Audible implements Container
 {
     /**
      * @var Caption The caption for Image
@@ -67,8 +67,9 @@ class Map extends Audible
 
     /**
      * This sets figcaption tag as documentation. It overrides all sets
-     * made with @see Caption.
+     * made with Caption.
      *
+     * @see Caption.
      * @param Caption $caption the caption the map will have
      *
      * @return $this
@@ -149,6 +150,11 @@ class Map extends Audible
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('figure');
         $element->setAttribute('class', 'op-map');
 
@@ -156,12 +162,6 @@ class Map extends Audible
         if ($this->geoTag) {
             $element->appendChild($this->geoTag->toDOMElement($document));
         }
-        // $script_element = $document->createElement('script');
-        // $script_element->setAttribute('type', 'application/json');
-        // $script_element->setAttribute('class', 'op-geoTag');
-        // $script_element->appendChild($document->createTextNode($this->geoTag));
-        // $element->appendChild($script_element);
-
 
         // Caption markup optional
         if ($this->caption) {
@@ -174,5 +174,43 @@ class Map extends Audible
         }
 
         return $element;
+    }
+
+    /**
+     * Overrides the Element::isValid().
+     *
+     * @see Element::isValid().
+     * @return true for valid Map that contains valid GeoTag, false otherwise.
+     */
+    public function isValid()
+    {
+        return $this->geoTag && $this->geoTag->isValid();
+    }
+
+    /**
+     * Implements the Container::getContainerChildren().
+     *
+     * @see Container::getContainerChildren().
+     * @return array of Elements contained by Image.
+     */
+    public function getContainerChildren()
+    {
+        $children = array();
+
+        if ($this->caption) {
+            $children[] = $this->caption;
+        }
+
+        // Geotag markup optional
+        if ($this->geoTag) {
+            $children[] = $this->geoTag;
+        }
+
+        // Audio markup optional
+        if ($this->audio) {
+            $children[] = $this->audio;
+        }
+
+        return $children;
     }
 }

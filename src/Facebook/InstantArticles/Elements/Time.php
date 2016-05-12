@@ -12,8 +12,8 @@ use Facebook\InstantArticles\Validators\Type;
 
 /**
  * Class Time
- * This represents time of publishing (@see const PUBLISHED) or time of update
- * (@see const MODIFIED).
+ * This represents time of publishing (Time::PUBLISHED) or time of update
+ * (Time::MODIFIED).
  *
  *
  * <time
@@ -29,6 +29,9 @@ use Facebook\InstantArticles\Validators\Type;
  *     datetime={date('c', $last_update)}>
  *     {date('F jS, g:ia', $last_update)}
  * </time>
+ *
+ * @see Time::PUBLISHED.
+ * @see Time::MODIFIED.
  */
 class Time extends Element
 {
@@ -61,7 +64,8 @@ class Time extends Element
     private $type;
 
     /**
-     * Private constructor. Should use @see Time::create();.
+     * Private constructor. Should use Time::create().
+     * @see Time::create().
      */
     private function __construct()
     {
@@ -152,6 +156,10 @@ class Time extends Element
             $document = new \DOMDocument();
         }
 
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $datetime = $this->date->format('c');
         $date = $this->date->format('F jS, g:ia');
 
@@ -161,5 +169,16 @@ class Time extends Element
         $element->appendChild($document->createTextNode($date));
 
         return $element;
+    }
+
+    /**
+     * Overrides the Element::isValid().
+     *
+     * @see Element::isValid().
+     * @return true for valid Time that contains valid date, false otherwise.
+     */
+    public function isValid()
+    {
+        return isset($this->date) && $this->date !== null;
     }
 }

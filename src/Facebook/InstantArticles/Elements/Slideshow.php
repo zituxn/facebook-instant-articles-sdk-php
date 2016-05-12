@@ -29,7 +29,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
-class Slideshow extends Audible
+class Slideshow extends Audible implements Container
 {
     /**
      * @var Caption The caption for the Slideshow
@@ -72,8 +72,9 @@ class Slideshow extends Audible
 
     /**
      * This sets figcaption tag as documentation. It overrides all sets
-     * made with @see Caption.
+     * made with Caption.
      *
+     * @see Caption.
      * @param Caption $caption the caption the slideshow will have
      *
      * @return $this
@@ -200,6 +201,11 @@ class Slideshow extends Audible
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('figure');
         $element->setAttribute('class', 'op-slideshow');
 
@@ -231,5 +237,54 @@ class Slideshow extends Audible
         }
 
         return $element;
+    }
+
+    /**
+     * Overrides the Element::isValid().
+     *
+     * @see Element::isValid().
+     * @return true for valid Slideshow that contains at least one Image valid, false otherwise.
+     */
+    public function isValid()
+    {
+        foreach ($this->article_images as $item) {
+            if ($item->isValid()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Implements the Container::getContainerChildren().
+     *
+     * @see Container::getContainerChildren().
+     * @return array of Elements contained by Image.
+     */
+    public function getContainerChildren()
+    {
+        $children = array();
+
+        if ($this->article_images) {
+            foreach ($this->article_images as $article_image) {
+                $children[] = $article_image;
+            }
+        }
+
+        if ($this->caption) {
+            $children[] = $this->caption;
+        }
+
+        // // Geotag markup optional
+        // if ($this->geoTag) {
+        //     $children[] = $this->geoTag;
+        // }
+
+        // Audio markup optional
+        if ($this->audio) {
+            $children[] = $this->audio;
+        }
+
+        return $children;
     }
 }

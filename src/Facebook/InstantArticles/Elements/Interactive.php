@@ -21,7 +21,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/interactive}
  */
-class Interactive extends Element
+class Interactive extends Element implements Container
 {
     const NO_MARGIN = 'no-margin';
     const COLUMN_WIDTH = 'column-width';
@@ -198,6 +198,11 @@ class Interactive extends Element
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $figure = $document->createElement('figure');
         $iframe = $document->createElement('iframe');
 
@@ -231,5 +236,31 @@ class Interactive extends Element
         }
 
         return $figure;
+    }
+
+    /**
+     * Overrides the Element::isValid().
+     *
+     * @see Element::isValid().
+     * @return true for valid Interactive that contains valid source or html, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->source) || $this->html;
+    }
+
+    /**
+     * Implements the Container::getContainerChildren().
+     *
+     * @see Container::getContainerChildren().
+     * @return array of Elements contained by Image.
+     */
+    public function getContainerChildren()
+    {
+        $children = array();
+        if ($this->caption) {
+            $children[] = $this->caption;
+        }
+        return $children;
     }
 }

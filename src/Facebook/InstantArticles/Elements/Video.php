@@ -15,10 +15,10 @@ use Facebook\InstantArticles\Validators\Type;
  * This element Class is the video for the article.
  * Also consider to use one of the other media types for an article:
  * <ul>
- *     <li>@see Audio</li>
- *     <li>@see Image</li>
- *     <li>@see SlideShow</li>
- *     <li>@see Map</li>
+ *     <li>Audio</li>
+ *     <li>Image</li>
+ *     <li>SlideShow</li>
+ *     <li>Map</li>
  * </ul>
  *
  * Example:
@@ -28,9 +28,13 @@ use Facebook\InstantArticles\Validators\Type;
  *      </video>
  *  </figure>
  *
+ * @see Audio
+ * @see Image
+ * @see SlideShow
+ * @see Map
  * @package Facebook\InstantArticle\Elements
-*/
-class Video extends Element
+ */
+class Video extends Element implements Container
 {
     const ASPECT_FIT = 'aspect-fit';
     const ASPECT_FIT_ONLY = 'aspect-fit-only';
@@ -41,7 +45,7 @@ class Video extends Element
     const DATA_FADE = 'data-fade';
 
     /**
-     * @var string The caption for Video
+     * @var Caption The caption for Video
      */
     private $caption;
 
@@ -124,10 +128,10 @@ class Video extends Element
 
     /**
      * This sets figcaption tag as documentation. It overrides all sets
-     * made with @see Caption.
+     * made with Caption.
      *
      * @param Caption $caption the caption the video will have
-     *
+     * @see Caption.
      * @return $this
      */
     public function withCaption($caption)
@@ -441,6 +445,11 @@ class Video extends Element
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('figure');
 
         // Presentation
@@ -506,5 +515,38 @@ class Video extends Element
         }
 
         return $element;
+    }
+
+    /**
+     * Overrides the Element::isValid().
+     *
+     * @see Element::isValid().
+     * @return true for valid Video that contains not empty url, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->url);
+    }
+
+    /**
+     * Implements the Container::getContainerChildren().
+     *
+     * @see Container::getContainerChildren().
+     * @return array of Elements contained by Video.
+     */
+    public function getContainerChildren()
+    {
+        $children = array();
+
+        if ($this->caption) {
+            $children[] = $this->caption;
+        }
+
+        // Geotag markup optional
+        if ($this->geoTag) {
+            $children[] = $this->geoTag;
+        }
+
+        return $children;
     }
 }

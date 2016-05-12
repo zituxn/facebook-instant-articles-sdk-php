@@ -90,6 +90,11 @@ class GeoTag extends Element
         if (!$document) {
             $document = new \DOMDocument();
         }
+
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
+
         $element = $document->createElement('script');
         $element->setAttribute('type', 'application/json');
         $element->setAttribute('class', 'op-geotag');
@@ -100,5 +105,16 @@ class GeoTag extends Element
         }
 
         return $element;
+    }
+
+    /**
+     * Overrides the Element::isValid().
+     *
+     * @see Element::isValid().
+     * @return true for valid GeoTag that contains not empty script, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->script);
     }
 }

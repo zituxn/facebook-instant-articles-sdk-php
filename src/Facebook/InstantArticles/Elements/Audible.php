@@ -12,8 +12,8 @@ namespace Facebook\InstantArticles\Elements;
  * Abstract class Audible
  * This class represents all elements that can contain Audio
  * <ul>
- *     <li>@see Image</li>
- *     <li>@see SlideShow</li>
+ *     <li>Image</li>
+ *     <li>SlideShow</li>
  * </ul>.
  *
  * Example:
@@ -21,9 +21,11 @@ namespace Facebook\InstantArticles\Elements;
  *      <source src="http://mydomain.com/path/to/audio.mp3" />
  *  </audio>
  *
+ * @see Image
+ * @see SlideShow
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
-abstract class Audible extends Element
+abstract class Audible extends Element implements Container
 {
     /**
      * Adds audio to this image.
