@@ -10,15 +10,12 @@ namespace Facebook\InstantArticles\Validators;
 
 use Facebook\InstantArticles\Elements\Ad;
 use Facebook\InstantArticles\Elements\Analytics;
-use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\Image;
-use Facebook\InstantArticles\Elements\Video;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Footer;
 use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Elements\SlideShow;
 use Facebook\InstantArticles\Elements\InstantArticle;
-use Facebook\InstantArticles\Elements\AnimatedGIF;
 
 /**
  * Test unit against InstantArticleValidator
