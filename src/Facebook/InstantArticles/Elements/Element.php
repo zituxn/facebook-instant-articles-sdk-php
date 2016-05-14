@@ -31,7 +31,6 @@ abstract class Element
     public function render($doctype = '', $formatted = false)
     {
         $document = new \DOMDocument();
-        $rendered = '';
         $document->preserveWhiteSpace = !$formatted;
         $document->formatOutput = $formatted;
         $element = $this->toDOMElement($document);

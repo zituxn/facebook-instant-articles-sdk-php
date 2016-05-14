@@ -49,7 +49,6 @@ class ValidatorWarning
 
     private function formatWarningMessage()
     {
-        $message = '';
         $object = Type::stringify($this->element);
         if (!$this->configuration) {
             $this->configuration = parse_ini_file("validator_warning_messages.ini", true);
