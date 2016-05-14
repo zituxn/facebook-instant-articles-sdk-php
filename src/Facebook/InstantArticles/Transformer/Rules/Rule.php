@@ -47,7 +47,7 @@ abstract class Rule
 
     public static function create()
     {
-        throw new Exception(
+        throw new \Exception(
             'All Rule class extension should implement the '.
             'Rule::create() method'
         );
@@ -55,7 +55,7 @@ abstract class Rule
 
     public static function createFrom($configuration)
     {
-        throw new Exception(
+        throw new \Exception(
             'All Rule class extension should implement the '.
             'Rule::createFrom($configuration) method'
         );
