@@ -90,7 +90,7 @@ class Helper
         try {
             $response = $this->facebook->get('/me/accounts?fields=name,id,access_token,supports_instant_articles');
         } catch (Facebook\Exceptions\FacebookResponseException $e) {
-            throw new FacebookSDKException('Graph API returned an error: ' . $e.getMessage());
+            throw new FacebookSDKException('Graph API returned an error: ' . $e->getMessage());
         }
 
         // Return the array of page objects for this user
