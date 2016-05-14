@@ -66,12 +66,12 @@ class InstantArticle extends Element implements Container
     private $style;
 
     /**
-     * @var ArticleHeader element to hold header content, like images etc
+     * @var Header element to hold header content, like images etc
      */
     private $header;
 
     /**
-     * @var ArticleFooter element to hold footer content.
+     * @var Footer element to hold footer content.
      */
     private $footer;
 

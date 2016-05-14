@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Client;
 
+use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Facebook;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Authentication\AccessToken;
@@ -75,7 +76,7 @@ class Helper
                 // The OAuth 2.0 client handler helps us manage access tokens
                 $OAuth2Client = $this->facebook->getOAuth2Client();
                 $accessToken = $OAuth2Client->getLongLivedAccessToken($accessToken);
-            } catch (Facebook\Exceptions\FacebookResponseException $e) {
+            } catch (FacebookResponseException $e) {
                 throw new FacebookSDKException(
                     "Failed to exchange short-lived access token for long-lived access token."
                 );
@@ -89,7 +90,7 @@ class Helper
         // connected to this user
         try {
             $response = $this->facebook->get('/me/accounts?fields=name,id,access_token,supports_instant_articles');
-        } catch (Facebook\Exceptions\FacebookResponseException $e) {
+        } catch (FacebookResponseException $e) {
             throw new FacebookSDKException('Graph API returned an error: ' . $e->getMessage());
         }
 

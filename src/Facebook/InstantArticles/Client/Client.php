@@ -9,6 +9,7 @@
 
 namespace Facebook\InstantArticles\Client;
 
+use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Validators\Type;
