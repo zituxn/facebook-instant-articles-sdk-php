@@ -131,7 +131,7 @@ class Image extends Audible implements Container
     /**
      * Sets the aspect ration presentation for the video.
      *
-     * @param string one of the constants ASPECT_FIT, ASPECT_FIT_ONLY, FULLSCREEN or NON_INTERACTIVE
+     * @param string $presentation one of the constants ASPECT_FIT, ASPECT_FIT_ONLY, FULLSCREEN or NON_INTERACTIVE
      * @see Image::ASPECT_FIT
      * @see Image::ASPECT_FIT_ONLY
      * @see Image::FULLSCREEN

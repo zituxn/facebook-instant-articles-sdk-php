@@ -47,7 +47,7 @@ class H3 extends TextContainer
      * @see Caption::ALIGN_LEFT
      * @see Caption::ALIGN_CENTER
      *
-     * @param string alignment option that will be used.
+     * @param string $text_alignment option that will be used.
      */
     public function withTextAlignment($text_alignment)
     {
@@ -103,7 +103,7 @@ class H3 extends TextContainer
     /**
      * Structure and create the H3 in a DOMElement.
      *
-     * @param DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended (optional).
      */
     public function toDOMElement($document = null)
     {

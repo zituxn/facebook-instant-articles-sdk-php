@@ -32,7 +32,7 @@ class Type
      * @param mixed $var The object that will be verified
      * @param mixed $types_allowed array of classes or one single class
      * @return boolean true when success, or throws exception when not satisfied
-     * @throws InvalidArgumentException when $var doesn't comply with $types_allowed
+     * @throws \InvalidArgumentException when $var doesn't comply with $types_allowed
      */
     public static function enforce($var, $types_allowed)
     {
@@ -47,7 +47,7 @@ class Type
      * @param mixed $types_allowed array of classes or one single class.
      * @param boolean $enforce If informed with true, it works as (Type::enforce()) method.
      * @return boolean true when success, false when failed the check.
-     * @throws InvalidArgumentException if $enforced is true and $var doesn't comply with the $types_allowed.
+     * @throws \InvalidArgumentException if $enforced is true and $var doesn't comply with the $types_allowed.
      * @see Type::enforce().
      */
     public static function is($var, $types_allowed, $enforce = false)
@@ -76,8 +76,8 @@ class Type
     /**
      * Auxiliary function to check for the primitive types.
      *
-     * @param $var the Variable that will be testRenderBasic
-     * @param $type one of the Type::const that will be the set of possible values for $var
+     * @param mixed $var the Variable that will be testRenderBasic
+     * @param string $type one of the Type::const that will be the set of possible values for $var
      *
      * @see Type::STRING
      * @see Type::INTEGER
@@ -134,7 +134,7 @@ class Type
      * expectations false will be returned
      *
      * @param array $var the target variable to be checked. REQUIRED must be array
-     * @param array|class $types_allowed The set of classes that $var will be checked against
+     * @param array|string $types_allowed The set of classes that $var will be checked against
      * @return true for success, false otherwise
      *
      * @see Type::STRING
@@ -360,7 +360,7 @@ class Type
      * @param mixed $value The value that will be verified
      * @param array $universe The universe the $value must be in.
      * @return true if the value is IN the universe, throws Exception otherwise.
-     * @throws InvalidArgumentException if the value not IN the expected universe.
+     * @throws \InvalidArgumentException if the value not IN the expected universe.
      */
     public static function enforceWithin($value, $universe)
     {
