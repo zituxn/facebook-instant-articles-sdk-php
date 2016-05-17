@@ -403,7 +403,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                                     )
                                 )
                         )
-                    )
+                )
                 ->addChild(
                     Paragraph::create()
                         ->appendText('Yes, peace is good for everybody!')

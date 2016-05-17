@@ -95,7 +95,7 @@ abstract class TextContainer extends Element implements Container
             if (Type::is($content, TextContainer::getClassName()) && $content->isValid()) {
                 return true;
             // If is string content, concat to check if it is not only a bunch of empty chars.
-            } else if (Type::is($content, Type::STRING)) {
+            } elseif (Type::is($content, Type::STRING)) {
                 $textContent = $textContent.$content;
             }
         }

@@ -62,7 +62,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
                             '12-Apr-2016 19:46:51'
                         )
                     ))
-                );
+            );
 
         $transformer->transform($instant_article, $document);
         $instant_article->addMetaProperty('op:generator:version', '1.0.0');
