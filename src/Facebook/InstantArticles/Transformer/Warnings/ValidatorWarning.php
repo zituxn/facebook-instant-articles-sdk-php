@@ -19,16 +19,23 @@ class ValidatorWarning
     private $element;
 
     /**
+     * @var DOMNode
+     */
+    private $node;
+
+    /**
      * @var array the configuration content
      */
     private $configuration;
 
     /**
-     * @param Element $context
+     * @param Element $element
+     * @param DOMNode $node
      */
-    public function __construct($element)
+    public function __construct($element, $node = null)
     {
         $this->element = $element;
+        $this->node = $node;
     }
 
     /**
@@ -45,6 +52,14 @@ class ValidatorWarning
     public function getElement()
     {
         return $this->element;
+    }
+
+    /**
+     * @return DOMNode
+     */
+    public function getNode()
+    {
+        return $this->node;
     }
 
     private function formatWarningMessage()

@@ -379,4 +379,37 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
         $result = $article->render();
         $this->assertEquals($expected, $result);
     }
+
+    public function testIsValid()
+    {
+        $ia =
+            InstantArticle::create()
+                ->withCanonicalURL('http://wp.localtest.me/2016/04/12/stress-on-earth/')
+                ->enableAutomaticAdPlacement()
+                ->withHeader(
+                    Header::create()
+                        ->withTitle(
+                            H1::create()->appendText('Peace on <b>earth</b>')
+                        )
+                        ->addAuthor(
+                            Author::create()->withName('bill')
+                        )
+                        ->withPublishTime(
+                            Time::create(Time::PUBLISHED)
+                                ->withDatetime(
+                                    \DateTime::createFromFormat(
+                                        'j-M-Y G:i:s',
+                                        '14-Aug-1984 19:30:00'
+                                    )
+                                )
+                        )
+                    )
+                ->addChild(
+                    Paragraph::create()
+                        ->appendText('Yes, peace is good for everybody!')
+                        ->appendText(LineBreak::create())
+                        ->appendText(' Man kind.')
+                );
+        $this->assertTrue($ia->isValid());
+    }
 }
