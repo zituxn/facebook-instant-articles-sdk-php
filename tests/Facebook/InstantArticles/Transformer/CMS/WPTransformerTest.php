@@ -55,7 +55,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
             ->withHeader(
                 Header::create()
                     ->withTitle('Peace on <b>earth</b>')
-                    ->addAuthor(Author::create()->withName('everton'))
+                    ->addAuthor(Author::create()->withName('bill'))
                     ->withPublishTime(Time::create(Time::PUBLISHED)->withDatetime(
                         \DateTime::createFromFormat(
                             'j-M-Y G:i:s',
