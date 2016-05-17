@@ -374,7 +374,7 @@ class InstantArticle extends Element implements Container
             }
         }
 
-        $footer_valid = false;
+        $footer_valid = true;
         if ($this->getFooter()) {
             $footer_valid = $this->getFooter()->isValid();
         }
