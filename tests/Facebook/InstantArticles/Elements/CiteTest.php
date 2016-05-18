@@ -67,7 +67,8 @@ class CiteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderWithVerticalAlign() {
+    public function testRenderWithVerticalAlign()
+    {
         $cite =
           Cite::create()
             ->appendText('Citation simple text.')

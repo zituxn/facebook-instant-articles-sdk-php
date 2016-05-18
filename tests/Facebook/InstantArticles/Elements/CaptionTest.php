@@ -117,7 +117,8 @@ class CaptionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderWithVerticalAlignment() {
+    public function testRenderWithVerticalAlignment()
+    {
         $caption =
           Caption::create()
             ->appendText('Caption Title')
