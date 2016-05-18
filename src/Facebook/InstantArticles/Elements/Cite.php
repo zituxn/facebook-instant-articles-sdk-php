@@ -26,7 +26,7 @@ class Cite extends TextContainer
     private $textAlignment;
 
     /**
-     * @var string text align. Values: "op-vertical-top"|"op-vertical-bottom"|"op-vertical-center"
+     * @var string vertical align. Values: "op-vertical-top"|"op-vertical-bottom"|"op-vertical-center"
      */
     private $verticalAlignment;
 
