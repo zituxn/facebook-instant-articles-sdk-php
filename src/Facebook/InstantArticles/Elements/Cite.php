@@ -87,12 +87,12 @@ class Cite extends TextContainer
     public function withVerticalAlignment($vertical_alignment)
     {
         Type::enforceWithin(
-          $vertical_alignment,
-          [
-              Caption::VERTICAL_TOP,
-              Caption::VERTICAL_BOTTOM,
-              Caption::VERTICAL_CENTER
-          ]
+            $vertical_alignment,
+            [
+                Caption::VERTICAL_TOP,
+                Caption::VERTICAL_BOTTOM,
+                Caption::VERTICAL_CENTER
+            ]
         );
         $this->verticalAlignment = $vertical_alignment;
 
