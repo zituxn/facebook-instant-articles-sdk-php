@@ -26,6 +26,11 @@ class Cite extends TextContainer
     private $textAlignment;
 
     /**
+     * @var string text align. Values: "op-vertical-top"|"op-vertical-bottom"|"op-vertical-center"
+     */
+    private $verticalAlignment;
+
+    /**
      * @var string text position. Values: "op-vertical-below"|"op-vertical-above"|"op-vertical-center"
      */
     private $position;
@@ -64,6 +69,31 @@ class Cite extends TextContainer
             ]
         );
         $this->textAlignment = $text_alignment;
+
+        return $this;
+    }
+
+    /**
+     * The vertical alignment that will be used.
+     *
+     * @see Caption::VERTICAL_TOP
+     * @see Caption::VERTICAL_BOTTOM
+     * @see Caption::VERTICAL_CENTER
+     *
+     * @param string $vertical_alignment alignment option that will be used.
+     *
+     * @return $this
+     */
+    public function withVerticalAlignment($vertical_alignment) {
+        Type::enforceWithin(
+          $vertical_alignment,
+          [
+            Caption::VERTICAL_TOP,
+            Caption::VERTICAL_BOTTOM,
+            Caption::VERTICAL_CENTER
+          ]
+        );
+        $this->verticalAlignment = $vertical_alignment;
 
         return $this;
     }

@@ -51,6 +51,11 @@ class Caption extends FormattedText
     const POSITION_ABOVE = 'op-vertical-above';
     const POSITION_CENTER = 'op-vertical-center';
 
+    // Vertical alignment of the block
+    const VERTICAL_TOP = 'op-vertical-top';
+    const VERTICAL_BOTTOM = 'op-vertical-bottom';
+    const VERTICAL_CENTER = 'op-vertical-center';
+
     /**
      * @var H1 The caption title. REQUIRED
      */
@@ -75,6 +80,11 @@ class Caption extends FormattedText
      * @var string text align. Values: "op-left"|"op-center"|"op-right"
      */
     private $textAlignment;
+
+    /**
+     * @var string text align. Values: "op-vertical-top"|"op-vertical-bottom"|"op-vertical-center"
+     */
+    private $verticalAlignment;
 
     /**
      * @var string text position. Values: "op-vertical-below"|"op-vertical-above"|"op-vertical-center"
@@ -196,6 +206,31 @@ class Caption extends FormattedText
             ]
         );
         $this->textAlignment = $text_alignment;
+
+        return $this;
+    }
+
+    /**
+     * The vertical alignment that will be used.
+     *
+     * @see Caption::VERTICAL_TOP
+     * @see Caption::VERTICAL_BOTTOM
+     * @see Caption::VERTICAL_CENTER
+     *
+     * @param string $vertical_alignment alignment option that will be used.
+     *
+     * @return $this
+     */
+    public function withVerticalAlignment($vertical_alignment) {
+        Type::enforceWithin(
+          $vertical_alignment,
+          [
+            Caption::VERTICAL_TOP,
+            Caption::VERTICAL_BOTTOM,
+            Caption::VERTICAL_CENTER
+          ]
+        );
+        $this->verticalAlignment = $vertical_alignment;
 
         return $this;
     }
@@ -340,6 +375,9 @@ class Caption extends FormattedText
             $classes = [];
             if ($this->textAlignment) {
                 $classes[] = $this->textAlignment;
+            }
+            if ($this->verticalAlignment) {
+                $classes[] = $this->verticalAlignment;
             }
             if ($this->fontSize) {
                 $classes[] = $this->fontSize;
