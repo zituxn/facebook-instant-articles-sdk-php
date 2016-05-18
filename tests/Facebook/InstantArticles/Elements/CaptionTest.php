@@ -143,7 +143,7 @@ class CaptionTest extends \PHPUnit_Framework_TestCase
                 ->withVerticalAlignment(Caption::VERTICAL_BOTTOM);
 
         $expected =
-            '<figcaption class="op-left op-large op-vertical-below op-vertical-bottom">'.
+            '<figcaption class="op-left op-vertical-bottom op-large op-vertical-below">'.
                 'Caption Title'.
             '</figcaption>';
 

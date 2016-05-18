@@ -371,7 +371,7 @@ class Caption extends FormattedText
         }
 
         // Formating markup
-        if ($this->textAlignment || $this->fontSize || $this->position) {
+        if ($this->textAlignment || $this->verticalAlignment || $this->fontSize || $this->position) {
             $classes = [];
             if ($this->textAlignment) {
                 $classes[] = $this->textAlignment;
