@@ -221,13 +221,14 @@ class Caption extends FormattedText
      *
      * @return $this
      */
-    public function withVerticalAlignment($vertical_alignment) {
+    public function withVerticalAlignment($vertical_alignment)
+    {
         Type::enforceWithin(
           $vertical_alignment,
           [
-            Caption::VERTICAL_TOP,
-            Caption::VERTICAL_BOTTOM,
-            Caption::VERTICAL_CENTER
+              Caption::VERTICAL_TOP,
+              Caption::VERTICAL_BOTTOM,
+              Caption::VERTICAL_CENTER
           ]
         );
         $this->verticalAlignment = $vertical_alignment;
