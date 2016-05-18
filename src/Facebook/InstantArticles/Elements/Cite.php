@@ -160,6 +160,9 @@ class Cite extends TextContainer
         if ($this->textAlignment) {
             $classes[] = $this->textAlignment;
         }
+        if ($this->verticalAlignment) {
+            $classes[] = $this->verticalAlignment;
+        }
         if (!empty($classes)) {
             $cite->setAttribute('class', implode(' ', $classes));
         }
