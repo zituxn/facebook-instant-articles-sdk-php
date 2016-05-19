@@ -80,6 +80,29 @@ class SocialEmbedTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
+
+    public function testRenderInlineUnescaped()
+    {
+        $inline =
+            '<h1>Some custom code</h1>'.
+            '<script>alert("test");</script>';
+
+        $social_embed =
+            SocialEmbed::create()
+                ->withHTML($inline);
+
+        $expected =
+            '<figure class="op-social">'.
+                '<iframe>'.
+                    '<h1>Some custom code</h1>'.
+                    '<script>alert("test");</script>'.
+                '</iframe>'.
+            '</figure>';
+
+        $rendered = $social_embed->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderWithWidthAndHeight()
     {
         $social_embed =
