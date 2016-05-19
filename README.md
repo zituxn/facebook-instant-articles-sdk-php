@@ -53,6 +53,18 @@ If you change structure, paths, namespaces, etc., make sure you run the [autoloa
 $ composer dump-autoload
 ```
 
+## Troubleshooting
+
+If you are encountering problems, the following tips may help in troubleshooting issues:
+
+- Warnings from the Transformer can be seen with `$transformer->getWarnings()` method.
+
+- If content is missing from your transformed article, more likely than not there isn't a **Transformer Rule** matching an element in your source markup. See how to configure appropriate rules for your content in the [Transformer Rules documentation](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/docs/QuickStart.md#custom-transformer-rules).
+
+- Set the `threshold` in the [configuration of the Logger](https://logging.apache.org/log4php/docs/configuration.html#PHP) to `DEBUG` to expose more details about the items processed by the Transformer.
+
+- Refer to the existing [tests of the `Elements`](https://github.com/facebook/facebook-instant-articles-sdk-php/tree/master/tests/Facebook/InstantArticles/Elements) for examples of what is required of each and to potentially create your own tests (which can be run with `$ composer test`).
+
 ## Contributing
 
 For us to accept contributions you will have to first have signed the [Contributor License Agreement](https://code.facebook.com/cla). Please see [CONTRIBUTING](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/CONTRIBUTING.md) for details.
