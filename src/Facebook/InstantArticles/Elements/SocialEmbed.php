@@ -100,7 +100,7 @@ class SocialEmbed extends Element implements Container
      */
     public function withHTML($html)
     {
-        Type::enforce($html, array('DOMNode', Type::STRING));
+        Type::enforce($html, 'DOMNode');
         $this->html = $html;
 
         return $this;
@@ -219,15 +219,9 @@ class SocialEmbed extends Element implements Container
 
         // SocialEmbed markup
         if ($this->html) {
-            if (Type::is($this->html, Type::STRING)) {
-                $frag = $document->createDocumentFragment();
-                $frag->appendXML($this->html);
-                $iframe->appendChild($frag);
-            } else {
-                // Here we do not care about what is inside the iframe
-                // because it'll be rendered in a sandboxed webview
-                $this->dangerouslyAppendUnescapedHTML($iframe, $this->html);
-            }
+            // Here we do not care about what is inside the iframe
+            // because it'll be rendered in a sandboxed webview
+            $this->dangerouslyAppendUnescapedHTML($iframe, $this->html);
         } else {
             $iframe->appendChild($document->createTextNode(''));
         }
