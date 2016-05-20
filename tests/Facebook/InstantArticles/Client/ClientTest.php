@@ -43,21 +43,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('post')
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
-                'take_live' => false,
+                'published' => false,
                 'development_mode' => false,
             ]);
 
         $this->client->importArticle($this->article);
     }
 
-    public function testImportArticleTakeLive()
+    public function testImportArticlePublished()
     {
         $this->facebook
             ->expects($this->once())
             ->method('post')
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
-                'take_live' => true,
+                'published' => true,
                 'development_mode' => false,
             ]);
 
@@ -109,14 +109,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('post')
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
-                'take_live' => false,
+                'published' => false,
                 'development_mode' => true,
             ]);
 
         $this->client->importArticle($this->article);
     }
 
-    public function testImportArticleDevelopmentModeTakeLive()
+    public function testImportArticleDevelopmentModePublished()
     {
         $this->client = new Client(
             $this->facebook,
@@ -128,7 +128,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('post')
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
-                'take_live' => false,
+                'published' => false,
                 'development_mode' => true,
             ]);
 
