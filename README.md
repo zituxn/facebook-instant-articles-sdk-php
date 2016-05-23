@@ -11,7 +11,7 @@ The SDK consists of three components:
 - **Client**: A simple wrapper around the [Instant Articles API](https://developers.facebook.com/docs/instant-articles/api), which can be used for publishing Instant Articles on Facebook. The client provides a CRUD interface for Instant Articles as well as a helper for authentication. The client depends on the main [Facebook SDK for PHP](https://github.com/facebook/facebook-php-sdk-v4) as an interface to the Graph API and Facebook Login.
 
 ## Quick Start
-You can find examples on how to use **Elements**, **Transformer**, and **Client** in the [Quick Start guide](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/docs/QuickStart.md).
+You can find examples on how to use the different components of this SDK to integrate with your CMS in the [Getting Started section](https://developers.facebook.com/docs/instant-articles/sdk/#getting-started) of the documentation.
 
 ## Installation
 
@@ -59,7 +59,7 @@ If you are encountering problems, the following tips may help in troubleshooting
 
 - Warnings from the Transformer can be seen with `$transformer->getWarnings()` method.
 
-- If content is missing from your transformed article, more likely than not there isn't a **Transformer Rule** matching an element in your source markup. See how to configure appropriate rules for your content in the [Transformer Rules documentation](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/docs/QuickStart.md#custom-transformer-rules).
+- If content is missing from your transformed article, more likely than not there isn't a **Transformer Rule** matching an element in your source markup. See how to configure appropriate rules for your content in the [Transformer Rules documentation](https://developers.facebook.com/docs/instant-articles/sdk/transformer-rules).
 
 - Set the `threshold` in the [configuration of the Logger](https://logging.apache.org/log4php/docs/configuration.html#PHP) to `DEBUG` to expose more details about the items processed by the Transformer.
 
