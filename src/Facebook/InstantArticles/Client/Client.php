@@ -83,20 +83,20 @@ class Client
      * Import an article into your Instant Articles library.
      *
      * @param InstantArticle $article The article to import
-     * @param bool|false $takeLive Specifies if this article should be taken live or not. Optional. Default: false.
+     * @param bool|false $published Specifies if this article should be taken live or not. Optional. Default: false.
      */
-    public function importArticle($article, $takeLive = false)
+    public function importArticle($article, $published = false)
     {
         Type::enforce($article, InstantArticle::getClassName());
-        Type::enforce($takeLive, Type::BOOLEAN);
+        Type::enforce($published, Type::BOOLEAN);
 
         // Never try to take live if we're in development (the API would throw an error if we tried)
-        $takeLive = $this->developmentMode ? false : $takeLive;
+        $published = $this->developmentMode ? false : $published;
 
         // Assume default access token is set on $this->facebook
         $this->facebook->post($this->pageID . Client::EDGE_NAME, [
           'html_source' => $article->render(),
-          'take_live' => $takeLive,
+          'published' => $published,
           'development_mode' => $this->developmentMode,
         ]);
     }
