@@ -80,7 +80,7 @@ class AdTest extends \PHPUnit_Framework_TestCase
     {
         $inline =
             '<h1>Some custom code</h1>'.
-            '<script>alert("test");</script>';
+            '<script>alert("test & more test");</script>';
         $document = new \DOMDocument();
         $fragment = $document->createDocumentFragment();
         $fragment->appendXML($inline);
@@ -94,7 +94,7 @@ class AdTest extends \PHPUnit_Framework_TestCase
             '<figure class="op-ad">'.
                 '<iframe width="480" height="640">'.
                     '<h1>Some custom code</h1>'.
-                    '<script>alert("test");</script>'.
+                    '<script>alert("test & more test");</script>'.
                 '</iframe>'.
             '</figure>';
 

@@ -110,7 +110,7 @@ class InteractiveTest extends \PHPUnit_Framework_TestCase
     {
         $inline =
             '<h1>Some custom code</h1>'.
-            '<script>alert("test");</script>';
+            '<script>alert("test & more test");</script>';
         $document = new \DOMDocument();
         $fragment = $document->createDocumentFragment();
         $fragment->appendXML($inline);
@@ -125,7 +125,7 @@ class InteractiveTest extends \PHPUnit_Framework_TestCase
             '<figure class="op-interactive">'.
                 '<iframe class="no-margin" height="640">'.
                     '<h1>Some custom code</h1>'.
-                    '<script>alert("test");</script>'.
+                    '<script>alert("test & more test");</script>'.
                 '</iframe>'.
             '</figure>';
 
