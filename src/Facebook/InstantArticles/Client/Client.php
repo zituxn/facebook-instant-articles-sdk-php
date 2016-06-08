@@ -125,7 +125,7 @@ class Client
             $this->facebook->delete($articleID);
             return InstantArticleStatus::success();
         }
-        return InstantArticleStatus::notFound(['An Instant Article ID ' . $articleID . ' was not found for ' . $canonicalURL . ' in ' . __FUNCTION__ . '.']);
+        return InstantArticleStatus::notFound([ServerMessage::info('An Instant Article ID ' . $articleID . ' was not found for ' . $canonicalURL . ' in ' . __FUNCTION__ . '.')]);
     }
 
     /**
