@@ -412,4 +412,9 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                 );
         $this->assertTrue($ia->isValid());
     }
+
+    public function testImplementsInterface()
+    {
+        $this->assertInstanceOf('Facebook\InstantArticles\Elements\InstantArticleInterface', $this->article);
+    }
 }
