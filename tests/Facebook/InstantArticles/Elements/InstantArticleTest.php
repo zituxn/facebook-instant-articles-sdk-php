@@ -21,9 +21,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
         $inline =
             '<h1>Some custom code</h1>'.
             '<script>alert("test & more test");</script>';
-        $document = new \DOMDocument();
-        $fragment = $document->createDocumentFragment();
-        $fragment->appendXML($inline);
+        $cdata = new \DOMCdataSection($inline);
 
         $this->article =
             InstantArticle::create()
@@ -133,7 +131,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                 // Analytics
                 ->addChild(
                     Analytics::create()
-                        ->withHTML($fragment)
+                        ->withHTML($cdata)
                 )
 
                 // Footer

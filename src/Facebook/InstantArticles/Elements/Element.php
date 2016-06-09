@@ -37,6 +37,9 @@ abstract class Element
         $document->appendChild($element);
         $rendered = $doctype.$document->saveXML($element);
 
+        // We can't currently use DOMDocument::saveHTML, because it doesn't produce proper HTML5 markup, so we have to strip CDATA enclosures
+        $rendered = preg_replace('/<!\[CDATA\[(.*?)\]\]>/', '$1', $rendered);
+
         return $rendered;
     }
 

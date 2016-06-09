@@ -25,9 +25,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
         $inline =
             '<script>alert("test & more test");</script>';
-        $document = new \DOMDocument();
-        $fragment = $document->createDocumentFragment();
-        $fragment->appendXML($inline);
+        $cdata = new \DOMCdataSection($inline);
 
         $header =
             Header::create()
@@ -87,7 +85,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
                         ->withWidth(300)
                         ->withHeight(250)
                         ->enableDefaultForReuse()
-                        ->withHTML($fragment)
+                        ->withHTML($cdata)
                 );
 
         $expected =
