@@ -51,7 +51,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
 
         libxml_use_internal_errors(true);
         $document = new \DOMDocument();
-        $document->loadXML($html_file);
+        $document->loadHTML($html_file);
         libxml_use_internal_errors(false);
 
         $transformer->transform($instant_article, $document);
