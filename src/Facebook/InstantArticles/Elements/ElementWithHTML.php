@@ -31,8 +31,7 @@ abstract class ElementWithHTML extends Element
     {
         Type::enforce($html, ['DOMNode', Type::STRING]);
         // If this is raw HTML source, wrap in a CDATA section as it could contain JS etc. with characters (such as &) that are not allowed in unescaped form
-        if (Type::is($html, Type::STRING))
-        {
+        if (Type::is($html, Type::STRING)) {
             $html = new \DOMCdataSection($html);
         }
         $this->html = $html;
