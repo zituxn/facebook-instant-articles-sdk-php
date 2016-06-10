@@ -38,6 +38,7 @@ abstract class Element
         $rendered = $doctype.$document->saveXML($element);
 
         // We can't currently use DOMDocument::saveHTML, because it doesn't produce proper HTML5 markup, so we have to strip CDATA enclosures
+        // TODO Consider replacing this workaround with a parent class for elements that will be rendered and in this class use the `srcdoc` attribute to output the (escaped) markup
         $rendered = preg_replace('/<!\[CDATA\[(.*?)\]\]>/', '$1', $rendered);
 
         return $rendered;
