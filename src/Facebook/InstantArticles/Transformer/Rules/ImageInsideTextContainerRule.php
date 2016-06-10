@@ -12,8 +12,9 @@ use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\TextContainer;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Warnings\NoRootInstantArticleFoundWarning;
 
-class ImageRuleParagraph extends ConfigurationSelectorRule
+class ImageInsideTextContainerRule extends ConfigurationSelectorRule
 {
     const PROPERTY_IMAGE_URL = 'image.url';
     const PROPERTY_LIKE = 'image.like';
@@ -26,7 +27,7 @@ class ImageRuleParagraph extends ConfigurationSelectorRule
 
     public static function create()
     {
-        return new ImageRuleParagraph();
+        return new ImageInsideTextContainerRule();
     }
 
     public static function createFrom($configuration)
@@ -54,9 +55,15 @@ class ImageRuleParagraph extends ConfigurationSelectorRule
         $url = $this->getProperty(self::PROPERTY_IMAGE_URL, $node);
         if ($url) {
             $image->withURL($url);
-            $instant_article = $transformer->getInitialContext();
+            $instant_article = $transformer->getInstantArticle();
             if ($instant_article) {
                 $instant_article->addChild($image);
+            } else {
+                $transformer->addWarning(
+                    // This new error message should be something like:
+                    // Could not transform Image, as no root InstantArticle was provided.
+                    new NoRootInstantArticleFoundWarning(null, $node)
+                );
             }
         } else {
             $transformer->addWarning(

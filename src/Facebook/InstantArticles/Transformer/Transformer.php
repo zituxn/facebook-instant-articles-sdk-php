@@ -44,7 +44,7 @@ class Transformer
     /**
      * @var InstantArticle the initial context.
      */
-    private $initialContext;
+    private $instantArticle;
 
     /**
      * Gets all types a given class is, including itself, parent classes and interfaces.
@@ -115,9 +115,9 @@ class Transformer
     /**
      * @return InstantArticle the initial context of this Transformer
      */
-    public function getInitialContext()
+    public function getInstantArticle()
     {
-        return $this->initialContext;
+        return $this->instantArticle;
     }
 
     /**
@@ -131,7 +131,7 @@ class Transformer
         if (Type::is($context, InstantArticle::getClassName())) {
             $context->addMetaProperty('op:generator:transformer', 'facebook-instant-articles-sdk-php');
             $context->addMetaProperty('op:generator:transformer:version', InstantArticle::CURRENT_VERSION);
-            $this->initialContext = $context;
+            $this->instantArticle = $context;
         }
 
         $log = \Logger::getLogger('facebook-instantarticles-transformer');

@@ -70,7 +70,7 @@
             }
         }
     }, {
-        "class": "ImageRuleParagraph",
+        "class": "ImageInsideTextContainerRule",
         "selector": "img",
         "properties": {
             "image.url": {
