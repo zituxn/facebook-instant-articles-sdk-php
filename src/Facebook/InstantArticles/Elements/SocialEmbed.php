@@ -22,17 +22,12 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/social}
  */
-class SocialEmbed extends Element implements Container
+class SocialEmbed extends ElementWithHTML implements Container
 {
     /**
      * @var Caption Descriptive text for your social embed.
      */
     private $caption;
-
-    /**
-     * @var \DOMNode The HTML of the content.
-     */
-    private $html;
 
     /**
      * @var string The source of the content for your social embed.
@@ -92,21 +87,6 @@ class SocialEmbed extends Element implements Container
     }
 
     /**
-     * Sets the unescaped HTML of your social embed.
-     *
-     * @param \DOMNode $html - The unescaped HTML of your social embed.
-     *
-     * @return $this
-     */
-    public function withHTML($html)
-    {
-        Type::enforce($html, 'DOMNode');
-        $this->html = $html;
-
-        return $this;
-    }
-
-    /**
      * Sets the width of your social embed.
      *
      * @param int $width The width of your social embed.
@@ -142,14 +122,6 @@ class SocialEmbed extends Element implements Container
     public function getCaption()
     {
         return $this->caption;
-    }
-
-    /**
-     * @return \DOMNode The unescaped HTML of your social embed.
-     */
-    public function getHtml()
-    {
-        return $this->html;
     }
 
     /**

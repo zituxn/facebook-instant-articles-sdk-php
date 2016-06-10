@@ -45,20 +45,6 @@ abstract class Element
     }
 
     /**
-     * Appends unescaped HTML to a element using the right strategy.
-     *
-     * @param \DOMNode $element - The element to append the HTML to.
-     * @param \DOMNode $content - The unescaped HTML to append.
-     */
-    protected function dangerouslyAppendUnescapedHTML($element, $content)
-    {
-        Type::enforce($content, 'DOMNode');
-        Type::enforce($element, 'DOMNode');
-        $imported = $element->ownerDocument->importNode($content, true);
-        $element->appendChild($imported);
-    }
-
-    /**
      * Auxiliary method to extract all Elements full qualified class name.
      *
      * @return string The full qualified name of class.
