@@ -149,6 +149,7 @@ class Transformer
             foreach ($node->childNodes as $child) {
                 $matched = false;
                 $log->debug("===========================");
+                $log->debug($child->ownerDocument->saveHtml($child));
 
                 // Get all classes and interfaces this context extends/implements
                 $contextClassNames = self::getAllClassTypes($context->getClassName());

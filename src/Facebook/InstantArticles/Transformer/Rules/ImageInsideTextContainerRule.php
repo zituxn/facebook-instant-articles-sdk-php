@@ -10,7 +10,7 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\TextContainer;
-use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 use Facebook\InstantArticles\Transformer\Warnings\NoRootInstantArticleFoundWarning;
 
@@ -58,6 +58,8 @@ class ImageInsideTextContainerRule extends ConfigurationSelectorRule
             $instant_article = $transformer->getInstantArticle();
             if ($instant_article) {
                 $instant_article->addChild($image);
+                $context = Paragraph::create();
+                $instant_article->addChild($context);
             } else {
                 $transformer->addWarning(
                     // This new error message should be something like:
@@ -89,6 +91,6 @@ class ImageInsideTextContainerRule extends ConfigurationSelectorRule
         $transformer->transform($image, $node);
         $transformer->suppress_warnings = $suppress_warnings;
 
-        return $instant_article;
+        return $context;
     }
 }

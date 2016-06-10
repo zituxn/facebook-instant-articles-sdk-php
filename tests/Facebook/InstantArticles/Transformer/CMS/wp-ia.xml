@@ -17,16 +17,17 @@
       </header>
       <p>Yes, peace is good for everybody!<br/>
 Man kind.</p>
-      <p>Some text comes here and some more and more.<a href="http://example.com/image1.jpg">...</a></p>
+      <p>Some text comes here and some more and more.</p>
       <figure>
         <img src="http://example.com/image1.jpg"/>
       </figure>
-      <p>Some text comes here and some more and more.<a href="http://example.com/image2.jpg">...</a> and some.</p>
+      <p>Some text comes here and some more and more.</p>
       <figure>
         <img src="http://example.com/image2.jpg"/>
       </figure>
+      <p> and some.</p>
       <ul>
-        <li>some text <a href="http://example.com/">...</a></li>
+        <li>some text</li>
       </ul>
       <figure>
         <img src="http://example.com/image.jpg"/>
