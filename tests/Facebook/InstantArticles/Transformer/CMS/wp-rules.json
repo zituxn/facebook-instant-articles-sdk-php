@@ -59,9 +59,9 @@
     }, {
         "class": "PassThroughRule",
         "selector": "blockquote p"
-    }, {
+    },{
         "class": "ImageRule",
-        "selector": "//p[img]",
+        "selector": "img",
         "properties": {
             "image.url": {
                 "type": "string",
@@ -69,8 +69,8 @@
                 "attribute": "src"
             }
         }
-    },{
-        "class": "ImageRule",
+    }, {
+        "class": "ImageRuleParagraph",
         "selector": "img",
         "properties": {
             "image.url": {
@@ -197,16 +197,6 @@
             "interactive.url" : {
                 "type" : "string",
                 "selector" : "iframe",
-                "attribute": "src"
-            }
-        }
-    }, {
-        "class": "ImageRule",
-        "selector": "//p[a[img]]|//a[img]",
-        "properties": {
-            "image.url": {
-                "type": "string",
-                "selector": "img",
                 "attribute": "src"
             }
         }
