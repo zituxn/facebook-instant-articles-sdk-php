@@ -60,11 +60,10 @@ class SocialEmbedTest extends \PHPUnit_Framework_TestCase
         $inline =
             '<h1>Some custom code</h1>'.
             '<script>alert("test & more test");</script>';
-        $cdata = new \DOMCdataSection($inline);
 
         $social_embed =
             SocialEmbed::create()
-                ->withHTML($cdata);
+                ->withHTML($inline);
 
         $expected =
             '<figure class="op-social">'.

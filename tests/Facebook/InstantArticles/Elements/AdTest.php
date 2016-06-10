@@ -81,11 +81,10 @@ class AdTest extends \PHPUnit_Framework_TestCase
         $inline =
             '<h1>Some custom code</h1>'.
             '<script>alert("test & more test");</script>';
-        $cdata = new \DOMCdataSection($inline);
 
         $ad =
             Ad::create()
-                ->withHTML($cdata)
+                ->withHTML($inline)
                 ->withHeight(640)
                 ->withWidth(480);
 

@@ -23,13 +23,18 @@ abstract class ElementWithHTML extends Element
     /**
      * Sets the unescaped HTML.
      *
-     * @param \DOMNode $html The unescaped HTML.
+     * @param \DOMNode|string $html The unescaped HTML.
      *
      * @return $this
      */
     public function withHTML($html)
     {
-        Type::enforce($html, 'DOMNode');
+        Type::enforce($html, ['DOMNode', Type::STRING]);
+        // If this is raw HTML source, wrap in a CDATA section as it could contain JS etc. with characters (such as &) that are not allowed in unescaped form
+        if (Type::is($html, Type::STRING))
+        {
+            $html = new \DOMCdataSection($html);
+        }
         $this->html = $html;
 
         return $this;

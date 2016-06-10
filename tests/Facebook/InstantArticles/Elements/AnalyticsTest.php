@@ -41,11 +41,10 @@ class AnalyticsTest extends \PHPUnit_Framework_TestCase
         $inline =
             '<h1>Some custom code</h1>'.
             '<script>alert("test & more test");</script>';
-        $cdata = new \DOMCdataSection($inline);
 
         $analytics =
             Analytics::create()
-                ->withHTML($cdata);
+                ->withHTML($inline);
 
         $expected =
             '<figure class="op-tracker">'.
@@ -72,11 +71,10 @@ class AnalyticsTest extends \PHPUnit_Framework_TestCase
                 'ga("send", "pageview");'.
             '</script>'.
             '<!-- End Google Analytics -->';
-        $cdata = new \DOMCdataSection($google_analytics);
 
         $analytics =
             Analytics::create()
-                ->withHTML($cdata);
+                ->withHTML($google_analytics);
 
         $expected =
             '<figure class="op-tracker">'.

@@ -25,7 +25,6 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
         $inline =
             '<script>alert("test & more test");</script>';
-        $cdata = new \DOMCdataSection($inline);
 
         $header =
             Header::create()
@@ -85,7 +84,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
                         ->withWidth(300)
                         ->withHeight(250)
                         ->enableDefaultForReuse()
-                        ->withHTML($cdata)
+                        ->withHTML($inline)
                 );
 
         $expected =
