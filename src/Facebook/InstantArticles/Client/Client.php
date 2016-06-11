@@ -138,8 +138,10 @@ class Client
     {
         Type::enforce($canonicalURL, Type::STRING);
 
-        $response = $this->facebook->get('?id=' . $canonicalURL . '&fields=instant_article');
-        $instantArticle = $response->getGraphNode()->getField('instant_article');
+        $field = $this->developmentMode ? 'development_instant_article' : 'instant_article';
+
+        $response = $this->facebook->get('?id=' . $canonicalURL . '&fields=' . $field);
+        $instantArticle = $response->getGraphNode()->getField($field);
 
         if (!$instantArticle) {
             return null;
