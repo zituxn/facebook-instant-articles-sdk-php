@@ -32,6 +32,11 @@ class Interactive extends Element implements Container
     private $caption;
 
     /**
+     * @var int The width of your interactive graphic.
+     */
+    private $width;
+
+    /**
      * @var int The height of your interactive graphic.
      */
     private $height;
@@ -46,7 +51,7 @@ class Interactive extends Element implements Container
      * @see Interactive::NO_MARGIN
      * @see Interactive::COLUMN_WIDTH
      */
-    private $width;
+    private $margin;
 
     /**
      * @var \DOMNode The HTML of the content.
@@ -73,6 +78,20 @@ class Interactive extends Element implements Container
     {
         Type::enforce($caption, Caption::getClassName());
         $this->caption = $caption;
+
+        return $this;
+    }
+
+    /**
+     * Sets the width of your interactive graphic.
+     *
+     * @param int $width The height of your interactive graphic.
+     *
+     * @return $this
+     */
+    public function withWidth($width) {
+        Type::enforce($width, Type::INTEGER);
+        $this->width = $width;
 
         return $this;
     }
@@ -108,25 +127,25 @@ class Interactive extends Element implements Container
     }
 
     /**
-     * Sets the width setting of your interactive graphic.
+     * Sets the margin setting of your interactive graphic.
      *
-     * @param string $width The width setting of your interactive graphic.
+     * @param string $margin The margin setting of your interactive graphic.
      *
      * @see Interactive::NO_MARGIN
      * @see Interactive::COLUMN_WIDTH
      *
      * @return $this
      */
-    public function withWidth($width)
+    public function withMargin($margin)
     {
         Type::enforceWithin(
-            $width,
+            $margin,
             [
                 Interactive::NO_MARGIN,
                 Interactive::COLUMN_WIDTH
             ]
         );
-        $this->width = $width;
+        $this->margin = $margin;
 
         return $this;
     }
@@ -155,6 +174,13 @@ class Interactive extends Element implements Container
     }
 
     /**
+     * @return int the width
+     */
+    public function getWidth() {
+        return $this->width;
+    }
+
+    /**
      * @return int the height
      */
     public function getHeight()
@@ -171,11 +197,11 @@ class Interactive extends Element implements Container
     }
 
     /**
-     * @return int the width
+     * @return string the margin
      */
-    public function getWidth()
+    public function getMargin()
     {
-        return $this->width;
+        return $this->margin;
     }
 
     /**
@@ -218,8 +244,12 @@ class Interactive extends Element implements Container
             $iframe->setAttribute('src', $this->source);
         }
 
+        if ($this->margin) {
+            $iframe->setAttribute('class', $this->margin);
+        }
+
         if ($this->width) {
-            $iframe->setAttribute('class', $this->width);
+            $iframe->setAttribute('width', $this->width);
         }
 
         if ($this->height) {
