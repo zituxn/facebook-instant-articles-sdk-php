@@ -89,7 +89,8 @@ class Interactive extends Element implements Container
      *
      * @return $this
      */
-    public function withWidth($width) {
+    public function withWidth($width)
+    {
         Type::enforce($width, Type::INTEGER);
         $this->width = $width;
 
@@ -176,7 +177,8 @@ class Interactive extends Element implements Container
     /**
      * @return int the width
      */
-    public function getWidth() {
+    public function getWidth()
+    {
         return $this->width;
     }
 

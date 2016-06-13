@@ -74,7 +74,8 @@ class InteractiveTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderBasicWithWidth() {
+    public function testRenderBasicWithWidth()
+    {
         $interactive =
           Interactive::create()
             ->withSource('http://foo.com/interactive-graphic')
@@ -89,7 +90,8 @@ class InteractiveTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderBasicWithWidthHeight() {
+    public function testRenderBasicWithWidthHeight()
+    {
         $interactive =
           Interactive::create()
             ->withSource('http://foo.com/interactive-graphic')
