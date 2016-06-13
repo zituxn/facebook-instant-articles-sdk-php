@@ -150,7 +150,7 @@ class InteractiveTest extends \PHPUnit_Framework_TestCase
             Interactive::create()
                 ->withHTML($fragment)
                 ->withHeight(640)
-                ->withWidth(Interactive::NO_MARGIN);
+                ->withMargin(Interactive::NO_MARGIN);
 
         $expected =
             '<figure class="op-interactive">'.
