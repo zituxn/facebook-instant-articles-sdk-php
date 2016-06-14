@@ -17,6 +17,10 @@
       </header>
       <p>Yes, peace is good for everybody!<br/>
 Man kind.</p>
+      <figure>
+        <img src="http://example.com/image0.jpg"/>
+      </figure>
+      <p>Some text comes here and some more and more.</p>
       <p>Some text comes here and some more and more.</p>
       <figure>
         <img src="http://example.com/image1.jpg"/>
@@ -29,9 +33,6 @@ Man kind.</p>
       <ul>
         <li>some text</li>
       </ul>
-      <figure>
-        <img src="http://example.com/image.jpg"/>
-      </figure>
     </article>
   </body>
 </html>
