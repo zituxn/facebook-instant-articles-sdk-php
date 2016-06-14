@@ -18,7 +18,7 @@ use Facebook\InstantArticles\Validators\Type;
  */
 abstract class Element
 {
-    private $ignore_empty = false;
+    private $empty_validation = true;
 
     abstract public function toDOMElement();
 
@@ -90,28 +90,29 @@ abstract class Element
     }
 
     /**
-     * Method that returns the status of ignoring empty for this Element.
+     * Method that checks if empty element will warn on InstantArticleValidator.
      * @since v1.1.1
+     * @see InstantArticleValidator
      * @return boolean true for ignore, false otherwise.
      */
-    public function isEmptyIgnored()
+    public function isEmptyValidationEnabled()
     {
-        return $this->ignore_empty;
+        return $this->empty_validation;
     }
 
     /**
      * Marks this Paragraph to be ignored on isValid if it is empty.
      */
-    public function enableIgnoreEmpty()
+    public function enableEmptyValidation()
     {
-        return $this->ignore_empty = true;
+        return $this->empty_validation = true;
     }
 
     /**
      * Marks this Paragraph to *not* be ignored on isValid if it is empty.
      */
-    public function disableIgnoreEmpty()
+    public function disableEmptyValidation()
     {
-        return $this->ignore_empty = false;
+        return $this->empty_validation = false;
     }
 }

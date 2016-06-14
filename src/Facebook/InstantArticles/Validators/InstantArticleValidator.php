@@ -43,7 +43,7 @@ class InstantArticleValidator
     public static function getReport($elements, &$warnings)
     {
         foreach ($elements as $element) {
-            if (!$element->isValid() && !$element->isEmptyIgnored()) {
+            if (!$element->isValid() && $element->isEmptyValidationEnabled()) {
                 // Adds a warning to the result report.
                 $warnings[] = new ValidatorWarning($element);
             }

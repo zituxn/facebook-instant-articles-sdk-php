@@ -58,9 +58,9 @@ class ImageInsideParagraphRule extends ConfigurationSelectorRule
             $instant_article = $transformer->getInstantArticle();
             if ($instant_article) {
                 $instant_article->addChild($image);
-                $context->enableIgnoreEmpty();
+                $context->disableEmptyValidation();
                 $context = Paragraph::create();
-                $context->enableIgnoreEmpty();
+                $context->disableEmptyValidation();
                 $instant_article->addChild($context);
             } else {
                 $transformer->addWarning(
