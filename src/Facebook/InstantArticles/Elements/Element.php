@@ -114,5 +114,4 @@ abstract class Element
     {
         return $this->ignore_empty = false;
     }
-
 }
