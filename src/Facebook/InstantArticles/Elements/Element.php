@@ -18,6 +18,8 @@ use Facebook\InstantArticles\Validators\Type;
  */
 abstract class Element
 {
+    private $ignore_empty = false;
+
     abstract public function toDOMElement();
 
     /**
@@ -86,4 +88,31 @@ abstract class Element
         $fragment->appendChild($document->createTextNode(''));
         return $fragment;
     }
+
+    /**
+     * Method that returns the status of ignoring empty for this Element.
+     * @since v1.1.1
+     * @return boolean true for ignore, false otherwise.
+     */
+    public function isEmptyIgnored()
+    {
+        return $this->ignore_empty;
+    }
+
+    /**
+     * Marks this Paragraph to be ignored on isValid if it is empty.
+     */
+    public function enableIgnoreEmpty()
+    {
+        return $this->ignore_empty = true;
+    }
+
+    /**
+     * Marks this Paragraph to *not* be ignored on isValid if it is empty.
+     */
+    public function disableIgnoreEmpty()
+    {
+        return $this->ignore_empty = false;
+    }
+
 }

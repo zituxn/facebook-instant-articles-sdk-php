@@ -58,7 +58,9 @@ class ImageInsideTextContainerRule extends ConfigurationSelectorRule
             $instant_article = $transformer->getInstantArticle();
             if ($instant_article) {
                 $instant_article->addChild($image);
+                //$context->enableIgnoreEmpty();
                 $context = Paragraph::create();
+                $context->enableIgnoreEmpty();
                 $instant_article->addChild($context);
             } else {
                 $transformer->addWarning(
