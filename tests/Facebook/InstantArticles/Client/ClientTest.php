@@ -212,6 +212,97 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedArticleID, $articleID);
     }
 
+    public function testDevelopmentModeGetArticleIDFromCanonicalURL()
+    {
+        $canonicalURL = "http://facebook.com";
+
+        $expectedArticleID = 123;
+
+        $serverResponseMock =
+            $this->getMockBuilder('Facebook\FacebookResponse')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $graphNodeMock =
+            $this->getMockBuilder('Facebook\GraphNodes\GraphNode')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $instantArticleMock =
+            $this->getMockBuilder('Facebook\GraphNodes\GraphNode')
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $instantArticleMock
+            ->expects($this->once())
+            ->method('getField')
+            ->with($this->equalTo('id'))
+            ->willReturn($expectedArticleID);
+        $graphNodeMock
+            ->expects($this->once())
+            ->method('getField')
+            ->with($this->equalTo('development_instant_article'))
+            ->willReturn($instantArticleMock);
+        $serverResponseMock
+            ->expects($this->once())
+            ->method('getGraphNode')
+            ->willReturn($graphNodeMock);
+        $this->facebook
+            ->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('?id='.$canonicalURL.'&fields=development_instant_article'))
+            ->willReturn($serverResponseMock);
+
+        // Set up new client in development mode
+        $this->client = new Client(
+            $this->facebook,
+            "PAGE_ID",
+            true // developmentMode
+        );
+
+        $articleID = $this->client->getArticleIDFromCanonicalURL($canonicalURL);
+        $this->assertEquals($expectedArticleID, $articleID);
+    }
+
+    public function testDevelopmentModeGetArticleIDFromNotFoundCanonicalURL()
+    {
+        $canonicalURL = "http://facebook.com";
+
+        $expectedArticleID = null;
+
+        $serverResponseMock =
+            $this->getMockBuilder('Facebook\FacebookResponse')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $graphNodeMock =
+            $this->getMockBuilder('Facebook\GraphNodes\GraphNode')
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $graphNodeMock
+            ->expects($this->once())
+            ->method('getField')
+            ->with($this->equalTo('development_instant_article'))
+            ->willReturn(null);
+        $serverResponseMock
+            ->expects($this->once())
+            ->method('getGraphNode')
+            ->willReturn($graphNodeMock);
+        $this->facebook
+            ->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('?id='.$canonicalURL.'&fields=development_instant_article'))
+            ->willReturn($serverResponseMock);
+
+        // Set up new client in development mode
+        $this->client = new Client(
+            $this->facebook,
+            "PAGE_ID",
+            true // developmentMode
+        );
+
+        $articleID = $this->client->getArticleIDFromCanonicalURL($canonicalURL);
+        $this->assertEquals($expectedArticleID, $articleID);
+    }
+
     public function testGetLastSubmissionStatus()
     {
         $articleID = '123';
