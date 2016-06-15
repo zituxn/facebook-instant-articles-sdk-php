@@ -24,10 +24,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         date_default_timezone_set('UTC');
 
         $inline =
-            '<script>alert("test");</script>';
-        $document = new \DOMDocument();
-        $fragment = $document->createDocumentFragment();
-        $fragment->appendXML($inline);
+            '<script>alert("test & more test");</script>';
 
         $header =
             Header::create()
@@ -87,7 +84,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
                         ->withWidth(300)
                         ->withHeight(250)
                         ->enableDefaultForReuse()
-                        ->withHTML($fragment)
+                        ->withHTML($inline)
                 );
 
         $expected =
@@ -118,7 +115,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
                     '</figure>'.
                     '<figure class="op-ad">'.
                         '<iframe width="300" height="250">'.
-                            '<script>alert("test");</script>'.
+                            '<script>alert("test & more test");</script>'.
                         '</iframe>'.
                     '</figure>'.
                 '</section>'.

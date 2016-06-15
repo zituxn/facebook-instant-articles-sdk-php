@@ -21,7 +21,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/interactive}
  */
-class Interactive extends Element implements Container
+class Interactive extends ElementWithHTML implements Container
 {
     const NO_MARGIN = 'no-margin';
     const COLUMN_WIDTH = 'column-width';
@@ -52,11 +52,6 @@ class Interactive extends Element implements Container
      * @see Interactive::COLUMN_WIDTH
      */
     private $margin;
-
-    /**
-     * @var \DOMNode The HTML of the content.
-     */
-    private $html;
 
     private function __construct()
     {
@@ -152,21 +147,6 @@ class Interactive extends Element implements Container
     }
 
     /**
-     * Sets the unescaped HTML of your interactive graphic.
-     *
-     * @param \DOMNode $html The unescaped HTML of your interactive graphic.
-     *
-     * @return $this
-     */
-    public function withHTML($html)
-    {
-        Type::enforce($html, 'DOMNode');
-        $this->html = $html;
-
-        return $this;
-    }
-
-    /**
      * @return Caption the caption element
      */
     public function getCaption()
@@ -204,14 +184,6 @@ class Interactive extends Element implements Container
     public function getMargin()
     {
         return $this->margin;
-    }
-
-    /**
-     * @return \DOMNode unescaped html
-     */
-    public function getHtml()
-    {
-        return $this->html;
     }
 
     /**

@@ -59,20 +59,17 @@ class SocialEmbedTest extends \PHPUnit_Framework_TestCase
     {
         $inline =
             '<h1>Some custom code</h1>'.
-            '<script>alert("test");</script>';
-        $document = new \DOMDocument();
-        $fragment = $document->createDocumentFragment();
-        $fragment->appendXML($inline);
+            '<script>alert("test & more test");</script>';
 
         $social_embed =
             SocialEmbed::create()
-                ->withHTML($fragment);
+                ->withHTML($inline);
 
         $expected =
             '<figure class="op-social">'.
                 '<iframe>'.
                     '<h1>Some custom code</h1>'.
-                    '<script>alert("test");</script>'.
+                    '<script>alert("test & more test");</script>'.
                 '</iframe>'.
             '</figure>';
 

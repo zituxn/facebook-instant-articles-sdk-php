@@ -39,21 +39,11 @@ abstract class Element
         $document->appendChild($element);
         $rendered = $doctype.$document->saveXML($element);
 
-        return $rendered;
-    }
+        // We can't currently use DOMDocument::saveHTML, because it doesn't produce proper HTML5 markup, so we have to strip CDATA enclosures
+        // TODO Consider replacing this workaround with a parent class for elements that will be rendered and in this class use the `srcdoc` attribute to output the (escaped) markup
+        $rendered = preg_replace('/<!\[CDATA\[(.*?)\]\]>/is', '$1', $rendered);
 
-    /**
-     * Appends unescaped HTML to a element using the right strategy.
-     *
-     * @param \DOMNode $element - The element to append the HTML to.
-     * @param \DOMNode $content - The unescaped HTML to append.
-     */
-    protected function dangerouslyAppendUnescapedHTML($element, $content)
-    {
-        Type::enforce($content, 'DOMNode');
-        Type::enforce($element, 'DOMNode');
-        $imported = $element->ownerDocument->importNode($content, true);
-        $element->appendChild($imported);
+        return $rendered;
     }
 
     /**
