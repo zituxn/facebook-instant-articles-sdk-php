@@ -18,6 +18,8 @@ use Facebook\InstantArticles\Validators\Type;
  */
 abstract class Element
 {
+    private $empty_validation = true;
+
     abstract public function toDOMElement();
 
     /**
@@ -85,5 +87,32 @@ abstract class Element
         $fragment = $document->createDocumentFragment();
         $fragment->appendChild($document->createTextNode(''));
         return $fragment;
+    }
+
+    /**
+     * Method that checks if empty element will warn on InstantArticleValidator.
+     * @since v1.1.1
+     * @see InstantArticleValidator
+     * @return boolean true for ignore, false otherwise.
+     */
+    public function isEmptyValidationEnabled()
+    {
+        return $this->empty_validation;
+    }
+
+    /**
+     * Marks this Paragraph to be ignored on isValid if it is empty.
+     */
+    public function enableEmptyValidation()
+    {
+        return $this->empty_validation = true;
+    }
+
+    /**
+     * Marks this Paragraph to *not* be ignored on isValid if it is empty.
+     */
+    public function disableEmptyValidation()
+    {
+        return $this->empty_validation = false;
     }
 }
