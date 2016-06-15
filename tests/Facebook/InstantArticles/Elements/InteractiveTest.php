@@ -74,12 +74,45 @@ class InteractiveTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
+    public function testRenderBasicWithWidth()
+    {
+        $interactive =
+          Interactive::create()
+            ->withSource('http://foo.com/interactive-graphic')
+            ->withWidth(640);
+
+        $expected =
+          '<figure class="op-interactive">' .
+          '<iframe src="http://foo.com/interactive-graphic" width="640"></iframe>' .
+          '</figure>';
+
+        $rendered = $interactive->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    public function testRenderBasicWithWidthHeight()
+    {
+        $interactive =
+          Interactive::create()
+            ->withSource('http://foo.com/interactive-graphic')
+            ->withWidth(1600)
+            ->withHeight(900);
+
+        $expected =
+          '<figure class="op-interactive">' .
+          '<iframe src="http://foo.com/interactive-graphic" width="1600" height="900"></iframe>' .
+          '</figure>';
+
+        $rendered = $interactive->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
     public function testRenderBasicWithColumnWidth()
     {
         $interactive =
             Interactive::create()
                 ->withSource('http://foo.com/interactive-graphic')
-                ->withWidth(Interactive::COLUMN_WIDTH);
+                ->withMargin(Interactive::COLUMN_WIDTH);
 
         $expected =
             '<figure class="op-interactive">'.
@@ -95,7 +128,7 @@ class InteractiveTest extends \PHPUnit_Framework_TestCase
         $interactive =
             Interactive::create()
                 ->withSource('http://foo.com/interactive-graphic')
-                ->withWidth(Interactive::NO_MARGIN);
+                ->withMargin(Interactive::NO_MARGIN);
 
         $expected =
             '<figure class="op-interactive">'.
@@ -119,7 +152,7 @@ class InteractiveTest extends \PHPUnit_Framework_TestCase
             Interactive::create()
                 ->withHTML($fragment)
                 ->withHeight(640)
-                ->withWidth(Interactive::NO_MARGIN);
+                ->withMargin(Interactive::NO_MARGIN);
 
         $expected =
             '<figure class="op-interactive">'.

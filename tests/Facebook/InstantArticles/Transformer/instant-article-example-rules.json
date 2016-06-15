@@ -544,6 +544,11 @@
                         "selector" : "iframe",
                         "attribute": "height"
                     },
+                    "interactive.width": {
+                        "type": "int",
+                        "selector": "iframe",
+                        "attribute": "width"
+                    },
                     "interactive.iframe" : {
                         "type" : "children",
                         "selector" : "iframe"
