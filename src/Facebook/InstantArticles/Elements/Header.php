@@ -38,9 +38,10 @@ use Facebook\InstantArticles\Validators\Type;
 class Header extends Element implements Container
 {
     /**
-     * @var Image|Video|null for the image or video on the header.
+     * @var Image|Video|Slideshow|null for the image or video on the header.
      *
      * @see Image
+     * @see Slideshow
      * @see Video
      */
     private $cover;
@@ -96,13 +97,20 @@ class Header extends Element implements Container
     /**
      * Sets the cover of InstantArticle with Image or Video
      *
-     * @param Image|Video $cover The cover for the header of the InstantArticle
+     * @param Image|Video|Slideshow $cover The cover for the header of the InstantArticle
      *
      * @return $this
      */
     public function withCover($cover)
     {
-        Type::enforce($cover, [Image::getClassName(), Video::getClassName()]);
+        Type::enforce(
+            $cover,
+            [
+                Image::getClassName(),
+                Slideshow::getClassName(),
+                Video::getClassName()
+            ]
+        );
         $this->cover = $cover;
 
         return $this;
@@ -276,7 +284,7 @@ class Header extends Element implements Container
     }
 
     /**
-     * @return Image|Video The cover for the header of the InstantArticle
+     * @return Image|Slideshow|Video The cover for the header of the InstantArticle
      */
     public function getCover()
     {
