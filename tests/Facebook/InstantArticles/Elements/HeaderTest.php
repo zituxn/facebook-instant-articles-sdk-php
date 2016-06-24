@@ -211,4 +211,53 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $rendered);
     }
+
+    public function testHeaderWithSlideshow()
+    {
+        $header =
+            Header::create()
+                ->withTitle(
+                    H1::create()
+                        ->appendText('Big Top Title ')
+                        ->appendText(Bold::create()->appendText('in Bold'))
+                )
+                ->withSubTitle(
+                    H2::create()
+                        ->appendText('Smaller SubTitle ')
+                        ->appendText(Bold::create()->appendText('in Bold'))
+                )
+                ->withKicker(
+                    H3::create()
+                        ->appendText('Kicker ')
+                        ->appendText(Bold::create()->appendText('in Bold'))
+                )
+                ->withCover(
+                    SlideShow::create()
+                        ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home.jpg'))
+                        ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home2.jpg'))
+                        ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home3.jpg'))
+                );
+
+        $expected =
+            '<header>'.
+                '<figure class="op-slideshow">'.
+                    '<figure>'.
+                        '<img src="https://jpeg.org/images/jpegls-home.jpg"/>'.
+                    '</figure>'.
+                    '<figure>'.
+                        '<img src="https://jpeg.org/images/jpegls-home2.jpg"/>'.
+                    '</figure>'.
+                    '<figure>'.
+                        '<img src="https://jpeg.org/images/jpegls-home3.jpg"/>'.
+                    '</figure>'.
+                '</figure>'.
+                '<h1>Big Top Title <b>in Bold</b></h1>'.
+                '<h2>Smaller SubTitle <b>in Bold</b></h2>'.
+                '<h3 class="op-kicker">Kicker <b>in Bold</b></h3>'.
+            '</header>';
+
+        $rendered = $header->render();
+
+        $this->assertEquals($expected, $rendered);
+    }
 }
