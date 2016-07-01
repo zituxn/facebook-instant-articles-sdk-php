@@ -18,7 +18,7 @@ use Facebook\InstantArticles\Validators\Type;
  *     <li>Video</li>
  *     <li>SlideShow</li>
  *     <li>Map</li>
- *     <li>SocialEmbed</li>
+ *     <li>Interactive</li>
  * </ul>.
  *
  * Example:
@@ -31,7 +31,7 @@ use Facebook\InstantArticles\Validators\Type;
  * @see Video
  * @see SlideShow
  * @see Map
- * @see SocialEmbed
+ * @see Interactive
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/caption}
  */
 class Caption extends FormattedText
