@@ -508,21 +508,6 @@
                 }
             },
             {
-                "class": "SocialEmbedRule",
-                "selector" : "figure.op-social",
-                "properties" : {
-                    "socialembed.url" : {
-                        "type" : "string",
-                        "selector" : "iframe",
-                        "attribute": "src"
-                    },
-                    "socialembed.iframe" : {
-                        "type" : "children",
-                        "selector" : "iframe"
-                    }
-                }
-            },
-            {
                 "class": "InteractiveRule",
                 "selector" : "figure.op-interactive",
                 "properties" : {
