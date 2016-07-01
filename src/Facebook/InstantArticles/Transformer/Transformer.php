@@ -202,13 +202,6 @@ class Transformer
             }
         }
 
-        if (Type::is($context, InstantArticle::getClassName())) {
-            $ia_warnings = InstantArticleValidator::check($context);
-            foreach ($ia_warnings as $ia_warning) {
-                $this->addWarning($ia_warning);
-            }
-        }
-
         return $context;
     }
 
