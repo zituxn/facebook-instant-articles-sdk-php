@@ -60,5 +60,4 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($html_file, $result);
     }
-
 }
