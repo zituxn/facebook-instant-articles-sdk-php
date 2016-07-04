@@ -30,6 +30,4 @@ class Parser
 
         return $instant_article;
     }
-
-
 }
