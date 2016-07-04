@@ -30,7 +30,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSelfTransformerContent()
+    public function testSelfParse()
     {
         $html_file = file_get_contents(__DIR__ . '/instant-article-example.html');
 
@@ -47,4 +47,18 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($html_file, $result);
     }
+
+    public function testSelfParseString()
+    {
+        $html_file = file_get_contents(__DIR__ . '/instant-article-example.html');
+
+        $parser = new Parser();
+        $instant_article = $parser->parse($html_file);
+        $instant_article->addMetaProperty('op:generator:version', '1.0.0');
+        $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
+        $result = $instant_article->render('', true)."\n";
+
+        $this->assertEquals($html_file, $result);
+    }
+
 }

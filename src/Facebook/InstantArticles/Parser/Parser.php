@@ -10,6 +10,7 @@ namespace Facebook\InstantArticles\Parser;
 
 use Facebook\InstantArticles\Transformer\Transformer;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Validators\Type;
 
 class Parser
 {
