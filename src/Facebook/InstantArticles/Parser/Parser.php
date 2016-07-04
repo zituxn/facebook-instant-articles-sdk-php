@@ -14,12 +14,21 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 class Parser
 {
     /**
-     * @param \DOMDocument $document The document html of an Instant Article
+     * @param string|DOMDocument $document The document html of an Instant Article
      *
      * @return InstantArticle filled element that was parsed from the DOMDocument parameter
      */
-    public function parse($document)
+    public function parse($content)
     {
+        if (Type::is($content, Type::STRING)) {
+            libxml_use_internal_errors(true);
+            $document = new \DOMDocument();
+            $document->loadHTML($content);
+            libxml_use_internal_errors(false);
+        } else {
+            $document = $content;
+        }
+
         $json_file = file_get_contents(__DIR__ . '/instant-articles-rules.json');
 
         $instant_article = InstantArticle::create();
