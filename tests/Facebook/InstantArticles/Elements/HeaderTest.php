@@ -260,4 +260,45 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $rendered);
     }
+
+    public function testHeaderWithSponsor()
+    {
+        $header =
+            Header::create()
+                ->withTitle(
+                    H1::create()
+                        ->appendText('Big Top Title ')
+                        ->appendText(Bold::create()->appendText('in Bold'))
+                )
+                ->withSubTitle(
+                    H2::create()
+                        ->appendText('Smaller SubTitle ')
+                        ->appendText(Bold::create()->appendText('in Bold'))
+                )
+                ->withKicker(
+                    H3::create()
+                        ->appendText('Kicker ')
+                        ->appendText(Bold::create()->appendText('in Bold'))
+                )
+                ->withSponsor(
+                    Sponsor::create()
+                        ->withPageUrl('http://facebook.com/my-sponsor')
+                );
+
+        $expected =
+            '<header>'.
+                '<h1>Big Top Title <b>in Bold</b></h1>'.
+                '<h2>Smaller SubTitle <b>in Bold</b></h2>'.
+                '<h3 class="op-kicker">Kicker <b>in Bold</b></h3>'.
+                '<ul class="op-sponsors">'.
+                  '<li>'.
+                    '<a href="http://facebook.com/my-sponsor" rel="facebook"></a>'.
+                  '</li>'.
+                '</ul>'.
+            '</header>';
+
+        $rendered = $header->render();
+
+        $this->assertEquals($expected, $rendered);
+    }
 }

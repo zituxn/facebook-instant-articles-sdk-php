@@ -77,6 +77,10 @@
                 "selector" : "li"
             },
             {
+                "class": "SponsorRule",
+                "selector" : "ul.op-sponsors"
+            },
+            {
                 "class": "ListElementRule",
                 "selector" : "ul"
             },

@@ -8,20 +8,19 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
-use Facebook\InstantArticles\Elements\ListElement;
+use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Sponsor;
-use Facebook\InstantArticles\Elements\ListItem;
 
-class ListItemRule extends ConfigurationSelectorRule
+class SponsorRule extends ConfigurationSelectorRule
 {
     public function getContextClass()
     {
-        return array(ListElement::getClassName(), Sponsor::getClassName());
+        return Header::getClassName();
     }
 
     public static function create()
     {
-        return new ListItemRule();
+        return new SponsorRule();
     }
 
     public static function createFrom($configuration)
@@ -29,12 +28,16 @@ class ListItemRule extends ConfigurationSelectorRule
         return self::create()->withSelector($configuration['selector']);
     }
 
-    public function apply($transformer, $list, $element)
+    public function apply($transformer, $header, $element)
     {
-        $li = ListItem::create();
-        $list->addItem($li);
-        $transformer->transform($li, $element);
+        $sponsor = Sponsor::create();
+        $header->withSponsor($sponsor);
+        $transformer->transform($sponsor, $element);
+        return $header;
+    }
 
-        return $list;
+    public function loadFrom($configuration)
+    {
+        $this->selector = $configuration['selector'];
     }
 }

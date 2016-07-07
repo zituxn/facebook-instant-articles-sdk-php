@@ -82,6 +82,11 @@ class Header extends Element implements Container
      */
     private $ads = [];
 
+    /**
+     * @var Sponsor The sponsor for this article. See Branded Content.
+     */
+    private $sponsor;
+
     private function __construct()
     {
     }
@@ -284,6 +289,21 @@ class Header extends Element implements Container
     }
 
     /**
+     * Sets the sponsor for this Article.
+     *
+     * @param Sponsor $sponsor The sponsor of article to be set.
+     *
+     * @return $this
+     */
+    public function withSponsor($sponsor)
+    {
+        Type::enforce($sponsor, Sponsor::getClassName());
+        $this->sponsor = $sponsor;
+
+        return $this;
+    }
+
+    /**
      * @return Image|Slideshow|Video The cover for the header of the InstantArticle
      */
     public function getCover()
@@ -345,6 +365,14 @@ class Header extends Element implements Container
     public function getAds()
     {
         return $this->ads;
+    }
+
+    /**
+     * @return Sponsor the sponsor of this Article.
+     */
+    public function getSponsor()
+    {
+        return $this->sponsor;
     }
 
     /**
@@ -432,6 +460,10 @@ class Header extends Element implements Container
             }
         }
 
+        if ($this->sponsor && $this->sponsor->isValid()) {
+            $element->appendChild($this->sponsor->toDOMElement($document));
+        }
+
         return $element;
     }
 
@@ -502,6 +534,10 @@ class Header extends Element implements Container
             foreach ($this->ads as $ad) {
                 $children[] = $ad;
             }
+        }
+
+        if ($this->sponsor) {
+            $children[] = $this->sponsor;
         }
 
         return $children;
