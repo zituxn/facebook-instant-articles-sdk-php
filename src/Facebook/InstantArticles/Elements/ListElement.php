@@ -97,6 +97,7 @@ class ListElement extends Element implements Container
     public function withItems($new_items)
     {
         Type::enforceArrayOf($new_items, [ListItem::getClassName(), Type::STRING]);
+        $this->items = [];
         foreach ($new_items as $new_item) {
             $this->addItem($new_item);
         }
