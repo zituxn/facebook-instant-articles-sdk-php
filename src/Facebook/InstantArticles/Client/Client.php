@@ -195,7 +195,7 @@ class Client
      *
      * @return string[] The cannonical URLs from articles
      */
-    public function getArticlesURLs($limit=10, $development_mode=false)
+    public function getArticlesURLs($limit = 10, $development_mode = false)
     {
         $articleURLs = [];
         $response = $this->facebook->get(
