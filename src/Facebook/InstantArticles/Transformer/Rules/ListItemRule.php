@@ -9,14 +9,13 @@
 namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\ListElement;
-use Facebook\InstantArticles\Elements\Sponsor;
 use Facebook\InstantArticles\Elements\ListItem;
 
 class ListItemRule extends ConfigurationSelectorRule
 {
     public function getContextClass()
     {
-        return array(ListElement::getClassName(), Sponsor::getClassName());
+        return ListElement::getClassName();
     }
 
     public static function create()

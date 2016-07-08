@@ -10,9 +10,12 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Sponsor;
+use Facebook\InstantArticles\Validators\Type;
 
 class SponsorRule extends ConfigurationSelectorRule
 {
+    const PROPERTY_SPONSOR_PAGE_URL = 'sponsor.page_url';
+
     public function getContextClass()
     {
         return Header::getClassName();
@@ -25,19 +28,25 @@ class SponsorRule extends ConfigurationSelectorRule
 
     public static function createFrom($configuration)
     {
-        return self::create()->withSelector($configuration['selector']);
+        $sponsor_rule = SponsorRule::create();
+
+        $sponsor_rule->withSelector($configuration['selector']);
+        $sponsor_rule->withProperty(
+            self::PROPERTY_SPONSOR_PAGE_URL,
+            self::retrieveProperty($configuration, self::PROPERTY_SPONSOR_PAGE_URL)
+        );
+
+        return $sponsor_rule;
     }
 
-    public function apply($transformer, $header, $element)
+    public function apply($transformer, $header, $node)
     {
-        $sponsor = Sponsor::create();
-        $header->withSponsor($sponsor);
-        $transformer->transform($sponsor, $element);
+        $page_url = $this->getProperty(self::PROPERTY_SPONSOR_PAGE_URL, $node);
+        if ($page_url && !Type::isTextEmpty($page_url)) {
+            $sponsor = Sponsor::create();
+            $header->withSponsor($sponsor);
+            $sponsor->withPageUrl($page_url);
+        }
         return $header;
-    }
-
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
     }
 }

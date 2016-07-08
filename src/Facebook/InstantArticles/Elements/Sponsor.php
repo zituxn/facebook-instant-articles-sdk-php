@@ -19,7 +19,7 @@ use Facebook\InstantArticles\Validators\Type;
  * </ul>
  *
  */
-class Sponsor extends ListElement
+class Sponsor extends Element
 {
     /**
      * @var string page URL.
@@ -45,16 +45,20 @@ class Sponsor extends ListElement
      */
     public function withPageUrl($url)
     {
-        $this->withItems([]);
-        $this->addItem(
-            ListItem::create()
-                ->appendText(
-                    Anchor::create()
-                        ->withHref($url)
-                        ->withRel("facebook")
-                )
-        );
+        Type::enforce($url, Type::STRING);
+        $this->page_url = $url;
         return $this;
+    }
+
+    /**
+     * Overrides the Element::isValid().
+     *
+     * @see Element::isValid().
+     * @return true for valid ListElement that contains at least one ListItem's valid, false otherwise.
+     */
+    public function isValid()
+    {
+        return !Type::isTextEmpty($this->page_url);
     }
 
     /**
@@ -66,11 +70,27 @@ class Sponsor extends ListElement
      */
     public function toDOMElement($document = null)
     {
-        $element = parent::toDOMElement($document);
-        if ($this->isValid()) {
-            $element->setAttribute('class', 'op-sponsors');
-        }
+      if (!$document) {
+          $document = new \DOMDocument();
+      }
 
-        return $element;
+      if (!$this->isValid()) {
+          return $this->emptyElement($document);
+      }
+
+      $element = $document->createElement('ul');
+      $element->setAttribute('class', 'op-sponsors');
+
+      $item = $document->createElement('li');
+      $element->appendChild($item);
+
+      $anchor = $document->createElement('a');
+      $item->appendChild($anchor);
+
+      $anchor->setAttribute('href', $this->page_url);
+      $anchor->setAttribute('rel', 'facebook');
+      $anchor->appendChild($document->createTextNode(''));
+
+      return $element;
     }
 }
