@@ -41,7 +41,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
 
     public function testSelfTransformerContent()
     {
-        $json_file = file_get_contents(__DIR__ . '/instant-article-example-rules.json');
+        $json_file = file_get_contents('src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
 
         $instant_article = InstantArticle::create();
         $transformer = new Transformer();

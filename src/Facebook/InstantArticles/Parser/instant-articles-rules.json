@@ -77,6 +77,17 @@
                 "selector" : "li"
             },
             {
+                "class": "SponsorRule",
+                "selector" : "ul.op-sponsors",
+                "properties" : {
+                    "sponsor.page_url" : {
+                        "type" : "string",
+                        "selector" : "a",
+                        "attribute": "href"
+                    }
+                }
+            },
+            {
                 "class": "ListElementRule",
                 "selector" : "ul"
             },
