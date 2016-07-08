@@ -419,4 +419,38 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('NOT_SUBMITTED', $result);
     }
 
+    public function testGetArticlesURLs()
+    {
+        $mockedMap = array(
+            array('canonical_url'=>'http://url.com/1'),
+            array('canonical_url'=>'http://url.com/2'),
+            array('canonical_url'=>'http://url.com/3')
+        );
+
+        $serverResponseMock =
+            $this->getMockBuilder('Facebook\FacebookResponse')
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $serverResponseMock
+            ->expects($this->once())
+            ->method('getGraphEdge')
+            ->willReturn($mockedMap);
+
+        $this->facebook
+            ->expects($this->once())
+            ->method('get')
+            ->with('me/instant_articles?fields=canonical_url&development_mode=false&limit=10')
+            ->willReturn($serverResponseMock);
+
+
+        $expected = array(
+            'http://url.com/1',
+            'http://url.com/2',
+            'http://url.com/3'
+        );
+
+        $result = $this->client->getArticlesURLs();
+        $this->assertEquals($expected, $result);
+    }
 }

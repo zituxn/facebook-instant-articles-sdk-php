@@ -189,4 +189,25 @@ class Client
         $response = $this->facebook->get('me?fields=instant_articles_review_status');
         return $response->getGraphNode()->getField('instant_articles_review_status');
     }
+
+    /**
+     * Retrieve the article URLs already published on Instant Articles
+     *
+     * @return string[] The cannonical URLs from articles
+     */
+    public function getArticlesURLs($limit=10, $development_mode=false)
+    {
+        $articleURLs = [];
+        $response = $this->facebook->get(
+            'me/instant_articles?fields=canonical_url&'.
+            'development_mode='.($development_mode ? 'true' : 'false').
+            '&limit='.$limit
+        );
+        $articles = $response->getGraphEdge();
+        foreach ($articles as $article) {
+            $articleURLs[] = $article['canonical_url'];
+        }
+
+        return $articleURLs;
+    }
 }
