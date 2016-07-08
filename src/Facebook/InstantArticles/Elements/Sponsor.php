@@ -11,7 +11,7 @@ namespace Facebook\InstantArticles\Elements;
 use Facebook\InstantArticles\Validators\Type;
 
 /**
- * Class BrandedContentList that represents a simple HTML list
+ * Class Sponsor that represents branded content.
  *
  * Example:
  * <ul class="op-sponsors">
@@ -26,10 +26,6 @@ class Sponsor extends ListElement
      */
     private $page_url;
 
-    private function __construct()
-    {
-    }
-
     /**
      * Factory method for a Sponsor.
      *
@@ -37,10 +33,7 @@ class Sponsor extends ListElement
      */
     public static function create()
     {
-        $list = new self();
-        $list->disableOrdered();
-
-        return $list;
+        return new self();
     }
 
     /**

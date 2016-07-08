@@ -32,14 +32,14 @@ class ListElement extends Element implements Container
     /**
      * @var boolean Checks if it is ordered or unordered
      */
-    private $isOrdered;
+    private $isOrdered = false;
 
     /**
      * @var ListItem[] Items of the list
      */
     private $items = [];
 
-    private function __construct()
+    protected function __construct()
     {
     }
 
