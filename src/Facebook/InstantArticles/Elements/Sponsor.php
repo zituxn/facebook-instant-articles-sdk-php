@@ -70,27 +70,27 @@ class Sponsor extends Element
      */
     public function toDOMElement($document = null)
     {
-      if (!$document) {
-          $document = new \DOMDocument();
-      }
+        if (!$document) {
+            $document = new \DOMDocument();
+        }
 
-      if (!$this->isValid()) {
-          return $this->emptyElement($document);
-      }
+        if (!$this->isValid()) {
+            return $this->emptyElement($document);
+        }
 
-      $element = $document->createElement('ul');
-      $element->setAttribute('class', 'op-sponsors');
+        $element = $document->createElement('ul');
+        $element->setAttribute('class', 'op-sponsors');
 
-      $item = $document->createElement('li');
-      $element->appendChild($item);
+        $item = $document->createElement('li');
+        $element->appendChild($item);
 
-      $anchor = $document->createElement('a');
-      $item->appendChild($anchor);
+        $anchor = $document->createElement('a');
+        $item->appendChild($anchor);
 
-      $anchor->setAttribute('href', $this->page_url);
-      $anchor->setAttribute('rel', 'facebook');
-      $anchor->appendChild($document->createTextNode(''));
+        $anchor->setAttribute('href', $this->page_url);
+        $anchor->setAttribute('rel', 'facebook');
+        $anchor->appendChild($document->createTextNode(''));
 
-      return $element;
+        return $element;
     }
 }
