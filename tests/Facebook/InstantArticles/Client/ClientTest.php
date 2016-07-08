@@ -415,7 +415,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with('me?fields=instant_articles_review_status')
             ->willReturn($serverResponseMock);
 
-        $result = $this->client->getSubmissionStatus();
+        $result = $this->client->getReviewSubmissionStatus();
         $this->assertEquals('NOT_SUBMITTED', $result);
     }
 

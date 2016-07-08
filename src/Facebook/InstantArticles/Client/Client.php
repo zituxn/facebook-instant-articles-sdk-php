@@ -184,7 +184,7 @@ class Client
      *
      * @return string The review status
      */
-    public function getSubmissionStatus()
+    public function getReviewSubmissionStatus()
     {
         $response = $this->facebook->get('me?fields=instant_articles_review_status');
         return $response->getGraphNode()->getField('instant_articles_review_status');
