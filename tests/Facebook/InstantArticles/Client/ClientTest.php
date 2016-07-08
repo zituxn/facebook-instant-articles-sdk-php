@@ -387,4 +387,36 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $status->getMessages()[3]->getMessage()
         );
     }
+
+    public function testGetSubmissionStatus()
+    {
+        $serverResponseMock =
+            $this->getMockBuilder('Facebook\FacebookResponse')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $graphNodeMock =
+            $this->getMockBuilder('Facebook\GraphNodes\GraphNode')
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $graphNodeMock
+            ->expects($this->once())
+            ->method('getField')
+            ->with($this->equalTo('instant_articles_review_status'))
+            ->willReturn('NOT_SUBMITTED');
+        $serverResponseMock
+            ->expects($this->once())
+            ->method('getGraphNode')
+            ->willReturn($graphNodeMock);
+
+        $this->facebook
+            ->expects($this->once())
+            ->method('get')
+            ->with('me?fields=instant_articles_review_status')
+            ->willReturn($serverResponseMock);
+
+        $result = $this->client->getSubmissionStatus();
+        $this->assertEquals('NOT_SUBMITTED', $result);
+    }
+
 }

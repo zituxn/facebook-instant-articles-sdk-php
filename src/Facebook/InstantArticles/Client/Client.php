@@ -151,7 +151,6 @@ class Client
         return $articleID;
     }
 
-
     /**
      * Get the last submission status of an Instant Article.
      *
@@ -178,5 +177,16 @@ class Client
         }
 
         return InstantArticleStatus::fromStatus($articleStatus['status'], $messages);
+    }
+
+    /**
+     * Get the review submission status
+     *
+     * @return string The review status
+     */
+    public function getSubmissionStatus()
+    {
+        $response = $this->facebook->get('me?fields=instant_articles_review_status');
+        return $response->getGraphNode()->getField('instant_articles_review_status');
     }
 }
