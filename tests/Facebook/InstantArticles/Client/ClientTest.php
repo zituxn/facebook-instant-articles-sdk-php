@@ -478,7 +478,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-		public function testGetSubmissionStatus()
+    public function testGetSubmissionStatus()
     {
         $submissionStatusID = '456';
 
