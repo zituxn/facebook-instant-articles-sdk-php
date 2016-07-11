@@ -183,7 +183,7 @@ class Client
         return InstantArticleStatus::fromStatus($articleStatus['status'], $messages);
     }
 
-		/**
+    /**
      * Get the submission status of an Instant Article.
      *
      * @param string|null $submissionStatusID the submission status ID
