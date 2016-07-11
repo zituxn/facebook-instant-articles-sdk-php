@@ -478,7 +478,94 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetSubmissionStatus()
+		public function testGetSubmissionStatus()
+    {
+        $submissionStatusID = '456';
+
+        $serverResponseMock =
+            $this->getMockBuilder('Facebook\FacebookResponse')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $graphNodeMock =
+            $this->getMockBuilder('Facebook\GraphNodes\GraphNode')
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $graphNodeMock
+            ->expects($this->exactly(2))
+            ->method('getField')
+            ->withConsecutive(
+                [$this->equalTo('errors')],
+                [$this->equalTo('status')]
+            )
+            ->will($this->onConsecutiveCalls(
+                [
+                    [
+                        "level" => "warning",
+                        "message" => "Test warning"
+                    ],
+                    [
+                        "level" => "fatal",
+                        "message" => "Test fatal"
+                    ],
+                    [
+                        "level" => "error",
+                        "message" => "Test error"
+                    ],
+                    [
+                        "level" => "info",
+                        "message" => "Test info"
+                    ]
+                ],
+                'success'
+            ));
+        $serverResponseMock
+            ->expects($this->once())
+            ->method('getGraphNode')
+            ->willReturn($graphNodeMock);
+        $this->facebook
+            ->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo($submissionStatusID . '?fields=status,errors'))
+            ->willReturn($serverResponseMock);
+
+        $status = $this->client->getSubmissionStatus($submissionStatusID);
+        $this->assertEquals(InstantArticleStatus::SUCCESS, $status->getStatus());
+        $this->assertEquals(
+            ServerMessage::WARNING,
+            $status->getMessages()[0]->getLevel()
+        );
+        $this->assertEquals(
+            'Test warning',
+            $status->getMessages()[0]->getMessage()
+        );
+        $this->assertEquals(
+            $status->getMessages()[1]->getLevel(),
+            ServerMessage::FATAL
+        );
+        $this->assertEquals(
+            'Test fatal',
+            $status->getMessages()[1]->getMessage()
+        );
+        $this->assertEquals(
+            ServerMessage::ERROR,
+            $status->getMessages()[2]->getLevel()
+        );
+        $this->assertEquals(
+            'Test error',
+            $status->getMessages()[2]->getMessage()
+        );
+        $this->assertEquals(
+            ServerMessage::INFO,
+            $status->getMessages()[3]->getLevel()
+        );
+        $this->assertEquals(
+            'Test info',
+            $status->getMessages()[3]->getMessage()
+        );
+    }
+
+    public function testGetReviewSubmissionStatus()
     {
         $serverResponseMock =
             $this->getMockBuilder('Facebook\FacebookResponse')

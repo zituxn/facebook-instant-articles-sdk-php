@@ -183,6 +183,34 @@ class Client
         return InstantArticleStatus::fromStatus($articleStatus['status'], $messages);
     }
 
+		/**
+     * Get the submission status of an Instant Article.
+     *
+     * @param string|null $submissionStatusID the submission status ID
+     * @return InstantArticleStatus
+     */
+    public function getSubmissionStatus($submissionStatusID)
+    {
+        if (!$submissionStatusID) {
+            return InstantArticleStatus::notFound();
+        }
+
+        Type::enforce($submissionStatusID, Type::STRING);
+
+        $response = $this->facebook->get($submissionStatusID . '?fields=status,errors');
+        $articleStatus = $response->getGraphNode();
+
+        $messages = [];
+        $errors = $articleStatus->getField('errors');
+        if (null !== $errors) {
+            foreach ($errors as $error) {
+                $messages[] = ServerMessage::fromLevel($error['level'], $error['message']);
+            }
+        }
+
+        return InstantArticleStatus::fromStatus($articleStatus->getField('status'), $messages);
+    }
+
     /**
      * Get the review submission status
      *
