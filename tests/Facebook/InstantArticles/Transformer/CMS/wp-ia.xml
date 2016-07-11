@@ -30,6 +30,22 @@ Man kind.</p>
         <img src="http://example.com/image2.jpg"/>
       </figure>
       <p> and some after img.</p>
+      <figure class="op-interactive">
+        <iframe src="http://example.com/0/"></iframe>
+      </figure>
+      <p>Some text before iframe</p>
+      <figure class="op-interactive">
+        <iframe src="http://example.com/1/"></iframe>
+      </figure>
+      <figure class="op-interactive">
+        <iframe src="http://example.com/2/"></iframe>
+      </figure>
+      <p> some after iframe.</p>
+      <p>Some text before iframe</p>
+      <figure class="op-interactive">
+        <iframe src="http://example.com/3/"></iframe>
+      </figure>
+      <p> and some after iframe.</p>
       <ul>
         <li>Some text on li before img</li>
         <li>Some text on li before imgand after img</li>

@@ -25,7 +25,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
                 'appenders' => [
                     'facebook-instantarticles-transformer' => [
                         'class' => 'LoggerAppenderConsole',
-                        'threshold' => 'INFO',
+                        'threshold' => 'DEBUG',
                         'layout' => [
                             'class' => 'LoggerLayoutSimple'
                         ]
@@ -69,6 +69,11 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
         $result = $instant_article->render('', true)."\n";
         $expected = file_get_contents(__DIR__ . '/wp-ia.xml');
+
+        foreach ($transformer->getWarnings() as $warning) {
+          var_dump($warning->__toString());
+        }
+
 
         $this->assertEquals($expected, $result);
         // there must be 3 warnings related to <img> inside <li> that is not supported by IA
