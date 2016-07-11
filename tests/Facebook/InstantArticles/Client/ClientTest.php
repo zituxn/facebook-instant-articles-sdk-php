@@ -38,6 +38,26 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testImportArticle()
     {
+        $expectedSubmissionStatusID = 1;
+
+        $serverResponseMock =
+            $this->getMockBuilder('Facebook\FacebookResponse')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $graphNodeMock =
+            $this->getMockBuilder('Facebook\GraphNodes\GraphNode')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $serverResponseMock
+            ->expects($this->once())
+            ->method('getGraphNode')
+            ->willReturn($graphNodeMock);
+        $graphNodeMock
+            ->expects($this->once())
+            ->method('getField')
+            ->with('id')
+            ->willReturn($expectedSubmissionStatusID);
+
         $this->facebook
             ->expects($this->once())
             ->method('post')
@@ -45,13 +65,35 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 'html_source' => $this->article->render(),
                 'published' => false,
                 'development_mode' => false,
-            ]);
+            ])
+            ->willReturn($serverResponseMock);
 
-        $this->client->importArticle($this->article);
+        $resultSubmissionStatusID = $this->client->importArticle($this->article);
+        $this->assertEquals($expectedSubmissionStatusID, $resultSubmissionStatusID);
     }
 
     public function testImportArticlePublished()
     {
+        $expectedSubmissionStatusID = 1;
+
+        $serverResponseMock =
+            $this->getMockBuilder('Facebook\FacebookResponse')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $graphNodeMock =
+            $this->getMockBuilder('Facebook\GraphNodes\GraphNode')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $serverResponseMock
+            ->expects($this->once())
+            ->method('getGraphNode')
+            ->willReturn($graphNodeMock);
+        $graphNodeMock
+            ->expects($this->once())
+            ->method('getField')
+            ->with('id')
+            ->willReturn($expectedSubmissionStatusID);
+
         $this->facebook
             ->expects($this->once())
             ->method('post')
@@ -59,9 +101,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 'html_source' => $this->article->render(),
                 'published' => true,
                 'development_mode' => false,
-            ]);
+            ])
+            ->willReturn($serverResponseMock);
 
-        $this->client->importArticle($this->article, true);
+        $resultSubmissionStatusID = $this->client->importArticle($this->article, true);
+        $this->assertEquals($expectedSubmissionStatusID, $resultSubmissionStatusID);
     }
 
     /**
@@ -104,6 +148,27 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             "PAGE_ID",
             true // developmentMode
         );
+
+        $expectedSubmissionStatusID = 1;
+
+        $serverResponseMock =
+            $this->getMockBuilder('Facebook\FacebookResponse')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $graphNodeMock =
+            $this->getMockBuilder('Facebook\GraphNodes\GraphNode')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $serverResponseMock
+            ->expects($this->once())
+            ->method('getGraphNode')
+            ->willReturn($graphNodeMock);
+        $graphNodeMock
+            ->expects($this->once())
+            ->method('getField')
+            ->with('id')
+            ->willReturn($expectedSubmissionStatusID);
+
         $this->facebook
             ->expects($this->once())
             ->method('post')
@@ -111,9 +176,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 'html_source' => $this->article->render(),
                 'published' => false,
                 'development_mode' => true,
-            ]);
+            ])
+            ->willReturn($serverResponseMock);
 
-        $this->client->importArticle($this->article);
+        $resultSubmissionStatusID = $this->client->importArticle($this->article);
+        $this->assertEquals($expectedSubmissionStatusID, $resultSubmissionStatusID);
     }
 
     public function testImportArticleDevelopmentModePublished()
@@ -123,6 +190,27 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             "PAGE_ID",
             true // developmentMode
         );
+
+        $expectedSubmissionStatusID = 1;
+
+        $serverResponseMock =
+            $this->getMockBuilder('Facebook\FacebookResponse')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $graphNodeMock =
+            $this->getMockBuilder('Facebook\GraphNodes\GraphNode')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $serverResponseMock
+            ->expects($this->once())
+            ->method('getGraphNode')
+            ->willReturn($graphNodeMock);
+        $graphNodeMock
+            ->expects($this->once())
+            ->method('getField')
+            ->with('id')
+            ->willReturn($expectedSubmissionStatusID);
+
         $this->facebook
             ->expects($this->once())
             ->method('post')
@@ -130,9 +218,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 'html_source' => $this->article->render(),
                 'published' => false,
                 'development_mode' => true,
-            ]);
+            ])
+            ->willReturn($serverResponseMock);
 
-        $this->client->importArticle($this->article, true);
+        $resultSubmissionStatusID = $this->client->importArticle($this->article, true);
+        $this->assertEquals($expectedSubmissionStatusID, $resultSubmissionStatusID);
     }
 
     public function testGetArticleIDFromCanonicalURL()

@@ -85,6 +85,8 @@ class Client
      *
      * @param InstantArticle $article The article to import
      * @param bool|false $published Specifies if this article should be taken live or not. Optional. Default: false.
+     *
+     * @return int The submission status ID. It is not the article ID. (Since 1.3.0)
      */
     public function importArticle($article, $published = false)
     {
@@ -95,11 +97,13 @@ class Client
         $published = $this->developmentMode ? false : $published;
 
         // Assume default access token is set on $this->facebook
-        $this->facebook->post($this->pageID . Client::EDGE_NAME, [
+        $response = $this->facebook->post($this->pageID . Client::EDGE_NAME, [
           'html_source' => $article->render(),
           'published' => $published,
           'development_mode' => $this->developmentMode,
         ]);
+
+        return $response->getGraphNode()->getField('id');
     }
 
     /**
