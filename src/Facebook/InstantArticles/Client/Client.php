@@ -85,6 +85,8 @@ class Client
      *
      * @param InstantArticle $article The article to import
      * @param bool|false $published Specifies if this article should be taken live or not. Optional. Default: false.
+     *
+     * @return int The submission status ID. It is not the article ID. (Since 1.3.0)
      */
     public function importArticle($article, $published = false)
     {
@@ -95,11 +97,13 @@ class Client
         $published = $this->developmentMode ? false : $published;
 
         // Assume default access token is set on $this->facebook
-        $this->facebook->post($this->pageID . Client::EDGE_NAME, [
+        $response = $this->facebook->post($this->pageID . Client::EDGE_NAME, [
           'html_source' => $article->render(),
           'published' => $published,
           'development_mode' => $this->developmentMode,
         ]);
+
+        return $response->getGraphNode()->getField('id');
     }
 
     /**
@@ -151,7 +155,6 @@ class Client
         return $articleID;
     }
 
-
     /**
      * Get the last submission status of an Instant Article.
      *
@@ -178,5 +181,65 @@ class Client
         }
 
         return InstantArticleStatus::fromStatus($articleStatus['status'], $messages);
+    }
+
+    /**
+     * Get the submission status of an Instant Article.
+     *
+     * @param string|null $submissionStatusID the submission status ID
+     * @return InstantArticleStatus
+     */
+    public function getSubmissionStatus($submissionStatusID)
+    {
+        if (!$submissionStatusID) {
+            return InstantArticleStatus::notFound();
+        }
+
+        Type::enforce($submissionStatusID, Type::STRING);
+
+        $response = $this->facebook->get($submissionStatusID . '?fields=status,errors');
+        $articleStatus = $response->getGraphNode();
+
+        $messages = [];
+        $errors = $articleStatus->getField('errors');
+        if (null !== $errors) {
+            foreach ($errors as $error) {
+                $messages[] = ServerMessage::fromLevel($error['level'], $error['message']);
+            }
+        }
+
+        return InstantArticleStatus::fromStatus($articleStatus->getField('status'), $messages);
+    }
+
+    /**
+     * Get the review submission status
+     *
+     * @return string The review status
+     */
+    public function getReviewSubmissionStatus()
+    {
+        $response = $this->facebook->get('me?fields=instant_articles_review_status');
+        return $response->getGraphNode()->getField('instant_articles_review_status');
+    }
+
+    /**
+     * Retrieve the article URLs already published on Instant Articles
+     *
+     * @return string[] The cannonical URLs from articles
+     */
+    public function getArticlesURLs($limit = 10, $development_mode = false)
+    {
+        $articleURLs = [];
+        $response = $this->facebook->get(
+            'me/instant_articles?fields=canonical_url&'.
+            'development_mode='.($development_mode ? 'true' : 'false').
+            '&limit='.$limit
+        );
+        $articles = $response->getGraphEdge();
+        foreach ($articles as $article) {
+            $articleURLs[] = $article['canonical_url'];
+        }
+
+        return $articleURLs;
     }
 }
