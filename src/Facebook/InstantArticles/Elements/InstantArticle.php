@@ -232,6 +232,42 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
     }
 
     /**
+     * Adds new child elements to the front of this InstantArticle
+     *
+     * @param Element to be added to this Article.
+     *
+     * @return $this
+     */
+    public function unshiftChild($child)
+    {
+        Type::enforce(
+            $child,
+            [
+                Ad::getClassName(),
+                Analytics::getClassName(),
+                AnimatedGIF::getClassName(),
+                Audio::getClassName(),
+                Blockquote::getClassName(),
+                Image::getClassName(),
+                H1::getClassName(),
+                H2::getClassName(),
+                Interactive::getClassName(),
+                ListElement::getClassName(),
+                Map::getClassName(),
+                Paragraph::getClassName(),
+                Pullquote::getClassName(),
+                RelatedArticles::getClassName(),
+                Slideshow::getClassName(),
+                SocialEmbed::getClassName(),
+                Video::getClassName()
+            ]
+        );
+        array_unshift($this->children, $child);
+
+        return $this;
+    }
+
+    /**
      * @return Header header element from the InstantArticle
      */
     public function getHeader()
