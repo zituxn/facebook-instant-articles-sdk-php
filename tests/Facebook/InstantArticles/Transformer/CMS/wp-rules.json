@@ -17,6 +17,9 @@
     },{
         "class": "PassThroughRule",
         "selector" : "del"
+    },{
+        "class": "PassThroughRule",
+        "selector" : "mark"
     }, {
         "class": "PassThroughRule",
         "selector" : "span"
@@ -59,8 +62,8 @@
     }, {
         "class": "PassThroughRule",
         "selector": "blockquote p"
-    },{
-        "class": "ImageRule",
+    }, {
+        "class": "ImageInsideParagraphRule",
         "selector": "img",
         "properties": {
             "image.url": {
@@ -69,8 +72,8 @@
                 "attribute": "src"
             }
         }
-    }, {
-        "class": "ImageInsideParagraphRule",
+    },{
+        "class": "ImageRule",
         "selector": "img",
         "properties": {
             "image.url": {
@@ -119,6 +122,71 @@
         "selector" : "h3,h4,h5,h6"
     }, {
         "class": "InteractiveRule",
+        "selector" : "iframe",
+        "properties" : {
+            "interactive.url" : {
+                "type" : "string",
+                "selector" : "iframe",
+                "attribute": "src"
+            },
+            "interactive.width" : {
+                "type" : "int",
+                "selector" : "iframe",
+                "attribute": "width"
+            },
+            "interactive.height" : {
+                "type" : "int",
+                "selector" : "iframe",
+                "attribute": "height"
+            },
+            "interactive.iframe" : {
+                "type" : "children",
+                "selector" : "iframe"
+            },
+            "interactive.caption" : {
+                "type" : "element",
+                "selector" : "figcaption"
+            }
+        }
+    }, {
+        "class": "InteractiveRule",
+        "selector" : "//p[iframe]",
+        "properties" : {
+            "interactive.url" : {
+                "type" : "string",
+                "selector" : "iframe",
+                "attribute": "src"
+            },
+            "interactive.width" : {
+                "type" : "int",
+                "selector" : "iframe",
+                "attribute": "width"
+            },
+            "interactive.height" : {
+                "type" : "int",
+                "selector" : "iframe",
+                "attribute": "height"
+            },
+            "interactive.iframe" : {
+                "type" : "children",
+                "selector" : "iframe"
+            },
+            "interactive.caption" : {
+                "type" : "element",
+                "selector" : "figcaption"
+            }
+        }
+    }, {
+        "class": "InteractiveRule",
+        "selector" : "div.embed",
+        "properties" : {
+            "interactive.iframe" : {
+                "type" : "children",
+                "selector" : "div.embed"
+            }
+        }
+    }, {
+        "class": "InteractiveRule",
         "selector" : "div.interactive",
         "properties" : {
             "interactive.iframe" : {
@@ -137,11 +205,41 @@
         }
     }, {
         "class": "InteractiveRule",
+        "selector" : "//div[@class='embed' and iframe]",
+        "properties" : {
+            "interactive.url" : {
+                "type" : "string",
+                "selector" : "iframe",
+                "attribute": "src"
+            },
+            "interactive.width" : {
+                "type" : "int",
+                "selector" : "iframe",
+                "attribute": "width"
+            },
+            "interactive.height" : {
+                "type" : "int",
+                "selector" : "iframe",
+                "attribute": "height"
+            }
+        }
+    }, {
+        "class": "InteractiveRule",
         "selector" : "//div[@class='interactive' and iframe]",
         "properties" : {
             "interactive.url" : {
                 "type" : "string",
                 "selector" : "iframe",
+                "attribute": "src"
+            }
+        }
+    }, {
+        "class": "ImageRule",
+        "selector": "//p[a[img]]|//a[img]",
+        "properties": {
+            "image.url": {
+                "type": "string",
+                "selector": "img",
                 "attribute": "src"
             }
         }
@@ -197,8 +295,8 @@
         "selector" : "table",
         "properties" : {
             "interactive.iframe" : {
-                "type" : "element",
-                "selector" : "table"
+            "type" : "element",
+            "selector" : "table"
             }
         }
     }]
