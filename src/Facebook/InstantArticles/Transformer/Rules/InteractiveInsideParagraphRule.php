@@ -9,10 +9,11 @@
 namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Interactive;
-use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Warnings\NoRootInstantArticleFoundWarning;
 
-class InteractiveRule extends ConfigurationSelectorRule
+class InteractiveInsideParagraphRule extends ConfigurationSelectorRule
 {
     const PROPERTY_IFRAME = 'interactive.iframe';
     const PROPERTY_URL = 'interactive.url';
@@ -23,12 +24,12 @@ class InteractiveRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return InstantArticle::getClassName();
+        return Paragraph::getClassName();
     }
 
     public static function create()
     {
-        return new InteractiveRule();
+        return new InteractiveInsideParagraphRule();
     }
 
     public static function createFrom($configuration)
@@ -51,7 +52,7 @@ class InteractiveRule extends ConfigurationSelectorRule
         return $interactive_rule;
     }
 
-    public function apply($transformer, $instant_article, $node)
+    public function apply($transformer, $context, $node)
     {
         $interactive = Interactive::create();
 
@@ -63,18 +64,6 @@ class InteractiveRule extends ConfigurationSelectorRule
         }
         if ($url) {
             $interactive->withSource($url);
-        }
-        if ($iframe || $url) {
-            $instant_article->addChild($interactive);
-        } else {
-            $transformer->addWarning(
-                new InvalidSelector(
-                    self::PROPERTY_IFRAME,
-                    $instant_article,
-                    $node,
-                    $this
-                )
-            );
         }
 
         if ($this->getProperty(self::PROPERTY_WIDTH_COLUMN_WIDTH, $node)) {
@@ -93,11 +82,38 @@ class InteractiveRule extends ConfigurationSelectorRule
             $interactive->withHeight($height);
         }
 
+
+        if ($iframe || $url) {
+            $instant_article = $transformer->getInstantArticle();
+            if ($instant_article) {
+                $instant_article->addChild($interactive);
+                $context->disableEmptyValidation();
+                $context = Paragraph::create();
+                $context->disableEmptyValidation();
+                $instant_article->addChild($context);
+            } else {
+                $transformer->addWarning(
+                    // This new error message should be something like:
+                    // Could not transform Interactive, as no root InstantArticle was provided.
+                    new NoRootInstantArticleFoundWarning(null, $node)
+                );
+            }
+        } else {
+            $transformer->addWarning(
+                new InvalidSelector(
+                    self::PROPERTY_IFRAME,
+                    $instant_article,
+                    $node,
+                    $this
+                )
+            );
+        }
+
         $suppress_warnings = $transformer->suppress_warnings;
         $transformer->suppress_warnings = true;
         $transformer->transform($interactive, $node);
         $transformer->suppress_warnings = $suppress_warnings;
 
-        return $instant_article;
+        return $context;
     }
 }

@@ -6,14 +6,15 @@
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
  */
-namespace Facebook\InstantArticles\Transformer;
+namespace Facebook\InstantArticles\Transformer\CMS;
 
+use Facebook\InstantArticles\Transformer\Transformer;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Time;
 use Facebook\InstantArticles\Elements\Author;
 
-class WPTest extends \PHPUnit_Framework_TestCase
+class WPTransformerTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {

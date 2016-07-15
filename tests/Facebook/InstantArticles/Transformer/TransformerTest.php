@@ -97,7 +97,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function testTitleTransformedWithBold()
     {
         $transformer = new Transformer();
-        $json_file = file_get_contents(__DIR__ . '/wp-rules.json');
+        $json_file = file_get_contents(__DIR__ . '/CMS/wp-rules.json');
         $transformer->loadRules($json_file);
 
         $title_html_string = '<?xml encoding="utf-8" ?><h1>Title <b>in bold</b></h1>';
