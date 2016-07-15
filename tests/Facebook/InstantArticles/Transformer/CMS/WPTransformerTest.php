@@ -6,14 +6,15 @@
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
  */
-namespace Facebook\InstantArticles\Transformer;
+namespace Facebook\InstantArticles\Transformer\CMS;
 
+use Facebook\InstantArticles\Transformer\Transformer;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Time;
 use Facebook\InstantArticles\Elements\Author;
 
-class WPTest extends \PHPUnit_Framework_TestCase
+class WPTransformerTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
@@ -25,7 +26,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
                 'appenders' => [
                     'facebook-instantarticles-transformer' => [
                         'class' => 'LoggerAppenderConsole',
-                        'threshold' => 'DEBUG',
+                        'threshold' => 'INFO',
                         'layout' => [
                             'class' => 'LoggerLayoutSimple'
                         ]
@@ -70,10 +71,10 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $result = $instant_article->render('', true)."\n";
         $expected = file_get_contents(__DIR__ . '/wp-ia.xml');
 
-        foreach ($transformer->getWarnings() as $warning) {
-          var_dump($warning->__toString());
-        }
-
+        // foreach ($transformer->getWarnings() as $warning) {
+        //   var_dump($warning->__toString());
+        // }
+        // var_dump($result);
 
         $this->assertEquals($expected, $result);
         // there must be 3 warnings related to <img> inside <li> that is not supported by IA

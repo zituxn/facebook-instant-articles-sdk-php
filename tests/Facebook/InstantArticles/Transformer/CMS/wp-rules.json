@@ -124,15 +124,20 @@
         "class": "InteractiveRule",
         "selector" : "iframe",
         "properties" : {
-            "interactive.height" : {
-                "type" : "int",
+            "interactive.url" : {
+                "type" : "string",
                 "selector" : "iframe",
-                "attribute": "height"
+                "attribute": "src"
             },
             "interactive.width" : {
                 "type" : "int",
                 "selector" : "iframe",
                 "attribute": "width"
+            },
+            "interactive.height" : {
+                "type" : "int",
+                "selector" : "iframe",
+                "attribute": "height"
             },
             "interactive.iframe" : {
                 "type" : "children",
@@ -222,25 +227,6 @@
             }
         }
     }, {
-        "class": "InteractiveInsideParagraphRule",
-        "selector": "iframe",
-        "properties" : {
-            "interactive.iframe" : {
-                "type" : "children",
-                "selector" : "iframe"
-            },
-            "interactive.height" : {
-                "type" : "int",
-                "selector" : "iframe",
-                "attribute": "height"
-            },
-            "interactive.width" : {
-                "type" : "int",
-                "selector" : "iframe",
-                "attribute": "width"
-            }
-        }
-    }, {
         "class": "SlideshowImageRule",
         "selector" : "figure",
         "properties" : {
@@ -298,6 +284,26 @@
             "interactive.height" : {
                 "type" : "int",
                 "selector" : "table",
+                "attribute": "height"
+            },
+            "interactive.width" : {
+                "type" : "int",
+                "selector" : "iframe",
+                "attribute": "width"
+            }
+        }
+    }, {
+        "class": "InteractiveInsideParagraphRule",
+        "selector" : "iframe",
+        "properties" : {
+            "interactive.url" : {
+                "type" : "string",
+                "selector" : "iframe",
+                "attribute": "src"
+            },
+            "interactive.height" : {
+                "type" : "int",
+                "selector" : "iframe",
                 "attribute": "height"
             },
             "interactive.width" : {

@@ -64,7 +64,6 @@ abstract class ConfigurationSelectorRule extends Rule
 
     public function matchesContext($context)
     {
-var_dump('x'.$this->getContextClass().'x x'.$context->getClassName().'x'); // REMOVE
         if (Type::is($context, $this->getContextClass())) {
             return true;
         }
@@ -79,7 +78,6 @@ var_dump('x'.$this->getContextClass().'x x'.$context->getClassName().'x'); // RE
         }
 
         // Handles selector = tag
-  var_dump('|'.$node->nodeName.'| |'.$this->selector.'|'); // REMOVE
         if ($node->nodeName === $this->selector) {
             return true;
         }

@@ -13,8 +13,15 @@ use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 use Facebook\InstantArticles\Transformer\Warnings\NoRootInstantArticleFoundWarning;
 
-class InteractiveInsideParagraphRule extends InteractiveRule
+class InteractiveInsideParagraphRule extends ConfigurationSelectorRule
 {
+    const PROPERTY_IFRAME = 'interactive.iframe';
+    const PROPERTY_URL = 'interactive.url';
+    const PROPERTY_WIDTH_NO_MARGIN = Interactive::NO_MARGIN;
+    const PROPERTY_WIDTH_COLUMN_WIDTH = Interactive::COLUMN_WIDTH;
+    const PROPERTY_HEIGHT = 'interactive.height';
+    const PROPERTY_WIDTH = 'interactive.width';
+
     public function getContextClass()
     {
         return Paragraph::getClassName();
@@ -25,9 +32,28 @@ class InteractiveInsideParagraphRule extends InteractiveRule
         return new InteractiveInsideParagraphRule();
     }
 
+    public static function createFrom($configuration)
+    {
+        $interactive_rule = self::create();
+        $interactive_rule->withSelector($configuration['selector']);
+
+        $interactive_rule->withProperties(
+            [
+                self::PROPERTY_IFRAME,
+                self::PROPERTY_URL,
+                self::PROPERTY_WIDTH_NO_MARGIN,
+                self::PROPERTY_WIDTH_COLUMN_WIDTH,
+                self::PROPERTY_WIDTH,
+                self::PROPERTY_HEIGHT
+            ],
+            $configuration
+        );
+
+        return $interactive_rule;
+    }
+
     public function apply($transformer, $context, $node)
     {
-
         $interactive = Interactive::create();
 
         // Builds the interactive
@@ -55,6 +81,7 @@ class InteractiveInsideParagraphRule extends InteractiveRule
         if ($height) {
             $interactive->withHeight($height);
         }
+
 
         if ($iframe || $url) {
             $instant_article = $transformer->getInstantArticle();

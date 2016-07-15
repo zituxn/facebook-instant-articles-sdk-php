@@ -16,7 +16,7 @@
         <address><a>bill</a></address>
       </header>
       <p>Yes, peace is good for everybody!<br/>
-Man kind.</p>
+  Man kind.</p>
       <figure>
         <img src="http://example.com/image0.jpg"/>
       </figure>
@@ -31,19 +31,19 @@ Man kind.</p>
       </figure>
       <p> and some after img.</p>
       <figure class="op-interactive">
-        <iframe src="http://example.com/0/"></iframe>
+        <iframe src="http://example.com/0/" class="no-margin" width="300" height="200"></iframe>
       </figure>
       <p>Some text before iframe</p>
       <figure class="op-interactive">
-        <iframe src="http://example.com/1/"></iframe>
+        <iframe src="http://example.com/1/" class="no-margin" width="300" height="200"></iframe>
       </figure>
       <figure class="op-interactive">
-        <iframe src="http://example.com/2/"></iframe>
+        <iframe src="http://example.com/2/" class="no-margin" width="300" height="200"></iframe>
       </figure>
       <p> some after iframe.</p>
       <p>Some text before iframe</p>
       <figure class="op-interactive">
-        <iframe src="http://example.com/3/"></iframe>
+        <iframe src="http://example.com/3/" class="no-margin" width="300" height="200"></iframe>
       </figure>
       <p> and some after iframe.</p>
       <ul>
