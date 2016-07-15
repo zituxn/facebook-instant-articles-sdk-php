@@ -74,7 +74,7 @@ class WPTransformerTest extends \PHPUnit_Framework_TestCase
         // foreach ($transformer->getWarnings() as $warning) {
         //   var_dump($warning->__toString());
         // }
-        // var_dump($result);
+        var_dump($result);
 
         $this->assertEquals($expected, $result);
         // there must be 3 warnings related to <img> inside <li> that is not supported by IA
