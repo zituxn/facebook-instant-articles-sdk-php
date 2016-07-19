@@ -101,11 +101,9 @@
               <tr><td>Line 1 column 1</td>
           <td>Line 1 column 2</td>
         </tr>
-              <tr/>
               <tr><td>Line 2 column 1</td>
-            <td>Line 2 column 2</td>
-          </tr>
-              <tr/>
+          <td>Line 2 column 2</td>
+        </tr>
             </tbody>
           </table>
         </iframe>
