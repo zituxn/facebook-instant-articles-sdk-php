@@ -53,7 +53,7 @@ class JetpackSlideshowRule extends ConfigurationSelectorRule
         $gallery = $this->getProperty(self::PROPERTY_JETPACK_DATA_GALLERY, $node);
 
         if ($gallery && isset($gallery)) {
-            foreach($gallery as $gallery_image) {
+            foreach ($gallery as $gallery_image) {
                 // Constructs Image if it contains URL
                 if (!Type::isTextEmpty($gallery_image['src'])) {
                     $image = Image::create();
