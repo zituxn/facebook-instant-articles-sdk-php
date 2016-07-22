@@ -268,6 +268,14 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
     }
 
     /**
+     * @return string canonicalURL from the InstantArticle
+     */
+    public function getCanonicalURL()
+    {
+        return $this->canonicalURL;
+    }
+
+    /**
      * @return Header header element from the InstantArticle
      */
     public function getHeader()
