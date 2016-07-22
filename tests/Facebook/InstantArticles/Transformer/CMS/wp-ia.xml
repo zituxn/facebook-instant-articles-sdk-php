@@ -101,11 +101,9 @@
               <tr><td>Line 1 column 1</td>
           <td>Line 1 column 2</td>
         </tr>
-              <tr/>
               <tr><td>Line 2 column 1</td>
-            <td>Line 2 column 2</td>
-          </tr>
-              <tr/>
+          <td>Line 2 column 2</td>
+        </tr>
             </tbody>
           </table>
         </iframe>
@@ -115,6 +113,39 @@
         <li>Some text on li before imgand after img</li>
         <li>Some text after img</li>
       </ul>
+      <figure class="op-slideshow">
+        <figure>
+          <img src="http://example.com/img0.jpg"/>
+        </figure>
+        <figure>
+          <img src="http://example.com/img1.jpg"/>
+        </figure>
+        <figure>
+          <img src="http://example.com/img2.jpg"/>
+          <figcaption>Image 2</figcaption>
+        </figure>
+        <figure>
+          <img src="http://example.com/img3.jpg"/>
+          <figcaption>Image 3</figcaption>
+        </figure>
+        <figure>
+          <img src="http://example.com/img4.jpg"/>
+        </figure>
+      </figure>
+      <figure class="op-slideshow">
+        <figure>
+          <img src="http://example.com/img1.jpg"/>
+          <figcaption> Image 1 </figcaption>
+        </figure>
+        <figure>
+          <img src="http://example.com/img2.jpg"/>
+          <figcaption> Image 2 </figcaption>
+        </figure>
+        <figure>
+          <img src="http://example.com/img3.jpg"/>
+          <figcaption> Image 3 </figcaption>
+        </figure>
+      </figure>
     </article>
   </body>
 </html>

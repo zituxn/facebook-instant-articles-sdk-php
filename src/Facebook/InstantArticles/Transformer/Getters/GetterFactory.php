@@ -16,6 +16,7 @@ class GetterFactory
     const TYPE_ELEMENT_GETTER = 'element';
     const TYPE_NEXTSIBLING_GETTER = 'sibling';
     const TYPE_EXISTS_GETTER = 'exists';
+    const TYPE_JSON_GETTER = 'json';
     const TYPE_XPATH_GETTER = 'xpath';
 
     /**
@@ -32,6 +33,7 @@ class GetterFactory
      * @see ElementGetter
      * @see NextSiblingGetter
      * @see ExistsGetter
+     * @see JSONGetter
      * @see XpathGetter
      *
      * @param string[] $getter_configuration that maps the properties for getter
@@ -47,6 +49,7 @@ class GetterFactory
             self::TYPE_ELEMENT_GETTER => ElementGetter::getClassName(),
             self::TYPE_NEXTSIBLING_GETTER => NextSiblingGetter::getClassName(),
             self::TYPE_EXISTS_GETTER => ExistsGetter::getClassName(),
+            self::TYPE_JSON_GETTER => JSONGetter::getClassName(),
             self::TYPE_XPATH_GETTER => XpathGetter::getClassName()
         ];
 
