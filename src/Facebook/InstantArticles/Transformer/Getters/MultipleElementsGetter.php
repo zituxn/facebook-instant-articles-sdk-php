@@ -18,7 +18,6 @@ class MultipleElementsGetter extends AbstractGetter
      */
     protected $children = [];
 
-    // TODO: make it static
     public function createFrom($properties)
     {
         foreach ($properties['children'] as $getter_configuration) {
