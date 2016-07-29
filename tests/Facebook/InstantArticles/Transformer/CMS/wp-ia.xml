@@ -146,6 +146,10 @@
           <figcaption> Image 3 </figcaption>
         </figure>
       </figure>
+      <figure>
+        <img src="http://example.com/img.jpg"/>
+        <figcaption>blue eyes</figcaption>
+      </figure>
     </article>
   </body>
 </html>
