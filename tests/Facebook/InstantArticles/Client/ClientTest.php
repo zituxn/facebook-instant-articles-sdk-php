@@ -663,7 +663,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->facebook
             ->expects($this->once())
             ->method('post')
-            ->with('me/claimed_urls?url=' + $url)
+            ->with('PAGE_ID/claimed_urls?url=' . $url)
             ->willReturn($serverResponseMock);
 
         $result = $this->client->claimURL($url);
@@ -702,7 +702,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->facebook
             ->expects($this->once())
             ->method('post')
-            ->with('me/claimed_urls?url=' + $url)
+            ->with('PAGE_ID/claimed_urls?url=' .$url)
             ->willReturn($serverResponseMock);
 
         $this->setExpectedException('\Facebook\InstantArticles\Client\ClientException');

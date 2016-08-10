@@ -250,7 +250,7 @@ class Client
      */
     public function claimURL($url)
     {
-        $response = $this->facebook->post('me/claimed_urls?url=' + $url);
+        $response = $this->facebook->post($this->pageID . '/claimed_urls?url=' . $url);
         $node = $response->getGraphNode();
         $error = $node->getField('error');
         $success = $node->getField('success');
