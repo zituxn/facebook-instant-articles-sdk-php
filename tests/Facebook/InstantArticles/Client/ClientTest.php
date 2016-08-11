@@ -633,7 +633,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testClaimURL()
     {
-        $url = 'http://example.com';
+        $url = 'example.com';
 
         $serverResponseMock =
             $this->getMockBuilder('Facebook\FacebookResponse')
@@ -671,7 +671,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testClaimURLError()
     {
-        $url = 'http://example.com';
+        $url = 'example.com';
         $error_user_msg = "Error message";
 
         $serverResponseMock =
