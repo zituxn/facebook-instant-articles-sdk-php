@@ -261,4 +261,23 @@ class Client
           throw new ClientException('Could not claim the URL');
         }
     }
+
+    /**
+     * Submits the page for review
+     *
+     * @param string $url The root URL of the site without the protocol (ex: exemple.com/path)
+     */
+    public function submitForReview()
+    {
+        $response = $this->facebook->post($this->pageID . '/?instant_articles_submit_for_review=true');
+        $node = $response->getGraphNode();
+        $error = $node->getField('error');
+        $success = $node->getField('success');
+        if ($error) {
+          throw new ClientException($error['error_user_msg']);
+        }
+        if (!$success) {
+          throw new ClientException('Could not submit for review');
+        }
+    }
 }
