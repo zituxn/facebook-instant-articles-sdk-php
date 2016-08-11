@@ -255,10 +255,10 @@ class Client
         $error = $node->getField('error');
         $success = $node->getField('success');
         if ($error) {
-          throw new ClientException($error['error_user_msg']);
+            throw new ClientException($error['error_user_msg']);
         }
         if (!$success) {
-          throw new ClientException('Could not claim the URL');
+            throw new ClientException('Could not claim the URL');
         }
     }
 
@@ -274,10 +274,10 @@ class Client
         $error = $node->getField('error');
         $success = $node->getField('success');
         if ($error) {
-          throw new ClientException($error['error_user_msg']);
+            throw new ClientException($error['error_user_msg']);
         }
         if (!$success) {
-          throw new ClientException('Could not submit for review');
+            throw new ClientException('Could not submit for review');
         }
     }
 }
