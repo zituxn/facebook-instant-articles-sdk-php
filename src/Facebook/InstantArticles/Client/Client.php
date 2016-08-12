@@ -246,10 +246,12 @@ class Client
     /**
      * Claims an URL for the page
      *
-     * @param string $url The root URL of the site without the protocol (ex: exemple.com/path)
+     * @param string $url The root URL of the site
      */
     public function claimURL($url)
     {
+        // Remove protocol from the URL
+        $url = preg_replace( '/^https?:\/\//i', '', $url );
         $response = $this->facebook->post($this->pageID . '/claimed_urls?url=' . urlencode($url));
         $node = $response->getGraphNode();
         $error = $node->getField('error');
@@ -264,8 +266,6 @@ class Client
 
     /**
      * Submits the page for review
-     *
-     * @param string $url The root URL of the site without the protocol (ex: exemple.com/path)
      */
     public function submitForReview()
     {

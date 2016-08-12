@@ -669,6 +669,44 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $result = $this->client->claimURL($url);
     }
 
+    public function testClaimURLWithProtocl()
+    {
+        $url = 'http://example.com';
+
+        $serverResponseMock =
+            $this->getMockBuilder('Facebook\FacebookResponse')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $graphNodeMock =
+            $this->getMockBuilder('Facebook\GraphNodes\GraphNode')
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $serverResponseMock
+            ->expects($this->once())
+            ->method('getGraphNode')
+            ->willReturn($graphNodeMock);
+        $graphNodeMock
+            ->expects($this->exactly(2))
+            ->method('getField')
+            ->withConsecutive(
+                [$this->equalTo('error')],
+                [$this->equalTo('success')]
+            )
+            ->will($this->onConsecutiveCalls(
+                null,
+                true
+            ));
+
+        $this->facebook
+            ->expects($this->once())
+            ->method('post')
+            ->with('PAGE_ID/claimed_urls?url=example.com')
+            ->willReturn($serverResponseMock);
+
+        $result = $this->client->claimURL($url);
+    }
+
     public function testClaimURLError()
     {
         $url = 'example.com';
