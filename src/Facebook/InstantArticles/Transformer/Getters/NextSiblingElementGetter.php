@@ -9,6 +9,7 @@
 namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class NextSiblingElementGetter extends ElementGetter
 {
@@ -32,8 +33,9 @@ class NextSiblingElementGetter extends ElementGetter
                 $element = $element->nextSibling;
             } while ($element !== null && !Type::is($element, 'DOMElement'));
 
-            if ($element) {
-                return $element;
+            if ($element && Type::is($element, 'DOMElement')) {
+                Transformer::markAsProcessed($element);
+                return Transformer::cloneNode($element);
             }
         }
         return null;

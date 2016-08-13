@@ -9,6 +9,7 @@
 namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
 class MultipleElementsGetter extends AbstractGetter
@@ -30,9 +31,9 @@ class MultipleElementsGetter extends AbstractGetter
     {
         $fragment = $node->ownerDocument->createDocumentFragment();
         foreach ($this->children as $child) {
-            $single_node = $child->get($node);
-            if (Type::is($single_node, 'DOMNode')) {
-                $fragment->appendChild($single_node->cloneNode(true));
+            $cloned_node = $child->get($node);
+            if (Type::is($cloned_node, 'DOMNode')) {
+                $fragment->appendChild($cloned_node);
             }
         }
         if ($fragment->hasChildNodes()) {

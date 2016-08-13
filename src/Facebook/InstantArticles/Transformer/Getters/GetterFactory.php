@@ -15,7 +15,7 @@ class GetterFactory
     const TYPE_CHILDREN_GETTER = 'children';
     const TYPE_ELEMENT_GETTER = 'element';
     const TYPE_NEXTSIBLING_GETTER = 'sibling';
-    const TYPE_NEXTSIBLINGELEMENT_GETTER = 'sibling-element';
+    const TYPE_NEXTSIBLINGELEMENT_GETTER = 'next-sibling-element-of';
     const TYPE_EXISTS_GETTER = 'exists';
     const TYPE_JSON_GETTER = 'json';
     const TYPE_XPATH_GETTER = 'xpath';
