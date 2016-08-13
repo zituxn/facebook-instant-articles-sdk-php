@@ -251,7 +251,7 @@ class Client
     public function claimURL($url)
     {
         // Remove protocol from the URL
-        $url = preg_replace( '/^https?:\/\//i', '', $url );
+        $url = preg_replace('/^https?:\/\//i', '', $url);
         $response = $this->facebook->post($this->pageID . '/claimed_urls?url=' . urlencode($url));
         $node = $response->getGraphNode();
         $error = $node->getField('error');
