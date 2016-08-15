@@ -34,7 +34,7 @@ use Facebook\InstantArticles\Validators\Type;
 
 class InstantArticle extends Element implements Container, InstantArticleInterface
 {
-    const CURRENT_VERSION = '1.3.0';
+    const CURRENT_VERSION = '1.4.0';
 
     /**
      * The meta properties that are used on <head>
@@ -265,6 +265,14 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
         array_unshift($this->children, $child);
 
         return $this;
+    }
+
+    /**
+     * @return string canonicalURL from the InstantArticle
+     */
+    public function getCanonicalURL()
+    {
+        return $this->canonicalURL;
     }
 
     /**
