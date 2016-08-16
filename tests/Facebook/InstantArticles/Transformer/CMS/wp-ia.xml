@@ -167,6 +167,12 @@
         <img src="http://example.com/img.jpg"/>
         <figcaption>blue eyes</figcaption>
       </figure>
+      <figure class="op-interactive">
+        <iframe class="no-margin">
+      <h1>Sibling content</h1>
+      <div>sibling body</div></iframe>
+      </figure>
+      <p>Standard paragraph that <b>shouldn't</b> lie within the interactive block.</p>
     </article>
   </body>
 </html>

@@ -530,6 +530,26 @@
                 "attribute": "src"
             }
         }
+    },
+
+    {
+        "class": "InteractiveRule",
+        "selector" : "iframe.sibling",
+        "properties" : {
+            "interactive.iframe" : {
+                "type" : "multiple",
+                "children": [
+                    {
+                        "type": "children",
+                        "selector": "iframe"
+                    }, {
+                        "type": "next-sibling-element-of",
+                        "selector": "iframe",
+                        "sibling.selector": "script"
+                    }
+                ]
+            }
+        }
     }
   ]
 }

@@ -10,9 +10,25 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Transformer;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class NextSiblingElementGetter extends ElementGetter
 {
+    protected $siblingSelector;
+
+    /**
+     * @param string $siblingSelector
+     *
+     * @return $this
+     */
+    public function withSiblingSelector($siblingSelector)
+    {
+        Type::enforce($siblingSelector, Type::STRING);
+        $this->siblingSelector = $siblingSelector;
+
+        return $this;
+    }
+
     public function createFrom($properties)
     {
         if (isset($properties['selector'])) {
@@ -21,6 +37,11 @@ class NextSiblingElementGetter extends ElementGetter
         if (isset($properties['attribute'])) {
             $this->withAttribute($properties['attribute']);
         }
+        if (isset($properties['sibling.selector'])) {
+            $this->withSiblingSelector($properties['sibling.selector']);
+        }
+
+        return $this;
     }
 
     public function get($node)
@@ -34,8 +55,19 @@ class NextSiblingElementGetter extends ElementGetter
             } while ($element !== null && !Type::is($element, 'DOMElement'));
 
             if ($element && Type::is($element, 'DOMElement')) {
-                Transformer::markAsProcessed($element);
-                return Transformer::cloneNode($element);
+                if ($this->siblingSelector) {
+                    $siblings = self::findAll($element, $this->siblingSelector);
+                    if (!empty($siblings) && $siblings->item(0)) {
+                        $siblingElement = $siblings->item(0);
+                    } else {
+                        // Returns null because sibling content doesn't match
+                        return null;
+                    }
+                } else {
+                    $siblingElement = $element;
+                }
+                Transformer::markAsProcessed($siblingElement);
+                return Transformer::cloneNode($siblingElement);
             }
         }
         return null;
