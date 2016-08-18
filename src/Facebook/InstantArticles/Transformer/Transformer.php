@@ -47,6 +47,50 @@ class Transformer
     private $instantArticle;
 
     /**
+     * Flag attribute added to elements processed by a getter, so they
+     * are not processed again by other rules.
+     */
+    const INSTANT_ARTICLES_PARSED_FLAG = 'data-instant-articles-element-processed';
+
+    /**
+     * Clones a node for appending to raw-html containing Elements like Interactive.
+     *
+     * @param DOMNode $node The node to clone
+     * @return DOMNode The cloned node.
+     */
+    public static function cloneNode($node)
+    {
+        $clone = $node->cloneNode(true);
+        if (Type::is($clone, 'DOMElement') && $clone->hasAttribute(self::INSTANT_ARTICLES_PARSED_FLAG)) {
+            $clone->removeAttribute(self::INSTANT_ARTICLES_PARSED_FLAG);
+        }
+        return $clone;
+    }
+
+    /**
+     * Marks a node as processed.
+     *
+     * @param DOMElement $node The node to clone
+     */
+    public static function markAsProcessed($node)
+    {
+        if (Type::is($node, 'DOMElement')) {
+            $node->setAttribute(self::INSTANT_ARTICLES_PARSED_FLAG, true);
+        }
+    }
+
+    /**
+     * Returns whether a node is processed
+     *
+     * @param DOMNode $node The node to clone
+     */
+    protected static function isProcessed($node)
+    {
+        return Type::is($node, 'DOMElement') && $node->getAttribute(self::INSTANT_ARTICLES_PARSED_FLAG);
+    }
+
+
+    /**
      * Gets all types a given class is, including itself, parent classes and interfaces.
      *
      * @param string $className - the name of the className
@@ -147,6 +191,9 @@ class Transformer
         $current_context = $context;
         if ($node->hasChildNodes()) {
             foreach ($node->childNodes as $child) {
+                if (self::isProcessed($child)) {
+                    continue;
+                }
                 $matched = false;
                 $log->debug("===========================");
                 $log->debug($child->ownerDocument->saveHtml($child));

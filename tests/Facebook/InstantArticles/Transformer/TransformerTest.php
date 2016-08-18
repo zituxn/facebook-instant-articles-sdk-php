@@ -93,23 +93,4 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $transformer->resetRules();
         $this->assertEquals([], $transformer->getRules());
     }
-
-    public function testTitleTransformedWithBold()
-    {
-        $transformer = new Transformer();
-        $json_file = file_get_contents(__DIR__ . '/CMS/wp-rules.json');
-        $transformer->loadRules($json_file);
-
-        $title_html_string = '<?xml encoding="utf-8" ?><h1>Title <b>in bold</b></h1>';
-
-        libxml_use_internal_errors(true);
-        $document = new \DOMDocument();
-        $document->loadHtml($title_html_string);
-        libxml_use_internal_errors(false);
-
-        $header = Header::create();
-        $transformer->transform($header, $document);
-
-        $this->assertEquals('<h1>Title <b>in bold</b></h1>', $header->getTitle()->render());
-    }
 }
