@@ -173,6 +173,12 @@
       <div>sibling body</div></iframe>
       </figure>
       <p>Standard paragraph that <b>shouldn't</b> lie within the interactive block.</p>
+      <figure class="op-interactive">
+        <iframe class="no-margin">
+          <p>Extra markup</p>
+          <div class="fb-post" data-href="https://www.facebook.com/some-page/posts/some-post"></div>
+        </iframe>
+      </figure>
     </article>
   </body>
 </html>
