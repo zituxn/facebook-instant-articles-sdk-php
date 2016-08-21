@@ -42,7 +42,7 @@ class HardcodedElementGetter extends AbstractGetter
         $fragment = $node->ownerDocument->createDocumentFragment();
         $is_valid_markup = @$fragment->appendXML($this->fragment);
         if ($is_valid_markup) {
-          return $fragment;
+            return $fragment;
         }
         return null;
     }
