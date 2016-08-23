@@ -12,7 +12,7 @@ use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Transformer;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
-class HardcodedElementGetter extends AbstractGetter
+class FragmentGetter extends AbstractGetter
 {
     /**
      * @var string

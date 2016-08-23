@@ -275,7 +275,7 @@
                 "type": "multiple",
                 "children": [
                     {
-                        "type": "hardcoded",
+                        "type": "fragment",
                         "fragment": "<p>Extra markup</p>"
                     },
                     {

@@ -14,7 +14,7 @@ class GetterFactory
     const TYPE_INTEGER_GETTER = 'int';
     const TYPE_CHILDREN_GETTER = 'children';
     const TYPE_ELEMENT_GETTER = 'element';
-    const TYPE_HARDCODED_GETTER = 'hardcoded';
+    const TYPE_FRAGMENT_GETTER = 'fragment';
     const TYPE_NEXTSIBLING_GETTER = 'sibling';
     const TYPE_NEXTSIBLINGELEMENT_GETTER = 'next-sibling-element-of';
     const TYPE_EXISTS_GETTER = 'exists';
@@ -50,7 +50,7 @@ class GetterFactory
             self::TYPE_INTEGER_GETTER => IntegerGetter::getClassName(),
             self::TYPE_CHILDREN_GETTER => ChildrenGetter::getClassName(),
             self::TYPE_ELEMENT_GETTER => ElementGetter::getClassName(),
-            self::TYPE_HARDCODED_GETTER => HardcodedElementGetter::getClassName(),
+            self::TYPE_FRAGMENT_GETTER => FragmentGetter::getClassName(),
             self::TYPE_NEXTSIBLING_GETTER => NextSiblingGetter::getClassName(),
             self::TYPE_NEXTSIBLINGELEMENT_GETTER => NextSiblingElementGetter::getClassName(),
             self::TYPE_EXISTS_GETTER => ExistsGetter::getClassName(),
