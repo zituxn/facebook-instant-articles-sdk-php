@@ -179,6 +179,20 @@
           <div class="fb-post" data-href="https://www.facebook.com/some-page/posts/some-post"></div>
         </iframe>
       </figure>
+      <figure class="op-slideshow">
+        <figure>
+          <img src="http://example.com/konservnye-banki-osobenno-lyubyat-yaponcy-810x471.jpg"/>
+          <figcaption>Caption Img 1</figcaption>
+        </figure>
+        <figure>
+          <img src="http://example.com/a-vot-chto-vnutri.jpg"/>
+          <figcaption>Alternative text </figcaption>
+        </figure>
+        <figure>
+          <img src="http://example.com/brelok-s-bezopasnostyu-vsegda-s-soboj.jpg"/>
+          <figcaption>Caption img 3</figcaption>
+        </figure>
+      </figure>
     </article>
   </body>
 </html>
