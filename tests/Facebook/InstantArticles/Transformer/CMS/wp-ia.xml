@@ -193,6 +193,10 @@
           <figcaption>Caption img 3</figcaption>
         </figure>
       </figure>
+      <figure>
+        <img src="http://example.com/image.jpg"/>
+        <figcaption>caption</figcaption>
+      </figure>
     </article>
   </body>
 </html>
