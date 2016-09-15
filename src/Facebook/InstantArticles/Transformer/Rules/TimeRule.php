@@ -44,7 +44,6 @@ class TimeRule extends ConfigurationSelectorRule
         }
 
         return $time_rule;
-
     }
 
     public function apply($transformer, $header, $node)
