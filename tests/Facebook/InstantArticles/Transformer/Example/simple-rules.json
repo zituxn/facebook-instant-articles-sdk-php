@@ -102,13 +102,13 @@
             },
             {
                 "class": "ImageRule",
-                "selector" : "div.sufix",
+                "selector" : "div.suffix",
                 "properties" : {
                     "image.url" : {
                         "type" : "string",
                         "selector" : "img",
                         "attribute": "src",
-                        "sufix": "?sufix=yes"
+                        "suffix": "?suffix=yes"
                     },
                     "image.caption" : {
                         "type" : "element",
@@ -118,14 +118,14 @@
             },
             {
                 "class": "ImageRule",
-                "selector" : "div.prefixsufix",
+                "selector" : "div.prefixsuffix",
                 "properties" : {
                     "image.url" : {
                         "type" : "string",
                         "selector" : "img",
                         "attribute": "src",
                         "prefix" : "http:",
-                        "sufix": "?sufix=yes"
+                        "suffix": "?suffix=yes"
                     },
                     "image.caption" : {
                         "type" : "element",

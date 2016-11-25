@@ -25,7 +25,7 @@ class StringGetter extends ChildrenGetter
     /**
      * @var string
      */
-    protected $sufix;
+    protected $suffix;
 
     public function createFrom($properties)
     {
@@ -38,8 +38,8 @@ class StringGetter extends ChildrenGetter
         if (isset($properties['prefix'])) {
             $this->withPrefix($properties['prefix']);
         }
-        if (isset($properties['sufix'])) {
-            $this->withSufix($properties['sufix']);
+        if (isset($properties['suffix'])) {
+            $this->withSuffix($properties['suffix']);
         }
     }
 
@@ -71,14 +71,14 @@ class StringGetter extends ChildrenGetter
     }
 
     /**
-     * @param string $sufix
+     * @param string $suffix
      *
      * @return $this
      */
-    public function withSufix($sufix)
+    public function withSuffix($suffix)
     {
-        Type::enforce($sufix, Type::STRING);
-        $this->sufix = $sufix;
+        Type::enforce($suffix, Type::STRING);
+        $this->suffix = $suffix;
 
         return $this;
     }
@@ -98,8 +98,8 @@ class StringGetter extends ChildrenGetter
             if (!Type::isTextEmpty($this->prefix)) {
                 $result = $this->prefix . $result;
             }
-            if (!Type::isTextEmpty($this->sufix)) {
-                $result = $result . $this->sufix;
+            if (!Type::isTextEmpty($this->suffix)) {
+                $result = $result . $this->suffix;
             }
             return $result;
         }
