@@ -17,6 +17,16 @@ class StringGetter extends ChildrenGetter
      */
     protected $attribute;
 
+    /**
+     * @var string
+     */
+    protected $prefix;
+
+    /**
+     * @var string
+     */
+    protected $sufix;
+
     public function createFrom($properties)
     {
         if (isset($properties['selector'])) {
@@ -24,6 +34,12 @@ class StringGetter extends ChildrenGetter
         }
         if (isset($properties['attribute'])) {
             $this->withAttribute($properties['attribute']);
+        }
+        if (isset($properties['prefix'])) {
+            $this->withPrefix($properties['prefix']);
+        }
+        if (isset($properties['sufix'])) {
+            $this->withSufix($properties['sufix']);
         }
     }
 
@@ -40,6 +56,33 @@ class StringGetter extends ChildrenGetter
         return $this;
     }
 
+    /**
+     * @param string $prefix
+     *
+     * @return $this
+     */
+
+    public function withPrefix($prefix)
+    {
+        Type::enforce($prefix, Type::STRING);
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    /**
+     * @param string $sufix
+     *
+     * @return $this
+     */
+    public function withSufix($sufix)
+    {
+        Type::enforce($sufix, Type::STRING);
+        $this->sufix = $sufix;
+
+        return $this;
+    }
+
     public function get($node)
     {
         Type::enforce($node, 'DOMNode');
@@ -47,9 +90,18 @@ class StringGetter extends ChildrenGetter
         if (!empty($elements) && $elements->item(0)) {
             $element = $elements->item(0);
             if ($this->attribute) {
-                return $element->getAttribute($this->attribute);
+                $result = $element->getAttribute($this->attribute);
+            } else {
+              $result = $element->textContent;
             }
-            return $element->textContent;
+
+            if (!Type::isTextEmpty($this->prefix)) {
+                $result = $this->prefix . $result;
+            }
+            if (!Type::isTextEmpty($this->sufix)) {
+                $result = $result . $this->sufix;
+            }
+            return $result;
         }
         return null;
     }
