@@ -92,7 +92,7 @@ class StringGetter extends ChildrenGetter
             if ($this->attribute) {
                 $result = $element->getAttribute($this->attribute);
             } else {
-              $result = $element->textContent;
+                $result = $element->textContent;
             }
 
             if (!Type::isTextEmpty($this->prefix)) {
