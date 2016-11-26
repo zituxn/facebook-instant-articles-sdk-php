@@ -9,6 +9,9 @@
 namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Paragraph;
 
+/**
+ * @deprecated InteractiveRule now works inside Paragraph without a custom rule, use it instead
+ */
 class InteractiveInsideParagraphRule extends InteractiveRule
 {
     public function getContextClass()

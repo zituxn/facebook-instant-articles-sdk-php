@@ -9,6 +9,9 @@
 namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Paragraph;
 
+/**
+ * @deprecated ImageRule now works inside Paragraph without a custom rule, use it instead
+ */
 class ImageInsideParagraphRule extends ImageRule
 {
     public function getContextClass()
