@@ -61,7 +61,6 @@ class StringGetter extends ChildrenGetter
      *
      * @return $this
      */
-
     public function withPrefix($prefix)
     {
         Type::enforce($prefix, Type::STRING);
