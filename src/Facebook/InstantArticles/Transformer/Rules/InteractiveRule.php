@@ -63,14 +63,12 @@ class InteractiveRule extends ConfigurationSelectorRule
 
         if (Type::is($context, InstantArticle::getClassName())) {
             $instant_article = $context;
-        }
-        elseif ($transformer->getInstantArticle()) {
+        } elseif ($transformer->getInstantArticle()) {
             $instant_article = $transformer->getInstantArticle();
             $context->disableEmptyValidation();
             $context = Paragraph::create();
             $context->disableEmptyValidation();
-        }
-        else {
+        } else {
             $transformer->addWarning(
                 // This new error message should be something like:
                 // Could not transform Image, as no root InstantArticle was provided.

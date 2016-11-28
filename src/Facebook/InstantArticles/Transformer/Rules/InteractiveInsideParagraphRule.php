@@ -7,6 +7,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
+
 use Facebook\InstantArticles\Elements\Paragraph;
 
 /**
