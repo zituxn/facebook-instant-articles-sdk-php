@@ -454,7 +454,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                     '<link rel="canonical" href="http://wp.localtest.me/2016/04/12/stress-on-earth/"/>'.
                     '<meta charset="utf-8"/>'.
                     '<meta property="op:generator" content="facebook-instant-articles-sdk-php"/>'.
-                    '<meta property="op:generator:version" content="1.5.2"/>'.
+                    '<meta property="op:generator:version" content="'.InstantArticle::CURRENT_VERSION.'"/>'.
                     '<meta property="op:markup_version" content="v1.0"/>'.
                 '</head>'.
                 '<body>'.
