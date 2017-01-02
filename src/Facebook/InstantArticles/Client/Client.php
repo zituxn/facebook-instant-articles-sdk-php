@@ -103,7 +103,23 @@ class Client
           'development_mode' => $this->developmentMode,
         ]);
 
+        // Re-scrape Graph object for article URL
+        $this->scrapeArticleURL($article->getCanonicalURL());
+
         return $response->getGraphNode()->getField('id');
+    }
+
+    /**
+     * Scrape Graph object for given URL
+     *
+     * @param string $canonicalURL The URL that will be scraped.
+     */
+    private function scrapeArticleURL($canonicalURL)
+    {
+        $this->facebook->post('/', [
+            'id' => $canonicalURL,
+            'scrape' => 'true',
+        ]);
     }
 
     /**
