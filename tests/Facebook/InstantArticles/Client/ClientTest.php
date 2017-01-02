@@ -59,12 +59,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->willReturn($expectedSubmissionStatusID);
 
         $this->facebook
-            ->expects($this->once())
+            ->expects($this->at(0))
             ->method('post')
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'published' => false,
                 'development_mode' => false,
+            ])
+            ->willReturn($serverResponseMock);
+
+        $this->facebook
+            ->expects($this->at(1))
+            ->method('post')
+            ->with('/', [
+                'id' => $this->article->getCanonicalURL(),
+                'scrape' => 'true',
             ])
             ->willReturn($serverResponseMock);
 
@@ -95,12 +104,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->willReturn($expectedSubmissionStatusID);
 
         $this->facebook
-            ->expects($this->once())
+            ->expects($this->at(0))
             ->method('post')
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'published' => true,
                 'development_mode' => false,
+            ])
+            ->willReturn($serverResponseMock);
+
+        $this->facebook
+            ->expects($this->at(1))
+            ->method('post')
+            ->with('/', [
+                'id' => $this->article->getCanonicalURL(),
+                'scrape' => 'true',
             ])
             ->willReturn($serverResponseMock);
 
@@ -170,12 +188,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->willReturn($expectedSubmissionStatusID);
 
         $this->facebook
-            ->expects($this->once())
+            ->expects($this->at(0))
             ->method('post')
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'published' => false,
                 'development_mode' => true,
+            ])
+            ->willReturn($serverResponseMock);
+
+        $this->facebook
+            ->expects($this->at(1))
+            ->method('post')
+            ->with('/', [
+                'id' => $this->article->getCanonicalURL(),
+                'scrape' => 'true',
             ])
             ->willReturn($serverResponseMock);
 
@@ -212,12 +239,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->willReturn($expectedSubmissionStatusID);
 
         $this->facebook
-            ->expects($this->once())
+            ->expects($this->at(0))
             ->method('post')
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'published' => false,
                 'development_mode' => true,
+            ])
+            ->willReturn($serverResponseMock);
+
+        $this->facebook
+            ->expects($this->at(1))
+            ->method('post')
+            ->with('/', [
+                'id' => $this->article->getCanonicalURL(),
+                'scrape' => 'true',
             ])
             ->willReturn($serverResponseMock);
 
