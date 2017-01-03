@@ -59,7 +59,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->willReturn($expectedSubmissionStatusID);
 
         $this->facebook
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('post')
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
@@ -68,20 +68,50 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ])
             ->willReturn($serverResponseMock);
 
-        $this->facebook
-            ->expects($this->at(1))
-            ->method('post')
-            ->with('/', [
-                'id' => $this->article->getCanonicalURL(),
-                'scrape' => 'true',
-            ])
-            ->willReturn($serverResponseMock);
-
         $resultSubmissionStatusID = $this->client->importArticle($this->article);
         $this->assertEquals($expectedSubmissionStatusID, $resultSubmissionStatusID);
     }
 
     public function testImportArticlePublished()
+    {
+        $expectedSubmissionStatusID = 1;
+
+        $serverResponseMock =
+            $this->getMockBuilder('Facebook\FacebookResponse')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $graphNodeMock =
+            $this->getMockBuilder('Facebook\GraphNodes\GraphNode')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $serverResponseMock
+            ->expects($this->once())
+            ->method('getGraphNode')
+            ->willReturn($graphNodeMock);
+        $graphNodeMock
+            ->expects($this->once())
+            ->method('getField')
+            ->with('id')
+            ->willReturn($expectedSubmissionStatusID);
+
+        $this->facebook
+            ->expects($this->once())
+            ->method('post')
+            ->with('PAGE_ID' . Client::EDGE_NAME, [
+                'html_source' => $this->article->render(),
+                'published' => true,
+                'development_mode' => false,
+            ])
+            ->willReturn($serverResponseMock);
+
+        $resultSubmissionStatusID = $this->client->importArticle($this->article, true);
+        $this->assertEquals($expectedSubmissionStatusID, $resultSubmissionStatusID);
+    }
+
+    /**
+     * Tests that a re-scrape is performed when requested at article import.
+     */
+    public function testImportArticleRescrape()
     {
         $expectedSubmissionStatusID = 1;
 
@@ -122,7 +152,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ])
             ->willReturn($serverResponseMock);
 
-        $resultSubmissionStatusID = $this->client->importArticle($this->article, true);
+        $resultSubmissionStatusID = $this->client->importArticle($this->article, true, true);
         $this->assertEquals($expectedSubmissionStatusID, $resultSubmissionStatusID);
     }
 
@@ -188,21 +218,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->willReturn($expectedSubmissionStatusID);
 
         $this->facebook
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('post')
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'published' => false,
                 'development_mode' => true,
-            ])
-            ->willReturn($serverResponseMock);
-
-        $this->facebook
-            ->expects($this->at(1))
-            ->method('post')
-            ->with('/', [
-                'id' => $this->article->getCanonicalURL(),
-                'scrape' => 'true',
             ])
             ->willReturn($serverResponseMock);
 
@@ -239,21 +260,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->willReturn($expectedSubmissionStatusID);
 
         $this->facebook
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('post')
             ->with('PAGE_ID' . Client::EDGE_NAME, [
                 'html_source' => $this->article->render(),
                 'published' => false,
                 'development_mode' => true,
-            ])
-            ->willReturn($serverResponseMock);
-
-        $this->facebook
-            ->expects($this->at(1))
-            ->method('post')
-            ->with('/', [
-                'id' => $this->article->getCanonicalURL(),
-                'scrape' => 'true',
             ])
             ->willReturn($serverResponseMock);
 
