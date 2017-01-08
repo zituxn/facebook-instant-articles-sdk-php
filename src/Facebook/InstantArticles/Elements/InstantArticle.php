@@ -225,7 +225,7 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
      *
      * @return $this
      */
-    public fucntion withChildren($children)
+    public function withChildren($children)
     {
         Type::enforceArrayOf(
             $children,
@@ -262,7 +262,7 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
      *
      * @return $this
      */
-    public fucntion deleteChild($children)
+    public function deleteChild($children)
     {
         Type::enforce($index, Type::INTEGER);
         $children = NULL;
@@ -285,7 +285,8 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
      */
     public function addChild($child)
     {
-        Type::enforce($child,             [
+        Type::enforce($child,
+             [
                 Ad::getClassName(),
                 Analytics::getClassName(),
                 AnimatedGIF::getClassName(),
