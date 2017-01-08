@@ -252,12 +252,12 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
         $this->chidren = $children;
 
         return $this;
-    }            
+    }
 
     /**
      * Replace all the children within this InstantArticle
      *
-     * @param Type::INTEGER $index The index of the element to delete 
+     * @param Type::INTEGER $index The index of the element to delete
      *                             in the array of children.
      *
      * @return $this
@@ -265,7 +265,7 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
     public function deleteChild($children)
     {
         Type::enforce($index, Type::INTEGER);
-        $children = NULL;
+        $children = null;
         foreach ($this->children as $childIndex => $child) {
             if ($childIndex != $index) {
                 $children[] = $child;
@@ -274,7 +274,7 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
         $this->chidren = $children;
 
         return $this;
-    }            
+    }
 
     /**
      * Adds new child elements to this InstantArticle
@@ -285,8 +285,9 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
      */
     public function addChild($child)
     {
-        Type::enforce($child,
-             [
+        Type::enforce(
+            $child,
+            [
                 Ad::getClassName(),
                 Analytics::getClassName(),
                 AnimatedGIF::getClassName(),
