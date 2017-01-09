@@ -262,7 +262,7 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
      *
      * @return $this
      */
-    public function deleteChild($children)
+    public function deleteChild($index)
     {
         Type::enforce($index, Type::INTEGER);
         $children = null;
