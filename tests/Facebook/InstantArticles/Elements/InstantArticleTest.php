@@ -474,7 +474,8 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testDeleteChildren() {
+    public function testDeleteChildren()
+    {
         $article =
             InstantArticle::create()
                 ->withCanonicalURL('http://www.facebook-IA-test.com/category/test')
@@ -535,7 +536,8 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testReplaceChildren() {
+    public function testReplaceChildren()
+    {
         $article =
             InstantArticle::create()
                 ->withCanonicalURL('http://www.facebook-IA-test.com/category/test')
