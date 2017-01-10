@@ -249,7 +249,7 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
                 Video::getClassName()
             ]
         );
-        $this->chidren = $children;
+        $this->children = $children;
 
         return $this;
     }
@@ -271,7 +271,7 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
                 $children[] = $child;
             }
         }
-        $this->chidren = $children;
+        $this->children = $children;
 
         return $this;
     }
