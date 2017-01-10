@@ -257,7 +257,7 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
     /**
      * Replace all the children within this InstantArticle
      *
-     * @param Type::INTEGER $index The index of the element to delete
+     * @param Type::INTEGER $index The index of the element to be deleted
      *                             in the array of children.
      *
      * @return $this
