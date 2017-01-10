@@ -567,7 +567,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                 ->appendText('The new body.'),
             Paragraph::create()
                 ->appendText('With two paragraphs!')
-            )
+            );
 
         $article->withChildren($newBody);
         $result = $article->render();
