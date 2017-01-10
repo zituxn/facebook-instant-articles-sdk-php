@@ -510,6 +510,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
 
         $expected =
             '<!doctype html>'.
+            '<html>'.
                 '<head>'.
                     '<link rel="canonical" href="http://www.facebook-IA-test.com/category/test"/>'.
                     '<meta charset="utf-8"/>'.
@@ -574,6 +575,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
 
         $expected =
             '<!doctype html>'.
+            '<html>'.
                 '<head>'.
                     '<link rel="canonical" href="http://www.facebook-IA-test.com/category/test"/>'.
                     '<meta charset="utf-8"/>'.
