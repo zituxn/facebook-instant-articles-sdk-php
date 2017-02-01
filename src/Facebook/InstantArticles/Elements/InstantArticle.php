@@ -265,7 +265,7 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
     public function deleteChild($index)
     {
         Type::enforce($index, Type::INTEGER);
-        $children = null;
+        $children = [];
         foreach ($this->children as $childIndex => $child) {
             if ($childIndex != $index) {
                 $children[] = $child;
