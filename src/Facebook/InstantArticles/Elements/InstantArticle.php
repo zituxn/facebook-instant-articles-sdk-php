@@ -219,6 +219,64 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
     }
 
     /**
+     * Replace all the children within this InstantArticle
+     *
+     * @param Element[] $children Array of elements replacing the original.
+     *
+     * @return $this
+     */
+    public function withChildren($children)
+    {
+        Type::enforceArrayOf(
+            $children,
+            [
+                Ad::getClassName(),
+                Analytics::getClassName(),
+                AnimatedGIF::getClassName(),
+                Audio::getClassName(),
+                Blockquote::getClassName(),
+                Image::getClassName(),
+                H1::getClassName(),
+                H2::getClassName(),
+                Interactive::getClassName(),
+                ListElement::getClassName(),
+                Map::getClassName(),
+                Paragraph::getClassName(),
+                Pullquote::getClassName(),
+                RelatedArticles::getClassName(),
+                Slideshow::getClassName(),
+                SocialEmbed::getClassName(),
+                Video::getClassName()
+            ]
+        );
+        $this->children = $children;
+
+        return $this;
+    }
+
+    /**
+     * Replace all the children within this InstantArticle
+     *
+     * @param Type::INTEGER $index The index of the element to be deleted
+     *                             in the array of children.
+     *
+     * @return $this
+     */
+    public function deleteChild($index)
+    {
+        Type::enforce($index, Type::INTEGER);
+        $children = [];
+        foreach ($this->children as $childIndex => $child) {
+            if ($childIndex != $index) {
+                $children[] = $child;
+            }
+        }
+        $this->children = $children;
+
+        return $this;
+    }
+
+    /**
      * Adds new child elements to this InstantArticle
      *
      * @param Element $child to be added to this Article.
