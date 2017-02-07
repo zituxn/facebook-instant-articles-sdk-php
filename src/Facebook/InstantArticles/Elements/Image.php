@@ -96,8 +96,8 @@ class Image extends Audible implements Container
      */
     private function __construct()
     {
-       $this->isLikeEnabled = self::$DEFAULT_LIKE_ENABLED;
-       $this->isCommentsEnabled = self::$DEFAULT_COMMENT_ENABLED;
+        $this->isLikeEnabled = self::$DEFAULT_LIKE_ENABLED;
+        $this->isCommentsEnabled = self::$DEFAULT_COMMENT_ENABLED;
     }
 
     /**
