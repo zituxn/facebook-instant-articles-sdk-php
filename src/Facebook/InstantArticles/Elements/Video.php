@@ -45,6 +45,16 @@ class Video extends Element implements Container
     const DATA_FADE = 'data-fade';
 
     /**
+     * @var boolean marks if any created image will have likes enabled by default
+     */
+    public static $DEFAULT_LIKE_ENABLED = false;
+
+    /**
+     * @var boolean marks if any created image will have comments enabled by default
+     */
+    public static $DEFAULT_COMMENT_ENABLED = false;
+
+    /**
      * @var Caption The caption for Video
      */
     private $caption;
@@ -114,6 +124,8 @@ class Video extends Element implements Container
 
     private function __construct()
     {
+      $this->isLikeEnabled = self::$DEFAULT_LIKE_ENABLED;
+      $this->isCommentsEnabled = self::$DEFAULT_COMMENT_ENABLED;
     }
 
     /**

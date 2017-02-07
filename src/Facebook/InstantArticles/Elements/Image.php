@@ -41,6 +41,16 @@ class Image extends Audible implements Container
     const NON_INTERACTIVE = 'non-interactive';
 
     /**
+     * @var boolean marks if any created image will have likes enabled by default
+     */
+    public static $DEFAULT_LIKE_ENABLED = false;
+
+    /**
+     * @var boolean marks if any created image will have comments enabled by default
+     */
+    public static $DEFAULT_COMMENT_ENABLED = false;
+
+    /**
      * @var Caption The caption for Image
      */
     private $caption;
@@ -86,6 +96,8 @@ class Image extends Audible implements Container
      */
     private function __construct()
     {
+       $this->isLikeEnabled = self::$DEFAULT_LIKE_ENABLED;
+       $this->isCommentsEnabled = self::$DEFAULT_COMMENT_ENABLED;
     }
 
     /**
