@@ -420,5 +420,4 @@ class Image extends Audible implements Container
     {
         self::$defaultCommentEnabled = $enabled;
     }
-
 }
