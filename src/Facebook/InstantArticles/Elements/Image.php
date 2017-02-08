@@ -404,7 +404,8 @@ class Image extends Audible implements Container
      * this might not work as expected. (you will need to set this in all working threads manually)
      * @param boolean $enabled inform true to enable likes on images per default or false to disable like on images.
      */
-    public static function setDefaultLikeEnabled($enabled) {
+    public static function setDefaultLikeEnabled($enabled)
+    {
         self::$defaultLikeEnabled = $enabled;
     }
 
@@ -415,7 +416,8 @@ class Image extends Audible implements Container
      * this might not work as expected. (you will need to set this in all working threads manually)
      * @param boolean $enabled inform true to enable comments on images per default or false to disable commenting on images.
      */
-    public static function setDefaultCommentEnabled($enabled) {
+    public static function setDefaultCommentEnabled($enabled)
+    {
         self::$defaultCommentEnabled = $enabled;
     }
 

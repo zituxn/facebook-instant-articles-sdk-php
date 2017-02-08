@@ -452,7 +452,8 @@ class Video extends Element implements Container
      * this might not work as expected. (you will need to set this in all working threads manually)
      * @param boolean $enabled inform true to enable likes on videos per default or false to disable like on videos.
      */
-    public static function setDefaultLikeEnabled($enabled) {
+    public static function setDefaultLikeEnabled($enabled)
+    {
         self::$defaultLikeEnabled = $enabled;
     }
 
@@ -463,7 +464,8 @@ class Video extends Element implements Container
      * this might not work as expected. (you will need to set this in all working threads manually)
      * @param boolean $enabled inform true to enable comments on videos per default or false to disable commenting on videos.
      */
-    public static function setDefaultCommentEnabled($enabled) {
+    public static function setDefaultCommentEnabled($enabled)
+    {
         self::$defaultCommentEnabled = $enabled;
     }
 
