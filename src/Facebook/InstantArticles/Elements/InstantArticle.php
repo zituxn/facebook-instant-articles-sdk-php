@@ -396,6 +396,7 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
 
     public function render($doctype = '<!doctype html>', $format = false)
     {
+        $doctype = is_null($doctype) ? '<!doctype html>' : $doctype;
         return parent::render($doctype, $format);
     }
 
