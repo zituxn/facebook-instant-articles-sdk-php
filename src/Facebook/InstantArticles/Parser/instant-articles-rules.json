@@ -191,6 +191,11 @@
                         "type" : "xpath",
                         "selector" : "//meta[@property='fb:use_automatic_ad_placement']",
                         "attribute": "content"
+                    },
+                    "article.style" : {
+                        "type" : "xpath",
+                        "selector": "//meta[@property='fb:article_style']",
+                        "attribute": "content"
                     }
 
                 }
