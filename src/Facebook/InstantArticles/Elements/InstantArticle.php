@@ -357,6 +357,14 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
     }
 
     /**
+     * @return string style from the InstantArticle
+     */
+    public function getStyle()
+    {
+        return $this->style;
+    }
+
+    /**
      * @return Header header element from the InstantArticle
      */
     public function getHeader()
@@ -378,6 +386,14 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
     public function getChildren()
     {
         return $this->children;
+    }
+
+    /**
+     * @return boolean if this article is Right-to-left(RTL).
+     */
+    public function isRTLEnabled()
+    {
+        return $this->isRTLEnabled;
     }
 
     /**
