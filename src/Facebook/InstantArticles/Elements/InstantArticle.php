@@ -397,6 +397,14 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
     }
 
     /**
+     * @return string The article charset.
+     */
+    public function getCharset()
+    {
+        return $this->charset;
+    }
+
+    /**
      * Adds a meta property for the <head> of Instant Article.
      *
      * @param string $property_name name of meta attribute
