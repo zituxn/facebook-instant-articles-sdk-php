@@ -412,4 +412,34 @@ class Type
           // stringify the $object parameter
           return var_export($object, true);
     }
+
+    /**
+     * Checks if tag is a DOMElement and also to have the $tagName informed.
+     * @param $tag DOMElement the tag element that will be ensured
+     * @param $tagName string Tag name to be validated
+     * @return boolean true if it is Element and from same tagName.
+     * @throws InvalidArgumentException in case $tag is not DOMElement.
+     */
+    public static function isElementTag($tag, $tagName)
+    {
+        self::enforce($tag, \DOMElement::class);
+        if ($tag->tagName !== $tagName) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Enforces tag to be an DOMElement and also to have the $tagName informed.
+     * @param $tag DOMElement the tag element that will be ensured
+     * @param $tagName string Tag name to be validated
+     * @throws InvalidArgumentException in case $tag is not DOMElement or same tagName.
+     */
+    public static function enforceElementTag($tag, $tagName)
+    {
+        if (!self::isElementTag($tag, $tagName)) {
+            throw new \InvalidArgumentException(
+                "Tag <".$tagName."> expected, <".$tag->tagName."> informed.");
+        }
+    }
 }

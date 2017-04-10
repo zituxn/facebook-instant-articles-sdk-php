@@ -350,4 +350,17 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Type::isTextEmpty("&nbsp;"));
         $this->assertTrue(Type::isTextEmpty("\n"));
     }
+
+    public function testEnforceElementTag()
+    {
+        $document = new \DOMDocument();
+        Type::enforceElementTag($document->createElement('img'), 'img');
+    }
+
+    public function testIsElementTag()
+    {
+        $document = new \DOMDocument();
+        $this->assertTrue(Type::isElementTag($document->createElement('img'), 'img'));
+    }
+
 }
