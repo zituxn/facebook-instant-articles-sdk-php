@@ -422,7 +422,8 @@ class Type
      */
     public static function isElementTag($tag, $tagName)
     {
-        self::enforce($tag, \DOMElement::class);
+        $element = new \DOMElement('dummy'); // This is just for retro-compatibility for 5.4 ::class placeholder
+        self::enforce($tag, get_class($element));
         return $tag->tagName === $tagName;
     }
 
