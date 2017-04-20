@@ -241,5 +241,4 @@ class H1Test extends \PHPUnit_Framework_TestCase
         $rendered = $h1->getPlainText();
         $this->assertEquals($expected, $rendered);
     }
-
 }
