@@ -335,6 +335,18 @@ class Caption extends FormattedText
     }
 
     /**
+     * @return string the Vertical Alignment.
+     *
+     * @see Caption::VERTICAL_TOP
+     * @see Caption::VERTICAL_BOTTOM
+     * @see Caption::VERTICAL_CENTER
+     */
+    public function getVerticalAlignment()
+    {
+        return $this->verticalAlignment;
+    }
+
+    /**
      * Structure and create the full ArticleImage in a XML format DOMElement.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
