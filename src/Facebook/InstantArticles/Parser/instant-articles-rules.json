@@ -534,7 +534,7 @@
             },
             {
                 "class": "GeoTagRule",
-                "selector" : "script.op-geotag",
+                "selector" : "script",
                 "properties" : {
                     "map.geotag" : {
                         "type" : "string",
