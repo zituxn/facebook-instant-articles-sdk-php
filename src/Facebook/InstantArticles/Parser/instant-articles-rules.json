@@ -57,6 +57,10 @@
                 "selector" : "i"
             },
             {
+                "class": "EmphasizedRule",
+                "selector" : "em"
+            },
+            {
                 "class": "BoldRule",
                 "selector" : "b"
             },
