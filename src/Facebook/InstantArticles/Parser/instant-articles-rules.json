@@ -250,6 +250,15 @@
                 "class": "AuthorRule",
                 "selector" : "address",
                 "properties" : {
+                    "author.name" : {
+                        "type" : "string"
+                    }
+                }
+            },
+            {
+                "class": "AuthorRule",
+                "selector" : "//header/address[a]",
+                "properties" : {
                     "author.url" : {
                         "type" : "string",
                         "selector" : "a",
