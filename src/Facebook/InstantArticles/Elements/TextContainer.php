@@ -23,7 +23,7 @@ abstract class TextContainer extends Element implements Container
     /**
      * @var array The content is a list of strings and FormattingElements
      */
-    private $textChildren = [];
+    private $textChildren = array();
 
     /**
      * Adds content to the formatted text.
@@ -38,6 +38,14 @@ abstract class TextContainer extends Element implements Container
         $this->textChildren[] = $child;
 
         return $this;
+    }
+
+    /**
+     * Clears the text.
+     */
+    public function clearText()
+    {
+        $this->textChildren = array();
     }
 
     /**

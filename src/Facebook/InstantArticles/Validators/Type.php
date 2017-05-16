@@ -386,6 +386,7 @@ class Type
      * "\n" => true
      * "a" => false
      * "  a  " => false
+     * "&nbsp;" => true
      *
      * @param string $text The text that will be checked.
      * @return true if empty, false otherwise.
@@ -396,8 +397,7 @@ class Type
             return true;
         }
         // Stripes empty spaces, &nbsp;, <br/>, new lines
-        $text = strip_tags($text);
-        $text = preg_replace("/[\r\n\s]+/", "", $text);
+        $text = preg_replace("/\s+/", "", $text);
         $text = str_replace("&nbsp;", "", $text);
 
         return empty($text);
