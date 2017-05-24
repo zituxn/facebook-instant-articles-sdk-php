@@ -60,4 +60,18 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($html_file, $result);
     }
+    
+    public function testSelfParseStringNoTimezone()
+    {
+        $html_file_no_timezone = file_get_contents(__DIR__ . '/instant-article-example-no-timezone.html');
+        $html_file_standard_timezone = file_get_contents(__DIR__ . '/instant-article-example-standard-timezone.html');
+
+        $parser = new Parser();
+        $instant_article = $parser->parse($html_file_no_timezone);
+        $instant_article->addMetaProperty('op:generator:version', '1.0.0');
+        $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
+        $result = $instant_article->render('', true)."\n";
+
+        $this->assertEquals($html_file_standard_timezone, $result);
+    }
 }

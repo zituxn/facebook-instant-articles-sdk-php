@@ -62,7 +62,7 @@ class TimeRule extends ConfigurationSelectorRule
         $time_string = $this->getProperty(self::PROPERTY_TIME, $node);
         if ($time_string) {
             $time = Time::create($this->type);
-            $time->withDatetime(new \DateTime($time_string));
+            $time->withDatetime(new \DateTime($time_string, new \DateTimeZone('America/Los_Angeles')));
             $header->withTime($time);
         } else {
             $transformer->addWarning(
