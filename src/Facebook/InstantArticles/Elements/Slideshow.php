@@ -29,7 +29,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
-class Slideshow extends Audible implements ChildrenContainer
+class Slideshow extends Audible
 {
     /**
      * @var Caption The caption for the Slideshow

@@ -34,7 +34,7 @@ use Facebook\InstantArticles\Validators\Type;
  *  </figure>
  *
  */
-class Map extends Audible implements ChildrenContainer
+class Map extends Audible
 {
     /**
      * @var Caption The caption for Image
