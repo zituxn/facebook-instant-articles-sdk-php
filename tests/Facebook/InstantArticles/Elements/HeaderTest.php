@@ -232,7 +232,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
                         ->appendText(Bold::create()->appendText('in Bold'))
                 )
                 ->withCover(
-                    SlideShow::create()
+                    Slideshow::create()
                         ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home.jpg'))
                         ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home2.jpg'))
                         ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home3.jpg'))

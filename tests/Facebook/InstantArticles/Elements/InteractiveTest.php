@@ -44,7 +44,7 @@ class InteractiveTest extends \PHPUnit_Framework_TestCase
     public function testRenderBasicWithCaption()
     {
         $social_embed =
-            interactive::create()
+            Interactive::create()
                 ->withSource('http://foo.com/interactive-graphic')
                 ->withWidth(640)
                 ->withHeight(300)

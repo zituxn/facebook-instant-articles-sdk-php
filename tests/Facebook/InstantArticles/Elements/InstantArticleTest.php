@@ -24,7 +24,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
 
         $this->article =
             InstantArticle::create()
-                ->withCanonicalUrl('http://foo.com/article.html')
+                ->withCanonicalURL('http://foo.com/article.html')
                 ->withStyle('myarticlestyle')
                 ->withHeader(
                     Header::create()
@@ -94,7 +94,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
 
                 // Slideshow
                 ->addChild(
-                    SlideShow::create()
+                    Slideshow::create()
                         ->addImage(
                             Image::create()
                                 ->withURL('https://jpeg.org/images/jpegls-home.jpg')
@@ -286,7 +286,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
     {
         $article =
             InstantArticle::create()
-                ->withCanonicalUrl('')
+                ->withCanonicalURL('')
                 ->withHeader(Header::create())
                 // Paragraph1
                 ->addChild(
@@ -318,7 +318,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
 
                 // Slideshow
                 ->addChild(
-                    SlideShow::create()
+                    Slideshow::create()
                         ->addImage(
                             Image::create()
                                 ->withURL('https://jpeg.org/images/jpegls-home.jpg')

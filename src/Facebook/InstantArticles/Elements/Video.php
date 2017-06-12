@@ -17,7 +17,7 @@ use Facebook\InstantArticles\Validators\Type;
  * <ul>
  *     <li>Audio</li>
  *     <li>Image</li>
- *     <li>SlideShow</li>
+ *     <li>Slideshow</li>
  *     <li>Map</li>
  * </ul>
  *
@@ -30,7 +30,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see Audio
  * @see Image
- * @see SlideShow
+ * @see Slideshow
  * @see Map
  * @package Facebook\InstantArticle\Elements
  */

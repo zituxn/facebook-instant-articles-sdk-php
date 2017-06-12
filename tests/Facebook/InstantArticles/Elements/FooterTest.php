@@ -113,7 +113,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
                 ->appendText("2016 ")
                 ->appendText(
                     Anchor::create()
-                        ->withHRef('https://facebook.com')
+                        ->withHref('https://facebook.com')
                         ->appendText('Facebook')
                 );
         $footer =
