@@ -98,7 +98,6 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
     /**
      * Private constructor. It must be used the Factory method
      * @see InstantArticle#create() For building objects
-     * @return InstantArticle object.
      */
     private function __construct()
     {
