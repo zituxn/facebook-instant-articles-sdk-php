@@ -57,6 +57,11 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
     private $isAutomaticAdPlaced = true;
 
     /**
+     * @var string The ad density that will be used. "default" by default
+     */
+    private $adDensity = 'default';
+
+    /**
      * @var string The charset that will be used. "utf-8" by default.
      */
     private $charset = 'utf-8';
@@ -166,6 +171,21 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
     public function disableAutomaticAdPlacement()
     {
         $this->isAutomaticAdPlaced = false;
+        return $this;
+    }
+
+    /**
+     * Sets the ad density to be used for auto ad placement
+     *
+     * @param string $adDensity Ad density
+     *
+     * @return $this
+     */
+    public function withAdDensity($adDensity)
+    {
+        Type::enforce($adDensity, Type::STRING);
+        $this->adDensity = $adDensity;
+
         return $this;
     }
 
@@ -448,10 +468,14 @@ class InstantArticle extends Element implements Container, InstantArticleInterfa
 
         $this->addMetaProperty('op:markup_version', $this->markupVersion);
         if ($this->header && count($this->header->getAds()) > 0) {
-            $this->addMetaProperty(
-                'fb:use_automatic_ad_placement',
-                $this->isAutomaticAdPlaced ? 'true' : 'false'
-            );
+            if ($this->isAutomaticAdPlaced) {
+                $this->addMetaProperty(
+                    'fb:use_automatic_ad_placement',
+                    'enable=true ad_density=' . $this->adDensity
+                );
+            } else {
+                $this->addMetaProperty('fb:use_automatic_ad_placement', 'false');
+            }
         }
 
         if ($this->style) {

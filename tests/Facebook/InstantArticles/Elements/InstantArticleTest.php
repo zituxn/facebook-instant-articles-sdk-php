@@ -221,7 +221,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                 '<meta property="op:generator" content="facebook-instant-articles-sdk-php"/>'.
                 '<meta property="op:generator:version" content="'.InstantArticle::CURRENT_VERSION.'"/>'.
                 '<meta property="op:markup_version" content="v1.0"/>'.
-                '<meta property="fb:use_automatic_ad_placement" content="true"/>'.
+                '<meta property="fb:use_automatic_ad_placement" content="enable=true ad_density=default"/>'.
                 '<meta property="fb:article_style" content="myarticlestyle"/>'.
             '</head>'.
             '<body>'.
@@ -280,6 +280,38 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
         $this->article->getHeader()->addAd(Ad::create()->withSource('http://foo.com'));
 
         $this->assertEquals($expected, $this->article->render());
+    }
+
+    public function testRenderWithoutAds()
+    {
+        $article =
+            InstantArticle::create()
+                ->disableAutomaticAdPlacement()
+                ->withHeader(
+                    Header::create()
+                        ->addAd(
+                            Ad::create()
+                        )
+                );
+        $result = $article->render();
+        $expected =
+            '<!doctype html>'.
+            '<html>'.
+                '<head>'.
+                    '<link rel="canonical" href=""/>'.
+                    '<meta charset="utf-8"/>'.
+                    '<meta property="op:generator" content="facebook-instant-articles-sdk-php"/>'.
+                    '<meta property="op:generator:version" content="'.InstantArticle::CURRENT_VERSION.'"/>'.
+                    '<meta property="op:markup_version" content="v1.0"/>'.
+                    '<meta property="fb:use_automatic_ad_placement" content="false"/>'.
+                '</head>'.
+                '<body>'.
+                    '<article>'.
+                    '</article>'.
+                '</body>'.
+            '</html>';
+
+        $this->assertEquals($expected, $result);
     }
 
     public function testInstantArticleAlmostEmpty()
