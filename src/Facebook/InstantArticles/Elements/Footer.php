@@ -1,4 +1,4 @@
-<?php
+<?hh //decl
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -27,7 +27,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/footer}
  */
-class Footer extends Element implements Container
+class Footer extends Element implements ChildrenContainer
 {
     /**
      * @var string|Paragraph[] The text content of the credits
@@ -223,9 +223,9 @@ class Footer extends Element implements Container
     }
 
     /**
-     * Implements the Container::getContainerChildren().
+     * Implements the ChildrenContainer::getContainerChildren().
      *
-     * @see Container::getContainerChildren()
+     * @see ChildrenContainer::getContainerChildren()
      * @return array of Paragraph|RelatedArticles
      */
     public function getContainerChildren()

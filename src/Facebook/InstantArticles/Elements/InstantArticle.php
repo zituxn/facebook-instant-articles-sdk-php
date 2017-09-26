@@ -1,4 +1,4 @@
-<?php
+<?hh //decl
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -32,7 +32,7 @@ use Facebook\InstantArticles\Validators\Type;
   *
 */
 
-class InstantArticle extends Element implements Container, InstantArticleInterface
+class InstantArticle extends Element implements ChildrenContainer, InstantArticleInterface
 {
     const CURRENT_VERSION = '1.6.2';
 

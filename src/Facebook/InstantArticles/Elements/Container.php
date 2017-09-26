@@ -1,4 +1,4 @@
-<?php
+<?hh //decl
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -9,17 +9,17 @@
  namespace Facebook\InstantArticles\Elements;
 
  /**
-  * Interface Container
+  * Interface ChildrenContainer
   * This interface specifies the navigatable objects that have children.
   */
-interface Container
+interface ChildrenContainer
 {
 
     /**
      * Must return an array of Element typed objects.
-     * To navigate thru the Container object tree, always check if it is a Container.
+     * To navigate thru the ChildrenContainer object tree, always check if it is a ChildrenContainer.
      * <code>
-     *     if (Type::is($object, Container::getClassName())) {
+     *     if (Type::is($object, ChildrenContainer::getClassName())) {
      *         foreach($object->getChildren() as $child) {
      *              //$child operations
      *         }

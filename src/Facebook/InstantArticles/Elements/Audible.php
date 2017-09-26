@@ -1,4 +1,4 @@
-<?php
+<?hh //decl
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -25,7 +25,7 @@ namespace Facebook\InstantArticles\Elements;
  * @see SlideShow
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
-abstract class Audible extends Element implements Container
+abstract class Audible extends Element implements ChildrenContainer
 {
     /**
      * Adds audio to this image.

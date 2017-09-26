@@ -1,4 +1,4 @@
-<?php
+<?hh //decl
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -35,7 +35,7 @@ use Facebook\InstantArticles\Validators\Type;
  *     </time>
  * </header>
  */
-class Header extends Element implements Container
+class Header extends Element implements ChildrenContainer
 {
     /**
      * @var Image|Video|Slideshow|null for the image or video on the header.
@@ -491,9 +491,9 @@ class Header extends Element implements Container
     }
 
     /**
-     * Implements the Container::getContainerChildren().
+     * Implements the ChildrenContainer::getContainerChildren().
      *
-     * @see Container::getContainerChildren().
+     * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Header.
      */
     public function getContainerChildren()

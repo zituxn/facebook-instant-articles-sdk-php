@@ -1,4 +1,4 @@
-<?php
+<?hh //decl
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -34,7 +34,7 @@ use Facebook\InstantArticles\Validators\Type;
  * @see Map
  * @package Facebook\InstantArticle\Elements
  */
-class Video extends Element implements Container
+class Video extends Element implements ChildrenContainer
 {
     const ASPECT_FIT = 'aspect-fit';
     const ASPECT_FIT_ONLY = 'aspect-fit-only';
@@ -566,9 +566,9 @@ class Video extends Element implements Container
     }
 
     /**
-     * Implements the Container::getContainerChildren().
+     * Implements the ChildrenContainer::getContainerChildren().
      *
-     * @see Container::getContainerChildren().
+     * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Video.
      */
     public function getContainerChildren()
