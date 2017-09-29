@@ -185,7 +185,7 @@ class Author extends Element
 
         // Creates the <a href...></> tag
         $ahref = $document->createElement('a');
-        if ($author_url) {
+        if (!Type::isTextEmpty($author_url)) {
             $ahref->setAttribute('href', $author_url);
         }
         if ($is_fb_author) {
@@ -198,7 +198,7 @@ class Author extends Element
         $element->appendChild($ahref);
 
         // Appends author description
-        if ($this->description) {
+        if ($this->description && !Type::isTextEmpty($this->description)) {
             $element->appendChild($document->createTextNode($this->description));
         }
 

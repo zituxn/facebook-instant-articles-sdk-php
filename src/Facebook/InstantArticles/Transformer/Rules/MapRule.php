@@ -8,7 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
-use Facebook\InstantArticles\Elements\MapPoint;
+use Facebook\InstantArticles\Elements\Map;
 use Facebook\InstantArticles\Elements\InstantArticle;
 
 class MapRule extends ConfigurationSelectorRule
@@ -32,7 +32,7 @@ class MapRule extends ConfigurationSelectorRule
 
     public function apply($transformer, $instant_article, $node)
     {
-        $map = MapPoint::create();
+        $map = Map::create();
         $instant_article->addChild($map);
         $transformer->transform($map, $node);
 
