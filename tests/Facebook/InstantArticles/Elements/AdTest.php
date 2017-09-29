@@ -8,11 +8,8 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Transformer\GeneratorTrait;
-
 class AdTest extends \PHPUnit_Framework_TestCase
 {
-    use GeneratorTrait;
 
     public function testRenderEmpty()
     {
@@ -26,15 +23,13 @@ class AdTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderBasic()
     {
-        $source = $this->getFaker()->url;
-
         $ad =
             Ad::create()
-                ->withSource($source);
+                ->withSource('http://foo.com');
 
         $expected =
             '<figure class="op-ad">'.
-                '<iframe src="'. $source . '"></iframe>'.
+                '<iframe src="http://foo.com"></iframe>'.
             '</figure>';
 
         $rendered = $ad->render();

@@ -12,7 +12,7 @@ class MapTest extends \PHPUnit_Framework_TestCase
 {
     public function testRenderEmpty()
     {
-        $map = Map::create();
+        $map = MapPoint::create();
 
         $expected = '';
 
@@ -39,7 +39,7 @@ class MapTest extends \PHPUnit_Framework_TestCase
 JSON;
 
         $map =
-            Map::create()
+            MapPoint::create()
                 ->withGeoTag(GeoTag::create()->withScript($script));
 
         $expected =
@@ -72,7 +72,7 @@ JSON;
 JSON;
 
         $map =
-            Map::create()
+            MapPoint::create()
                 ->withGeoTag(GeoTag::create()->withScript($script))
                 ->withCaption(
                     Caption::create()

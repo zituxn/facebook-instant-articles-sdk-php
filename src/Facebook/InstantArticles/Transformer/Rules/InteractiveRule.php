@@ -79,6 +79,7 @@ class InteractiveRule extends ConfigurationSelectorRule
 
         // Builds the interactive
         $iframe = $this->getProperty(self::PROPERTY_IFRAME, $node);
+
         $url = $this->getProperty(self::PROPERTY_URL, $node);
         if ($iframe) {
             $interactive->withHTML($iframe);

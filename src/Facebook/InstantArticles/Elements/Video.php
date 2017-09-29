@@ -18,7 +18,7 @@ use Facebook\InstantArticles\Validators\Type;
  *     <li>Audio</li>
  *     <li>Image</li>
  *     <li>SlideShow</li>
- *     <li>Map</li>
+ *     <li>MapPoint</li>
  * </ul>
  *
  * Example:
@@ -31,7 +31,7 @@ use Facebook\InstantArticles\Validators\Type;
  * @see Audio
  * @see Image
  * @see SlideShow
- * @see Map
+ * @see MapPoint
  * @package Facebook\InstantArticle\Elements
  */
 class Video extends Element implements ChildrenContainer
