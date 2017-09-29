@@ -88,7 +88,7 @@ class Transformer
     public static function markAsProcessed($node)
     {
         if (Type::is($node, 'DOMElement')) {
-            $node->setAttribute(self::INSTANT_ARTICLES_PARSED_FLAG, true);
+            $node->setAttribute(self::INSTANT_ARTICLES_PARSED_FLAG, 'true');
         }
     }
 
@@ -99,7 +99,7 @@ class Transformer
      */
     protected static function isProcessed($node)
     {
-        return Type::is($node, 'DOMElement') && $node->getAttribute(self::INSTANT_ARTICLES_PARSED_FLAG);
+        return Type::is($node, 'DOMElement') && $node->getAttribute(self::INSTANT_ARTICLES_PARSED_FLAG) == 'true';
     }
 
 

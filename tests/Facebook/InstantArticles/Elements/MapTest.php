@@ -14,7 +14,7 @@ class MapTest extends BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {
-        $map = Map::create();
+        $map = MapPoint::create();
 
         $expected = '';
 
@@ -41,7 +41,7 @@ class MapTest extends BaseHTMLTestCase
 JSON;
 
         $map =
-            Map::create()
+            MapPoint::create()
                 ->withGeoTag(GeoTag::create()->withScript($script));
 
         $expected =
@@ -74,7 +74,7 @@ JSON;
 JSON;
 
         $map =
-            Map::create()
+            MapPoint::create()
                 ->withGeoTag(GeoTag::create()->withScript($script))
                 ->withCaption(
                     Caption::create()

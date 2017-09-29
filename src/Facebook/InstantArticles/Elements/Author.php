@@ -177,7 +177,7 @@ class Author extends Element
             return $this->emptyElement($document);
         }
 
-        $author_url = $this->url ? $this->url : null;
+        $author_url = $this->url ?: '';
         $is_fb_author = strpos($author_url, 'facebook.com') !== false;
 
         // Creates the root tag <address></address>
@@ -198,7 +198,9 @@ class Author extends Element
         $element->appendChild($ahref);
 
         // Appends author description
-        $element->appendChild($document->createTextNode($this->description));
+        if ($this->description) {
+            $element->appendChild($document->createTextNode($this->description));
+        }
 
         return $element;
     }

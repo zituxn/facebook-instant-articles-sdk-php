@@ -259,7 +259,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
                 H2::getClassName(),
                 Interactive::getClassName(),
                 ListElement::getClassName(),
-                Map::getClassName(),
+                MapPoint::getClassName(),
                 Paragraph::getClassName(),
                 Pullquote::getClassName(),
                 RelatedArticles::getClassName(),
@@ -317,7 +317,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
                 H2::getClassName(),
                 Interactive::getClassName(),
                 ListElement::getClassName(),
-                Map::getClassName(),
+                MapPoint::getClassName(),
                 Paragraph::getClassName(),
                 Pullquote::getClassName(),
                 RelatedArticles::getClassName(),
@@ -353,7 +353,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
                 H2::getClassName(),
                 Interactive::getClassName(),
                 ListElement::getClassName(),
-                Map::getClassName(),
+                MapPoint::getClassName(),
                 Paragraph::getClassName(),
                 Pullquote::getClassName(),
                 RelatedArticles::getClassName(),
@@ -459,7 +459,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
 
         $link = $document->createElement('link');
         $link->setAttribute('rel', 'canonical');
-        $link->setAttribute('href', $this->canonicalURL);
+        $link->setAttribute('href', $this->canonicalURL ?: '');
         $head->appendChild($link);
 
         $charset = $document->createElement('meta');
