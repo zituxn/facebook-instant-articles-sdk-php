@@ -16,7 +16,7 @@ namespace Facebook\InstantArticles\Elements;
 *      <li>Image</li>
  *     <li>Video</li>
  *     <li>SlideShow</li>
- *     <li>MapPoint</li>
+ *     <li>Map</li>
  * </ul>.
  *
  * Example:
@@ -29,7 +29,7 @@ namespace Facebook\InstantArticles\Elements;
  * @see Image
  * @see Video
  * @see SlideShow
- * @see MapPoint
+ * @see Map
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/animated-gif}
  */
 class AnimatedGIF extends Image

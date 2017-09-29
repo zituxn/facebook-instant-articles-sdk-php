@@ -9,6 +9,7 @@
 namespace Facebook\InstantArticles\Elements;
 
 use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Elements\Map as Map;
 
 /**
   * Class InstantArticle
@@ -259,7 +260,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
                 H2::getClassName(),
                 Interactive::getClassName(),
                 ListElement::getClassName(),
-                MapPoint::getClassName(),
+                Map::getClassName(),
                 Paragraph::getClassName(),
                 Pullquote::getClassName(),
                 RelatedArticles::getClassName(),
@@ -317,7 +318,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
                 H2::getClassName(),
                 Interactive::getClassName(),
                 ListElement::getClassName(),
-                MapPoint::getClassName(),
+                Map::getClassName(),
                 Paragraph::getClassName(),
                 Pullquote::getClassName(),
                 RelatedArticles::getClassName(),
@@ -353,7 +354,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
                 H2::getClassName(),
                 Interactive::getClassName(),
                 ListElement::getClassName(),
-                MapPoint::getClassName(),
+                Map::getClassName(),
                 Paragraph::getClassName(),
                 Pullquote::getClassName(),
                 RelatedArticles::getClassName(),

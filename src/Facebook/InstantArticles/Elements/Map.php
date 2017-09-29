@@ -11,7 +11,7 @@ namespace Facebook\InstantArticles\Elements;
 use Facebook\InstantArticles\Validators\Type;
 
 /**
- * Class MapPoint
+ * Class Map
  * This element Class holds map content for the articles.
  *
  * Example:
@@ -34,7 +34,7 @@ use Facebook\InstantArticles\Validators\Type;
  *  </figure>
  *
  */
-class MapPoint extends Audible implements ChildrenContainer
+class Map extends Audible implements ChildrenContainer
 {
     /**
      * @var Caption The caption for Image
@@ -56,9 +56,9 @@ class MapPoint extends Audible implements ChildrenContainer
     }
 
     /**
-     * Factory method for the MapPoint
+     * Factory method for the Map
      *
-     * @return MapPoint the new instance
+     * @return Map the new instance
      */
     public static function create()
     {
@@ -115,7 +115,7 @@ class MapPoint extends Audible implements ChildrenContainer
     }
 
     /**
-     * @return Caption the caption for the MapPoint
+     * @return Caption the caption for the Map
      */
     public function getCaption()
     {
@@ -139,7 +139,7 @@ class MapPoint extends Audible implements ChildrenContainer
     }
 
     /**
-     * Structure and create the full MapPoint in a XML format DOMElement.
+     * Structure and create the full Map in a XML format DOMElement.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
@@ -180,7 +180,7 @@ class MapPoint extends Audible implements ChildrenContainer
      * Overrides the Element::isValid().
      *
      * @see Element::isValid().
-     * @return true for valid MapPoint that contains valid GeoTag, false otherwise.
+     * @return true for valid Map that contains valid GeoTag, false otherwise.
      */
     public function isValid()
     {
@@ -188,9 +188,9 @@ class MapPoint extends Audible implements ChildrenContainer
     }
 
     /**
-     * Implements the ChildrenContainer::getContainerChildren().
+     * Implements the Container::getContainerChildren().
      *
-     * @see ChildrenContainer::getContainerChildren().
+     * @see Container::getContainerChildren().
      * @return array of Elements contained by Image.
      */
     public function getContainerChildren()

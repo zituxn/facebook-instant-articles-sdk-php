@@ -8,7 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
-use Facebook\InstantArticles\Elements\MapPoint;
+use Facebook\InstantArticles\Elements\Map;
 use Facebook\InstantArticles\Elements\Interactive;
 use Facebook\InstantArticles\Elements\Slideshow;
 use Facebook\InstantArticles\Elements\SocialEmbed;
@@ -24,7 +24,7 @@ class CaptionRule extends ConfigurationSelectorRule
     {
         return
             [
-                MapPoint::getClassName(),
+                Map::getClassName(),
                 Image::getClassName(),
                 Interactive::getClassName(),
                 Slideshow::getClassName(),

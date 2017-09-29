@@ -9,12 +9,13 @@
 namespace Facebook\InstantArticles\Elements;
 
 use Facebook\Util\BaseHTMLTestCase;
+use Facebook\InstantArticles\Elements\Map as Map;
 
 class MapTest extends BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {
-        $map = MapPoint::create();
+        $map = Map::create();
 
         $expected = '';
 
@@ -41,7 +42,7 @@ class MapTest extends BaseHTMLTestCase
 JSON;
 
         $map =
-            MapPoint::create()
+            Map::create()
                 ->withGeoTag(GeoTag::create()->withScript($script));
 
         $expected =
@@ -74,7 +75,7 @@ JSON;
 JSON;
 
         $map =
-            MapPoint::create()
+            Map::create()
                 ->withGeoTag(GeoTag::create()->withScript($script))
                 ->withCaption(
                     Caption::create()

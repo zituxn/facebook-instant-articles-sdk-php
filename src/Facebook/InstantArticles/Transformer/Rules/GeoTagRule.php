@@ -10,7 +10,7 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Video;
-use Facebook\InstantArticles\Elements\MapPoint;
+use Facebook\InstantArticles\Elements\Map;
 use Facebook\InstantArticles\Elements\GeoTag;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
@@ -20,7 +20,7 @@ class GeoTagRule extends ConfigurationSelectorRule
 
     public function getContextClass()
     {
-        return [Image::getClassName(), Video::getClassName(), MapPoint::getClassName()];
+        return [Image::getClassName(), Video::getClassName(), Map::getClassName()];
     }
 
     public static function create()

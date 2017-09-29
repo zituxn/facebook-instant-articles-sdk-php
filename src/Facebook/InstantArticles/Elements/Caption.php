@@ -17,7 +17,7 @@ use Facebook\InstantArticles\Validators\Type;
  *     <li>Image</li>
  *     <li>Video</li>
  *     <li>SlideShow</li>
- *     <li>MapPoint</li>
+ *     <li>Map</li>
  *     <li>Interactive</li>
  * </ul>.
  *
@@ -30,7 +30,7 @@ use Facebook\InstantArticles\Validators\Type;
  * @see Image
  * @see Video
  * @see SlideShow
- * @see MapPoint
+ * @see Map
  * @see Interactive
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/caption}
  */

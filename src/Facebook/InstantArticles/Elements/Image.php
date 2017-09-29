@@ -18,7 +18,7 @@ use Facebook\InstantArticles\Validators\Type;
  *     <li>Audio</li>
  *     <li>Video</li>
  *     <li>SlideShow</li>
- *     <li>MapPoint</li>
+ *     <li>Map</li>
  * </ul>.
  *
  * Example:
@@ -30,7 +30,7 @@ use Facebook\InstantArticles\Validators\Type;
  * @see Audio
  * @see Video
  * @see SlideShow
- * @see MapPoint
+ * @see Map
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
 class Image extends Audible implements ChildrenContainer
@@ -81,7 +81,7 @@ class Image extends Audible implements ChildrenContainer
     private $presentation;
 
     /**
-     * @var GeoTag The MapPoint object
+     * @var GeoTag The Map object
      */
     private $geoTag;
 
@@ -284,7 +284,7 @@ class Image extends Audible implements ChildrenContainer
     }
 
     /**
-     * @return MapPoint The json geotag content inside the script geotag
+     * @return Map The json geotag content inside the script geotag
      */
     public function getGeotag()
     {
