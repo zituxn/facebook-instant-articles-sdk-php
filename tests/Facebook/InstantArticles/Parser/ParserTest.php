@@ -12,25 +12,6 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-        \Logger::configure(
-            [
-                'rootLogger' => [
-                    'appenders' => ['facebook-instantarticles-transformer']
-                ],
-                'appenders' => [
-                    'facebook-instantarticles-transformer' => [
-                        'class' => 'LoggerAppenderConsole',
-                        'threshold' => 'INFO',
-                        'layout' => [
-                            'class' => 'LoggerLayoutSimple'
-                        ]
-                    ]
-                ]
-            ]
-        );
-    }
 
     public function testSelfParse()
     {

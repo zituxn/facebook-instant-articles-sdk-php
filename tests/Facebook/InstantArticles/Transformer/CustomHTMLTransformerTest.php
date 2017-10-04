@@ -16,26 +16,6 @@ use Facebook\InstantArticles\Elements\Author;
 
 class CustomHTMLTransformerTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-        \Logger::configure(
-            [
-                'rootLogger' => [
-                    'appenders' => ['facebook-instantarticles-transformer']
-                ],
-                'appenders' => [
-                    'facebook-instantarticles-transformer' => [
-                        'class' => 'LoggerAppenderConsole',
-                        'threshold' => 'INFO',
-                        'layout' => [
-                            'class' => 'LoggerLayoutSimple'
-                        ]
-                    ]
-                ]
-            ]
-        );
-    }
-
     public function testTransformerCustomHTML()
     {
         $json_file = file_get_contents(__DIR__ . '/custom-html-rules.json');
