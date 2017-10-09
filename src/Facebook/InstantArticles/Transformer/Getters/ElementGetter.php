@@ -53,8 +53,7 @@ class ElementGetter extends AbstractGetter
     public function get($node)
     {
         $elements = self::findAll($node, $this->selector);
-        // var_dump($elements instanceof DOMNodeList);
-        if (!empty($elements) /*&& property_exists($elements, 'length')*/ && $elements->length !== 0) {
+        if (!empty($elements) && isset($elements->length) && $elements->length > 0) {
             Transformer::markAsProcessed($elements->item(0));
             return Transformer::cloneNode($elements->item(0));
         }
