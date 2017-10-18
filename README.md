@@ -68,6 +68,11 @@ $ composer dump-autoload
 ___
 **For us to accept contributions you will have to first sign the [Contributor License Agreement](https://code.facebook.com/cla). Please see [CONTRIBUTING](https://github.com/facebook/facebook-instant-articles-sdk-php/blob/master/CONTRIBUTING.md) for details.**
 ___
+## Testing with Docker
+
+We have provide a Docker environment to ensure a consistent testing & development environment.
+
+Use `docker-compose run composer composer install` to get started.
 
 ## Troubleshooting
 
