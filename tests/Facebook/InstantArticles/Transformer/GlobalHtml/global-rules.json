@@ -119,10 +119,6 @@
                     "type":"string",
                     "selector":"img",
                     "attribute":"src"
-                },
-                "image.caption":{
-                    "type":"element",
-                    "selector":"div.image"
                 }
             }
         },

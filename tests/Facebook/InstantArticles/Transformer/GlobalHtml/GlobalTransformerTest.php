@@ -10,7 +10,7 @@ namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
 
-class FullTransformerTest extends \PHPUnit_Framework_TestCase
+class GlobalTransformerTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
@@ -53,7 +53,10 @@ class FullTransformerTest extends \PHPUnit_Framework_TestCase
         $result = $instant_article->render('', true)."\n";
         $expected = file_get_contents(__DIR__ . '/global-ia.html');
 
-        //var_dump($result);
+        foreach ($transformer->getWarnings() as $value) {
+          var_dump($value->__toString());
+        }
+
         $this->assertEquals($expected, $result);
         $this->assertEquals(0, count($transformer->getWarnings()));
     }
