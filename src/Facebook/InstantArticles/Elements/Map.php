@@ -34,7 +34,7 @@ use Facebook\InstantArticles\Validators\Type;
  *  </figure>
  *
  */
-class Map extends Audible implements Container
+class Map extends Audible implements ChildrenContainer
 {
     /**
      * @var Caption The caption for Image
@@ -188,9 +188,9 @@ class Map extends Audible implements Container
     }
 
     /**
-     * Implements the Container::getContainerChildren().
+     * Implements the ChildrenContainer::getContainerChildren().
      *
-     * @see Container::getContainerChildren().
+     * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Image.
      */
     public function getContainerChildren()

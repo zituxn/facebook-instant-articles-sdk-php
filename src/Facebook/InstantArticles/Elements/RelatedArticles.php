@@ -27,7 +27,7 @@ use Facebook\InstantArticles\Validators\Type;
  *     <li>Sleep</li>
  * </ol>
  */
-class RelatedArticles extends Element implements Container
+class RelatedArticles extends Element implements ChildrenContainer
 {
     /**
      * @var RelatedItem[] The related Articles
@@ -148,9 +148,9 @@ class RelatedArticles extends Element implements Container
     }
 
     /**
-     * Implements the Container::getContainerChildren().
+     * Implements the ChildrenContainer::getContainerChildren().
      *
-     * @see Container::getContainerChildren().
+     * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Image.
      */
     public function getContainerChildren()
