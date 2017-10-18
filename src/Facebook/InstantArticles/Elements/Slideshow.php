@@ -29,7 +29,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
-class Slideshow extends Audible implements Container
+class Slideshow extends Audible implements ChildrenContainer
 {
     /**
      * @var Caption The caption for the Slideshow
@@ -256,9 +256,9 @@ class Slideshow extends Audible implements Container
     }
 
     /**
-     * Implements the Container::getContainerChildren().
+     * Implements the ChildrenContainer::getContainerChildren().
      *
-     * @see Container::getContainerChildren().
+     * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Image.
      */
     public function getContainerChildren()

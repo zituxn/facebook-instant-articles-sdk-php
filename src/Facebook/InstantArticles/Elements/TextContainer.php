@@ -18,7 +18,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/body-text}
  */
-abstract class TextContainer extends Element implements Container
+abstract class TextContainer extends Element implements ChildrenContainer
 {
     /**
      * @var array The content is a list of strings and FormattingElements
@@ -133,9 +133,9 @@ abstract class TextContainer extends Element implements Container
     }
 
     /**
-     * Implements the Container::getContainerChildren().
+     * Implements the ChildrenContainer::getContainerChildren().
      *
-     * @see Container::getContainerChildren().
+     * @see ChildrenContainer::getContainerChildren().
      * @return array of TextContainer
      */
     public function getContainerChildren()

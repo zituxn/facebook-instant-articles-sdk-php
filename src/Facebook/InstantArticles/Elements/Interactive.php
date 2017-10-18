@@ -21,7 +21,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/interactive}
  */
-class Interactive extends ElementWithHTML implements Container
+class Interactive extends ElementWithHTML implements ChildrenContainer
 {
     const NO_MARGIN = 'no-margin';
     const COLUMN_WIDTH = 'column-width';
@@ -254,9 +254,9 @@ class Interactive extends ElementWithHTML implements Container
     }
 
     /**
-     * Implements the Container::getContainerChildren().
+     * Implements the ChildrenContainer::getContainerChildren().
      *
-     * @see Container::getContainerChildren().
+     * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Image.
      */
     public function getContainerChildren()
