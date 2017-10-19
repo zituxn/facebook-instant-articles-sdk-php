@@ -9,10 +9,10 @@
 namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\Util\BaseHTMLTestCase;
 
-class SimpleTransformerTest extends \PHPUnit_Framework_TestCase
+class SimpleTransformerTest extends BaseHTMLTestCase
 {
-
     public function testSelfTransformerContent()
     {
         $json_file = file_get_contents(__DIR__ . '/simple-rules.json');
@@ -36,6 +36,6 @@ class SimpleTransformerTest extends \PHPUnit_Framework_TestCase
 
         //var_dump($result);
         // print_r($warnings);
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsHtml($expected, $result);
     }
 }

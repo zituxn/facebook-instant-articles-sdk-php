@@ -9,8 +9,9 @@
 namespace Facebook\InstantArticles\Elements;
 
 use Facebook\InstantArticles\Elements\Map as Map;
+use Facebook\Util\BaseHTMLTestCase;
 
-class MapTest extends \PHPUnit_Framework_TestCase
+class MapTest extends BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {
@@ -19,7 +20,7 @@ class MapTest extends \PHPUnit_Framework_TestCase
         $expected = '';
 
         $rendered = $map->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithGeotag()
@@ -52,7 +53,7 @@ JSON;
         '</figure>';
 
         $rendered = $map->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithGeotagAndCaption()
@@ -95,6 +96,6 @@ JSON;
         '</figure>';
 
         $rendered = $map->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 }
