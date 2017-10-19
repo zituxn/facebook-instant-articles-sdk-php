@@ -8,7 +8,9 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-class InstantArticleTest extends \PHPUnit_Framework_TestCase
+use Facebook\Util\BaseHTMLTestCase;
+
+class InstantArticleTest extends BaseHTMLTestCase
 {
     /**
      * @var InstantArticle
@@ -206,7 +208,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
             '</body>'.
             '</html>';
 
-        $this->assertEquals($expected, $this->article->render());
+        $this->assertEqualsHtml($expected, $this->article->render());
     }
 
     public function testRenderWithAds()
@@ -279,7 +281,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
 
         $this->article->getHeader()->addAd(Ad::create()->withSource('http://foo.com'));
 
-        $this->assertEquals($expected, $this->article->render());
+        $this->assertEqualsHtml($expected, $this->article->render());
     }
 
     public function testRenderWithoutAds()
@@ -311,7 +313,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                 '</body>'.
             '</html>';
 
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsHtml($expected, $result);
     }
 
     public function testInstantArticleAlmostEmpty()
@@ -406,7 +408,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
             '</html>';
 
         $result = $article->render();
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsHtml($expected, $result);
     }
 
     public function testIsValid()
@@ -503,7 +505,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                 '</body>'.
             '</html>';
 
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsHtml($expected, $result);
     }
 
     public function testGetFirstParagraph()
@@ -540,7 +542,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
         $result = $article->getFirstParagraph()->render();
         $expected = '<p>Yes, peace is good for everybody!<br/> Man kind.</p>';
 
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsHtml($expected, $result);
     }
 
     public function testGetEmptyFirstParagraph()
@@ -550,7 +552,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
         $result = $article->getFirstParagraph()->render();
         $expected = '';
 
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsHtml($expected, $result);
     }
 
     public function testDeleteChildren()
@@ -612,7 +614,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                 '</body>'.
             '</html>';
 
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsHtml($expected, $result);
     }
 
     public function testDeleteOnlyChild()
@@ -669,7 +671,7 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                 '</body>'.
             '</html>';
 
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsHtml($expected, $result);
     }
 
     public function testReplaceChildren()
@@ -736,6 +738,6 @@ class InstantArticleTest extends \PHPUnit_Framework_TestCase
                 '</body>'.
             '</html>';
 
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsHtml($expected, $result);
     }
 }

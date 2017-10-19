@@ -9,8 +9,9 @@
 namespace Facebook\InstantArticles\Elements;
 
 use Facebook\InstantArticles\Transformer\GeneratorTrait;
+use Facebook\Util\BaseHTMLTestCase;
 
-class AdTest extends \PHPUnit_Framework_TestCase
+class AdTest extends BaseHTMLTestCase
 {
     use GeneratorTrait;
 
@@ -38,7 +39,7 @@ class AdTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $ad->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderBasicWithHeightAndWidth()
@@ -55,7 +56,7 @@ class AdTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $ad->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderBasicWithDefaultEnabled()
@@ -73,7 +74,7 @@ class AdTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $ad->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderInlineWithHeightAndWidth()
@@ -97,6 +98,6 @@ class AdTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $ad->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 }

@@ -9,29 +9,10 @@
 namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\Util\BaseHTMLTestCase;
 
-class SimpleTransformerTest extends \PHPUnit_Framework_TestCase
+class SimpleTransformerTest extends BaseHTMLTestCase
 {
-    protected function setUp()
-    {
-        \Logger::configure(
-            [
-                'rootLogger' => [
-                    'appenders' => ['facebook-instantarticles-transformer']
-                ],
-                'appenders' => [
-                    'facebook-instantarticles-transformer' => [
-                        'class' => 'LoggerAppenderConsole',
-                        'threshold' => 'INFO',
-                        'layout' => [
-                            'class' => 'LoggerLayoutSimple'
-                        ]
-                    ]
-                ]
-            ]
-        );
-    }
-
     public function testSelfTransformerContent()
     {
         $json_file = file_get_contents(__DIR__ . '/simple-rules.json');
@@ -55,6 +36,6 @@ class SimpleTransformerTest extends \PHPUnit_Framework_TestCase
 
         //var_dump($result);
         // print_r($warnings);
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsHtml($expected, $result);
     }
 }

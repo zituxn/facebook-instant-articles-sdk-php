@@ -8,7 +8,9 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-class ImageTest extends \PHPUnit_Framework_TestCase
+use Facebook\Util\BaseHTMLTestCase;
+
+class ImageTest extends BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {
@@ -17,7 +19,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $expected = '';
 
         $rendered = $image->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderBasic()
@@ -32,7 +34,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $image->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithCaption()
@@ -52,7 +54,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $image->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithAttributionCaption()
@@ -77,7 +79,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $image->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithLike()
@@ -98,7 +100,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $image->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithComments()
@@ -119,7 +121,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $image->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithLikeAndComments()
@@ -141,7 +143,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $image->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithFullscreen()
@@ -157,7 +159,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $image->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithGeotag()
@@ -192,7 +194,7 @@ JSON;
             '</figure>';
 
         $rendered = $image->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithAudio()
@@ -221,6 +223,6 @@ JSON;
             '</figure>';
 
         $rendered = $image->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 }
