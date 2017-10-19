@@ -27,7 +27,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Facebook\\InstantArticles\\": "tests/Facebook/InstantArticles/"
+            "Facebook\\": "tests/Facebook/"
         }
     },
     "scripts": {

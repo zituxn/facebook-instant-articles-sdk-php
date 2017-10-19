@@ -13,29 +13,10 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Time;
 use Facebook\InstantArticles\Elements\Author;
+use Facebook\Util\BaseHTMLTestCase;
 
-class CustomHTMLTransformerTest extends \PHPUnit_Framework_TestCase
+class CustomHTMLTransformerTest extends BaseHTMLTestCase
 {
-    protected function setUp()
-    {
-        \Logger::configure(
-            [
-                'rootLogger' => [
-                    'appenders' => ['facebook-instantarticles-transformer']
-                ],
-                'appenders' => [
-                    'facebook-instantarticles-transformer' => [
-                        'class' => 'LoggerAppenderConsole',
-                        'threshold' => 'INFO',
-                        'layout' => [
-                            'class' => 'LoggerLayoutSimple'
-                        ]
-                    ]
-                ]
-            ]
-        );
-    }
-
     public function testTransformerCustomHTML()
     {
         $json_file = file_get_contents(__DIR__ . '/custom-html-rules.json');
@@ -71,7 +52,7 @@ class CustomHTMLTransformerTest extends \PHPUnit_Framework_TestCase
         $result = $instant_article->render('', true)."\n";
         $expected = file_get_contents(__DIR__ . '/custom-html-ia.xml');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsHtml($expected, $result);
         // there must be 3 warnings related to <img> inside <li> that is not supported by IA
         $this->assertCount(3, $transformer->getWarnings());
     }
