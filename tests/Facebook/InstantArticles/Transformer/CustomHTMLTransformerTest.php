@@ -53,6 +53,6 @@ class CustomHTMLTransformerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $result);
         // there must be 3 warnings related to <img> inside <li> that is not supported by IA
-        $this->assertCount(3, $transformer->getWarnings());
+        $this->assertEquals(3, count($transformer->getWarnings()));
     }
 }

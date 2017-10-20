@@ -113,7 +113,7 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result);
 
         $warnings = InstantArticleValidator::check($article);
-        $this->assertCount(9, $warnings);
+        $this->assertEquals(9, count($warnings));
     }
 
     public function testFooter()
@@ -125,7 +125,7 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
 
         $warnings = array();
         InstantArticleValidator::getReport(array($footer), $warnings);
-        $this->assertCount(1, $warnings);
+        $this->assertEquals(1, count($warnings));
         $this->assertContains('Footer must have at least one of the', $warnings[0]->__toString());
     }
 }
