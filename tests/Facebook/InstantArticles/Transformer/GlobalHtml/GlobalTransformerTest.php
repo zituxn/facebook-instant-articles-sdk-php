@@ -12,26 +12,6 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 
 class GlobalTransformerTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-        \Logger::configure(
-            [
-                'rootLogger' => [
-                    'appenders' => ['facebook-instantarticles-transformer']
-                ],
-                'appenders' => [
-                    'facebook-instantarticles-transformer' => [
-                        'class' => 'LoggerAppenderConsole',
-                        'threshold' => 'INFO',
-                        'layout' => [
-                            'class' => 'LoggerLayoutSimple'
-                        ]
-                    ]
-                ]
-            ]
-        );
-    }
-
     public function testSelfTransformerContent()
     {
         $json_file = file_get_contents(__DIR__ . '/global-rules.json');
@@ -52,10 +32,6 @@ class GlobalTransformerTest extends \PHPUnit_Framework_TestCase
         $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
         $result = $instant_article->render('', true)."\n";
         $expected = file_get_contents(__DIR__ . '/global-ia.html');
-
-        foreach ($transformer->getWarnings() as $value) {
-          var_dump($value->__toString());
-        }
 
         $this->assertEquals($expected, $result);
         $this->assertEquals(0, count($transformer->getWarnings()));
