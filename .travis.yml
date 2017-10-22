@@ -2,7 +2,6 @@ language: php
 
 matrix:
   include:
-    - php: 7
     - php: 7.1
       env: WITH_CS=true
 

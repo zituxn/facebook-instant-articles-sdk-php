@@ -8,7 +8,9 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-class SlideshowTest extends \PHPUnit_Framework_TestCase
+use Facebook\Util\BaseHTMLTestCase;
+
+class SlideshowTest extends BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {
@@ -17,7 +19,7 @@ class SlideshowTest extends \PHPUnit_Framework_TestCase
         $expected = '';
 
         $rendered = $slideshow->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderBasic()
@@ -42,7 +44,7 @@ class SlideshowTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $slideshow->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithLikeAndComments()
@@ -80,7 +82,7 @@ class SlideshowTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $slideshow->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithCaption()
@@ -110,7 +112,7 @@ class SlideshowTest extends \PHPUnit_Framework_TestCase
             '</figure>';
 
         $rendered = $slideshow->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithGeotag()
@@ -155,7 +157,7 @@ JSON;
             '</figure>';
 
         $rendered = $slideshow->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithAudio()
@@ -194,6 +196,6 @@ JSON;
             '</figure>';
 
         $rendered = $slideshow->render();
-        $this->assertEquals($expected, $rendered);
+        $this->assertEqualsHtml($expected, $rendered);
     }
 }

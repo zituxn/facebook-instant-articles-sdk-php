@@ -10,10 +10,10 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Transformer\Transformer;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\Util\BaseHTMLTestCase;
 
-class PullquoteRuleTest extends \PHPUnit_Framework_TestCase
+class PullquoteRuleTest extends BaseHTMLTestCase
 {
-
     public function testTransformPullquote()
     {
         $transformer_rules = <<<'JSON'
@@ -76,6 +76,6 @@ JSON;
         $pullquote = $instant_article->getChildren()[0];
         $result = $pullquote->render('', true)."\n";
 
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsHtml($expected, $result);
     }
 }

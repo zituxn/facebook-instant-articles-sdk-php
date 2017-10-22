@@ -6,22 +6,23 @@
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
  */
-namespace Facebook\InstantArticles\Transformer;
+namespace Facebook\InstantArticles\Transformer\GlobalHtml;
 
+use Facebook\InstantArticles\Transformer\Transformer;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\Util\BaseHTMLTestCase;
 
-class SimpleTransformerTest extends BaseHTMLTestCase
+class GlobalTransformerTest extends BaseHTMLTestCase
 {
     public function testSelfTransformerContent()
     {
-        $json_file = file_get_contents(__DIR__ . '/simple-rules.json');
+        $json_file = file_get_contents(__DIR__ . '/global-rules.json');
 
         $instant_article = InstantArticle::create();
         $transformer = new Transformer();
         $transformer->loadRules($json_file);
 
-        $html_file = file_get_contents(__DIR__ . '/simple.html');
+        $html_file = file_get_contents(__DIR__ . '/global.html');
 
         libxml_use_internal_errors(true);
         $document = new \DOMDocument();
@@ -32,10 +33,9 @@ class SimpleTransformerTest extends BaseHTMLTestCase
         $instant_article->addMetaProperty('op:generator:version', '1.0.0');
         $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
         $result = $instant_article->render('', true)."\n";
-        $expected = file_get_contents(__DIR__ . '/simple-ia.html');
+        $expected = file_get_contents(__DIR__ . '/global-ia.html');
 
-        //var_dump($result);
-        // print_r($warnings);
-        $this->assertEqualsHtml($expected, $result);
+        $this->assertEquals($expected, $result);
+        $this->assertEquals(0, count($transformer->getWarnings()));
     }
 }
