@@ -8,7 +8,6 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\Util\BaseHTMLTestCase;
 use Facebook\InstantArticles\Elements\Map as Map;
 use Facebook\Util\BaseHTMLTestCase;
 
