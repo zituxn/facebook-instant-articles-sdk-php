@@ -8,9 +8,7 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\Util\BaseHTMLTestCase;
-
-class PullquoteTest extends BaseHTMLTestCase
+class PullquoteTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderBasic()
     {

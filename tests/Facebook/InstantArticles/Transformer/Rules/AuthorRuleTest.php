@@ -9,9 +9,8 @@
 namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Parser\Parser;
-use Facebook\Util\BaseHTMLTestCase;
 
-class AuthorRuleTest extends BaseHTMLTestCase
+class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testCreateFromProperties()
     {

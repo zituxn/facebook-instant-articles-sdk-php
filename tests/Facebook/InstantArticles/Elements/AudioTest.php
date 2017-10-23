@@ -8,9 +8,7 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\Util\BaseHTMLTestCase;
-
-class AudioTest extends BaseHTMLTestCase
+class AudioTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {

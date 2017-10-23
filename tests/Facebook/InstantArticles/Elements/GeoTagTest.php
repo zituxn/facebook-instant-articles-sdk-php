@@ -8,9 +8,7 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\Util\BaseHTMLTestCase;
-
-class GeoTagTest extends BaseHTMLTestCase
+class GeoTagTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {

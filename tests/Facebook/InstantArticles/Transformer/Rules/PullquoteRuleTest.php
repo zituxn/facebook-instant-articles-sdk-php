@@ -10,9 +10,8 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Transformer\Transformer;
 use Facebook\InstantArticles\Elements\InstantArticle;
-use Facebook\Util\BaseHTMLTestCase;
 
-class PullquoteRuleTest extends BaseHTMLTestCase
+class PullquoteRuleTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testTransformPullquote()
     {

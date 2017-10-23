@@ -13,9 +13,8 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Time;
 use Facebook\InstantArticles\Elements\Author;
-use Facebook\Util\BaseHTMLTestCase;
 
-class CustomHTMLTransformerTest extends BaseHTMLTestCase
+class CustomHTMLTransformerTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testTransformerCustomHTML()
     {

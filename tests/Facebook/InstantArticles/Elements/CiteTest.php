@@ -8,9 +8,7 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\Util\BaseHTMLTestCase;
-
-class CiteTest extends BaseHTMLTestCase
+class CiteTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {

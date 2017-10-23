@@ -8,9 +8,7 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\Util\BaseHTMLTestCase;
-
-class BlockquoteTest extends BaseHTMLTestCase
+class BlockquoteTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {

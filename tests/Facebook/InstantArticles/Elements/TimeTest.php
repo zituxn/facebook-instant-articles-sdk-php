@@ -8,9 +8,7 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\Util\BaseHTMLTestCase;
-
-class TimeTest extends BaseHTMLTestCase
+class TimeTest extends \Facebook\Util\BaseHTMLTestCase
 {
     private $timeDate;
 

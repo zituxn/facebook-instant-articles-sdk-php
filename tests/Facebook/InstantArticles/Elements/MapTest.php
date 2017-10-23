@@ -9,9 +9,8 @@
 namespace Facebook\InstantArticles\Elements;
 
 use Facebook\InstantArticles\Elements\Map as Map;
-use Facebook\Util\BaseHTMLTestCase;
 
-class MapTest extends BaseHTMLTestCase
+class MapTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {

@@ -10,9 +10,8 @@ namespace Facebook\InstantArticles\Transformer\GlobalHtml;
 
 use Facebook\InstantArticles\Transformer\Transformer;
 use Facebook\InstantArticles\Elements\InstantArticle;
-use Facebook\Util\BaseHTMLTestCase;
 
-class GlobalTransformerTest extends BaseHTMLTestCase
+class GlobalTransformerTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testSelfTransformerContent()
     {
