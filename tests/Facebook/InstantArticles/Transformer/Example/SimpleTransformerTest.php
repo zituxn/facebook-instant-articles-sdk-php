@@ -9,9 +9,8 @@
 namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
-use Facebook\Util\BaseHTMLTestCase;
 
-class SimpleTransformerTest extends BaseHTMLTestCase
+class SimpleTransformerTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testSelfTransformerContent()
     {

@@ -8,9 +8,7 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\Util\BaseHTMLTestCase;
-
-class HeaderTest extends BaseHTMLTestCase
+class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
 {
 
     public function testHeaderEmpty()

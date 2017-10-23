@@ -8,9 +8,7 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\Util\BaseHTMLTestCase;
-
-class SponsorTest extends BaseHTMLTestCase
+class SponsorTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {

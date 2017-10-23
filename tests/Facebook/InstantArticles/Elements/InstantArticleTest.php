@@ -8,9 +8,7 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\Util\BaseHTMLTestCase;
-
-class InstantArticleTest extends BaseHTMLTestCase
+class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
 {
     /**
      * @var InstantArticle

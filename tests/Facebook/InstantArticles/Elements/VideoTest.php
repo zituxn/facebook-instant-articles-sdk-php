@@ -8,9 +8,7 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\Util\BaseHTMLTestCase;
-
-class VideoTest extends BaseHTMLTestCase
+class VideoTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {

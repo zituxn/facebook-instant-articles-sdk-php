@@ -16,9 +16,8 @@ use Facebook\InstantArticles\Transformer\Rules\H1Rule;
 use Facebook\InstantArticles\Transformer\Rules\ItalicRule;
 use Facebook\InstantArticles\Transformer\Rules\ParagraphRule;
 use Facebook\InstantArticles\Transformer\Rules\TextNodeRule;
-use Facebook\Util\BaseHTMLTestCase;
 
-class TransformerTest extends BaseHTMLTestCase
+class TransformerTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testTransformString()
     {

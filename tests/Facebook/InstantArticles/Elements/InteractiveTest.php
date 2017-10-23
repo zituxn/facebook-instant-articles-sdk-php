@@ -10,9 +10,8 @@ namespace Facebook\InstantArticles;
 
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\Interactive;
-use Facebook\Util\BaseHTMLTestCase;
 
-class InteractiveTest extends BaseHTMLTestCase
+class InteractiveTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {

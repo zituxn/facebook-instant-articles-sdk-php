@@ -9,9 +9,8 @@
 namespace Facebook\InstantArticles\Parser;
 
 use Facebook\InstantArticles\Transformer\Transformer;
-use Facebook\Util\BaseHTMLTestCase;
 
-class ParserTest extends BaseHTMLTestCase
+class ParserTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testSelfParse()
     {
