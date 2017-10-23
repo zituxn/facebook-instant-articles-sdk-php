@@ -22,7 +22,7 @@ class TransformerTest extends BaseHTMLTestCase
 {
     public function testTransformString()
     {
-        $json_file = file_get_contents('src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
+        $json_file = file_get_contents(__DIR__ . '/../../../../src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
 
         $instant_article = InstantArticle::create();
         $transformer = new Transformer();
@@ -37,7 +37,7 @@ class TransformerTest extends BaseHTMLTestCase
 
     public function testTransformStringWithMultibyteUTF8Content()
     {
-        $json_file = file_get_contents('src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
+        $json_file = file_get_contents(__DIR__ . '/../../../../src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
 
         $instant_article = InstantArticle::create();
         $transformer = new Transformer();
@@ -52,7 +52,7 @@ class TransformerTest extends BaseHTMLTestCase
 
     public function testTransformStringWithMultibyteNonUTF8Content()
     {
-        $json_file = file_get_contents('src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
+        $json_file = file_get_contents(__DIR__ . '/../../../../src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
 
         $instant_article = InstantArticle::create();
         $transformer = new Transformer();
@@ -67,7 +67,7 @@ class TransformerTest extends BaseHTMLTestCase
 
     public function testSelfTransformerContent()
     {
-        $json_file = file_get_contents('src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
+        $json_file = file_get_contents(__DIR__ . '/../../../../src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
 
         $instant_article = InstantArticle::create();
         $transformer = new Transformer();
@@ -92,7 +92,7 @@ class TransformerTest extends BaseHTMLTestCase
 
     public function testSelfTransformerMultibyteContent()
     {
-        $json_file = file_get_contents('src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
+        $json_file = file_get_contents(__DIR__ . '/../../../../src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
 
         $instant_article = InstantArticle::create();
         $transformer = new Transformer();
@@ -116,7 +116,7 @@ class TransformerTest extends BaseHTMLTestCase
 
     public function testSelfTransformerNonUTF8Content()
     {
-        $json_file = file_get_contents('src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
+        $json_file = file_get_contents(__DIR__ . '/../../../../src/Facebook/InstantArticles/Parser/instant-articles-rules.json');
 
         $instant_article = InstantArticle::create();
         $transformer = new Transformer();
