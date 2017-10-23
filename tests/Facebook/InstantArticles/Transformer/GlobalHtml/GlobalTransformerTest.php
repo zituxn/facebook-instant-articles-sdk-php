@@ -16,6 +16,8 @@ class GlobalTransformerTest extends BaseHTMLTestCase
 {
     public function testSelfTransformerContent()
     {
+        date_default_timezone_set('UTC');
+
         $json_file = file_get_contents(__DIR__ . '/global-rules.json');
 
         $instant_article = InstantArticle::create();

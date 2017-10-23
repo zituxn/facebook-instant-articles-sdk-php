@@ -19,6 +19,8 @@ class CustomHTMLTransformerTest extends BaseHTMLTestCase
 {
     public function testTransformerCustomHTML()
     {
+        date_default_timezone_set('UTC');
+
         $json_file = file_get_contents(__DIR__ . '/custom-html-rules.json');
 
         $instant_article = InstantArticle::create();
