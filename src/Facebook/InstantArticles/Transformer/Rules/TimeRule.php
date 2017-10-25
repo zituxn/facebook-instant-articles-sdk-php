@@ -25,7 +25,7 @@ class TimeRule extends ConfigurationSelectorRule
     const PROPERTY_DATETIME_TYPE = 'article.datetype';
     const PROPERTY_TIME = 'article.time';
 
-    private $type = Time::PUBLISHED;
+    private $type = \Facebook\InstantArticles\Elements\Time::PUBLISHED;
 
     public function getContextClass()
     {

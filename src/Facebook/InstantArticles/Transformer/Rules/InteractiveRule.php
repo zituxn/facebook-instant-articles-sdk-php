@@ -18,8 +18,8 @@ class InteractiveRule extends ConfigurationSelectorRule
 {
     const PROPERTY_IFRAME = 'interactive.iframe';
     const PROPERTY_URL = 'interactive.url';
-    const PROPERTY_WIDTH_NO_MARGIN = Interactive::NO_MARGIN;
-    const PROPERTY_WIDTH_COLUMN_WIDTH = Interactive::COLUMN_WIDTH;
+    const PROPERTY_WIDTH_NO_MARGIN = \Facebook\InstantArticles\Elements\Interactive::NO_MARGIN;
+    const PROPERTY_WIDTH_COLUMN_WIDTH = \Facebook\InstantArticles\Elements\Interactive::COLUMN_WIDTH;
     const PROPERTY_HEIGHT = 'interactive.height';
     const PROPERTY_WIDTH = 'interactive.width';
 
