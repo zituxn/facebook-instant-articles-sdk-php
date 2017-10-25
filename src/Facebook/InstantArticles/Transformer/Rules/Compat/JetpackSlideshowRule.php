@@ -8,14 +8,13 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules\Compat;
 
-use Facebook\InstantArticles\Transformer\Rules\ConfigurationSelectorRule;
 use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\Slideshow;
 
-class JetpackSlideshowRule extends ConfigurationSelectorRule
+class JetpackSlideshowRule extends \Facebook\InstantArticles\Transformer\Rules\ConfigurationSelectorRule
 {
     const PROPERTY_JETPACK_DATA_GALLERY = 'jetpack.data-gallery';
 
