@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Audio;
 use Facebook\InstantArticles\Elements\Audible;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
@@ -19,35 +20,35 @@ class AudioRule extends ConfigurationSelectorRule
     const PROPERTY_AUDIO_AUTOPLAY = 'audio.autoplay';
     const PROPERTY_AUDIO_MUTED = 'audio.muted';
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return Audible::getClassName();
+        return Vector { Audible::getClassName() };
     }
 
-    public static function create()
+    public static function create(): AudioRule
     {
         return new AudioRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): AudioRule
     {
         $audio_rule = self::create();
-        $audio_rule->withSelector($configuration['selector']);
+        $audio_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
         $audio_rule->withProperties(
-            [
+            Vector {
                 self::PROPERTY_AUDIO_URL,
                 self::PROPERTY_AUDIO_TITLE,
                 self::PROPERTY_AUDIO_AUTOPLAY,
-                self::PROPERTY_AUDIO_MUTED
-            ],
+                self::PROPERTY_AUDIO_MUTED,
+            },
             $configuration
         );
 
         return $audio_rule;
     }
 
-    public function apply($transformer, $audible, $node)
+    public function apply(Transformer $transformer, Element $audible, \DOMNode $node): Element
     {
         $audio = Audio::create();
 
@@ -59,6 +60,7 @@ class AudioRule extends ConfigurationSelectorRule
 
         if ($url) {
             $audio->withURL($url);
+            invariant($audible instanceof Audible, 'Error, $audible is not Audible.');
             $audible->withAudio($audio);
         } else {
             // URL is a required field for Audio

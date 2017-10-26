@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -12,24 +12,23 @@ use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Transformer;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
-class NextSiblingElementGetter extends ElementGetter
+class NextSiblingElementGetter extends AbstractGetter
 {
-    protected $siblingSelector;
+    protected ?string $siblingSelector;
 
     /**
      * @param string $siblingSelector
      *
      * @return $this
      */
-    public function withSiblingSelector($siblingSelector)
+    public function withSiblingSelector(string $siblingSelector): NextSiblingElementGetter
     {
-        Type::enforce($siblingSelector, Type::STRING);
         $this->siblingSelector = $siblingSelector;
 
         return $this;
     }
 
-    public function createFrom($properties)
+    public function createFrom(Map<string, string> $properties): NextSiblingElementGetter
     {
         if (isset($properties['selector'])) {
             $this->withSelector($properties['selector']);
@@ -44,19 +43,18 @@ class NextSiblingElementGetter extends ElementGetter
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): ?\DOMNode
     {
-        Type::enforce($node, 'DOMNode');
-        $elements = self::findAll($node, $this->selector);
+        $elements = $this->findAll($node, $this->selector);
         if (!empty($elements) && $elements->item(0)) {
             $element = $elements->item(0);
             do {
                 $element = $element->nextSibling;
-            } while ($element !== null && !Type::is($element, 'DOMNode'));
+            } while ($element !== null && !($element instanceof \DOMNode));
 
-            if ($element && Type::is($element, 'DOMNode')) {
+            if ($element && $element instanceof \DOMNode) {
                 if ($this->siblingSelector) {
-                    $siblings = self::findAll($element, $this->siblingSelector);
+                    $siblings = $this->findAll($element, $this->siblingSelector);
                     if (!empty($siblings) && $siblings->item(0)) {
                         $siblingElement = $siblings->item(0);
                     } else {

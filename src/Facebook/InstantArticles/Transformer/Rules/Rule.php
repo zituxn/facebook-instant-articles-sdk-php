@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,9 +8,11 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
+
 abstract class Rule
 {
-    public function matches($context, $node)
+    public function matches(Element $context, \DOMNode $node): bool
     {
         $log = \Logger::getLogger('facebook-instantarticles-transformer');
 
@@ -36,15 +38,15 @@ abstract class Rule
         return $matches_context && $matches_node;
     }
 
-    abstract public function matchesContext($context);
+    abstract public function matchesContext(Element $context): bool;
 
-    abstract public function matchesNode($node);
+    abstract public function matchesNode(\DOMNode $node): bool;
 
-    abstract public function apply($transformer, $container, $node);
+    abstract public function apply(Transformer $transformer, Element $container, \DOMNode $node): Element;
 
-    abstract public function getContextClass();
+    abstract public function getContextClass(): Vector<string>;
 
-    public static function create()
+    public static function create(): Rule
     {
         throw new \Exception(
             'All Rule class extensions should implement the '.
@@ -52,7 +54,7 @@ abstract class Rule
         );
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map<string, mixed> $configuration): Rule
     {
         throw new \Exception(
             'All Rule class extensions should implement the '.
@@ -60,20 +62,24 @@ abstract class Rule
         );
     }
 
-    public static function retrieveProperty($array, $property_name)
+    public static function retrieveProperty(Map<string, mixed> $properties, string $property_name): mixed
     {
-        if (isset($array[$property_name])) {
-            return $array[$property_name];
-        } elseif (isset($array['properties']) && isset($array['properties'][$property_name])) {
-            return $array['properties'][$property_name];
+        if (array_key_exists($property_name, $properties)) {
+            return $properties[$property_name];
+        } elseif (array_key_exists('properties', $properties)) {
+            $mappedProperties = $properties['properties'];
+            if ($mappedProperties instanceof Map && array_key_exists($property_name, $mappedProperties)) {
+                return $mappedProperties[$property_name];
+            }
         }
+        return null;
     }
 
     /**
      * Auxiliary method to extract full qualified class name.
      * @return string The full qualified name of class
      */
-    public static function getClassName()
+    public static function getClassName(): string
     {
         return get_called_class();
     }

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,39 +8,35 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Blockquote;
 
 class BlockquoteRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return InstantArticle::getClassName();
+        return Vector { InstantArticle::getClassName() };
     }
 
-    public static function create()
+    public static function create(): BlockquoteRule
     {
         return new BlockquoteRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): BlockquoteRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $blockquoteRule = BlockquoteRule::create();
+        $blockquoteRule->withSelector(Type::mapGetString($configuration, 'selector'));
+
+        return $blockquoteRule;
     }
 
-    public function apply($transformer, $instant_article, $element)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $element): Element
     {
         $blockquote = Blockquote::create();
-        $instant_article->addChild($blockquote);
+        Type::elementAsInstantArticle($instant_article)->addChild($blockquote);
         $transformer->transform($blockquote, $element);
         return $instant_article;
-    }
-
-    /**
-     * @param array $configuration
-     */
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
     }
 }

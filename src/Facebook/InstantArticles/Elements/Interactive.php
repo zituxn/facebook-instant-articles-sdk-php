@@ -21,7 +21,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/interactive}
  */
-class Interactive extends ElementWithHTML implements ChildrenContainer
+class Interactive extends ElementWithHTML implements ChildrenContainer, Captionable
 {
     const NO_MARGIN = 'no-margin';
     const COLUMN_WIDTH = 'column-width';

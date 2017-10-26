@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,14 +10,14 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
 
-class XpathGetter extends ChildrenGetter
+class XpathGetter extends AbstractGetter
 {
     /**
      * @var string
      */
-    protected $attribute;
+    protected ?string $attribute;
 
-    public function createFrom($properties)
+    public function createFrom(Map<string, string> $properties): XpathGetter
     {
         if (isset($properties['selector'])) {
             $this->withSelector($properties['selector']);
@@ -25,6 +25,7 @@ class XpathGetter extends ChildrenGetter
         if (isset($properties['attribute'])) {
             $this->withAttribute($properties['attribute']);
         }
+        return $this;
     }
 
     /**
@@ -32,17 +33,15 @@ class XpathGetter extends ChildrenGetter
      *
      * @return $this
      */
-    public function withAttribute($attribute)
+    public function withAttribute(string $attribute): XpathGetter
     {
-        Type::enforce($attribute, Type::STRING);
         $this->attribute = $attribute;
 
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): ?string
     {
-        Type::enforce($node, 'DOMNode');
         $domXPath = new \DOMXPath($node->ownerDocument);
         $elements = $domXPath->query($this->selector, $node);
 

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,14 +10,9 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
 
-class JSONGetter extends ChildrenGetter
+class JSONGetter extends AbstractGetter
 {
-    /**
-     * @var string
-     */
-    protected $attribute;
-
-    public function createFrom($properties)
+    public function createFrom(Map<string, string> $properties): JSONGetter
     {
         if (isset($properties['selector'])) {
             $this->withSelector($properties['selector']);
@@ -25,27 +20,14 @@ class JSONGetter extends ChildrenGetter
         if (isset($properties['attribute'])) {
             $this->withAttribute($properties['attribute']);
         }
-    }
-
-    /**
-     * @param string $attribute
-     *
-     * @return $this
-     */
-    public function withAttribute($attribute)
-    {
-        Type::enforce($attribute, Type::STRING);
-        $this->attribute = $attribute;
-
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): mixed
     {
-        $content = null;
+        $content = "";
 
-        Type::enforce($node, 'DOMNode');
-        $elements = self::findAll($node, $this->selector);
+        $elements = $this->findAll($node, $this->selector);
         if (!empty($elements) && $elements->item(0)) {
             $element = $elements->item(0);
             if ($this->attribute) {

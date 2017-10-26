@@ -1,4 +1,4 @@
-<?hh //strict
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -11,13 +11,8 @@ namespace Facebook\InstantArticles\Transformer\Warnings;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Validators\Type;
 
-class ValidatorWarning
+class ValidatorWarning extends TransformerWarning
 {
-    /**
-     * @var Element
-     */
-    private Element $element;
-
     /**
      * @var array the configuration content
      */
@@ -28,7 +23,7 @@ class ValidatorWarning
      */
     public function __construct(Element $element)
     {
-        $this->element = $element;
+        parent::__construct(null, $element, null, null);
         $this->configuration = array ();
     }
 
@@ -40,20 +35,13 @@ class ValidatorWarning
         return $this->formatWarningMessage();
     }
 
-    /**
-     * @return Element
-     */
-    public function getElement(): Element
-    {
-        return $this->element;
-    }
-
     private function formatWarningMessage(): string
     {
         if (!$this->configuration) {
             $this->configuration = parse_ini_file("validator_warning_messages.ini", true);
         }
-        $simple_class_name = substr(strrchr($this->element->getClassName(), '\\'), 1);
+
+        $simple_class_name = substr(strrchr($this->getContext()?->getClassName(), '\\'), 1);
 
         if (!array_key_exists('warning_messages', $this->configuration) ||
             !array_key_exists($simple_class_name, $this->configuration['warning_messages'])) {

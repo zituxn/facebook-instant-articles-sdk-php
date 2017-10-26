@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -15,8 +15,8 @@ use Facebook\InstantArticles\Elements\Paragraph;
  */
 class ImageInsideParagraphRule extends ImageRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return Paragraph::getClassName();
+        return Vector { Paragraph::getClassName() };
     }
 }

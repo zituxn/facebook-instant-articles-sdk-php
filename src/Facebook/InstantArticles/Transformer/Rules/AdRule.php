@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Ad;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
@@ -19,35 +20,35 @@ class AdRule extends ConfigurationSelectorRule
     const PROPERTY_AD_WIDTH_URL = 'ad.width';
     const PROPERTY_AD_EMBED_URL = 'ad.embed';
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return InstantArticle::getClassName();
+        return Vector { InstantArticle::getClassName() };
     }
 
-    public static function create()
+    public static function create(): ConfigurationSelectorRule
     {
         return new AdRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): ConfigurationSelectorRule
     {
         $ad_rule = self::create();
-        $ad_rule->withSelector($configuration['selector']);
+        $ad_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
         $ad_rule->withProperties(
-            [
+            Vector {
                 self::PROPERTY_AD_URL,
                 self::PROPERTY_AD_HEIGHT_URL,
                 self::PROPERTY_AD_WIDTH_URL,
-                self::PROPERTY_AD_EMBED_URL
-            ],
+                self::PROPERTY_AD_EMBED_URL,
+            },
             $configuration
         );
 
         return $ad_rule;
     }
 
-    public function apply($transformer, $instant_article, $node)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
         $ad = Ad::create();
 
@@ -73,7 +74,7 @@ class AdRule extends ConfigurationSelectorRule
         }
 
         if ($url || $embed_code) {
-            $instant_article->addChild($ad);
+            Type::elementAsInstantArticle($instant_article)->addChild($ad);
         } else {
             $transformer->addWarning(
                 new InvalidSelector(

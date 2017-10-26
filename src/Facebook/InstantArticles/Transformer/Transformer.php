@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer;
 
+use Facebook\InstantArticles\Transformer\Warnings\TransformerWarning;
 use Facebook\InstantArticles\Transformer\Warnings\UnrecognizedElement;
 use Facebook\InstantArticles\Transformer\Rules\Rule;
 use Facebook\InstantArticles\Elements\InstantArticle;
@@ -17,24 +18,19 @@ use Facebook\InstantArticles\Validators\InstantArticleValidator;
 class Transformer
 {
     /**
-     * @var Rule[]
+     * @var Vector<Rule>
      */
-    private $rules = [];
+    private Map<string, Vector<Rule>> $rules = Map {};
 
     /**
      * @var array
      */
-    private $warnings = [];
-
-    /**
-     * @var int
-     */
-    private $ruleCount = 0;
+    private Vector<TransformerWarning> $warnings = Vector {};
 
     /**
      * @var bool
      */
-    public $suppress_warnings = false;
+    public bool $suppress_warnings = false;
 
     /**
      * @var array
@@ -44,12 +40,12 @@ class Transformer
     /**
      * @var InstantArticle the initial context.
      */
-    private $instantArticle;
+    private ?InstantArticle $instantArticle;
 
     /**
      * @var DateTimeZone the timezone for parsing dates. It defaults to 'America/Los_Angeles', but can be customized.
      */
-    private $defaultDateTimeZone;
+    private \DateTimeZone $defaultDateTimeZone;
 
     /**
      * Flag attribute added to elements processed by a getter, so they
@@ -68,13 +64,13 @@ class Transformer
     /**
      * Clones a node for appending to raw-html containing Elements like Interactive.
      *
-     * @param DOMNode $node The node to clone
-     * @return DOMNode The cloned node.
+     * @param DOMElement $node The node to clone
+     * @return DOMElement The cloned node.
      */
-    public static function cloneNode($node)
+    public static function cloneNode(\DOMElement $node): \DOMElement
     {
         $clone = $node->cloneNode(true);
-        if (Type::is($clone, 'DOMNode') && $clone->hasAttribute(self::INSTANT_ARTICLES_PARSED_FLAG)) {
+        if ($clone->hasAttribute(self::INSTANT_ARTICLES_PARSED_FLAG)) {
             $clone->removeAttribute(self::INSTANT_ARTICLES_PARSED_FLAG);
         }
         return $clone;
@@ -85,9 +81,9 @@ class Transformer
      *
      * @param DOMNode $node The node to clone
      */
-    public static function markAsProcessed($node)
+    public static function markAsProcessed(\DOMElement $node): void
     {
-        if (Type::is($node, 'DOMNode')) {
+        if ($node instanceof \DOMElement) {
             $node->setAttribute(self::INSTANT_ARTICLES_PARSED_FLAG, 'true');
         }
     }
@@ -97,9 +93,12 @@ class Transformer
      *
      * @param DOMNode $node The node to clone
      */
-    protected static function isProcessed($node)
+    protected static function isProcessed(\DOMNode $node): bool
     {
-        return Type::is($node, 'DOMNode') && $node->getAttribute(self::INSTANT_ARTICLES_PARSED_FLAG) == 'true';
+        if ($node instanceof \DOMElement) {
+            return $node->getAttribute(self::INSTANT_ARTICLES_PARSED_FLAG) == 'true';
+        }
+        return false;
     }
 
 
@@ -110,7 +109,7 @@ class Transformer
      *
      * @return array of class names the provided class name is
      */
-    private static function getAllClassTypes($className)
+    private static function getAllClassTypes(string $className): array
     {
         // Memoizes
         if (isset(self::$allClassTypes[$className])) {
@@ -133,7 +132,7 @@ class Transformer
     /**
      * @return array
      */
-    public function getWarnings()
+    public function getWarnings(): Vector<TransformerWarning>
     {
         return $this->warnings;
     }
@@ -141,38 +140,31 @@ class Transformer
     /**
      * @param Rule $rule
      */
-    public function addRule($rule)
+    public function addRule(Rule $rule): void
     {
-        Type::enforce($rule, Rule::getClassName());
-
         // Use context class as a key
         $contexts = $rule->getContextClass();
 
-        // Handles multiple contexts
-        if (!is_array($contexts)) {
-            $contexts = [$contexts];
-        }
-
         foreach ($contexts as $context) {
             if (!isset($this->rules[$context])) {
-                $this->rules[$context] = [];
+                $this->rules[$context] = Vector {};
             }
-            $this->rules[$context][$this->ruleCount++] = $rule;
+            $this->rules[$context]->add($rule);
         }
     }
 
     /**
      * @param $warning
      */
-    public function addWarning($warning)
+    public function addWarning(TransformerWarning $warning): void
     {
-        $this->warnings[] = $warning;
+        $this->warnings->add($warning);
     }
 
     /**
      * @return InstantArticle the initial context of this Transformer
      */
-    public function getInstantArticle()
+    public function getInstantArticle(): ?InstantArticle
     {
         return $this->instantArticle;
     }
@@ -183,7 +175,7 @@ class Transformer
      *
      * @return mixed
      */
-    public function transformString($context, $content, $encoding = "utf-8")
+    public function transformString(Element $context, string $content, string $encoding = "utf-8")
     {
         $libxml_previous_state = libxml_use_internal_errors(true);
         $document = new \DOMDocument('1.0');
@@ -208,9 +200,9 @@ class Transformer
      *
      * @return mixed
      */
-    public function transform($context, $node)
+    public function transform(Element $context, \DOMNode $node): Element
     {
-        if (Type::is($context, InstantArticle::getClassName())) {
+        if ($context instanceof InstantArticle) {
             $context->addMetaProperty('op:generator:transformer', 'facebook-instant-articles-sdk-php');
             $context->addMetaProperty('op:generator:transformer:version', InstantArticle::CURRENT_VERSION);
             $this->instantArticle = $context;
@@ -263,8 +255,8 @@ class Transformer
                 if (!$matched &&
                     !($child->nodeName === '#text' && trim($child->textContent) === '') &&
                     !($child->nodeName === '#comment') &&
-                    !($child->nodeName === 'html' && Type::is($child, 'DOMDocumentType')) &&
-                    !($child->nodeName === 'xml' && Type::is($child, 'DOMProcessingInstruction')) &&
+                    !($child->nodeName === 'html' && $child instanceof \DOMDocumentType) &&
+                    !($child->nodeName === 'xml' && $child instanceof \DOMProcessingInstruction) &&
                     !$this->suppress_warnings
                     ) {
                     $tag_content = $child->ownerDocument->saveXML($child);
@@ -281,7 +273,7 @@ class Transformer
     /**
      * @param string $json_file
      */
-    public function loadRules($json_file)
+    public function loadRules($json_file): void
     {
         $configuration = json_decode($json_file, true);
         if ($configuration && isset($configuration['rules'])) {
@@ -304,22 +296,21 @@ class Transformer
     /**
      * Removes all rules already set in this transformer instance.
      */
-    public function resetRules()
+    public function resetRules(): void
     {
-        $this->rules = [];
-        $this->ruleCount = 0;
+        $this->rules = Map {};
     }
 
     /**
      * Gets all rules already set in this transformer instance.
      *
-     * @return Rule[] List of configured rules.
+     * @return Vector<Rule> List of configured rules.
      */
-    public function getRules()
+    public function getRules(): Vector<Rule>
     {
         // Do not expose internal map, just a simple array
         // to keep the interface backwards compatible.
-        $flatten_rules = [];
+        $flatten_rules = Vector {};
         foreach ($this->rules as $ruleset) {
             foreach ($ruleset as $priority => $rule) {
                 $flatten_rules[$priority] = $rule;
@@ -333,13 +324,10 @@ class Transformer
     /**
      * Overrides all rules already set in this transformer instance.
      *
-     * @param Rule[] $rules List of configured rules.
+     * @param Vector<Rule> $rules List of configured rules.
      */
-    public function setRules($rules)
+    public function setRules(Vector<Rule> $rules): void
     {
-        // Do not receive internal map, just a plain list
-        // to keep the interface backwards compatible.
-        Type::enforceArrayOf($rules, Rule::getClassName());
         $this->resetRules();
         foreach ($rules as $rule) {
             $this->addRule($rule);
@@ -351,9 +339,8 @@ class Transformer
      *
      * @param DateTimeZone $dateTimeZone
      */
-    public function setDefaultDateTimeZone($dateTimeZone)
+    public function setDefaultDateTimeZone(\DateTimeZone $dateTimeZone): void
     {
-        Type::enforce($dateTimeZone, 'DateTimeZone');
         $this->defaultDateTimeZone = $dateTimeZone;
     }
 
@@ -362,7 +349,7 @@ class Transformer
      *
      * @return DateTimeZone
      */
-    public function getDefaultDateTimeZone()
+    public function getDefaultDateTimeZone(): \DateTimeZone
     {
         return $this->defaultDateTimeZone;
     }

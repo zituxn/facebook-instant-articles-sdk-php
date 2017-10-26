@@ -12,9 +12,9 @@ use Facebook\InstantArticles\Elements\Header;
 
 class HeaderKickerRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return Header::getClassName();
+        return Vector { Header::getClassName() };
     }
 
     public static function create()

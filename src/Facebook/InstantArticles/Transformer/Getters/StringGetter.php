@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,24 +10,19 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
 
-class StringGetter extends ChildrenGetter
+class StringGetter extends AbstractGetter
 {
     /**
      * @var string
      */
-    protected $attribute;
+    protected string $prefix = "";
 
     /**
      * @var string
      */
-    protected $prefix;
+    protected string $suffix = "";
 
-    /**
-     * @var string
-     */
-    protected $suffix;
-
-    public function createFrom($properties)
+    public function createFrom(Map<string, string> $properties): StringGetter
     {
         if (isset($properties['selector'])) {
             $this->withSelector($properties['selector']);
@@ -41,18 +36,6 @@ class StringGetter extends ChildrenGetter
         if (isset($properties['suffix'])) {
             $this->withSuffix($properties['suffix']);
         }
-    }
-
-    /**
-     * @param string $attribute
-     *
-     * @return $this
-     */
-    public function withAttribute($attribute)
-    {
-        Type::enforce($attribute, Type::STRING);
-        $this->attribute = $attribute;
-
         return $this;
     }
 
@@ -61,11 +44,9 @@ class StringGetter extends ChildrenGetter
      *
      * @return $this
      */
-    public function withPrefix($prefix)
+    public function withPrefix(string $prefix): StringGetter
     {
-        Type::enforce($prefix, Type::STRING);
         $this->prefix = $prefix;
-
         return $this;
     }
 
@@ -74,18 +55,15 @@ class StringGetter extends ChildrenGetter
      *
      * @return $this
      */
-    public function withSuffix($suffix)
+    public function withSuffix(string $suffix): StringGetter
     {
-        Type::enforce($suffix, Type::STRING);
         $this->suffix = $suffix;
-
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): ?string
     {
-        Type::enforce($node, 'DOMNode');
-        $elements = self::findAll($node, $this->selector);
+        $elements = $this->findAll($node, $this->selector);
         if (!empty($elements) && $elements->item(0)) {
             $element = $elements->item(0);
             if ($this->attribute) {

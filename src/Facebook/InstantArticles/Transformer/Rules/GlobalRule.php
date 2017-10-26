@@ -26,9 +26,9 @@ class GlobalRule extends ConfigurationSelectorRule
     const PROPERTY_TIME_PUBLISHED = 'article.publish';
     const PROPERTY_GLOBAL_BODY = 'article.body';
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return InstantArticle::getClassName();
+        return Vector { InstantArticle::getClassName() };
     }
 
     public static function create()

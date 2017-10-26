@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,36 +8,35 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Footer;
 
 class FooterRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return InstantArticle::getClassName();
+        return Vector { InstantArticle::getClassName() };
     }
 
-    public static function create()
+    public static function create(): FooterRule
     {
         return new FooterRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): FooterRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $footerRule = self::create();
+        $footerRule->withSelector(Type::mapGetString($configuration, 'selector'));
+
+        return $footerRule;
     }
 
-    public function apply($transformer, $instant_article, $element)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
         $footer = Footer::create();
-        $instant_article->withFooter($footer);
-        $transformer->transform($footer, $element);
+        Type::elementAsInstantArticle($instant_article)->withFooter($footer);
+        $transformer->transform($footer, $node);
         return $instant_article;
-    }
-
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
     }
 }

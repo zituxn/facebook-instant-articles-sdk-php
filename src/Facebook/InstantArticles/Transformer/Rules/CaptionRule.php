@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Map;
 use Facebook\InstantArticles\Elements\Interactive;
 use Facebook\InstantArticles\Elements\Slideshow;
@@ -20,31 +21,31 @@ class CaptionRule extends ConfigurationSelectorRule
 {
     const PROPERTY_DEFAULT = 'caption.default';
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
         return
-            [
-                Map::getClassName(),
+            Vector {
+                Facebook\InstantArticles\Elements\Map::getClassName(),
                 Image::getClassName(),
                 Interactive::getClassName(),
                 Slideshow::getClassName(),
                 SocialEmbed::getClassName(),
-                Video::getClassName()
-            ];
+                Video::getClassName(),
+            };
     }
 
-    public static function create()
+    public static function create(): CaptionRule
     {
         return new CaptionRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): CaptionRule
     {
         $caption_rule = self::create();
-        $caption_rule->withSelector($configuration['selector']);
+        $caption_rule->withSelector(Type::getMapString($configuration, 'selector'));
 
         $caption_rule->withProperties(
-            [
+            Vector {
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER,
                 Caption::POSITION_ABOVE,
@@ -59,16 +60,17 @@ class CaptionRule extends ConfigurationSelectorRule
                 Caption::SIZE_XLARGE,
 
                 self::PROPERTY_DEFAULT
-            ],
+            },
             $configuration
         );
 
         return $caption_rule;
     }
 
-    public function apply($transformer, $container_of_caption, $node)
+    public function apply(Transformer $transformer, Element $container_of_caption, \DOMNode $node): Element
     {
         $caption = Caption::create();
+        invariant($container_of_caption instanceof Captionable, 'Error, $container_of_caption is not a Captionable.');
         $container_of_caption->withCaption($caption);
 
         if ($this->getProperty(Caption::POSITION_BELOW, $node)) {
@@ -106,7 +108,8 @@ class CaptionRule extends ConfigurationSelectorRule
 
         $text_default = $this->getProperty(self::PROPERTY_DEFAULT, $node);
         if ($text_default) {
-            $caption->withTitle($text_default);
+            invariant(is_string($text_default), 'Error, $text_default is not a string');
+            $caption->withTitle(H1::create()->appendText($text_default));
         } else {
             $transformer->transform($caption, $node);
         }

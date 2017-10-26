@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -14,6 +14,51 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 abstract class AbstractGetter
 {
     /**
+     * @var string
+     */
+    protected ?string $selector;
+
+    /**
+     * @var string
+     */
+    protected ?string $attribute;
+
+    /**
+     * @param string $selector
+     *
+     * @return $this
+     */
+    public function withSelector(string $selector): AbstractGetter
+    {
+        $this->selector = $selector;
+        return $this;
+    }
+
+    /**
+     * @param string $attribute
+     *
+     * @return $this
+     */
+    public function withAttribute(string $attribute): AbstractGetter
+    {
+        $this->attribute = $attribute;
+        return $this;
+    }
+
+    /**
+     * @param \DOMNode $node
+     * @param string $selector
+     * @return \DOMNodeList
+     */
+    public function findAll(\DOMNode $node, ?string $selector): \DOMNodeList
+    {
+        $domXPath = new \DOMXPath($node->ownerDocument);
+        $converter = new CssSelectorConverter();
+        $xpath = $converter->toXPath($selector);
+        return $domXPath->query($xpath, $node);
+    }
+
+    /**
      * Method that should be implemented so it can be Instantiated by GetterFactory
      *
      * @param string[] $configuration With all properties of this Getter
@@ -21,23 +66,23 @@ abstract class AbstractGetter
      *
      * @return static
      */
-    abstract public function createFrom($configuration);
+    abstract public function createFrom(Map<string, string> $configuration): AbstractGetter;
 
     /**
      * Method that should retrieve
      *
      * @param \DOMNode $node
      *
-     * @return mixed
+     * @return mixed (depending on the Getter implementing class)
      */
-    abstract public function get($node);
+    abstract public function get($node): mixed;
 
     /**
      * Auxiliary method to extract full qualified class name.
      *
      * @return string The full qualified name of class
      */
-    public static function getClassName()
+    public static function getClassName(): string
     {
         return get_called_class();
     }
