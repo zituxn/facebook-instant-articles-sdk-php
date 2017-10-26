@@ -22,9 +22,9 @@ class IgnoreRule extends ConfigurationSelectorRule
         return self::create()->withSelector($configuration['selector']);
     }
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return Element::getClassName();
+        return Vector { Element::getClassName() };
     }
 
     public function apply($transformer, $context, $element)

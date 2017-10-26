@@ -13,7 +13,7 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class ChildrenGetter extends ElementGetter
 {
-    public function get($node)
+    public function get(\DOMNode $node): ?\DOMElement
     {
         $element = parent::get($node);
         if ($element) {

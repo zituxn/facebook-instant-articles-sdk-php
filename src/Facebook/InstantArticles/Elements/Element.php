@@ -68,7 +68,7 @@ abstract class Element
      *
      * @return string The full qualified name of class.
      */
-    public function getClassName(): string
+    public static function getClassName(): string
     {
         return get_called_class();
     }

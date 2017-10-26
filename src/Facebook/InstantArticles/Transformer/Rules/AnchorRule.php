@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\TextContainer;
 use Facebook\InstantArticles\Elements\Anchor;
 
@@ -16,34 +17,34 @@ class AnchorRule extends ConfigurationSelectorRule
     const PROPERTY_ANCHOR_HREF = 'anchor.href';
     const PROPERTY_ANCHOR_REL = 'anchor.rel';
 
-    public static function create()
+    public static function create(): AnchorRule
     {
         return new AnchorRule();
     }
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return TextContainer::getClassName();
+        return Vector { TextContainer::getClassName() };
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): AnchorRule
     {
         $anchor_rule = self::create();
 
-        $anchor_rule->withSelector($configuration['selector']);
-        $properties = $configuration['properties'];
+        $anchor_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        //$properties = $configuration['properties'];
         $anchor_rule->withProperties(
-            [
+            Vector {
                 self::PROPERTY_ANCHOR_HREF,
-                self::PROPERTY_ANCHOR_REL
-            ],
-            $properties
+                self::PROPERTY_ANCHOR_REL,
+            },
+            $configuration
         );
 
         return $anchor_rule;
     }
 
-    public function apply($transformer, $text_container, $element)
+    public function apply(Transformer $transformer, Element $text_container, \DOMNode $element): Element
     {
         $anchor = Anchor::create();
 
@@ -56,17 +57,10 @@ class AnchorRule extends ConfigurationSelectorRule
         if ($rel) {
             $anchor->withRel($rel);
         }
+        invariant($text_container instanceof TextContainer, 'Error, $text_container is not a TextContainer.');
         $text_container->appendText($anchor);
         $transformer->transform($anchor, $element);
 
         return $text_container;
-    }
-
-    /**
-     * @param array $configuration
-     */
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
     }
 }

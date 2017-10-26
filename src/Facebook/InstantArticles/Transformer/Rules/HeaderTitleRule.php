@@ -13,9 +13,9 @@ use Facebook\InstantArticles\Elements\H1;
 
 class HeaderTitleRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return Header::getClassName();
+        return Vector { Header::getClassName() };
     }
 
     public static function create()

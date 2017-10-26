@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,14 +10,14 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
 
-class DateGetter extends StringGetter
+class DateGetter extends AbstractGetter
 {
     /**
      * @var string
      */
-    protected $format;
+    protected ?string $format;
 
-    public function createFrom($properties)
+    public function createFrom(Map<string, string> $properties): DateGetter
     {
         if (isset($properties['selector'])) {
             $this->withSelector($properties['selector']);
@@ -28,6 +28,7 @@ class DateGetter extends StringGetter
         if (isset($properties['format'])) {
             $this->withFormat($properties['format']);
         }
+        return $this;
     }
 
     /**
@@ -35,25 +36,24 @@ class DateGetter extends StringGetter
      *
      * @return $this
      */
-    public function withFormat($format)
+    public function withFormat(string $format): DateGetter
     {
-        Type::enforce($format, Type::STRING);
         $this->format = $format;
-
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): ?\DateTime
     {
-        Type::enforce($node, 'DOMNode');
-        $elements = self::findAll($node, $this->selector);
+        $elements = $this->findAll($node, $this->selector);
         if (!empty($elements) && $elements->item(0)) {
             $element = $elements->item(0);
 
-            if ($this->attribute) {
-                return \DateTime::createFromFormat($this->format, $element->getAttribute($this->attribute));
+            if ($this->format) {
+                if ($this->attribute) {
+                    return \DateTime::createFromFormat($this->format, $element->getAttribute($this->attribute));
+                }
+                return \DateTime::createFromFormat($this->format, $element->textContent);
             }
-            return \DateTime::createFromFormat($this->format, $element->textContent);
         }
         return null;
     }

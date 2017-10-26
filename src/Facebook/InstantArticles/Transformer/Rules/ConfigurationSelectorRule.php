@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Transformer\Getters\AbstractGetter;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
@@ -18,19 +19,19 @@ abstract class ConfigurationSelectorRule extends Rule
     /**
      * @var string
      */
-    protected $selector;
+    protected ?string $selector;
 
     /**
      * @var AbstractGetter[]
      */
-    protected $properties = [];
+    protected Map<string, AbstractGetter> $properties = Map {};
 
     /**
      * @param string $selector
      *
      * @return $this
      */
-    public function withSelector($selector)
+    public function withSelector(string $selector): ConfigurationSelectorRule
     {
         $this->selector = $selector;
 
@@ -43,7 +44,7 @@ abstract class ConfigurationSelectorRule extends Rule
      *
      * @return $this
      */
-    public function withProperty($property, $value)
+    public function withProperty(string $property, array $value): ConfigurationSelectorRule
     {
         if ($value) {
             $this->properties[$property] = GetterFactory::create($value);
@@ -51,29 +52,28 @@ abstract class ConfigurationSelectorRule extends Rule
         return $this;
     }
 
-    public function withProperties($properties, $configuration)
+    public function withProperties(Vector<string> $properties, Map<string, mixed> $configuration): void
     {
-        Type::enforceArrayOf($properties, Type::STRING);
         foreach ($properties as $property) {
             $this->withProperty(
                 $property,
-                self::retrieveProperty($configuration, $property)
+                Type::mixedToArray(self::retrieveProperty($configuration, $property))
             );
         }
     }
 
-    public function matchesContext($context)
+    public function matchesContext(Element $context): bool
     {
-        if (Type::is($context, $this->getContextClass())) {
+        if ($context instanceof $this->getContextClass()) {
             return true;
         }
         return false;
     }
 
-    public function matchesNode($node)
+    public function matchesNode(\DOMNode $node): bool
     {
         // Only matches DOMElements (ignore text and comments)
-        if (!Type::is($node, 'DOMNode')) {
+        if (!$node instanceof \DOMNode) {
             return false;
         }
 
@@ -85,7 +85,7 @@ abstract class ConfigurationSelectorRule extends Rule
         // Handles selector = .class
         if (preg_match('/^\.[a-zA-Z][a-zA-Z0-9-]*$/', $this->selector) === 1) {
             // Tries every class
-            $classNames = explode(' ', $node->getAttribute('class'));
+            $classNames = explode(' ', Type::nodeAsElement($node)->getAttribute('class'));
             foreach ($classNames as $className) {
                 if ('.' . $className === $this->selector) {
                     return true;
@@ -99,7 +99,7 @@ abstract class ConfigurationSelectorRule extends Rule
         // Handles selector = tag.class
         if (preg_match('/^[a-zA-Z][a-zA-Z0-9-]*(\.[a-zA-Z][a-zA-Z0-9-]*)?$/', $this->selector) === 1) {
             // Tries every class
-            $classNames = explode(' ', $node->getAttribute('class'));
+            $classNames = explode(' ', Type::nodeAsElement($node)->getAttribute('class'));
             foreach ($classNames as $className) {
                 if ($node->nodeName . '.' . $className === $this->selector) {
                     return true;
@@ -140,7 +140,7 @@ abstract class ConfigurationSelectorRule extends Rule
      *
      * @return \DOMNodeList
      */
-    public function findAll($node, $selector)
+    public function findAll(\DOMNode $node, string $selector): \DOMNodeList
     {
         $domXPath = new \DOMXPath($node->ownerDocument);
         $converter = new CssSelectorConverter();
@@ -153,7 +153,7 @@ abstract class ConfigurationSelectorRule extends Rule
      * @param $node
      * @return null
      */
-    public function getProperty($property_name, $node)
+    public function getProperty(string $property_name, \DOMNode $node): mixed
     {
         $value = null;
         if (isset($this->properties[$property_name])) {
@@ -162,7 +162,7 @@ abstract class ConfigurationSelectorRule extends Rule
         return $value;
     }
 
-    public function getProperties()
+    public function getProperties(): Map<string, AbstractGetter>
     {
         return $this->properties;
     }

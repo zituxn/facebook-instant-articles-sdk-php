@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -17,9 +17,9 @@ class FragmentGetter extends AbstractGetter
     /**
      * @var string
      */
-    protected $fragment;
+    protected ?string $fragment;
 
-    public function createFrom($properties)
+    public function createFrom(Map<string, string> $properties): FragmentGetter
     {
         return $this->withFragment($properties['fragment']);
     }
@@ -29,15 +29,13 @@ class FragmentGetter extends AbstractGetter
      *
      * @return $this
      */
-    public function withFragment($fragment)
+    public function withFragment(string $fragment): FragmentGetter
     {
-        Type::enforce($fragment, Type::STRING);
         $this->fragment = $fragment;
-
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): ?\DOMDocumentFragment
     {
         $fragment = $node->ownerDocument->createDocumentFragment();
         $is_valid_markup = @$fragment->appendXML($this->fragment);

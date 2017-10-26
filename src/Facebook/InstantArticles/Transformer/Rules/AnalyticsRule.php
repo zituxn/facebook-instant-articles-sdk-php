@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Analytics;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
@@ -17,33 +18,33 @@ class AnalyticsRule extends ConfigurationSelectorRule
     const PROPERTY_TRACKER_URL = 'analytics.url';
     const PROPERTY_TRACKER_EMBED_URL = 'analytics.embed';
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return InstantArticle::getClassName();
+        return Vector { InstantArticle::getClassName() };
     }
 
-    public static function create()
+    public static function create(): AnalyticsRule
     {
         return new AnalyticsRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration)
     {
         $analytics_rule = self::create();
-        $analytics_rule->withSelector($configuration['selector']);
+        $analytics_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
         $analytics_rule->withProperties(
-            [
+            Vector {
                 self::PROPERTY_TRACKER_URL,
-                self::PROPERTY_TRACKER_EMBED_URL
-            ],
+                self::PROPERTY_TRACKER_EMBED_URL,
+            },
             $configuration
         );
 
         return $analytics_rule;
     }
 
-    public function apply($transformer, $instant_article, $node)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node)
     {
         $analytics = Analytics::create();
 
@@ -59,7 +60,7 @@ class AnalyticsRule extends ConfigurationSelectorRule
         }
 
         if ($url || $embed_code) {
-            $instant_article->addChild($analytics);
+            Type::elementAsInstantArticle($instant_article)->addChild($analytics);
         } else {
             $transformer->addWarning(
                 new InvalidSelector(

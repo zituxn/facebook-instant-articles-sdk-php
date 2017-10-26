@@ -13,9 +13,9 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 
 class HeaderRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return InstantArticle::getClassName();
+        return Vector { InstantArticle::getClassName() };
     }
 
     public static function create()

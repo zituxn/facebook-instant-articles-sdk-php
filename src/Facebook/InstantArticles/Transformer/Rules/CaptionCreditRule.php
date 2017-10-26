@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,45 +8,47 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\Cite;
 
 class CaptionCreditRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return Caption::getClassName();
+        return Vector { Caption::getClassName() };
     }
 
-    public static function create()
+    public static function create(): CaptionCreditRule
     {
         return new CaptionCreditRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): CaptionCreditRule
     {
         $cite_rule = self::create();
-        $cite_rule->withSelector($configuration['selector']);
+        $cite_rule->withSelector(Type::getMapString($configuration, 'selector'));
 
         $cite_rule->withProperties(
-            [
+            Vector {
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER,
                 Caption::POSITION_ABOVE,
 
                 Caption::ALIGN_LEFT,
                 Caption::ALIGN_CENTER,
-                Caption::ALIGN_RIGHT
-            ],
+                Caption::ALIGN_RIGHT,
+            },
             $configuration
         );
 
         return $cite_rule;
     }
 
-    public function apply($transformer, $caption, $node)
+    public function apply(Transformer $transformer, Element $caption, \DOMNode $node): Element
     {
         $cite = Cite::create();
+        invariant($caption instanceof Caption, 'Error, $caption is not Caption.');
         $caption->withCredit($cite);
 
         if ($this->getProperty(Caption::POSITION_BELOW, $node)) {
@@ -73,11 +75,4 @@ class CaptionCreditRule extends ConfigurationSelectorRule
         return $caption;
     }
 
-    /**
-     * @param array $configuration
-     */
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
-    }
 }

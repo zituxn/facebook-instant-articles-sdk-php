@@ -11,28 +11,15 @@ namespace Facebook\InstantArticles\Transformer\Warnings;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Validators\Type;
 
-class UnrecognizedElement
+class UnrecognizedElement extends TransformerWarning
 {
-    /**
-     * @var Element
-     */
-    private $context;
-
-    /**
-     * @var \DOMNode
-     */
-    private $node;
-
     /**
      * @param Element $context
      * @param \DOMNode $node
      */
-    public function __construct($context, $node)
+    public function __construct(Element $context, \DOMNode $node)
     {
-        $this->context = $context;
-        if ($node) {
-            $this->node = $node->cloneNode();
-        }
+        parent::__construct(null, $context, $node ? $node->cloneNode(): null, null);
     }
 
     /**
@@ -42,15 +29,15 @@ class UnrecognizedElement
     {
         $reflection = new \ReflectionClass(get_class($this->context));
         $className = $reflection->getShortName();
-        if ($this->node) {
-            $nodeName = $this->node->nodeName;
+        if ($this->getNode()) {
+            $nodeName = $this->node->getNode();
         }
         if (substr($nodeName, 0, 1) === '#') {
-            $nodeDescription = '"'.mb_strimwidth($this->node->textContent, 0, 30, '...').'"';
+            $nodeDescription = '"'.mb_strimwidth($this->getNode()->textContent, 0, 30, '...').'"';
         } else {
             $nodeDescription = '<';
             $nodeDescription .= $nodeName;
-            if (Type::is($this->node, 'DOMNode')) {
+            if ($this->node instanceof \DOMNode) {
                 $class = $this->node->getAttribute('class');
                 if ($class) {
                     $nodeDescription .= ' class="'. $class .'"';
@@ -59,21 +46,5 @@ class UnrecognizedElement
             $nodeDescription .= '>';
         }
         return "No rules defined for {$nodeDescription} in the context of $className";
-    }
-
-    /**
-     * @return Element
-     */
-    public function getContext()
-    {
-        return $this->context;
-    }
-
-    /**
-     * @return \DOMNode
-     */
-    public function getNode()
-    {
-        return $this->node;
     }
 }

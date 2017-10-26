@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -14,45 +14,15 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
 
 class ElementGetter extends AbstractGetter
 {
-    /**
-     * @var string
-     */
-    protected $selector;
-
-    public function createFrom($properties)
+    public function createFrom(Map<string, string> $properties): ElementGetter
     {
-        return $this->withSelector($properties['selector']);
-    }
-
-    /**
-     * @param \DOMNode $node
-     * @param string $selector
-     * @return \DOMNodeList
-     */
-    public function findAll($node, $selector)
-    {
-        $domXPath = new \DOMXPath($node->ownerDocument);
-        $converter = new CssSelectorConverter();
-        $xpath = $converter->toXPath($selector);
-        return $domXPath->query($xpath, $node);
-    }
-
-    /**
-     * @param string $selector
-     *
-     * @return $this
-     */
-    public function withSelector($selector)
-    {
-        Type::enforce($selector, Type::STRING);
-        $this->selector = $selector;
-
+        $this->withSelector($properties['selector']);
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): ?\DOMElement
     {
-        $elements = self::findAll($node, $this->selector);
+        $elements = $this->findAll($node, $this->selector);
         if (!empty($elements) && isset($elements->length) && $elements->length > 0) {
             Transformer::markAsProcessed($elements->item(0));
             return Transformer::cloneNode($elements->item(0));

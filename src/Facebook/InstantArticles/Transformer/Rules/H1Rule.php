@@ -16,9 +16,13 @@ use Facebook\InstantArticles\Validators\Type;
 
 class H1Rule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return [Header::getClassName(), Caption::getClassName(), InstantArticle::getClassName()];
+        return Vector {
+            Header::getClassName(),
+            Caption::getClassName(),
+            InstantArticle::getClassName()
+        };
     }
 
     public static function create()

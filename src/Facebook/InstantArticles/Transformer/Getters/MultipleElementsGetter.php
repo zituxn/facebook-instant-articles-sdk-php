@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -17,13 +17,16 @@ class MultipleElementsGetter extends AbstractGetter
     /**
      * @var Getters
      */
-    protected $children = [];
+    protected Vector<AbstractGetter> $children = Vector {};
 
-    public function createFrom($properties)
+    public function createFrom(Map<string, string> $properties): MultipleElementsGetter
     {
-        foreach ($properties['children'] as $getter_configuration) {
-            $this->children[] = GetterFactory::create($getter_configuration);
+        $v = $properties['children'];
+        invariant($v instanceof Vector, "Not Vector");
+        foreach ($v as $childName => $getter_configuration) {
+            $this->children->add(GetterFactory::create($getter_configuration));
         }
+
         return $this;
     }
 
@@ -32,7 +35,7 @@ class MultipleElementsGetter extends AbstractGetter
         $fragment = $node->ownerDocument->createDocumentFragment();
         foreach ($this->children as $child) {
             $cloned_node = $child->get($node);
-            if (Type::is($cloned_node, 'DOMNode')) {
+            if ($cloned_node instanceof \DOMNode) {
                 $fragment->appendChild($cloned_node);
             }
         }

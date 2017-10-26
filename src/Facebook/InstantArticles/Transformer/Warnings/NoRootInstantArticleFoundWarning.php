@@ -1,4 +1,5 @@
-<?hh //decl
+<?hh
+
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -11,60 +12,36 @@ namespace Facebook\InstantArticles\Transformer\Warnings;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Validators\Type;
 
-class NoRootInstantArticleFoundWarning
+class NoRootInstantArticleFoundWarning extends TransformerWarning
 {
-    /**
-     * @var Element
-     */
-    private $element;
-
-    /**
-     * @var DOMNode
-     */
-    private $node;
-
-    /**
-     * @var array the configuration content
-     */
-    private $configuration;
-
     /**
      * @param Element $element
      * @param DOMNode $node
      */
-    public function __construct($element, $node = null)
+    public function __construct(Element $element, \DOMNode $node)
     {
-        $this->element = $element;
-        $this->node = $node;
+        parent::__construct(null, $element, $node ? $node->cloneNode() : null, null);
     }
 
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->formatWarningMessage();
     }
 
-    /**
-     * @return Element
-     */
-    public function getElement()
+    private function formatWarningMessage(): string
     {
-        return $this->element;
+        return "No instant article was informed in the context for Transformer. This element will be lost during transformation: ".$this->getNodeString();
     }
 
-    /**
-     * @return DOMNode
-     */
-    public function getNode()
+    private function getNodeString(): string
     {
-        return $this->node;
-    }
-
-    private function formatWarningMessage()
-    {
-        $node_string = $this->node->ownerDocument->saveHtml($this->node);
-        return "No instant article was informed in the context for Transformer. This element will be lost during transformation: " . $node_string;
+        $node = $this->getNode();
+        if ($node) {
+            return $node->ownerDocument->saveHTML($node);
+        }
+        return "";
     }
 }

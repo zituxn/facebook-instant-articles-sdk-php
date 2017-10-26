@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -27,11 +27,11 @@ class GetterFactory
     /**
      * Creates an Getter class.
      *
-     *  array(
+     *  Map{
      *        type => 'string' | 'children',
      *        selector => 'img.cover',
-     *        [attribute] => 'src'
-     *    )
+     *        [attribute] => 'src',
+     *    }
      * @see StringGetter
      * @see ChildrenGetter
      * @see IntegerGetter
@@ -43,13 +43,13 @@ class GetterFactory
      * @see JSONGetter
      * @see XpathGetter
      *
-     * @param string[] $getter_configuration that maps the properties for getter
+     * @param Map<string, string> $getter_configuration that maps the properties for getter
      *
      * @return AbstractGetter
      */
-    public static function create($getter_configuration)
+    public static function create(array $getter_configuration): AbstractGetter
     {
-        $GETTERS = [
+        $GETTERS = Map {
             self::TYPE_STRING_GETTER => StringGetter::getClassName(),
             self::TYPE_INTEGER_GETTER => IntegerGetter::getClassName(),
             self::TYPE_DATE_GETTER => DateGetter::getClassName(),
@@ -62,8 +62,8 @@ class GetterFactory
             self::TYPE_EXISTS_GETTER => ExistsGetter::getClassName(),
             self::TYPE_JSON_GETTER => JSONGetter::getClassName(),
             self::TYPE_XPATH_GETTER => XpathGetter::getClassName(),
-            self::TYPE_MULTIPLEELEMENTS_GETTER => MultipleElementsGetter::getClassName()
-        ];
+            self::TYPE_MULTIPLEELEMENTS_GETTER => MultipleElementsGetter::getClassName(),
+        };
 
         $class = $getter_configuration['type'];
         if (array_key_exists($class, $GETTERS)) {

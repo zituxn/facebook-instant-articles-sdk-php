@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,9 +10,9 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
 
-class ExistsGetter extends StringGetter
+class ExistsGetter extends AbstractGetter
 {
-    public function createFrom($properties)
+    public function createFrom(Map<string, string> $properties): ExistsGetter
     {
         if (isset($properties['selector'])) {
             $this->withSelector($properties['selector']);
@@ -20,12 +20,12 @@ class ExistsGetter extends StringGetter
         if (isset($properties['attribute'])) {
             $this->withAttribute($properties['attribute']);
         }
+        return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): bool
     {
-        Type::enforce($node, 'DOMNode');
-        $elements = self::findAll($node, $this->selector);
+        $elements = $this->findAll($node, $this->selector);
         if (!empty($elements) && $elements->item(0)) {
             if (!$this->attribute) {
                 return true;
