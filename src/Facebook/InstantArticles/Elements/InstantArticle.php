@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -9,7 +9,6 @@
 namespace Facebook\InstantArticles\Elements;
 
 use Facebook\InstantArticles\Validators\Type;
-use Facebook\InstantArticles\Elements\Map as Map;
 
 /**
   * Class InstantArticle
@@ -40,63 +39,63 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * The meta properties that are used on <head>
      */
-    private $metaProperties = [];
+    private Map<string, string> $metaProperties = Map {};
 
     /**
      * @var string The canonical URL for the Instant Article
      */
-    private $canonicalURL;
+    private string $canonicalURL = "";
 
     /**
      * @var string The markup version for this InstantArticle
      */
-    private $markupVersion = 'v1.0';
+    private string $markupVersion = 'v1.0';
 
     /**
      * @var boolean The ad strategy that will be used. True by default
      */
-    private $isAutomaticAdPlaced = true;
+    private bool $isAutomaticAdPlaced = true;
 
     /**
      * @var string The ad density that will be used. "default" by default
      */
-    private $adDensity = 'default';
+    private string $adDensity = 'default';
 
     /**
      * @var string The charset that will be used. "utf-8" by default.
      */
-    private $charset = 'utf-8';
+    private string $charset = 'utf-8';
 
     /**
      * @var string|null The style that will be applied to the article. Optional.
      */
-    private $style;
+    private string $style = "";
 
     /**
      * @var Header element to hold header content, like images etc
      */
-    private $header;
+    private ?Header $header;
 
     /**
      * @var Footer element to hold footer content.
      */
-    private $footer;
+    private ?Footer $footer;
 
     /**
      * @var Element[] of all elements an article can have.
      */
-    private $children = [];
+    private Vector<Element> $children = Vector {};
 
     /**
      * @var boolean flag that indicates if this article is Right-to-left(RTL). Defaults to false.
      */
-    private $isRTLEnabled = false;
+    private bool $isRTLEnabled = false;
 
     /**
      * Factory method
      * @return InstantArticle object.
      */
-    public static function create()
+    public static function create(): InstantArticle
     {
         return new InstantArticle();
     }
@@ -119,9 +118,8 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withCanonicalURL($url)
+    public function withCanonicalURL(string $url): InstantArticle
     {
-        Type::enforce($url, Type::STRING);
         $this->canonicalURL = $url;
 
         return $this;
@@ -134,9 +132,8 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withCharset($charset)
+    public function withCharset(string $charset): InstantArticle
     {
-        Type::enforce($charset, Type::STRING);
         $this->charset = $charset;
 
         return $this;
@@ -149,9 +146,8 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withStyle($style)
+    public function withStyle(string $style): InstantArticle
     {
-        Type::enforce($style, Type::STRING);
         $this->style = $style;
 
         return $this;
@@ -160,7 +156,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * Use the strategy of auto ad placement
      */
-    public function enableAutomaticAdPlacement()
+    public function enableAutomaticAdPlacement(): InstantArticle
     {
         $this->isAutomaticAdPlaced = true;
         return $this;
@@ -169,7 +165,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * Use the strategy of manual ad placement
      */
-    public function disableAutomaticAdPlacement()
+    public function disableAutomaticAdPlacement(): InstantArticle
     {
         $this->isAutomaticAdPlaced = false;
         return $this;
@@ -182,9 +178,8 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withAdDensity($adDensity)
+    public function withAdDensity(string $adDensity): InstantArticle
     {
-        Type::enforce($adDensity, Type::STRING);
         $this->adDensity = $adDensity;
 
         return $this;
@@ -193,7 +188,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * Updates article to use RTL orientation.
      */
-    public function enableRTL()
+    public function enableRTL(): InstantArticle
     {
         $this->isRTLEnabled = true;
         return $this;
@@ -202,7 +197,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * Updates article to use LTR orientation (default), disabling RTL.
      */
-    public function disableRTL()
+    public function disableRTL(): InstantArticle
     {
         $this->isRTLEnabled = false;
         return $this;
@@ -215,9 +210,8 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withHeader($header)
+    public function withHeader(Header $header): InstantArticle
     {
-        Type::enforce($header, Header::getClassName());
         $this->header = $header;
 
         return $this;
@@ -230,9 +224,8 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withFooter($footer)
+    public function withFooter(Footer $footer): InstantArticle
     {
-        Type::enforce($footer, Footer::getClassName());
         $this->footer = $footer;
 
         return $this;
@@ -241,35 +234,14 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * Replace all the children within this InstantArticle
      *
-     * @param Element[] $children Array of elements replacing the original.
+     * @param Vector<Element> $children Array of elements replacing the original.
      *
      * @return $this
      */
-    public function withChildren($children)
+    public function withChildren(Vector<Element> $children): InstantArticle
     {
-        Type::enforceArrayOf(
-            $children,
-            [
-                Ad::getClassName(),
-                Analytics::getClassName(),
-                AnimatedGIF::getClassName(),
-                Audio::getClassName(),
-                Blockquote::getClassName(),
-                Image::getClassName(),
-                H1::getClassName(),
-                H2::getClassName(),
-                Interactive::getClassName(),
-                ListElement::getClassName(),
-                Map::getClassName(),
-                Paragraph::getClassName(),
-                Pullquote::getClassName(),
-                RelatedArticles::getClassName(),
-                Slideshow::getClassName(),
-                SocialEmbed::getClassName(),
-                Video::getClassName()
-            ]
-        );
-        $this->children = $children;
+        $this->children = Vector {};
+        $this->children->addAll($children);
 
         return $this;
     }
@@ -277,21 +249,14 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * Replace all the children within this InstantArticle
      *
-     * @param Type::INTEGER $index The index of the element to be deleted
+     * @param int $index The index of the element to be deleted
      *                             in the array of children.
      *
      * @return $this
      */
-    public function deleteChild($index)
+    public function deleteChild(int $index): InstantArticle
     {
-        Type::enforce($index, Type::INTEGER);
-        $children = [];
-        foreach ($this->children as $childIndex => $child) {
-            if ($childIndex != $index) {
-                $children[] = $child;
-            }
-        }
-        $this->children = $children;
+        $this->children->removeKey($index);
 
         return $this;
     }
@@ -303,31 +268,9 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function addChild($child)
+    public function addChild(Element $child): InstantArticle
     {
-        Type::enforce(
-            $child,
-            [
-                Ad::getClassName(),
-                Analytics::getClassName(),
-                AnimatedGIF::getClassName(),
-                Audio::getClassName(),
-                Blockquote::getClassName(),
-                Image::getClassName(),
-                H1::getClassName(),
-                H2::getClassName(),
-                Interactive::getClassName(),
-                ListElement::getClassName(),
-                Map::getClassName(),
-                Paragraph::getClassName(),
-                Pullquote::getClassName(),
-                RelatedArticles::getClassName(),
-                Slideshow::getClassName(),
-                SocialEmbed::getClassName(),
-                Video::getClassName()
-            ]
-        );
-        $this->children[] = $child;
+        $this->children->add($child);
 
         return $this;
     }
@@ -339,30 +282,8 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function unshiftChild($child)
+    public function unshiftChild(Element $child): InstantArticle
     {
-        Type::enforce(
-            $child,
-            [
-                Ad::getClassName(),
-                Analytics::getClassName(),
-                AnimatedGIF::getClassName(),
-                Audio::getClassName(),
-                Blockquote::getClassName(),
-                Image::getClassName(),
-                H1::getClassName(),
-                H2::getClassName(),
-                Interactive::getClassName(),
-                ListElement::getClassName(),
-                Map::getClassName(),
-                Paragraph::getClassName(),
-                Pullquote::getClassName(),
-                RelatedArticles::getClassName(),
-                Slideshow::getClassName(),
-                SocialEmbed::getClassName(),
-                Video::getClassName()
-            ]
-        );
         array_unshift($this->children, $child);
 
         return $this;
@@ -371,7 +292,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * @return string canonicalURL from the InstantArticle
      */
-    public function getCanonicalURL()
+    public function getCanonicalURL(): string
     {
         return $this->canonicalURL;
     }
@@ -379,7 +300,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * @return string style from the InstantArticle
      */
-    public function getStyle()
+    public function getStyle(): string
     {
         return $this->style;
     }
@@ -387,7 +308,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * @return Header header element from the InstantArticle
      */
-    public function getHeader()
+    public function getHeader(): ?Header
     {
         return $this->header;
     }
@@ -395,15 +316,15 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * @return Footer footer element from the InstantArticle
      */
-    public function getFooter()
+    public function getFooter(): ?Footer
     {
         return $this->footer;
     }
 
     /**
-     * @return array<Element> the elements this article contains
+     * @return Vector<Element> the elements this article contains
      */
-    public function getChildren()
+    public function getChildren(): Vector<Element>
     {
         return $this->children;
     }
@@ -411,7 +332,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * @return boolean if this article is Right-to-left(RTL).
      */
-    public function isRTLEnabled()
+    public function isRTLEnabled(): bool
     {
         return $this->isRTLEnabled;
     }
@@ -419,7 +340,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * @return string The article charset.
      */
-    public function getCharset()
+    public function getCharset(): string
     {
         return $this->charset;
     }
@@ -432,24 +353,20 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function addMetaProperty($property_name, $property_content)
+    public function addMetaProperty(string $property_name, string $property_content): InstantArticle
     {
         $this->metaProperties[$property_name] = $property_content;
         return $this;
     }
 
-    public function render($doctype = '<!doctype html>', $format = false)
+    public function render(string $doctype = '<!doctype html>', bool $format = false): string
     {
         $doctype = is_null($doctype) ? '<!doctype html>' : $doctype;
         return parent::render($doctype, $format);
     }
 
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         // Builds and appends head to the HTML document
         $html = $document->createElement('html');
         if ($this->isRTLEnabled) {
@@ -500,15 +417,15 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
         $body->appendChild($article);
         $html->appendChild($body);
         if ($this->header && $this->header->isValid()) {
-            $article->appendChild($this->header->toDOMElement($document));
+            $article->appendChild($this->header?->toDOMElement($document));
         }
         if ($this->children) {
             foreach ($this->children as $child) {
-                if (Type::is($child, TextContainer::getClassName())) {
+                if ($child instanceof TextContainer) {
                     if (count($child->getTextChildren()) === 0) {
                         continue;
                     } elseif (count($child->getTextChildren()) === 1) {
-                        if (Type::is($child->getTextChildren()[0], Type::STRING) &&
+                        if (is_string($child->getTextChildren()[0]) &&
                             trim($child->getTextChildren()[0]) === '') {
                             continue;
                         }
@@ -517,7 +434,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
                 $article->appendChild($child->toDOMElement($document));
             }
             if ($this->footer && $this->footer->isValid()) {
-                $article->appendChild($this->footer->toDOMElement($document));
+                $article->appendChild($this->footer?->toDOMElement($document));
             }
         } else {
             $article->appendChild($document->createTextNode(''));
@@ -526,7 +443,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
         return $html;
     }
 
-    private function createMetaElement($document, $property_name, $property_content)
+    private function createMetaElement(\DOMDocument $document, string $property_name, string $property_content): \DOMNode
     {
         $element = $document->createElement('meta');
         $element->setAttribute('property', $property_name);
@@ -534,11 +451,11 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
         return $element;
     }
 
-    public function isValid()
+    public function isValid(): bool
     {
         $header_valid = false;
-        if ($this->getHeader()) {
-            $header_valid = $this->getHeader()->isValid();
+        if ($this->header) {
+            $header_valid = $this->header->isValid();
         }
 
         $items = $this->getChildren();
@@ -553,8 +470,8 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
         }
 
         $footer_valid = true;
-        if ($this->getFooter()) {
-            $footer_valid = $this->getFooter()->isValid();
+        if ($this->footer) {
+            $footer_valid = $this->footer->isValid();
         }
 
         return
@@ -565,25 +482,25 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
             $one_item_valid;
     }
 
-    public function getContainerChildren()
+    public function getContainerChildren(): Vector<Element>
     {
-        $children = array();
+        $children = Vector {};
 
         $header = $this->getHeader();
         if ($header) {
-            $children[] = $header;
+            $children->add($header);
         }
 
         $items = $this->getChildren();
         if ($items) {
             foreach ($items as $item) {
-                $children[] = $item;
+                $children->add($item);
             }
         }
 
         $footer = $this->getFooter();
         if ($footer) {
-            $children[] = $footer;
+            $children->add($footer);
         }
 
         return $children;
@@ -594,7 +511,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
         $items = $this->getChildren();
         if ($items) {
             foreach ($items as $item) {
-                if (Type::is($item, Paragraph::getClassName())) {
+                if ($item instanceof Paragraph) {
                     return $item;
                 }
             }

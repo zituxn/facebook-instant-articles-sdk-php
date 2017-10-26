@@ -28,8 +28,8 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
                 ->withStyle('myarticlestyle')
                 ->withHeader(
                     Header::create()
-                        ->withTitle('Big Top Title')
-                        ->withSubTitle('Smaller SubTitle')
+                        ->withTitle(H1::create()->appendText('Big Top Title'))
+                        ->withSubTitle(H2::create()->appendText('Smaller SubTitle'))
                         ->withPublishTime(
                             Time::create(Time::PUBLISHED)
                                 ->withDatetime(
@@ -59,7 +59,7 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
                                 ->withDescription('Author user in facebook')
                                 ->withURL('http://facebook.com/author')
                         )
-                        ->withKicker('Some kicker of this article')
+                        ->withKicker(H3::create()->appendText('Some kicker of this article'))
                         ->withCover(
                             Image::create()
                                 ->withURL('https://jpeg.org/images/jpegls-home.jpg')
@@ -130,13 +130,13 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
                 // Analytics
                 ->addChild(
                     Analytics::create()
-                        ->withHTML($inline)
+                        ->withHTMLString($inline)
                 )
 
                 // Footer
                 ->withFooter(
                     Footer::create()
-                        ->withCredits('Some plaintext credits.')
+                        ->withCredits(Vector {'Some plaintext credits.'} )
                 );
     }
 
@@ -701,12 +701,12 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
                         ->appendText('Ye olde body')
                 );
 
-        $newBody = array(
+        $newBody = Vector {
             Paragraph::create()
                 ->appendText('The new body.'),
             Paragraph::create()
                 ->appendText('With two paragraphs!')
-            );
+        };
 
         $article->withChildren($newBody);
         $result = $article->render();

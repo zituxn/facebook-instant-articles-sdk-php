@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -34,5 +34,5 @@ abstract class Audible extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    abstract public function withAudio($audio);
+    abstract public function withAudio(Audio $audio): Audible;
 }

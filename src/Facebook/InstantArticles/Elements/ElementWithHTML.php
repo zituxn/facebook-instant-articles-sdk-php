@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -18,7 +18,7 @@ abstract class ElementWithHTML extends Element
     /**
      * @var \DOMNode The HTML of the content.
      */
-    protected $html;
+    protected ?\DOMNode $html;
 
     /**
      * Sets the unescaped HTML.
@@ -27,15 +27,27 @@ abstract class ElementWithHTML extends Element
      *
      * @return $this
      */
-    public function withHTML($html)
+    public function withHTML(\DOMNode $html): ElementWithHTML
     {
-        Type::enforce($html, ['DOMNode', Type::STRING]);
         // If this is raw HTML source, wrap in a CDATA section as it could contain JS etc. with characters (such as &) that are not allowed in unescaped form
-        if (Type::is($html, Type::STRING)) {
-            $html = new \DOMCdataSection($html);
-        }
+        // if (Type::is($html, Type::STRING)) {
+        //     $html = new \DOMCdataSection($html);
+        // }
         $this->html = $html;
+        return $this;
+    }
 
+    /**
+     * Sets the unescaped HTML.
+     *
+     * @param string $html The unescaped HTML.
+     *
+     * @return $this
+     */
+    public function withHTMLString(string $html): ElementWithHTML
+    {
+        $html = new \DOMCdataSection($html);
+        $this->html = $html;
         return $this;
     }
 
@@ -44,7 +56,7 @@ abstract class ElementWithHTML extends Element
      *
      * @return \DOMNode The unescaped HTML.
      */
-    public function getHtml()
+    public function getHtml(): ?\DOMNode
     {
         return $this->html;
     }
@@ -55,10 +67,8 @@ abstract class ElementWithHTML extends Element
      * @param \DOMNode $element - The element to append the HTML to.
      * @param \DOMNode $content - The unescaped HTML to append.
      */
-    protected function dangerouslyAppendUnescapedHTML($element, $content)
+    protected function dangerouslyAppendUnescapedHTML(\DOMNode $element, \DOMNode $content): void
     {
-        Type::enforce($content, 'DOMNode');
-        Type::enforce($element, 'DOMNode');
         $imported = $element->ownerDocument->importNode($content, true);
         $element->appendChild($imported);
     }

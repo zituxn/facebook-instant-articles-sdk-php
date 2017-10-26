@@ -320,7 +320,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $canonicalURL = "http://facebook.com";
 
-        $expectedArticleID = null;
+        $expectedArticleID = -1;
 
         $serverResponseMock =
             $this->getMockBuilder('Facebook\FacebookResponse')
@@ -404,7 +404,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $canonicalURL = "http://facebook.com";
 
-        $expectedArticleID = null;
+        $expectedArticleID = -1;
 
         $serverResponseMock =
             $this->getMockBuilder('Facebook\FacebookResponse')
@@ -669,11 +669,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->willReturn($serverResponseMock);
 
 
-        $expected = array(
+        $expected = Vector {
             'http://url.com/1',
             'http://url.com/2',
-            'http://url.com/3'
-        );
+            'http://url.com/3',
+        };
 
         $result = $this->client->getArticlesURLs();
         $this->assertEquals($expected, $result);

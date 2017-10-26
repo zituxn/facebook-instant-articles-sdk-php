@@ -28,8 +28,8 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
 
         $header =
             Header::create()
-                ->withTitle('Big Top Title')
-                ->withSubTitle('Smaller SubTitle')
+                ->withTitle(H1::create()->appendText('Big Top Title'))
+                ->withSubTitle(H2::create()->appendText('Smaller SubTitle'))
                 ->withPublishTime(
                     Time::create(Time::PUBLISHED)
                         ->withDatetime(
@@ -59,7 +59,7 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
                         ->withDescription('Weend surfer with heavy weight coding skils')
                         ->withURL('http://facebook.com/author')
                 )
-                ->withKicker('Some kicker of this article')
+                ->withKicker(H3::create()->appendText('Some kicker of this article'))
                 ->withCover(
                     Image::create()
                         ->withURL('https://jpeg.org/images/jpegls-home.jpg')
@@ -84,7 +84,7 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
                         ->withWidth(300)
                         ->withHeight(250)
                         ->enableDefaultForReuse()
-                        ->withHTML($inline)
+                        ->withHTMLString($inline)
                 );
 
         $expected =

@@ -52,9 +52,9 @@ class NextSiblingElementGetter extends ElementGetter
             $element = $elements->item(0);
             do {
                 $element = $element->nextSibling;
-            } while ($element !== null && !Type::is($element, 'DOMElement'));
+            } while ($element !== null && !Type::is($element, 'DOMNode'));
 
-            if ($element && Type::is($element, 'DOMElement')) {
+            if ($element && Type::is($element, 'DOMNode')) {
                 if ($this->siblingSelector) {
                     $siblings = self::findAll($element, $this->siblingSelector);
                     if (!empty($siblings) && $siblings->item(0)) {

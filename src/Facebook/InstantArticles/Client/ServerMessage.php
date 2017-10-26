@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -20,31 +20,27 @@ class ServerMessage
     /**
      * @var string
      */
-    private $level;
+    private string $level;
 
     /**
      * @var string
      */
-    private $message;
+    private string $message;
 
     /**
      * @param string $level
      * @param string $message
      */
-    public function __construct($level, $message)
+    public function __construct(string $level, string $message)
     {
         Type::enforceWithin(
             $level,
-            [
+            Vector {
                 self::FATAL,
                 self::ERROR,
                 self::WARNING,
-                self::INFO
-            ]
-        );
-        Type::enforce(
-            $message,
-            Type::STRING
+                self::INFO,
+            }
         );
         $this->level = $level;
         $this->message = $message;
@@ -58,17 +54,17 @@ class ServerMessage
     *
     * @return ServerMessage the message with the proper level
     */
-    public static function fromLevel($level, $message)
+    public static function fromLevel(string $level, string $message): ServerMessage
     {
         $level = strtolower($level);
         $validLevel = Type::isWithin(
             $level,
-            [
+            Vector {
                 self::FATAL,
                 self::ERROR,
                 self::WARNING,
-                self::INFO
-            ]
+                self::INFO,
+            }
         );
         if ($validLevel) {
             return new self($level, $message);
@@ -84,7 +80,7 @@ class ServerMessage
      *
      * @return ServerMessage
      */
-    public static function fatal($message)
+    public static function fatal(string $message): ServerMessage
     {
         return new self(self::FATAL, $message);
     }
@@ -94,7 +90,7 @@ class ServerMessage
      *
      * @return ServerMessage
      */
-    public static function error($message)
+    public static function error(string $message): ServerMessage
     {
         return new self(self::ERROR, $message);
     }
@@ -104,7 +100,7 @@ class ServerMessage
      *
      * @return ServerMessage
      */
-    public static function warning($message)
+    public static function warning(string $message): ServerMessage
     {
         return new self(self::WARNING, $message);
     }
@@ -114,7 +110,7 @@ class ServerMessage
      *
      * @return ServerMessage
      */
-    public static function info($message)
+    public static function info(string $message): ServerMessage
     {
         return new self(self::INFO, $message);
     }
@@ -122,12 +118,12 @@ class ServerMessage
     /**
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function getLevel()
+    public function getLevel(): string
     {
         return $this->level;
     }
@@ -136,7 +132,7 @@ class ServerMessage
      * Auxiliary method to extract full qualified class name.
      * @return string The full qualified name of class
      */
-    public static function getClassName()
+    public static function getClassName(): string
     {
         return get_called_class();
     }

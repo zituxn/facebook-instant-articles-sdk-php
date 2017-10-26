@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -39,17 +39,17 @@ class Map extends Audible implements ChildrenContainer
     /**
      * @var Caption The caption for Image
      */
-    private $caption;
+    private ?Caption $caption;
 
     /**
      * @var GeoTag The json geoTag content inside the script geoTag
      */
-    private $geoTag;
+    private ?GeoTag $geoTag;
 
     /**
      * @var Audio The audio file for this Image
      */
-    private $audio;
+    private ?Audio $audio;
 
     private function __construct()
     {
@@ -60,7 +60,7 @@ class Map extends Audible implements ChildrenContainer
      *
      * @return Map the new instance
      */
-    public static function create()
+    public static function create(): \Facebook\InstantArticles\Elements\Map
     {
         return new self();
     }
@@ -74,9 +74,8 @@ class Map extends Audible implements ChildrenContainer
      *
      * @return $this
      */
-    public function withCaption($caption)
+    public function withCaption(Caption $caption): \Facebook\InstantArticles\Elements\Map
     {
-        Type::enforce($caption, Caption::getClassName());
         $this->caption = $caption;
 
         return $this;
@@ -91,9 +90,8 @@ class Map extends Audible implements ChildrenContainer
      *
      * @return $this
      */
-    public function withGeoTag($geo_tag)
+    public function withGeoTag(GeoTag $geo_tag): \Facebook\InstantArticles\Elements\Map
     {
-        Type::enforce($geo_tag, GeoTag::getClassName());
         $this->geoTag = $geo_tag;
 
         return $this;
@@ -106,9 +104,8 @@ class Map extends Audible implements ChildrenContainer
      *
      * @return $this
      */
-    public function withAudio($audio)
+    public function withAudio(Audio $audio): Audible
     {
-        Type::enforce($audio, Audio::getClassName());
         $this->audio = $audio;
 
         return $this;
@@ -117,7 +114,7 @@ class Map extends Audible implements ChildrenContainer
     /**
      * @return Caption the caption for the Map
      */
-    public function getCaption()
+    public function getCaption(): ?Caption
     {
         return $this->caption;
     }
@@ -125,7 +122,7 @@ class Map extends Audible implements ChildrenContainer
     /**
      * @return string Geotag json content unescaped
      */
-    public function getGeotag()
+    public function getGeotag(): ?GeoTag
     {
         return $this->geoTag;
     }
@@ -133,24 +130,20 @@ class Map extends Audible implements ChildrenContainer
     /**
      * @return Audio the audio object
      */
-    public function getAudio()
+    public function getAudio(): ?Audio
     {
         return $this->audio;
     }
 
     /**
-     * Structure and create the full Map in a XML format DOMElement.
+     * Structure and create the full Map in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -182,7 +175,7 @@ class Map extends Audible implements ChildrenContainer
      * @see Element::isValid().
      * @return true for valid Map that contains valid GeoTag, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return $this->geoTag && $this->geoTag->isValid();
     }
@@ -193,22 +186,22 @@ class Map extends Audible implements ChildrenContainer
      * @see Container::getContainerChildren().
      * @return array of Elements contained by Image.
      */
-    public function getContainerChildren()
+    public function getContainerChildren(): Vector<Element>
     {
-        $children = array();
+        $children = Vector {};
 
         if ($this->caption) {
-            $children[] = $this->caption;
+            $children->add($this->caption);
         }
 
         // Geotag markup optional
         if ($this->geoTag) {
-            $children[] = $this->geoTag;
+            $children->add($this->geoTag);
         }
 
         // Audio markup optional
         if ($this->audio) {
-            $children[] = $this->audio;
+            $children->add($this->audio);
         }
 
         return $children;

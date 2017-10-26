@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -29,35 +29,35 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
     /**
      * @var Caption Descriptive text for your social embed.
      */
-    private $caption;
+    private ?Caption $caption;
 
     /**
      * @var int The width of your interactive graphic.
      */
-    private $width;
+    private int $width = 0;
 
     /**
      * @var int The height of your interactive graphic.
      */
-    private $height;
+    private int $height = 0;
 
     /**
      * @var string The source of the content for your interactive graphic.
      */
-    private $source;
+    private string $source = "";
 
     /**
      * @var string The width setting for the interactive graphic.
      * @see Interactive::NO_MARGIN
      * @see Interactive::COLUMN_WIDTH
      */
-    private $margin;
+    private string $margin = "";
 
     private function __construct()
     {
     }
 
-    public static function create()
+    public static function create(): Interactive
     {
         return new self();
     }
@@ -69,9 +69,8 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
      *
      * @return $this
      */
-    public function withCaption($caption)
+    public function withCaption(Caption $caption): Interactive
     {
-        Type::enforce($caption, Caption::getClassName());
         $this->caption = $caption;
 
         return $this;
@@ -84,9 +83,8 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
      *
      * @return $this
      */
-    public function withWidth($width)
+    public function withWidth(int $width): Interactive
     {
-        Type::enforce($width, Type::INTEGER);
         $this->width = $width;
 
         return $this;
@@ -99,9 +97,8 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
      *
      * @return $this
      */
-    public function withHeight($height)
+    public function withHeight(int $height): Interactive
     {
-        Type::enforce($height, Type::INTEGER);
         $this->height = $height;
 
         return $this;
@@ -114,9 +111,8 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
      *
      * @return $this
      */
-    public function withSource($source)
+    public function withSource(string $source): Interactive
     {
-        Type::enforce($source, Type::STRING);
         $this->source = $source;
 
         return $this;
@@ -132,14 +128,14 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
      *
      * @return $this
      */
-    public function withMargin($margin)
+    public function withMargin(string $margin): Interactive
     {
         Type::enforceWithin(
             $margin,
-            [
+            Vector {
                 Interactive::NO_MARGIN,
-                Interactive::COLUMN_WIDTH
-            ]
+                Interactive::COLUMN_WIDTH,
+            }
         );
         $this->margin = $margin;
 
@@ -149,7 +145,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
     /**
      * @return Caption the caption element
      */
-    public function getCaption()
+    public function getCaption(): ?Caption
     {
         return $this->caption;
     }
@@ -157,7 +153,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
     /**
      * @return int the width
      */
-    public function getWidth()
+    public function getWidth(): int
     {
         return $this->width;
     }
@@ -165,7 +161,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
     /**
      * @return int the height
      */
-    public function getHeight()
+    public function getHeight(): int
     {
         return $this->height;
     }
@@ -173,7 +169,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
     /**
      * @return string url source
      */
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }
@@ -181,24 +177,20 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
     /**
      * @return string the margin
      */
-    public function getMargin()
+    public function getMargin(): string
     {
         return $this->margin;
     }
 
     /**
-     * Structure and create the full Interactive in a DOMElement.
+     * Structure and create the full Interactive in a DOMNode.
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -248,7 +240,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
      * @see Element::isValid().
      * @return true for valid Interactive that contains valid source or html, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return $this->html || (!Type::isTextEmpty($this->source) && $this->height && $this->width);
     }
@@ -259,11 +251,11 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
      * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Image.
      */
-    public function getContainerChildren()
+    public function getContainerChildren(): Vector<Element>
     {
-        $children = array();
+        $children = Vector {};
         if ($this->caption) {
-            $children[] = $this->caption;
+            $children->add($this->caption);
         }
         return $children;
     }

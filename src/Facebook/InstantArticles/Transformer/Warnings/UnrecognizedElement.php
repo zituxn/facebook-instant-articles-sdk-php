@@ -50,7 +50,7 @@ class UnrecognizedElement
         } else {
             $nodeDescription = '<';
             $nodeDescription .= $nodeName;
-            if (Type::is($this->node, 'DOMElement')) {
+            if (Type::is($this->node, 'DOMNode')) {
                 $class = $this->node->getAttribute('class');
                 if ($class) {
                     $nodeDescription .= ' class="'. $class .'"';

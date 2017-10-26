@@ -12,7 +12,7 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {
-        $caption = Caption::create();
+        $caption = Caption::create(H1::create(""));
 
         $expected = '';
 
@@ -23,7 +23,7 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
     public function testRenderBasic()
     {
         $caption =
-            Caption::create()
+            Caption::create(H1::create(""))
                 ->appendText('Caption Title');
 
         $expected =
@@ -39,8 +39,8 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $caption =
             Caption::create()
-                ->withTitle('Caption Title')
-                ->withSubTitle('Caption SubTitle');
+                ->withTitle(H1::create()->appendText('Caption Title'))
+                ->withSubTitle(H2::create()->appendText('Caption SubTitle'));
 
         $expected =
             '<figcaption>'.
@@ -56,8 +56,8 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $caption =
             Caption::create()
-                ->withTitle('Caption Title')
-                ->withCredit('Caption Credit');
+                ->withTitle(H1::create()->appendText('Caption Title'))
+                ->withCredit(Cite::create()->appendText('Caption Credit'));
 
         $expected =
             '<figcaption>'.
@@ -136,14 +136,14 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
     public function testRenderWithVerticalAlignment()
     {
         $caption =
-          Caption::create()
-            ->appendText('Caption Title')
-            ->withVerticalAlignment(Caption::VERTICAL_BOTTOM);
+            Caption::create()
+                ->appendText('Caption Title')
+                ->withVerticalAlignment(Caption::VERTICAL_BOTTOM);
 
         $expected =
-          '<figcaption class="op-vertical-bottom">' .
-          'Caption Title' .
-          '</figcaption>';
+            '<figcaption class="op-vertical-bottom">'.
+                'Caption Title'.
+            '</figcaption>';
 
         $rendered = $caption->render();
         $this->assertEqualsHtml($expected, $rendered);

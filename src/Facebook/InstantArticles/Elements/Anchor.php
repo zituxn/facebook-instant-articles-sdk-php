@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -20,12 +20,12 @@ class Anchor extends FormattedText
     /**
      * @var string URL to link to.
      */
-    private $href;
+    private string $href = "";
 
     /**
      * @var string rel.
      */
-    private $rel;
+    private string $rel = "";
 
     private function __construct()
     {
@@ -44,10 +44,9 @@ class Anchor extends FormattedText
      *
      * @return $this
      */
-    public function withHref($href)
+    public function withHref(string $href): Anchor
     {
         $this->href = $href;
-
         return $this;
     }
 
@@ -56,17 +55,16 @@ class Anchor extends FormattedText
      *
      * @return $this
      */
-    public function withRel($rel)
+    public function withRel(string $rel): Anchor
     {
         $this->rel = $rel;
-
         return $this;
     }
 
     /**
      * @return string the anchor link
      */
-    public function getHref()
+    public function getHref(): string
     {
         return $this->href;
     }
@@ -74,7 +72,7 @@ class Anchor extends FormattedText
     /**
      * @return string the rel attribute
      */
-    public function getRel()
+    public function getRel(): string
     {
         return $this->rel;
     }
@@ -84,24 +82,20 @@ class Anchor extends FormattedText
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
 
         $anchor = $document->createElement('a');
 
-        if ($this->href) {
+        if (!Type::isTextEmpty($this->href)) {
             $anchor->setAttribute('href', $this->href);
         }
-        if ($this->rel) {
+        if (!Type::isTextEmpty($this->rel)) {
             $anchor->setAttribute('rel', $this->rel);
         }
 
@@ -115,7 +109,7 @@ class Anchor extends FormattedText
     * @see TextContainer::isValid().
      * @return true for valid Anchor when it has href, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return !Type::isTextEmpty($this->href);
     }

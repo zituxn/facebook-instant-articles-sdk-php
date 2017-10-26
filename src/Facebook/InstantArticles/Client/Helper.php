@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -19,15 +19,13 @@ class Helper
     /**
      * @var Facebook The main Facebook service client.
      */
-    protected $facebook;
+    protected \Facebook\Facebook $facebook;
 
     /**
      * @param Facebook $facebook the main Facebook service client
      */
-    public function __construct($facebook)
+    public function __construct(\Facebook\Facebook $facebook)
     {
-        Type::enforce($facebook, 'Facebook\Facebook');
-
         // TODO throw if $facebook doesn't have a default_access_token
         $this->facebook = $facebook;
     }
@@ -42,18 +40,15 @@ class Helper
      *
      * @throws FacebookSDKException
      */
-    public static function create($appID, $appSecret)
+    public static function create(string $appID, string $appSecret): Helper
     {
-        Type::enforce($appID, Type::STRING);
-        Type::enforce($appSecret, Type::STRING);
-
         $facebook = new Facebook([
             'app_id' => $appID,
             'app_secret' => $appSecret,
             'default_graph_version' => 'v2.5'
         ]);
 
-        return new static($facebook);
+        return new self($facebook);
     }
 
     /**
@@ -67,10 +62,8 @@ class Helper
      *
      * @throws FacebookSDKException
      */
-    public function getPagesAndTokens($accessToken, $offset = 0)
+    public function getPagesAndTokens(\Facebook\Authentication\AccessToken $accessToken, int $offset = 0): array
     {
-        Type::enforce($accessToken, 'Facebook\Authentication\AccessToken');
-
         // If we don't have a long-lived user token, exchange for one
         if (! $accessToken->isLongLived()) {
             try {

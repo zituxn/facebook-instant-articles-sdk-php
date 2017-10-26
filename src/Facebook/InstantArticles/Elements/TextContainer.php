@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -21,22 +21,21 @@ use Facebook\InstantArticles\Validators\Type;
 abstract class TextContainer extends Element implements ChildrenContainer
 {
     /**
-     * @var array The content is a list of strings and FormattingElements
+     * @var Vector The content is a list of TextContainer
      */
-    private $textChildren = array();
+    private Vector<mixed> $textChildren = Vector {};
 
     /**
      * Adds content to the formatted text.
      *
-     * @param string|FormattedText|TextContainer The content can be a string or a FormattedText.
+     * @param string|TextContainer The content can be a string or a FormattedText.
      *
      * @return $this
      */
-    public function appendText($child)
+    public function appendText(mixed $child): TextContainer
     {
-        Type::enforce($child, [Type::STRING, FormattedText::getClassName(), TextContainer::getClassName()]);
-        $this->textChildren[] = $child;
-
+        // TODO Make sure this is string|TextContainer
+        $this->textChildren->add($child);
         return $this;
     }
 
@@ -45,13 +44,13 @@ abstract class TextContainer extends Element implements ChildrenContainer
      */
     public function clearText()
     {
-        $this->textChildren = array();
+        $this->textChildren = Vector {};
     }
 
     /**
-     * @return string[]|FormattedText[]|TextContainer[] All text token for this text container.
+     * @return Vector<string|TextContainer> All text token for this text container.
      */
-    public function getTextChildren()
+    public function getTextChildren(): Vector<mixed>
     {
         return $this->textChildren;
     }
@@ -61,22 +60,18 @@ abstract class TextContainer extends Element implements ChildrenContainer
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMDocumentFragment
+     * @return \DOMNode
      */
-    public function textToDOMDocumentFragment($document = null)
+    public function textToDOMDocumentFragment(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         $fragment = $document->createDocumentFragment();
 
         // Generate markup
         foreach ($this->textChildren as $content) {
-            if (Type::is($content, Type::STRING)) {
+            if (is_string($content)) {
                 $text = $document->createTextNode($content);
                 $fragment->appendChild($text);
-            } else {
+            } elseif ($content instanceof TextContainer) {
                 $fragment->appendChild($content->toDOMElement($document));
             }
         }
@@ -93,15 +88,15 @@ abstract class TextContainer extends Element implements ChildrenContainer
      *
      * @return string the unformated plain text content from children
      */
-    public function getPlainText()
+    public function getPlainText(): string
     {
         $text = '';
 
         // Generate markup
         foreach ($this->textChildren as $content) {
-            if (Type::is($content, Type::STRING)) {
+            if (is_string($content)) {
                 $text .= $content;
-            } else {
+            } elseif ($content instanceof TextContainer) {
                 $text .= $content->getPlainText();
             }
         }
@@ -115,20 +110,19 @@ abstract class TextContainer extends Element implements ChildrenContainer
      * @see Element::isValid().
      * @return true for valid tag, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
-        $textContent = '';
+        $textContent = "";
 
         foreach ($this->textChildren as $content) {
             // Recursive check on TextContainer, if something inside is valid, this is valid.
-            if (Type::is($content, TextContainer::getClassName()) && $content->isValid()) {
-                return true;
+            if ($content instanceof TextContainer) {
+                return $content->isValid();
             // If is string content, concat to check if it is not only a bunch of empty chars.
-            } elseif (Type::is($content, Type::STRING)) {
+            } elseif (is_string($content)) {
                 $textContent = $textContent.$content;
             }
         }
-
         return !Type::isTextEmpty($textContent);
     }
 
@@ -138,14 +132,13 @@ abstract class TextContainer extends Element implements ChildrenContainer
      * @see ChildrenContainer::getContainerChildren().
      * @return array of TextContainer
      */
-    public function getContainerChildren()
+    public function getContainerChildren(): Vector<Element>
     {
-        $children = array();
+        $children = Vector {};
 
         foreach ($this->textChildren as $content) {
-            // Recursive check on TextContainer, if something inside is valid, this is valid.
-            if (Type::is($content, TextContainer::getClassName())) {
-                $children[] = $content;
+            if ($content instanceof TextContainer) {
+                $children->add($content);
             }
         }
 

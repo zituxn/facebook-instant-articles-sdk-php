@@ -24,7 +24,7 @@ class FooterTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $footer =
             Footer::create()
-                ->withCredits('Some plaintext credits.');
+                ->withCredits(Vector {'Some plaintext credits.'});
 
         $expected =
             '<footer>'.
@@ -41,10 +41,10 @@ class FooterTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $footer =
             Footer::create()
-                ->withCredits([
+                ->withCredits(Vector {
                     Paragraph::create()->appendText('Some paragraph credits.'),
                     Paragraph::create()->appendText('Other paragraph credits.'),
-                ]);
+                });
 
         $expected =
             '<footer>'.
@@ -93,7 +93,7 @@ class FooterTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $footer =
             Footer::create()
-                ->withCopyright('2016 Facebook');
+                ->withCopyright(Small::create()->appendText('2016 Facebook'));
 
         $expected =
             '<footer>'.
@@ -135,7 +135,7 @@ class FooterTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $footer =
             Footer::create()
-                ->withCopyright('2016 Facebook')
+                ->withCopyright(Small::create()->appendText('2016 Facebook'))
                 ->withRelatedArticles(
                     RelatedArticles::create()
                         ->addRelated(RelatedItem::create()->withURL('http://related.com/1'))

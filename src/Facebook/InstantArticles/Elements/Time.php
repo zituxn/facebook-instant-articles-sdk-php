@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -53,7 +53,7 @@ class Time extends Element
     /**
      * @var \DateTime The date format
      */
-    private $date;
+    private ?\DateTime $date;
 
     /**
      * @var string The type of this Article time (MODIFIED or PUBLISHED)
@@ -61,7 +61,7 @@ class Time extends Element
      * @see Time::MODIFIED
      * @see Time::PUBLISHED
      */
-    private $type;
+    private string $type = "";
 
     /**
      * Private constructor. Should use Time::create().
@@ -79,7 +79,7 @@ class Time extends Element
      *
      * @return Time
      */
-    public static function create($type)
+    public static function create(string $type): Time
     {
         $article_time = new self();
         return $article_time->withType($type);
@@ -95,14 +95,14 @@ class Time extends Element
      *
      * @return $this
      */
-    public function withType($type)
+    public function withType(string $type): Time
     {
         Type::enforceWithin(
             $type,
-            [
+            Vector {
                 Time::MODIFIED,
-                Time::PUBLISHED
-            ]
+                Time::PUBLISHED,
+            }
         );
         $this->type = $type;
 
@@ -116,9 +116,8 @@ class Time extends Element
      *
      * @return $this
      */
-    public function withDatetime($date)
+    public function withDatetime(\DateTime $date): Time
     {
-        Type::enforce($date, 'DateTime');
         $this->date = $date;
 
         return $this;
@@ -127,7 +126,7 @@ class Time extends Element
     /**
      * @return \DateTime The date
      */
-    public function getDatetime()
+    public function getDatetime(): ?\DateTime
     {
         return $this->date;
     }
@@ -138,30 +137,26 @@ class Time extends Element
      * @see Time::MODIFIED
      * @see Time::PUBLISHED
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
     /**
-     * Structure and create the full Time in a XML format DOMElement.
+     * Structure and create the full Time in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
 
-        $datetime = $this->date->format('c');
-        $date = $this->date->format('F jS, g:ia');
+        $datetime = $this->date?->format('c');
+        $date = $this->date?->format('F jS, g:ia');
 
         $element = $document->createElement('time');
         $element->setAttribute('class', $this->type);
@@ -177,8 +172,8 @@ class Time extends Element
      * @see Element::isValid().
      * @return true for valid Time that contains valid date, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
-        return isset($this->date) && $this->date !== null;
+        return $this->date !== null;
     }
 }

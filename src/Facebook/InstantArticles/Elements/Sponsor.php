@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -24,14 +24,14 @@ class Sponsor extends Element
     /**
      * @var string page URL.
      */
-    private $page_url;
+    private string $page_url = "";
 
     /**
      * Factory method for a Sponsor.
      *
      * @return Sponsor the new instance.
      */
-    public static function create()
+    public static function create(): Sponsor
     {
         return new self();
     }
@@ -43,9 +43,8 @@ class Sponsor extends Element
      *
      * @return $this
      */
-    public function withPageUrl($url)
+    public function withPageUrl(string $url): Sponsor
     {
-        Type::enforce($url, Type::STRING);
         $this->page_url = $url;
         return $this;
     }
@@ -56,24 +55,20 @@ class Sponsor extends Element
      * @see Element::isValid().
      * @return true for valid ListElement that contains at least one ListItem's valid, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return !Type::isTextEmpty($this->page_url);
     }
 
     /**
-     * Structure and create the full Video in a XML format DOMElement.
+     * Structure and create the full Video in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }

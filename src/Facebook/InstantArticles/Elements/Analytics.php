@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -33,7 +33,7 @@ class Analytics extends ElementWithHTML
     /**
      * @var string The source of the content for your analytics code.
      */
-    private $source;
+    private string $source = "";
 
     private function __construct()
     {
@@ -51,9 +51,8 @@ class Analytics extends ElementWithHTML
      *
      * @return $this
      */
-    public function withSource($source)
+    public function withSource(string $source): Analytics
     {
-        Type::enforce($source, Type::STRING);
         $this->source = $source;
 
         return $this;
@@ -64,24 +63,20 @@ class Analytics extends ElementWithHTML
      *
      * @return string The source of the content for your analytics.
      */
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }
 
     /**
-     * Structure and create the full ArticleAd in a DOMElement.
+     * Structure and create the full ArticleAd in a DOMNode.
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -113,7 +108,7 @@ class Analytics extends ElementWithHTML
     * @see Element::isValid().
      * @return true for valid Analytics that contains valid source or html, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return !Type::isTextEmpty($this->source) || $this->html;
     }

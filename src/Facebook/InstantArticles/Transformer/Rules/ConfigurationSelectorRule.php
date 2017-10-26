@@ -73,7 +73,7 @@ abstract class ConfigurationSelectorRule extends Rule
     public function matchesNode($node)
     {
         // Only matches DOMElements (ignore text and comments)
-        if (!Type::is($node, 'DOMElement')) {
+        if (!Type::is($node, 'DOMNode')) {
             return false;
         }
 

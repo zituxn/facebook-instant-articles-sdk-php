@@ -79,7 +79,7 @@ class AdTest extends \Facebook\Util\BaseHTMLTestCase
 
         $ad =
             Ad::create()
-                ->withHTML($inline)
+                ->withHTMLString($inline)
                 ->withHeight(640)
                 ->withWidth(480);
 

@@ -78,8 +78,8 @@ JSON;
                 ->withGeoTag(GeoTag::create()->withScript($script))
                 ->withCaption(
                     Caption::create()
-                        ->withTitle('Title of Image caption')
-                        ->withCredit('Some caption to the image')
+                        ->withTitle(H1::create()->appendText('Title of Image caption'))
+                        ->withCredit(Cite::create()->appendText('Some caption to the image'))
                         ->withPosition(Caption::POSITION_BELOW)
                 );
 

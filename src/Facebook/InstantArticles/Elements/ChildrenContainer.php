@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,14 +26,14 @@ interface ChildrenContainer
      *     }
      * </code>
      *
-     * @return array(<Element>) All implementing classes returns an array of Elements.
+     * @return Vector <Element> All implementing classes returns an array of Element.
      */
-    public function getContainerChildren();
+    public function getContainerChildren(): Vector<Element>;
 
     /**
      * Auxiliary method to extract all Elements full qualified class name.
      *
      * @return string The full qualified name of class
      */
-    public static function getClassName();
+    public function getClassName(): string;
 }

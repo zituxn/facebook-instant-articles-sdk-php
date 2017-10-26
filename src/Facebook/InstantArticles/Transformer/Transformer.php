@@ -74,7 +74,7 @@ class Transformer
     public static function cloneNode($node)
     {
         $clone = $node->cloneNode(true);
-        if (Type::is($clone, 'DOMElement') && $clone->hasAttribute(self::INSTANT_ARTICLES_PARSED_FLAG)) {
+        if (Type::is($clone, 'DOMNode') && $clone->hasAttribute(self::INSTANT_ARTICLES_PARSED_FLAG)) {
             $clone->removeAttribute(self::INSTANT_ARTICLES_PARSED_FLAG);
         }
         return $clone;
@@ -83,11 +83,11 @@ class Transformer
     /**
      * Marks a node as processed.
      *
-     * @param DOMElement $node The node to clone
+     * @param DOMNode $node The node to clone
      */
     public static function markAsProcessed($node)
     {
-        if (Type::is($node, 'DOMElement')) {
+        if (Type::is($node, 'DOMNode')) {
             $node->setAttribute(self::INSTANT_ARTICLES_PARSED_FLAG, 'true');
         }
     }
@@ -99,7 +99,7 @@ class Transformer
      */
     protected static function isProcessed($node)
     {
-        return Type::is($node, 'DOMElement') && $node->getAttribute(self::INSTANT_ARTICLES_PARSED_FLAG) == 'true';
+        return Type::is($node, 'DOMNode') && $node->getAttribute(self::INSTANT_ARTICLES_PARSED_FLAG) == 'true';
     }
 
 

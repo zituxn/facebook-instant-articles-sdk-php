@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -43,33 +43,33 @@ class Image extends Audible implements ChildrenContainer
     /**
      * @var boolean marks if any created image will have likes enabled by default
      */
-    public static $defaultLikeEnabled = false;
+    public static bool $defaultLikeEnabled = false;
 
     /**
      * @var boolean marks if any created image will have comments enabled by default
      */
-    public static $defaultCommentEnabled = false;
+    public static bool $defaultCommentEnabled = false;
 
     /**
      * @var Caption The caption for Image
      */
-    private $caption;
+    private ?Caption $caption;
 
     /**
      * @var string The string url for the image hosted on web that will be shown
      * on the article
      */
-    private $url;
+    private string $url = "";
 
     /**
      * @var bool Tells if like is enabled. Default: false
      */
-    private $isLikeEnabled;
+    private bool $isLikeEnabled = false;
 
     /**
      * @var bool Tells if comments are enabled. Default: false
      */
-    private $isCommentsEnabled;
+    private bool $isCommentsEnabled = false;
 
     /**
      * @var string The picture size for the video.
@@ -78,17 +78,17 @@ class Image extends Audible implements ChildrenContainer
      * @see Image::FULLSCREEN
      * @see Image::NON_INTERACTIVE
      */
-    private $presentation;
+    private string $presentation = "";
 
     /**
      * @var GeoTag The Map object
      */
-    private $geoTag;
+    private ?GeoTag $geoTag;
 
     /**
      * @var Audio The audio file for this Image
      */
-    private $audio;
+    private ?Audio $audio;
 
     /**
      * Private constructor.
@@ -104,7 +104,7 @@ class Image extends Audible implements ChildrenContainer
      * Factory method for the Image
      * @return Image the new instance
      */
-    public static function create()
+    public static function create(): Image
     {
         return new self();
     }
@@ -117,9 +117,8 @@ class Image extends Audible implements ChildrenContainer
      *
      * @return $this
      */
-    public function withCaption($caption)
+    public function withCaption(Caption $caption): Image
     {
-        Type::enforce($caption, Caption::getClassName());
         $this->caption = $caption;
 
         return $this;
@@ -132,9 +131,8 @@ class Image extends Audible implements ChildrenContainer
      *
      * @return $this
      */
-    public function withURL($url)
+    public function withURL(string $url): Image
     {
-        Type::enforce($url, Type::STRING);
         $this->url = $url;
 
         return $this;
@@ -151,16 +149,16 @@ class Image extends Audible implements ChildrenContainer
      *
      * @return $this
      */
-    public function withPresentation($presentation)
+    public function withPresentation(string $presentation): Image
     {
         Type::enforceWithin(
             $presentation,
-            [
+            Vector {
                 Image::ASPECT_FIT,
                 Image::ASPECT_FIT_ONLY,
                 Image::FULLSCREEN,
-                Image::NON_INTERACTIVE
-            ]
+                Image::NON_INTERACTIVE,
+            }
         );
         $this->presentation = $presentation;
 
@@ -170,7 +168,7 @@ class Image extends Audible implements ChildrenContainer
     /**
      * Makes like enabled for this image.
      */
-    public function enableLike()
+    public function enableLike(): Image
     {
         $this->isLikeEnabled = true;
 
@@ -180,7 +178,7 @@ class Image extends Audible implements ChildrenContainer
     /**
      * Makes like disabled for this image.
      */
-    public function disableLike()
+    public function disableLike(): Image
     {
         $this->isLikeEnabled = false;
 
@@ -190,7 +188,7 @@ class Image extends Audible implements ChildrenContainer
     /**
      * Makes comments enabled for this image.
      */
-    public function enableComments()
+    public function enableComments(): Image
     {
         $this->isCommentsEnabled = true;
 
@@ -200,7 +198,7 @@ class Image extends Audible implements ChildrenContainer
     /**
      * Makes comments disabled for this image.
      */
-    public function disableComments()
+    public function disableComments(): Image
     {
         $this->isCommentsEnabled = false;
 
@@ -212,14 +210,9 @@ class Image extends Audible implements ChildrenContainer
      *
      * @see {link:http://geojson.org/}
      */
-    public function withGeoTag($geo_tag)
+    public function withGeoTag(GeoTag $geo_tag): Image
     {
-        Type::enforce($geo_tag, [Type::STRING, GeoTag::getClassName()]);
-        if (Type::is($geo_tag, Type::STRING)) {
-            $this->geoTag = GeoTag::create()->withScript($geo_tag);
-        } elseif (Type::is($geo_tag, GeoTag::getClassName())) {
-            $this->geoTag = $geo_tag;
-        }
+        $this->geoTag = $geo_tag;
 
         return $this;
     }
@@ -231,9 +224,8 @@ class Image extends Audible implements ChildrenContainer
      *
      * @return $this
      */
-    public function withAudio($audio)
+    public function withAudio(Audio $audio): Image
     {
-        Type::enforce($audio, Audio::getClassName());
         $this->audio = $audio;
 
         return $this;
@@ -242,7 +234,7 @@ class Image extends Audible implements ChildrenContainer
     /**
      * @return Caption gets the caption obj
      */
-    public function getCaption()
+    public function getCaption(): ?Caption
     {
         return $this->caption;
     }
@@ -250,7 +242,7 @@ class Image extends Audible implements ChildrenContainer
     /**
      * @return string URL gets the image url
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
@@ -258,7 +250,7 @@ class Image extends Audible implements ChildrenContainer
     /**
      * @return boolean tells if the like button is enabled
      */
-    public function isLikeEnabled()
+    public function isLikeEnabled(): bool
     {
         return $this->isLikeEnabled;
     }
@@ -266,7 +258,7 @@ class Image extends Audible implements ChildrenContainer
     /**
      * @return boolean tells if the comments widget is enabled
      */
-    public function isCommentsEnabled()
+    public function isCommentsEnabled(): bool
     {
         return $this->isCommentsEnabled;
     }
@@ -278,7 +270,7 @@ class Image extends Audible implements ChildrenContainer
      * @see Image::FULLSCREEN
      * @see Image::NON_INTERACTIVE
      */
-    public function getPresentation()
+    public function getPresentation(): string
     {
         return $this->presentation;
     }
@@ -286,7 +278,7 @@ class Image extends Audible implements ChildrenContainer
     /**
      * @return Map The json geotag content inside the script geotag
      */
-    public function getGeotag()
+    public function getGeotag(): ?GeoTag
     {
         return $this->geoTag;
     }
@@ -294,24 +286,20 @@ class Image extends Audible implements ChildrenContainer
     /**
      * @return Audio the audio object
      */
-    public function getAudio()
+    public function getAudio(): ?Audio
     {
         return $this->audio;
     }
 
     /**
-     * Structure and create the full Image in a XML format DOMElement.
+     * Structure and create the full Image in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -365,7 +353,7 @@ class Image extends Audible implements ChildrenContainer
      * @see Element::isValid().
      * @return true for valid Image that contains valid url, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return !Type::isTextEmpty($this->url);
     }
@@ -376,22 +364,22 @@ class Image extends Audible implements ChildrenContainer
      * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Image.
      */
-    public function getContainerChildren()
+    public function getContainerChildren(): Vector<Element>
     {
-        $children = array();
+        $children = Vector {};
 
         if ($this->caption) {
-            $children[] = $this->caption;
+            $children->add($this->caption);
         }
 
         // Geotag markup optional
         if ($this->geoTag) {
-            $children[] = $this->geoTag;
+            $children->add($this->geoTag);
         }
 
         // Audio markup optional
         if ($this->audio) {
-            $children[] = $this->audio;
+            $children->add($this->audio);
         }
 
         return $children;
@@ -404,7 +392,7 @@ class Image extends Audible implements ChildrenContainer
      * this might not work as expected. (you will need to set this in all working threads manually)
      * @param boolean $enabled inform true to enable likes on images per default or false to disable like on images.
      */
-    public static function setDefaultLikeEnabled($enabled)
+    public static function setDefaultLikeEnabled(bool $enabled): void
     {
         self::$defaultLikeEnabled = $enabled;
     }
@@ -416,7 +404,7 @@ class Image extends Audible implements ChildrenContainer
      * this might not work as expected. (you will need to set this in all working threads manually)
      * @param boolean $enabled inform true to enable comments on images per default or false to disable commenting on images.
      */
-    public static function setDefaultCommentEnabled($enabled)
+    public static function setDefaultCommentEnabled(bool $enabled): void
     {
         self::$defaultCommentEnabled = $enabled;
     }

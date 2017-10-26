@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -11,7 +11,7 @@ namespace Facebook\InstantArticles\Elements;
 use Facebook\InstantArticles\Validators\Type;
 
 /**
- * Title for the Document
+ * Subtitle for the Document
  *
  * Example:
  * <h3> This is the first Instant Article</h3>
@@ -23,22 +23,29 @@ class H3 extends TextContainer
     /**
      * @var string text align. Values: "op-left"|"op-center"|"op-right"
      */
-    private $textAlignment;
+    private string $textAlignment = "";
 
     /**
      * @var string text position. Values: "op-vertical-below"|"op-vertical-above"|"op-vertical-center"
      */
-    private $position;
+    private string $position = "";
+
+    /**
+     * @var bool kicker whether this is a kicker or not. Default false.
+     */
+    private bool $isKicker = false;
 
     private function __construct()
     {
     }
 
+    /**
+     * @return H3
+     */
     public static function create()
     {
         return new self();
     }
-
 
     /**
      * The Text alignment that will be used.
@@ -47,17 +54,19 @@ class H3 extends TextContainer
      * @see Caption::ALIGN_LEFT
      * @see Caption::ALIGN_CENTER
      *
-     * @param string $text_alignment option that will be used.
+     * @param string $text_alignment alignment option that will be used.
+     *
+     * @return $this
      */
-    public function withTextAlignment($text_alignment)
+    public function withTextAlignment(string $text_alignment): H3
     {
         Type::enforceWithin(
             $text_alignment,
-            [
+            Vector {
                 Caption::ALIGN_RIGHT,
                 Caption::ALIGN_LEFT,
-                Caption::ALIGN_CENTER
-            ]
+                Caption::ALIGN_CENTER,
+            }
         );
         $this->textAlignment = $text_alignment;
 
@@ -70,7 +79,7 @@ class H3 extends TextContainer
      * @param string $position
      * @return $this
      */
-    public function withPostion($position)
+    public function withPostion(string $position): H3
     {
         return $this->withPosition($position);
     }
@@ -82,18 +91,19 @@ class H3 extends TextContainer
      * @see Caption::POSITION_BELOW
      * @see Caption::POSITION_CENTER
      *
-     * @param string $position
+     * @param string $position that will be used.
+     *
      * @return $this
      */
-    public function withPosition($position)
+    public function withPosition(string $position): H3
     {
         Type::enforceWithin(
             $position,
-            [
+            Vector {
                 Caption::POSITION_ABOVE,
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER
-            ]
+            }
         );
         $this->position = $position;
 
@@ -101,29 +111,64 @@ class H3 extends TextContainer
     }
 
     /**
-     * Structure and create the H3 in a DOMElement.
+     * Enables kicker for this element
      *
-     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     * @return H3
      */
-    public function toDOMElement($document = null)
+    public function enableKicker(): H3
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
+        $this->isKicker = true;
+        return $this;
+    }
 
+    /**
+     * Enables kicker for this element
+     *
+     * @return H3
+     */
+    public function disableKicker(): H3
+    {
+        $this->isKicker = false;
+        return $this;
+    }
+
+    /**
+     * Enables kicker for this element
+     *
+     * @return H3
+     */
+    public function isKicker(): bool
+    {
+        return $this->isKicker;
+    }
+
+
+    /**
+     * Structure and create the H3 in a DOMNode.
+     *
+     * @param \DOMDocument $document - The document where this element will be appended.
+     *
+     * @return \DOMNode
+     */
+    public function toDOMElement(\DOMDocument $document): \DOMNode
+    {
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
 
         $h3 = $document->createElement('h3');
 
-        $classes = [];
+        $classes = Vector {};
         if ($this->position) {
-            $classes[] = $this->position;
+            $classes->add($this->position);
         }
         if ($this->textAlignment) {
-            $classes[] = $this->textAlignment;
+            $classes->add($this->textAlignment);
         }
+        if ($this->isKicker()) {
+            $classes->add('op-kicker');
+        }
+
         if (!empty($classes)) {
             $h3->setAttribute('class', implode(' ', $classes));
         }

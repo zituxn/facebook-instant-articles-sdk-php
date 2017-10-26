@@ -144,7 +144,7 @@ class InteractiveTest extends \Facebook\Util\BaseHTMLTestCase
 
         $interactive =
             Interactive::create()
-                ->withHTML($inline)
+                ->withHTMLString($inline)
                 ->withWidth(600)
                 ->withHeight(640)
                 ->withMargin(Interactive::NO_MARGIN);
@@ -169,7 +169,7 @@ class InteractiveTest extends \Facebook\Util\BaseHTMLTestCase
 
         $interactive =
             Interactive::create()
-                ->withHTML($inline)
+                ->withHTMLString($inline)
                 ->withMargin(Interactive::NO_MARGIN);
 
         $expected =

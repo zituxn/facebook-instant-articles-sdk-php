@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -32,17 +32,17 @@ class Footer extends Element implements ChildrenContainer
     /**
      * @var string|Paragraph[] The text content of the credits
      */
-    private $credits = [];
+    private Vector<mixed> $credits = Vector {};
 
     /**
-     * @var string Copyright information of the article
+     * @var Small Copyright information of the article
      */
-    private $copyright;
+    private ?Small $copyright;
 
     /**
      * @var RelatedArticles the related articles to be added to this footer. Optional
      */
-    private $relatedArticles;
+    private ?RelatedArticles $relatedArticles;
 
     private function __construct()
     {
@@ -51,7 +51,7 @@ class Footer extends Element implements ChildrenContainer
     /**
      * @return Footer
      */
-    public static function create()
+    public static function create(): Footer
     {
         return new self();
     }
@@ -59,22 +59,12 @@ class Footer extends Element implements ChildrenContainer
     /**
      * Sets the text content of the credits
      *
-     * @param string|string[]|Paragraph[] $credits - A list of paragraphs or a single string for the content of the credit.
+     * @param Vector<string|Paragraph> $credits - A list of paragraphs or a single string for the content of the credit.
      *
      * @return $this
      */
-    public function withCredits($credits)
+    public function withCredits(Vector<mixed> $credits): Footer
     {
-        Type::enforce($credits, [Type::ARRAY_TYPE, Paragraph::getClassName(), Type::STRING]);
-
-        // Checks if it is array to apply the enforce of param types as documented.
-        if (Type::is($credits, Type::ARRAY_TYPE)) {
-            if (!Type::isArrayOf($credits, Type::STRING) &&
-                !Type::isArrayOf($credits, Paragraph::getClassName())) {
-                Type::enforceArrayOf($credits, Type::STRING);
-                Type::enforceArrayOf($credits, Paragraph::getClassName());
-            }
-        }
         $this->credits = $credits;
 
         return $this;
@@ -87,10 +77,9 @@ class Footer extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function addCredit($credit)
+    public function addCredit(mixed $credit): Footer
     {
-        Type::enforce($credit, Paragraph::getClassName());
-        $this->credits[] = $credit;
+        $this->credits->add($credit);
 
         return $this;
     }
@@ -98,13 +87,12 @@ class Footer extends Element implements ChildrenContainer
     /**
      * Sets the copyright information for the article.
      *
-     * @param string $copyright - The copyright information.
+     * @param Small $copyright - The copyright information.
      *
      * @return $this
      */
-    public function withCopyright($copyright)
+    public function withCopyright(Small $copyright): Footer
     {
-        Type::enforce($copyright, [Type::STRING, Small::getClassName()]);
         $this->copyright = $copyright;
 
         return $this;
@@ -117,9 +105,8 @@ class Footer extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withRelatedArticles($related_articles)
+    public function withRelatedArticles(RelatedArticles $related_articles): Footer
     {
-        Type::enforce($related_articles, RelatedArticles::getClassName());
         $this->relatedArticles = $related_articles;
 
         return $this;
@@ -128,9 +115,9 @@ class Footer extends Element implements ChildrenContainer
     /**
      * Gets the text content of the credits
      *
-     * @return string|string[]|Paragraph[] A list of paragraphs or a single string for the content of the credit.
+     * @return Vector<string|Paragraph> A list of paragraphs or a single string for the content of the credit.
      */
-    public function getCredits()
+    public function getCredits(): Vector<mixed>
     {
         return $this->credits;
     }
@@ -138,9 +125,9 @@ class Footer extends Element implements ChildrenContainer
     /**
      * Gets the copyright information for the article.
      *
-     * @return string The copyright information.
+     * @return Small The copyright information.
      */
-    public function getCopyright()
+    public function getCopyright(): ?Small
     {
         return $this->copyright;
     }
@@ -150,24 +137,20 @@ class Footer extends Element implements ChildrenContainer
      *
      * @return RelatedArticles The related articles
      */
-    public function getRelatedArticles()
+    public function getRelatedArticles(): ?RelatedArticles
     {
         return $this->relatedArticles;
     }
 
     /**
-     * Structure and create the full Footer in a DOMElement.
+     * Structure and create the full Footer in a DOMNode.
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -177,24 +160,18 @@ class Footer extends Element implements ChildrenContainer
         // Footer markup
         if ($this->credits) {
             $aside = $document->createElement('aside');
-            if (is_array($this->credits)) {
-                foreach ($this->credits as $paragraph) {
-                    $aside->appendChild($paragraph->toDOMElement($document));
+            foreach ($this->credits as $credit) {
+                if ($credit instanceof Paragraph) {
+                    $aside->appendChild($credit->toDOMElement($document));
+                } elseif (is_string($credit)) {
+                    $aside->appendChild($document->createTextNode($credit));
                 }
-            } else {
-                $aside->appendChild($document->createTextNode($this->credits));
             }
             $footer->appendChild($aside);
         }
 
         if ($this->copyright) {
-            if (Type::is($this->copyright, Type::STRING)) {
-                $small = $document->createElement('small');
-                $small->appendChild($document->createTextNode($this->copyright));
-                $footer->appendChild($small);
-            } else {
-                $footer->appendChild($this->copyright->toDOMElement($document));
-            }
+            $footer->appendChild($this->copyright->toDOMElement($document));
         }
 
         if ($this->relatedArticles) {
@@ -214,7 +191,7 @@ class Footer extends Element implements ChildrenContainer
      * @see Element::isValid().
      * @return true for valid Footer when it is filled, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return
             $this->credits ||
@@ -226,28 +203,22 @@ class Footer extends Element implements ChildrenContainer
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren()
-     * @return array of Paragraph|RelatedArticles
+     * @return Vector<Element> of Paragraph|RelatedArticles
      */
-    public function getContainerChildren()
+    public function getContainerChildren(): Vector<Element>
     {
-        $children = array();
+        $children = Vector {};
 
         if ($this->credits) {
-            if (is_array($this->credits)) {
-                foreach ($this->credits as $paragraph) {
-                    if (Type::is($paragraph, Element::getClassName())) {
-                        $children[] = $paragraph;
-                    }
-                }
-            } else {
-                if (Type::is($this->credits, Element::getClassName())) {
-                    $children[] = $this->credits;
+            foreach ($this->credits as $credit) {
+                if ($credit instanceof Element) {
+                    $children->add($credit);
                 }
             }
         }
 
         if ($this->relatedArticles) {
-            $children[] = $this->relatedArticles;
+            $children->add($this->relatedArticles);
         }
 
         return $children;

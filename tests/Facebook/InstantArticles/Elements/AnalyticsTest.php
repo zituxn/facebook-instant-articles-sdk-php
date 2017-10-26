@@ -44,7 +44,7 @@ class AnalyticsTest extends \Facebook\Util\BaseHTMLTestCase
 
         $analytics =
             Analytics::create()
-                ->withHTML($inline);
+                ->withHTMLString($inline);
 
         $expected =
             '<figure class="op-tracker">'.
@@ -74,7 +74,7 @@ class AnalyticsTest extends \Facebook\Util\BaseHTMLTestCase
 
         $analytics =
             Analytics::create()
-                ->withHTML($google_analytics);
+                ->withHTMLString($google_analytics);
 
         $expected =
             '<figure class="op-tracker">'.

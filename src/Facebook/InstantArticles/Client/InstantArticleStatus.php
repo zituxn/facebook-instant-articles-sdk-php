@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -19,9 +19,14 @@ class InstantArticleStatus
     const UNKNOWN = 'unknown';
 
     /**
+     * @var Vector<ServerMessage>
+     */
+    private Vector<ServerMessage> $messages = Vector {};
+
+    /**
      * @var ServerMessage[]
      */
-    private $messages = [];
+    private string $status = "";
 
     /**
      * Instantiates a new InstantArticleStatus object.
@@ -29,45 +34,41 @@ class InstantArticleStatus
      * @param string $status
      * @param ServerMessage[] $messages
      */
-    public function __construct($status, $messages = [])
+    public function __construct(string $status, Vector <ServerMessage> $messages)
     {
         Type::enforceWithin(
             $status,
-            [
+            Vector {
                 self::SUCCESS,
                 self::NOT_FOUND,
                 self::IN_PROGRESS,
                 self::FAILED,
-                self::UNKNOWN
-            ]
-        );
-        Type::enforceArrayOf(
-            $messages,
-            ServerMessage::getClassName()
+                self::UNKNOWN,
+            }
         );
         $this->status = $status;
         $this->messages = $messages;
     }
 
     /**
-    * Creates a instance from a status string,.
-    *
-    * @param string $status the status string, case insensitive.
-    * @param array $messages the message from the server
-    *
-    * @return InstantArticleStatus
-    */
-    public static function fromStatus($status, $messages)
+     * Creates a instance from a status string,.
+     *
+     * @param string $status the status string, case insensitive.
+     * @param Vector<ServerMessage> $messages the message from the server
+     *
+     * @return InstantArticleStatus
+     */
+    public static function fromStatus(string $status, Vector<ServerMessage> $messages)
     {
         $status = strtolower($status);
         $validStatus = Type::isWithin(
             $status,
-            [
+            Vector {
                 self::SUCCESS,
                 self::NOT_FOUND,
                 self::IN_PROGRESS,
-                self::FAILED
-            ]
+                self::FAILED,
+            }
         );
         if ($validStatus) {
             return new self($status, $messages);
@@ -79,51 +80,51 @@ class InstantArticleStatus
     }
 
     /**
-     * @param ServerMessage[] $messages
+     * @param Vector<ServerMessage> $messages the message from the server
      *
      * @return InstantArticleStatus
      */
-    public static function success($messages = [])
+    public static function success(Vector <ServerMessage> $messages = Vector {}): InstantArticleStatus
     {
         return new self(self::SUCCESS, $messages);
     }
 
     /**
-     * @param ServerMessage[] $messages
+     * @param Vector<ServerMessage> $messages the message from the server
      *
      * @return InstantArticleStatus
      */
-    public static function notFound($messages = [])
+    public static function notFound(Vector <ServerMessage> $messages = Vector {}): InstantArticleStatus
     {
         return new self(self::NOT_FOUND, $messages);
     }
 
     /**
-     * @param ServerMessage[]  $messages
+     * @param Vector<ServerMessage> $messages the message from the server
      *
      * @return InstantArticleStatus
      */
-    public static function inProgress($messages = [])
+    public static function inProgress(Vector <ServerMessage> $messages = Vector {}): InstantArticleStatus
     {
         return new self(self::IN_PROGRESS, $messages);
     }
 
     /**
-     * @param ServerMessage[] $messages
+     * @param Vector<ServerMessage> $messages the message from the server
      *
      * @return InstantArticleStatus
      */
-    public static function failed($messages = [])
+    public static function failed(Vector <ServerMessage> $messages = Vector {}): InstantArticleStatus
     {
         return new self(self::FAILED, $messages);
     }
 
     /**
-     * @param ServerMessage[] $messages
+     * @param Vector<ServerMessage> $messages the message from the server
      *
      * @return InstantArticleStatus
      */
-    public static function unknown($messages = [])
+    public static function unknown(Vector <ServerMessage> $messages = Vector {}): InstantArticleStatus
     {
         return new self(self::UNKNOWN, $messages);
     }
@@ -131,19 +132,15 @@ class InstantArticleStatus
     /**
      * @param ServerMessage $message
      */
-    public function addMessage($message)
+    public function addMessage(ServerMessage $message): void
     {
-        Type::enforce(
-            $message,
-            ServerMessage::getClassName()
-        );
-        $this->messages[] = $message;
+        $this->messages->add($message);
     }
 
     /**
      * @return ServerMessage[]
      */
-    public function getMessages()
+    public function getMessages(): Vector<ServerMessage>
     {
         return $this->messages;
     }
@@ -151,7 +148,7 @@ class InstantArticleStatus
     /**
      * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }

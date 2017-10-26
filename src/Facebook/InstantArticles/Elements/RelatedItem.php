@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -19,12 +19,12 @@ class RelatedItem extends Element
     /**
      * @var string The related Article URL
      */
-    private $url;
+    private string $url = "";
 
     /**
      * @var boolean If the article is sponsored
      */
-    private $sponsored;
+    private bool $sponsored = false;
 
     private function __construct()
     {
@@ -35,7 +35,7 @@ class RelatedItem extends Element
      *
      * @return RelatedItem
      */
-    public static function create()
+    public static function create(): RelatedItem
     {
         return new self();
     }
@@ -47,9 +47,8 @@ class RelatedItem extends Element
      *
      * @return $this
      */
-    public function withURL($url)
+    public function withURL(string $url): RelatedItem
     {
-        Type::enforce($url, Type::STRING);
         $this->url = $url;
 
         return $this;
@@ -60,7 +59,7 @@ class RelatedItem extends Element
      *
      * @return $this
      */
-    public function enableSponsored()
+    public function enableSponsored(): RelatedItem
     {
         $this->sponsored = true;
 
@@ -72,7 +71,7 @@ class RelatedItem extends Element
      *
      * @return $this
      */
-    public function disableSponsored()
+    public function disableSponsored(): RelatedItem
     {
         $this->sponsored = false;
 
@@ -82,7 +81,7 @@ class RelatedItem extends Element
     /**
      * @return string The RelatedItem url
      */
-    public function getURL()
+    public function getURL(): string
     {
         return $this->url;
     }
@@ -90,24 +89,20 @@ class RelatedItem extends Element
     /**
      * @return boolean true if it is sponsored, false otherwise.
      */
-    public function isSponsored()
+    public function isSponsored(): bool
     {
         return $this->sponsored;
     }
 
     /**
-     * Structure and create the full ArticleVideo in a XML format DOMElement.
+     * Structure and create the full ArticleVideo in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -129,7 +124,7 @@ class RelatedItem extends Element
      * @see Element::isValid().
      * @return true for valid RelatedItem that contains valid url, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return !Type::isTextEmpty($this->url);
     }

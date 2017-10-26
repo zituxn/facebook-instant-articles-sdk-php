@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -22,7 +22,7 @@ class Span extends TextContainer
     /**
      * @return Span
      */
-    public static function create()
+    public static function create(): Span
     {
         return new self();
     }
@@ -32,14 +32,10 @@ class Span extends TextContainer
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -22,29 +22,25 @@ class Client
     /**
      * @var Facebook The main Facebook service client.
      */
-    private $facebook;
+    private \Facebook\Facebook $facebook;
 
     /**
-     * @var int ID of the Facebook Page we are using for Instant Articles
+     * @var string ID of the Facebook Page we are using for Instant Articles
      */
-    protected $pageID;
+    protected string $pageID;
 
     /**
      * @var bool|false Are we using the Instant Articles development sandbox?
      */
-    protected $developmentMode = false;
+    protected bool $developmentMode = false;
 
     /**
      * @param Facebook $facebook the main Facebook service client
      * @param string $pageID Specify the Facebook Page to use for Instant Articles
      * @param bool $developmentMode|false Configure the service to use the Instant Articles development sandbox
      */
-    public function __construct($facebook, $pageID, $developmentMode = false)
+    public function __construct(\Facebook\Facebook $facebook, string $pageID, bool $developmentMode = false)
     {
-        Type::enforce($facebook, 'Facebook\Facebook');
-        Type::enforce($pageID, Type::STRING);
-        Type::enforce($developmentMode, Type::BOOLEAN);
-
         // TODO throw if $facebook doesn't have a default_access_token
         $this->facebook = $facebook;
         $this->pageID = $pageID;
@@ -64,12 +60,8 @@ class Client
      *
      * @throws FacebookSDKException
      */
-    public static function create($appID, $appSecret, $accessToken, $pageID, $developmentMode = false)
+    public static function create(string $appID, string $appSecret, string $accessToken, string $pageID, bool $developmentMode = false): Client
     {
-        Type::enforce($appID, Type::STRING);
-        Type::enforce($appSecret, Type::STRING);
-        Type::enforce($accessToken, Type::STRING);
-
         $facebook = new Facebook([
             'app_id' => $appID,
             'app_secret' => $appSecret,
@@ -77,7 +69,7 @@ class Client
             'default_graph_version' => 'v2.5'
         ]);
 
-        return new static($facebook, $pageID, $developmentMode);
+        return new self($facebook, $pageID, $developmentMode);
     }
 
     /**
@@ -89,17 +81,14 @@ class Client
      *
      * @return int The submission status ID. It is not the article ID. (Since 1.3.0)
      */
-    public function importArticle($article, $published = false, $forceRescrape = false, $formatOutput = false)
+    public function importArticle(InstantArticle $article, bool $published = false, bool $forceRescrape = false, bool $formatOutput = false): int
     {
-        Type::enforce($article, 'Facebook\InstantArticles\Elements\InstantArticleInterface');
-        Type::enforce($published, Type::BOOLEAN);
-
         // Never try to take live if we're in development (the API would throw an error if we tried)
         $published = $this->developmentMode ? false : $published;
 
         // Assume default access token is set on $this->facebook
         $response = $this->facebook->post($this->pageID . Client::EDGE_NAME, [
-          'html_source' => $article->render(null, $formatOutput),
+          'html_source' => $article->render(),
           'published' => $published,
           'development_mode' => $this->developmentMode,
         ]);
@@ -117,7 +106,7 @@ class Client
      *
      * @param string $canonicalURL The URL that will be scraped.
      */
-    private function scrapeArticleURL($canonicalURL)
+    private function scrapeArticleURL(string $canonicalURL): void
     {
         $this->facebook->post('/', [
             'id' => $canonicalURL,
@@ -136,19 +125,17 @@ class Client
      *   \Facebook\Facebook::delete(). For now we trust that if an Instant
      *   Article ID exists for the Canonical URL the delete operation will work.
      */
-    public function removeArticle($canonicalURL)
+    public function removeArticle(string $canonicalURL): InstantArticleStatus
     {
         if (!$canonicalURL) {
-            return InstantArticleStatus::notFound(['$canonicalURL param not passed to ' . __FUNCTION__ . '.']);
+            return InstantArticleStatus::notFound(Vector {ServerMessage::error('$canonicalURL param not passed to ' . __FUNCTION__ . '.')});
         }
-
-        Type::enforce($canonicalURL, Type::STRING);
 
         if ($articleID = $this->getArticleIDFromCanonicalURL($canonicalURL)) {
             $this->facebook->delete($articleID);
             return InstantArticleStatus::success();
         }
-        return InstantArticleStatus::notFound([ServerMessage::info('An Instant Article ID ' . $articleID . ' was not found for ' . $canonicalURL . ' in ' . __FUNCTION__ . '.')]);
+        return InstantArticleStatus::notFound(Vector {ServerMessage::info('An Instant Article ID ' . $articleID . ' was not found for ' . $canonicalURL . ' in ' . __FUNCTION__ . '.')});
     }
 
     /**
@@ -157,17 +144,15 @@ class Client
      * @param string $canonicalURL The canonical URL of the article to get the status for.
      * @return int|null the article ID or null if not found
      */
-    public function getArticleIDFromCanonicalURL($canonicalURL)
+    public function getArticleIDFromCanonicalURL(string $canonicalURL): int
     {
-        Type::enforce($canonicalURL, Type::STRING);
-
         $field = $this->developmentMode ? 'development_instant_article' : 'instant_article';
 
         $response = $this->facebook->get('?id=' . $canonicalURL . '&fields=' . $field);
         $instantArticle = $response->getGraphNode()->getField($field);
 
         if (!$instantArticle) {
-            return null;
+            return -1;
         }
 
         $articleID = $instantArticle->getField('id');
@@ -180,22 +165,20 @@ class Client
      * @param string|null $articleID the article ID
      * @return InstantArticleStatus
      */
-    public function getLastSubmissionStatus($articleID)
+    public function getLastSubmissionStatus(string $articleID): InstantArticleStatus
     {
         if (!$articleID) {
             return InstantArticleStatus::notFound();
         }
 
-        Type::enforce($articleID, Type::STRING);
-
         // Get the latest import status of this article
         $response = $this->facebook->get($articleID . '?fields=most_recent_import_status');
         $articleStatus = $response->getGraphNode()->getField('most_recent_import_status');
 
-        $messages = [];
+        $messages = Vector {};
         if (isset($articleStatus['errors'])) {
             foreach ($articleStatus['errors'] as $error) {
-                $messages[] = ServerMessage::fromLevel($error['level'], $error['message']);
+                $messages->add(ServerMessage::fromLevel($error['level'], $error['message']));
             }
         }
 
@@ -208,22 +191,20 @@ class Client
      * @param string|null $submissionStatusID the submission status ID
      * @return InstantArticleStatus
      */
-    public function getSubmissionStatus($submissionStatusID)
+    public function getSubmissionStatus(string $submissionStatusID): InstantArticleStatus
     {
         if (!$submissionStatusID) {
             return InstantArticleStatus::notFound();
         }
 
-        Type::enforce($submissionStatusID, Type::STRING);
-
         $response = $this->facebook->get($submissionStatusID . '?fields=status,errors');
         $articleStatus = $response->getGraphNode();
 
-        $messages = [];
+        $messages = Vector {};
         $errors = $articleStatus->getField('errors');
         if (null !== $errors) {
             foreach ($errors as $error) {
-                $messages[] = ServerMessage::fromLevel($error['level'], $error['message']);
+                $messages->add(ServerMessage::fromLevel($error['level'], $error['message']));
             }
         }
 
@@ -235,7 +216,7 @@ class Client
      *
      * @return string The review status
      */
-    public function getReviewSubmissionStatus()
+    public function getReviewSubmissionStatus(): string
     {
         $response = $this->facebook->get('me?fields=instant_articles_review_status');
         return $response->getGraphNode()->getField('instant_articles_review_status');
@@ -246,9 +227,9 @@ class Client
      *
      * @return string[] The cannonical URLs from articles
      */
-    public function getArticlesURLs($limit = 10, $development_mode = false)
+    public function getArticlesURLs(int $limit = 10, bool $development_mode = false)
     {
-        $articleURLs = [];
+        $articleURLs = Vector {};
         $response = $this->facebook->get(
             'me/instant_articles?fields=canonical_url&'.
             'development_mode='.($development_mode ? 'true' : 'false').
@@ -256,7 +237,7 @@ class Client
         );
         $articles = $response->getGraphEdge();
         foreach ($articles as $article) {
-            $articleURLs[] = $article['canonical_url'];
+            $articleURLs->add($article['canonical_url']);
         }
 
         return $articleURLs;
@@ -267,7 +248,7 @@ class Client
      *
      * @param string $url The root URL of the site
      */
-    public function claimURL($url)
+    public function claimURL(string $url): void
     {
         // Remove protocol from the URL
         $url = preg_replace('/^https?:\/\//i', '', $url);
@@ -286,7 +267,7 @@ class Client
     /**
      * Submits the page for review
      */
-    public function submitForReview()
+    public function submitForReview(): void
     {
         $response = $this->facebook->post($this->pageID . '/?instant_articles_submit_for_review=true');
         $node = $response->getGraphNode();

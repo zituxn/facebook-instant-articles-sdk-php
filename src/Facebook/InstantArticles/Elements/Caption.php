@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -60,37 +60,37 @@ class Caption extends FormattedText
     /**
      * @var H1 The caption title. REQUIRED
      */
-    private $title;
+    private ?H1 $title;
 
     /**
      * @var H2 The caption subtitle. optional
      */
-    private $subTitle;
+    private ?H2 $subTitle;
 
     /**
      * @var Cite The credit text. optional
      */
-    private $credit;
+    private ?Cite $credit;
 
     /**
      * @var string text Size. Values: "op-small"|"op-medium"|"op-large"|"op-extra-large"
      */
-    private $fontSize;
+    private string $fontSize = "";
 
     /**
      * @var string text align. Values: "op-left"|"op-center"|"op-right"
      */
-    private $textAlignment;
+    private string $textAlignment = "";
 
     /**
      * @var string vertical align. Values: "op-vertical-top"|"op-vertical-bottom"|"op-vertical-center"
      */
-    private $verticalAlignment;
+    private string $verticalAlignment = "";
 
     /**
      * @var string text position. Values: "op-vertical-below"|"op-vertical-above"|"op-vertical-center"
      */
-    private $position;
+    private string $position = "";
 
     private function __construct()
     {
@@ -99,7 +99,7 @@ class Caption extends FormattedText
     /**
      * @return Caption
      */
-    public static function create()
+    public static function create(): Caption
     {
         return new self();
     }
@@ -107,55 +107,39 @@ class Caption extends FormattedText
     /**
      * The caption title. REQUIRED.
      *
-     * @param H1|string $title the caption text that will be shown
+     * @param H1 $title the caption text that will be shown
      *
      * @return $this
      */
-    public function withTitle($title)
+    public function withTitle(H1 $title): Caption
     {
-        Type::enforce($title, [Type::STRING, H1::getClassName()]);
-
-        if (Type::is($title, Type::STRING)) {
-            $title = H1::create()->appendText($title);
-        }
         $this->title = $title;
-
         return $this;
     }
 
     /**
      * The caption sub title. optional.
      *
-     * @param string $sub_title the caption sub title text that will be shown
+     * @param H2 $sub_title the caption sub title text that will be shown
      *
      * @return $this
      */
-    public function withSubTitle($sub_title)
+    public function withSubTitle(H2 $sub_title): Caption
     {
-        Type::enforce($sub_title, [Type::STRING, H2::getClassName()]);
-        if (Type::is($sub_title, Type::STRING)) {
-            $sub_title = H2::create()->appendText($sub_title);
-        }
         $this->subTitle = $sub_title;
-
         return $this;
     }
 
     /**
      * The caption credit. optional.
      *
-     * @param string $credit the caption credit text that will be shown
+     * @param Cite $credit the caption credit text that will be shown
      *
      * @return $this
      */
-    public function withCredit($credit)
+    public function withCredit(Cite $credit): Caption
     {
-        Type::enforce($credit, [Type::STRING, Cite::getClassName()]);
-        if (Type::is($credit, Type::STRING)) {
-            $credit = Cite::create()->appendText($credit);
-        }
         $this->credit = $credit;
-
         return $this;
     }
 
@@ -171,16 +155,16 @@ class Caption extends FormattedText
      *
      * @return $this
      */
-    public function withFontsize($font_size)
+    public function withFontsize(string $font_size): Caption
     {
         Type::enforceWithin(
             $font_size,
-            [
+            Vector {
                 Caption::SIZE_XLARGE,
                 Caption::SIZE_LARGE,
                 Caption::SIZE_MEDIUM,
-                Caption::SIZE_SMALL
-            ]
+                Caption::SIZE_SMALL,
+            }
         );
         $this->fontSize = $font_size;
 
@@ -198,15 +182,15 @@ class Caption extends FormattedText
      *
      * @return $this
      */
-    public function withTextAlignment($text_alignment)
+    public function withTextAlignment(string $text_alignment): Caption
     {
         Type::enforceWithin(
             $text_alignment,
-            [
+            Vector {
                 Caption::ALIGN_RIGHT,
                 Caption::ALIGN_LEFT,
-                Caption::ALIGN_CENTER
-            ]
+                Caption::ALIGN_CENTER,
+            }
         );
         $this->textAlignment = $text_alignment;
 
@@ -224,31 +208,19 @@ class Caption extends FormattedText
      *
      * @return $this
      */
-    public function withVerticalAlignment($vertical_alignment)
+    public function withVerticalAlignment(string $vertical_alignment): Caption
     {
         Type::enforceWithin(
             $vertical_alignment,
-            [
+            Vector {
                 Caption::VERTICAL_TOP,
                 Caption::VERTICAL_BOTTOM,
                 Caption::VERTICAL_CENTER
-            ]
+            }
         );
         $this->verticalAlignment = $vertical_alignment;
 
         return $this;
-    }
-
-    /**
-     * @deprecated
-     *
-     * @param string $position
-     *
-     * @return $this
-     */
-    public function withPostion($position)
-    {
-        return $this->withPosition($position);
     }
 
     /**
@@ -262,15 +234,15 @@ class Caption extends FormattedText
      *
      * @return $this
      */
-    public function withPosition($position)
+    public function withPosition(string $position): Caption
     {
         Type::enforceWithin(
             $position,
-            [
+            Vector {
                 Caption::POSITION_ABOVE,
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER
-            ]
+            }
         );
         $this->position = $position;
 
@@ -278,25 +250,25 @@ class Caption extends FormattedText
     }
 
     /**
-     * @return string the caption text title
+     * @return H1 the caption text title
      */
-    public function getTitle()
+    public function getTitle(): ?H1
     {
         return $this->title;
     }
 
     /**
-     * @return string the caption text subtitle
+     * @return H2 the caption text subtitle
      */
-    public function getSubTitle()
+    public function getSubTitle(): ?H2
     {
         return $this->subTitle;
     }
 
     /**
-     * @return string the credit text
+     * @return Cite the credit text
      */
-    public function getCredit()
+    public function getCredit(): ?Cite
     {
         return $this->credit;
     }
@@ -309,7 +281,7 @@ class Caption extends FormattedText
      * @see Caption::SIZE_LARGE
      * @see Caption::SIZE_XLARGE
      */
-    public function getFontSize()
+    public function getFontSize(): string
     {
         return $this->fontSize;
     }
@@ -321,7 +293,7 @@ class Caption extends FormattedText
      * @see Caption::ALIGN_LEFT
      * @see Caption::ALIGN_CENTER
      */
-    public function getTextAlignment()
+    public function getTextAlignment(): string
     {
         return $this->textAlignment;
     }
@@ -333,7 +305,7 @@ class Caption extends FormattedText
      * @see Caption::POSITION_BELOW
      * @see Caption::POSITION_CENTER
      */
-    public function getPosition()
+    public function getPosition(): string
     {
         return $this->position;
     }
@@ -345,23 +317,19 @@ class Caption extends FormattedText
      * @see Caption::VERTICAL_BOTTOM
      * @see Caption::VERTICAL_CENTER
      */
-    public function getVerticalAlignment()
+    public function getVerticalAlignment(): string
     {
         return $this->verticalAlignment;
     }
 
     /**
-     * Structure and create the full ArticleImage in a XML format DOMElement.
+     * Structure and create the full ArticleImage in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -369,38 +337,40 @@ class Caption extends FormattedText
         $element = $document->createElement('figcaption');
 
         // title markup REQUIRED
-        if ($this->title && (!$this->subTitle && !$this->credit)) {
-            $element->appendChild($this->title->textToDOMDocumentFragment($document));
-        } elseif ($this->title) {
-            $element->appendChild($this->title->toDOMElement($document));
+        if ($this->title !== null) {
+            if (!$this->subTitle && !$this->credit) {
+                $element->appendChild($this->title->textToDOMDocumentFragment($document));
+            } else {
+                $element->appendChild($this->title->toDOMElement($document));
+            }
         }
 
         // subtitle markup optional
-        if ($this->subTitle) {
+        if ($this->subTitle !== null) {
             $element->appendChild($this->subTitle->toDOMElement($document));
         }
 
         $element->appendChild($this->textToDOMDocumentFragment($document));
 
         // credit markup optional
-        if ($this->credit) {
+        if ($this->credit !== null) {
             $element->appendChild($this->credit->toDOMElement($document));
         }
 
         // Formating markup
         if ($this->textAlignment || $this->verticalAlignment || $this->fontSize || $this->position) {
-            $classes = [];
+            $classes = Vector {};
             if ($this->textAlignment) {
-                $classes[] = $this->textAlignment;
+                $classes->add($this->textAlignment);
             }
             if ($this->verticalAlignment) {
-                $classes[] = $this->verticalAlignment;
+                $classes->add($this->verticalAlignment);
             }
             if ($this->fontSize) {
-                $classes[] = $this->fontSize;
+                $classes->add($this->fontSize);
             }
             if ($this->position) {
-                $classes[] = $this->position;
+                $classes->add($this->position);
             }
             $element->setAttribute('class', implode(' ', $classes));
         }
@@ -414,9 +384,8 @@ class Caption extends FormattedText
      * @see TextContainer::isValid().
      * @return true for valid Caption when it is filled, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
-        return
-            parent::isValid() || ($this->title && $this->title->isValid());
+        return parent::isValid() || ($this->title && $this->title->isValid());
     }
 }
