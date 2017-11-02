@@ -59,7 +59,9 @@ abstract class Element
         $rendered = str_replace('></source>', '/>', $rendered);
         $rendered = str_replace('></track>', '/>', $rendered);
         $rendered = str_replace('></wbr>', '/>', $rendered);
-
+        // createTextNode converts the & of html entities into &amp; - convert it back
+        $rendered = preg_replace('/&amp;([^(\s|;)]*;)/', '&$1', $rendered);
+        
         return $rendered;
     }
 
