@@ -39,7 +39,7 @@ class TransformerTest extends BaseHTMLTestCase
     public function testDontTransformHTMLEntitiesTwice()
     {
         $author = Author::create()->withName("Test &amp; Test");
-        $rendered = ($author)->render('', true);
+        $rendered = $author->render('', true);
         $this->assertEqualsHtml("<address><a>Test &amp; Test</a></address>", $rendered);
     }
 
