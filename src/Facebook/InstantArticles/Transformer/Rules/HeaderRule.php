@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\InstantArticle;
 
@@ -18,21 +19,22 @@ class HeaderRule extends ConfigurationSelectorRule
         return Vector { InstantArticle::getClassName() };
     }
 
-    public static function create()
+    public static function create(): HeaderRule
     {
         return new HeaderRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): HeaderRule
     {
         $header_rule = self::create();
-        $header_rule->withSelector($configuration['selector']);
+        $header_rule->withSelector(Type::mapGetString($configuration, 'selector'));
         return $header_rule;
     }
 
-    public function apply($transformer, $instant_article, $node)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
         $header = Header::create();
+        invariant($instant_article instanceof InstantArticle, 'Error, $instant_article is not InstantArticle');
         $instant_article->withHeader($header);
         $transformer->transform($header, $node);
 

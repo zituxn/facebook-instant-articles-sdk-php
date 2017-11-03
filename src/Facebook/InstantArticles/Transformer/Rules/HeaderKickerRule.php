@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Header;
 
 class HeaderKickerRule extends ConfigurationSelectorRule
@@ -17,19 +18,22 @@ class HeaderKickerRule extends ConfigurationSelectorRule
         return Vector { Header::getClassName() };
     }
 
-    public static function create()
+    public static function create(): HeaderKickerRule
     {
         return new HeaderKickerRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): HeaderKickerRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $kickerRule = self::create();
+        $kickerRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        return $kickerRule;
     }
 
-    public function apply($transformer, $header, $h3)
+    public function apply(Transformer $transformer, Element $header, \DOMNode $h3): Element
     {
-        $header->withKicker($h3->textContent);
+        invariant($header instanceof Header, 'Error, $header is not Header');
+        $header->withTitle($transformer->transform(H3::create(), $h3));
         return $header;
     }
 }

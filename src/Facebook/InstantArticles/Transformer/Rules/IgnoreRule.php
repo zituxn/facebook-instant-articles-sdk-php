@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -12,14 +12,16 @@ use Facebook\InstantArticles\Elements\Element;
 
 class IgnoreRule extends ConfigurationSelectorRule
 {
-    public static function create()
+    public static function create(): IgnoreRule
     {
         return new IgnoreRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): IgnoreRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $ignoreRule = self::create();
+        $ignoreRule->withSelector(Type::getMapString($configuration, 'selector'));
+        return $ignoreRule;
     }
 
     public function getContextClass(): Vector<string>
@@ -27,13 +29,8 @@ class IgnoreRule extends ConfigurationSelectorRule
         return Vector { Element::getClassName() };
     }
 
-    public function apply($transformer, $context, $element)
+    public function apply(Transformer $transformer, Element $context, \DOMNode $element): Element
     {
         return $context;
-    }
-
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
     }
 }

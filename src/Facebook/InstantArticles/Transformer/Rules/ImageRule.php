@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\Cite;
@@ -30,27 +31,27 @@ class ImageRule extends ConfigurationSelectorRule
     const NON_INTERACTIVE = 'non-interactive';
 
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
         return
-            [
+            Vector {
                 InstantArticle::getClassName(),
-                Paragraph::getClassName()
-            ];
+                Paragraph::getClassName(),
+            };
     }
 
-    public static function create()
+    public static function create(): ImageRule
     {
-        return new static();
+        return new self();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): ImageRule
     {
-        $image_rule = static::create();
-        $image_rule->withSelector($configuration['selector']);
+        $image_rule = self::create();
+        $image_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
         $image_rule->withProperties(
-            [
+            Vector {
                 self::PROPERTY_IMAGE_URL,
                 self::PROPERTY_LIKE,
                 self::PROPERTY_COMMENTS,
@@ -59,19 +60,19 @@ class ImageRule extends ConfigurationSelectorRule
                 self::ASPECT_FIT,
                 self::ASPECT_FIT_ONLY,
                 self::FULLSCREEN,
-                self::NON_INTERACTIVE
-            ],
+                self::NON_INTERACTIVE,
+            },
             $configuration
         );
 
         return $image_rule;
     }
 
-    public function apply($transformer, $context, $node)
+    public function apply(Transformer $transformer, Element $context, \DOMNode $node): Element
     {
         $image = Image::create();
 
-        if (Type::is($context, InstantArticle::getClassName())) {
+        if ($context instanceof InstantArticle) {
             $instant_article = $context;
         } elseif ($transformer->getInstantArticle()) {
             $instant_article = $transformer->getInstantArticle();
@@ -88,7 +89,7 @@ class ImageRule extends ConfigurationSelectorRule
         }
 
         // Builds the image
-        $url = $this->getProperty(self::PROPERTY_IMAGE_URL, $node);
+        $url = $this->getPropertyString(self::PROPERTY_IMAGE_URL, $node);
         if ($url) {
             $image->withURL($url);
             $instant_article->addChild($image);
