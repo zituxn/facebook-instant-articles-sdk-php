@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,36 +8,35 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\TextContainer;
 use Facebook\InstantArticles\Elements\Italic;
 
 class ItalicRule extends ConfigurationSelectorRule
 {
-    public static function create()
+    public static function create(): ItalicRule
     {
         return new ItalicRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): ItalicRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $italicRule = self::create();
+        $italicRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        return $italicRule;
     }
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return TextContainer::getClassName();
+        return Vector { TextContainer::getClassName() };
     }
 
-    public function apply($transformer, $text_container, $element)
+    public function apply(Transformer $transformer, Element $text_container, \DOMNode $element): Element
     {
         $bold = Italic::create();
+        invariant($text_container instanceof TextContainer, 'Error, $text_container is not TextContainer.');
         $text_container->appendText($bold);
         $transformer->transform($bold, $element);
         return $text_container;
-    }
-
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
     }
 }

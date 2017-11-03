@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,11 +8,11 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Interactive;
 use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
-use Facebook\InstantArticles\Validators\Type;
 
 class InteractiveRule extends ConfigurationSelectorRule
 {
@@ -23,45 +23,45 @@ class InteractiveRule extends ConfigurationSelectorRule
     const PROPERTY_HEIGHT = 'interactive.height';
     const PROPERTY_WIDTH = 'interactive.width';
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
         return
-            [
+            Vector {
                 InstantArticle::getClassName(),
-                Paragraph::getClassName()
-            ];
+                Paragraph::getClassName(),
+            };
     }
 
-    public static function create()
+    public static function create(): InteractiveRule
     {
-        return new static();
+        return new self();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): InteractiveRule
     {
         $interactive_rule = static::create();
-        $interactive_rule->withSelector($configuration['selector']);
+        $interactive_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
         $interactive_rule->withProperties(
-            [
+            Vector {
                 self::PROPERTY_IFRAME,
                 self::PROPERTY_URL,
                 self::PROPERTY_WIDTH_NO_MARGIN,
                 self::PROPERTY_WIDTH_COLUMN_WIDTH,
                 self::PROPERTY_WIDTH,
-                self::PROPERTY_HEIGHT
-            ],
+                self::PROPERTY_HEIGHT,
+            },
             $configuration
         );
 
         return $interactive_rule;
     }
 
-    public function apply($transformer, $context, $node)
+    public function apply(Transformer $transformer, Element $context, \DOMNode $node): Element
     {
         $interactive = Interactive::create();
 
-        if (Type::is($context, InstantArticle::getClassName())) {
+        if ($context instanceof InstantArticle) {
             $instant_article = $context;
         } elseif ($transformer->getInstantArticle()) {
             $instant_article = $transformer->getInstantArticle();
@@ -80,8 +80,9 @@ class InteractiveRule extends ConfigurationSelectorRule
         // Builds the interactive
         $iframe = $this->getProperty(self::PROPERTY_IFRAME, $node);
 
-        $url = $this->getProperty(self::PROPERTY_URL, $node);
+        $url = $this->getPropertyString(self::PROPERTY_URL, $node);
         if ($iframe) {
+            invariant($iframe instanceof \DOMNode, 'Error, $iframe is not a \DOMNode');
             $interactive->withHTML($iframe);
         }
         if ($url) {
@@ -110,12 +111,12 @@ class InteractiveRule extends ConfigurationSelectorRule
         }
 
         $width = $this->getProperty(self::PROPERTY_WIDTH, $node);
-        if ($width) {
+        if ($width && is_int($width)) {
             $interactive->withWidth($width);
         }
 
         $height = $this->getProperty(self::PROPERTY_HEIGHT, $node);
-        if ($height) {
+        if ($height && is_int($height)) {
             $interactive->withHeight($height);
         }
 
