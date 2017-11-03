@@ -29,10 +29,10 @@ class HeaderAdRule extends ConfigurationSelectorRule
         return new HeaderAdRule();
     }
 
-    public static function createFrom($configuration): HeaderAdRule
+    public static function createFrom(Map $configuration): HeaderAdRule
     {
         $ad_rule = self::create();
-        $ad_rule->withSelector($configuration['selector']);
+        $ad_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
         $ad_rule->withProperties(
             Vector {

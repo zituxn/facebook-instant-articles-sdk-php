@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
@@ -19,39 +20,40 @@ class InstantArticleRule extends ConfigurationSelectorRule
     const PROPERTY_AUTO_AD_PLACEMENT = 'article.auto.ad';
     const PROPERTY_STYLE = 'article.style';
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return InstantArticle::getClassName();
+        return Vector { InstantArticle::getClassName() };
     }
 
-    public static function create()
+    public static function create(): InstantArticleRule
     {
         return new InstantArticleRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): InstantArticleRule
     {
         $canonical_rule = self::create();
-        $canonical_rule->withSelector($configuration['selector']);
+        $canonical_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
         $canonical_rule->withProperties(
-            [
+            Vector {
                 self::PROPERTY_CANONICAL,
                 self::PROPERTY_CHARSET,
                 self::PROPERTY_MARKUP_VERSION,
                 self::PROPERTY_AUTO_AD_PLACEMENT,
-                self::PROPERTY_STYLE
-            ],
+                self::PROPERTY_STYLE,
+            },
             $configuration
         );
 
         return $canonical_rule;
     }
 
-    public function apply($transformer, $instant_article, $node)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
+        invariant($instant_article instanceof InstantArticle, 'Error, $instant_article is not InstantArticle');
         // Builds the image
-        $url = $this->getProperty(self::PROPERTY_CANONICAL, $node);
+        $url = $this->getPropertyString(self::PROPERTY_CANONICAL, $node);
         if ($url) {
             $instant_article->withCanonicalURL($url);
         } else {
@@ -65,7 +67,7 @@ class InstantArticleRule extends ConfigurationSelectorRule
             );
         }
 
-        $charset = $this->getProperty(self::PROPERTY_CHARSET, $node);
+        $charset = $this->getPropertyString(self::PROPERTY_CHARSET, $node);
         if ($charset) {
             $instant_article->withCharset($charset);
         }
@@ -75,7 +77,7 @@ class InstantArticleRule extends ConfigurationSelectorRule
             //TODO Validate if the markup is valid with this code
         }
 
-        $auto_ad_placement = $this->getProperty(self::PROPERTY_AUTO_AD_PLACEMENT, $node);
+        $auto_ad_placement = $this->getPropertyString(self::PROPERTY_AUTO_AD_PLACEMENT, $node);
         if ($auto_ad_placement === 'false') {
             $instant_article->disableAutomaticAdPlacement();
         } else {
@@ -87,7 +89,7 @@ class InstantArticleRule extends ConfigurationSelectorRule
             }
         }
 
-        $style = $this->getProperty(self::PROPERTY_STYLE, $node);
+        $style = $this->getPropertyString(self::PROPERTY_STYLE, $node);
         if ($style) {
             $instant_article->withStyle($style);
         }

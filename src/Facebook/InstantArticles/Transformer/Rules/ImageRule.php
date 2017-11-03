@@ -15,7 +15,6 @@ use Facebook\InstantArticles\Elements\Cite;
 use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
-use Facebook\InstantArticles\Validators\Type;
 
 class ImageRule extends ConfigurationSelectorRule
 {

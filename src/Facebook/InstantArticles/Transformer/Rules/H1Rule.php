@@ -13,7 +13,6 @@ use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\H1;
 use Facebook\InstantArticles\Elements\InstantArticle;
-use Facebook\InstantArticles\Validators\Type;
 
 class H1Rule extends ConfigurationSelectorRule
 {
@@ -31,10 +30,10 @@ class H1Rule extends ConfigurationSelectorRule
         return new H1Rule();
     }
 
-    public static function createFrom($configuration): H1Rule
+    public static function createFrom(Map $configuration): H1Rule
     {
         $h1_rule = self::create();
-        $h1_rule->withSelector($configuration['selector']);
+        $h1_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
         $h1_rule->withProperties(
             Vector {
