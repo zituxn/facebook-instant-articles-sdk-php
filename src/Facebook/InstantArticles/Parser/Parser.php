@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -21,9 +21,9 @@ class Parser
      *
      * @return InstantArticle filled element that was parsed from the DOMDocument parameter
      */
-    public function parse($content, $transformer = null)
+    public function parse($content, ?Transformer $transformer = null)
     {
-        if (Type::is($content, Type::STRING)) {
+        if (is_string($content)) {
             libxml_use_internal_errors(true);
             $document = new \DOMDocument();
             $document->loadHTML($content);

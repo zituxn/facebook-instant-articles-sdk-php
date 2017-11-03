@@ -12,6 +12,7 @@ use Facebook\InstantArticles\Transformer\Warnings\TransformerWarning;
 use Facebook\InstantArticles\Transformer\Warnings\UnrecognizedElement;
 use Facebook\InstantArticles\Transformer\Rules\Rule;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Validators\InstantArticleValidator;
 
@@ -224,7 +225,7 @@ class Transformer
                 $matched = false;
 
                 // Get all classes and interfaces this context extends/implements
-                $contextClassNames = self::getAllClassTypes($context->getClassName());
+                $contextClassNames = self::getAllClassTypes($context->getObjClassName());
 
                 // Look for rules applying to any of them as context
                 $matchingContextRules = Vector {};

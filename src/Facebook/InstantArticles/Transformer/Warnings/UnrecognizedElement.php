@@ -17,7 +17,7 @@ class UnrecognizedElement extends TransformerWarning
      * @param Element $context
      * @param \DOMNode $node
      */
-    public function __construct(Element $context, \DOMNode $node)
+    public function __construct($context, \DOMNode $node)
     {
         parent::__construct(null, $context, $node ? $node->cloneNode(): null, null);
     }
