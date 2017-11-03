@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,35 +8,34 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\TextContainer;
 use Facebook\InstantArticles\Elements\LineBreak;
 
 class LineBreakRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return TextContainer::getClassName();
+        return Vector { TextContainer::getClassName() };
     }
 
-    public static function create()
+    public static function create(): LineBreakRule
     {
         return new LineBreakRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): LineBreakRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $lineBreakRule = self::create();
+        $lineBreakRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        return $lineBreakRule;
     }
 
-    public function apply($transformer, $text_container, $element)
+    public function apply(Transformer $transformer, Element $text_container, \DOMNode $element): Element
     {
         $line_break = LineBreak::create();
+        invariant($text_container instanceof TextContainer, 'Error, $text_container is not TextContainer.');
         $text_container->appendText($line_break);
         return $text_container;
-    }
-
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
     }
 }
