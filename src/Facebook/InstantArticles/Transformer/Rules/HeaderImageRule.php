@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
@@ -21,32 +22,33 @@ class HeaderImageRule extends ConfigurationSelectorRule
         return Vector { Header::getClassName() };
     }
 
-    public static function create()
+    public static function create(): HeaderImageRule
     {
         return new HeaderImageRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): HeaderImageRule
     {
         $image_rule = self::create();
-        $image_rule->withSelector($configuration['selector']);
+        $image_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
         $image_rule->withProperties(
-            [
-                self::PROPERTY_IMAGE_URL
-            ],
+            Vector {
+                self::PROPERTY_IMAGE_URL,
+            },
             $configuration
         );
 
         return $image_rule;
     }
 
-    public function apply($transformer, $header, $node)
+    public function apply(Transformer $transformer, Element $header, \DOMNode $node): Element
     {
+        invariant($header instanceof Header, 'Error, $header is not Header');
         $image = Image::create();
 
         // Builds the image
-        $url = $this->getProperty(self::PROPERTY_IMAGE_URL, $node);
+        $url = $this->getPropertyString(self::PROPERTY_IMAGE_URL, $node);
         if ($url) {
             $image->withURL($url);
             $header->withCover($image);

@@ -162,6 +162,18 @@ abstract class ConfigurationSelectorRule extends Rule
         return $value;
     }
 
+    /**
+     * @param $property_name
+     * @param $node
+     * @return the string
+     */
+    public function getPropertyString(string $property_name, \DOMNode $node): string
+    {
+        $value = $this->getProperty($property_name, $node);
+        invariant(is_string($value), 'Error, $value not string');
+        return $value;
+    }
+
     public function getProperties(): Map<string, AbstractGetter>
     {
         return $this->properties;

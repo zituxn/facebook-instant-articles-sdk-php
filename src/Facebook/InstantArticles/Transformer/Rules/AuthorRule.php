@@ -54,10 +54,10 @@ class AuthorRule extends ConfigurationSelectorRule
         $author = Author::create();
 
         // Builds the author
-        $url = $this->getProperty(self::PROPERTY_AUTHOR_URL, $node);
-        $name = $this->getProperty(self::PROPERTY_AUTHOR_NAME, $node);
-        $role_contribution = $this->getProperty(self::PROPERTY_AUTHOR_ROLE_CONTRIBUTION, $node);
-        $description = $this->getProperty(self::PROPERTY_AUTHOR_DESCRIPTION, $node);
+        $url = $this->getPropertyString(self::PROPERTY_AUTHOR_URL, $node);
+        $name = $this->getPropertyString(self::PROPERTY_AUTHOR_NAME, $node);
+        $role_contribution = $this->getPropertyString(self::PROPERTY_AUTHOR_ROLE_CONTRIBUTION, $node);
+        $description = $this->getPropertyString(self::PROPERTY_AUTHOR_DESCRIPTION, $node);
 
         if ($name) {
             $author->withName($name);
