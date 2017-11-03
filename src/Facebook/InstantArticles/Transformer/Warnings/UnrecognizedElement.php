@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -27,18 +27,20 @@ class UnrecognizedElement extends TransformerWarning
      */
     public function __toString()
     {
-        $reflection = new \ReflectionClass(get_class($this->context));
+        $reflection = new \ReflectionClass(get_class($this->getContext()));
         $className = $reflection->getShortName();
         if ($this->getNode()) {
-            $nodeName = $this->node->getNode();
+            $nodeName = $this->getNode()?->getNode();
+        } else {
+          $nodeName = null;
         }
         if (substr($nodeName, 0, 1) === '#') {
-            $nodeDescription = '"'.mb_strimwidth($this->getNode()->textContent, 0, 30, '...').'"';
+            $nodeDescription = '"'.mb_strimwidth($this->getNode()?->textContent, 0, 30, '...').'"';
         } else {
             $nodeDescription = '<';
             $nodeDescription .= $nodeName;
-            if ($this->node instanceof \DOMNode) {
-                $class = $this->node->getAttribute('class');
+            if ($this->getNode() instanceof \DOMNode) {
+                $class = $this->getNode()?->getAttribute('class');
                 if ($class) {
                     $nodeDescription .= ' class="'. $class .'"';
                 }
