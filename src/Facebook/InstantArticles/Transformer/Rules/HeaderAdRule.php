@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Ad;
 
@@ -23,31 +24,32 @@ class HeaderAdRule extends ConfigurationSelectorRule
         return Vector { Header::getClassName() };
     }
 
-    public static function create()
+    public static function create(): HeaderAdRule
     {
         return new HeaderAdRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom($configuration): HeaderAdRule
     {
         $ad_rule = self::create();
         $ad_rule->withSelector($configuration['selector']);
 
         $ad_rule->withProperties(
-            [
+            Vector {
                 self::PROPERTY_AD_URL,
                 self::PROPERTY_AD_HEIGHT_URL,
                 self::PROPERTY_AD_WIDTH_URL,
-                self::PROPERTY_AD_EMBED_URL
-            ],
+                self::PROPERTY_AD_EMBED_URL,
+            },
             $configuration
         );
 
         return $ad_rule;
     }
 
-    public function apply($transformer, $header, $node)
+    public function apply(Transformer $transformer, Element $header, \DOMNode $node): Element
     {
+        invariant($header instanceof Header, 'Error, $header is not Header');
         $ad = Ad::create();
 
         // Builds the ad

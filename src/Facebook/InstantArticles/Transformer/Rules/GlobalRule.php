@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Author;
@@ -31,19 +32,19 @@ class GlobalRule extends ConfigurationSelectorRule
         return Vector { InstantArticle::getClassName() };
     }
 
-    public static function create()
+    public static function create(): GlobalRule
     {
         return new GlobalRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom($configuration): GlobalRule
     {
         $rule = GlobalRule::create();
 
         $rule->withSelector($configuration['selector']);
         $properties = $configuration['properties'];
         $rule->withProperties(
-            [
+            Vector {
                 self::PROPERTY_GLOBAL_AUTHOR_URL,
                 self::PROPERTY_GLOBAL_AUTHOR_NAME,
                 self::PROPERTY_GLOBAL_AUTHOR_DESCRIPTION,
@@ -51,22 +52,23 @@ class GlobalRule extends ConfigurationSelectorRule
                 self::PROPERTY_GLOBAL_CANONICAL_URL,
                 self::PROPERTY_GLOBAL_TITLE,
                 self::PROPERTY_TIME_PUBLISHED,
-                self::PROPERTY_GLOBAL_BODY
-            ],
+                self::PROPERTY_GLOBAL_BODY,
+            },
             $properties
         );
 
         return $rule;
     }
 
-    public function apply($transformer, $instantArticle, $node)
+    public function apply(Transformer $transformer, Element $instantArticle, \DOMNode $node): Element
     {
         // Builds the author
-        $authorUrl = $this->getProperty(self::PROPERTY_GLOBAL_AUTHOR_URL, $node);
-        $authorName = $this->getProperty(self::PROPERTY_GLOBAL_AUTHOR_NAME, $node);
-        $authorRoleContribution = $this->getProperty(self::PROPERTY_GLOBAL_AUTHOR_ROLE_CONTRIBUTION, $node);
-        $authorDescription = $this->getProperty(self::PROPERTY_GLOBAL_AUTHOR_DESCRIPTION, $node);
+        $authorUrl = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_URL, $node);
+        $authorName = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_NAME, $node);
+        $authorRoleContribution = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_ROLE_CONTRIBUTION, $node);
+        $authorDescription = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_DESCRIPTION, $node);
 
+        $instantArticle = Type::elementAsInstantArticle($instantArticle);
         $header = $instantArticle->getHeader();
         if (!$header) {
             $header = Header::create();
@@ -116,7 +118,7 @@ class GlobalRule extends ConfigurationSelectorRule
         }
 
         // Treats Canonical URL
-        $articleCanonicalUrl = $this->getProperty(self::PROPERTY_GLOBAL_CANONICAL_URL, $node);
+        $articleCanonicalUrl = $this->getPropertyString(self::PROPERTY_GLOBAL_CANONICAL_URL, $node);
         if ($articleCanonicalUrl) {
             $instantArticle->withCanonicalURL($articleCanonicalUrl);
         } else {
@@ -133,6 +135,7 @@ class GlobalRule extends ConfigurationSelectorRule
         // Treats Time Published
         $timePublished = $this->getProperty(self::PROPERTY_TIME_PUBLISHED, $node);
         if ($timePublished) {
+            invariant($timePublished instanceof \DateTime, 'Error $timePublished is not \DateTime.');
             $header->withTime(Time::create(Time::PUBLISHED)->withDatetime($timePublished));
         }
 
