@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Sponsor;
 use Facebook\InstantArticles\Validators\Type;
@@ -16,9 +17,9 @@ class SponsorRule extends ConfigurationSelectorRule
 {
     const PROPERTY_SPONSOR_PAGE_URL = 'sponsor.page_url';
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return Header::getClassName();
+        return Vector { Header::getClassName() };
     }
 
     public static function create()
@@ -41,7 +42,7 @@ class SponsorRule extends ConfigurationSelectorRule
 
     public function apply($transformer, $header, $node)
     {
-        $page_url = $this->getProperty(self::PROPERTY_SPONSOR_PAGE_URL, $node);
+        $page_url = $this->getPropertyString(self::PROPERTY_SPONSOR_PAGE_URL, $node);
         if ($page_url && !Type::isTextEmpty($page_url)) {
             $sponsor = Sponsor::create();
             $header->withSponsor($sponsor);

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,6 +10,7 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Video;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
@@ -28,23 +29,23 @@ class VideoRule extends ConfigurationSelectorRule
      */
     private $childSelector;
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return InstantArticle::getClassName();
+        return Vector { InstantArticle::getClassName() };
     }
 
-    public static function create()
+    public static function create(): VideoRule
     {
         return new VideoRule();
     }
 
-    public function withContainsChild($child_selector)
+    public function withContainsChild(string $child_selector): VideoRule
     {
         $this->childSelector = $child_selector;
         return $this;
     }
 
-    public function matchesNode($node)
+    public function matchesNode(\DOMNode $node): bool
     {
         $matches_node = parent::matchesNode($node);
         if ($matches_node && $this->childSelector) {
@@ -77,7 +78,7 @@ class VideoRule extends ConfigurationSelectorRule
         }
 
         $video_rule->withProperties(
-            [
+            Vector {
                 self::PROPERTY_VIDEO_URL,
                 self::PROPERTY_VIDEO_TYPE,
 
@@ -90,19 +91,20 @@ class VideoRule extends ConfigurationSelectorRule
                 self::PROPERTY_CONTROLS,
 
                 self::PROPERTY_LIKE,
-                self::PROPERTY_COMMENTS
-            ],
+                self::PROPERTY_COMMENTS,
+            },
             $configuration
         );
         return $video_rule;
     }
 
-    public function apply($transformer, $instant_article, $node)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
+        invariant($instant_article instanceof InstantArticle, 'Error, $instant_article is not InstantArticle');
         $video = Video::create();
 
         // Builds the image
-        $url = $this->getProperty(self::PROPERTY_VIDEO_URL, $node);
+        $url = $this->getPropertyString(self::PROPERTY_VIDEO_URL, $node);
         if ($url) {
             $video->withURL($url);
             $instant_article->addChild($video);
@@ -117,7 +119,7 @@ class VideoRule extends ConfigurationSelectorRule
             );
         }
 
-        $video_type = $this->getProperty(self::PROPERTY_VIDEO_TYPE, $node);
+        $video_type = $this->getPropertyString(self::PROPERTY_VIDEO_TYPE, $node);
         if ($video_type) {
             $video->withContentType($video_type);
         }

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\RelatedArticles;
 use Facebook\InstantArticles\Elements\InstantArticle;
 
@@ -15,34 +16,37 @@ class RelatedArticlesRule extends ConfigurationSelectorRule
 {
     const PROPERTY_TITLE = 'related.title';
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return InstantArticle::getClassName();
+        return Vector { InstantArticle::getClassName() };
     }
 
-    public static function create()
+    public static function create(): RelatedArticlesRule
     {
         return new RelatedArticlesRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): RelatedArticlesRule
     {
         $related_articles_rule = self::create();
-        $related_articles_rule->withSelector($configuration['selector']);
+        $related_articles_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
-        $related_articles_rule->withProperty(
-            self::PROPERTY_TITLE,
-            self::retrieveProperty($configuration, self::PROPERTY_TITLE)
+        $related_articles_rule->withProperties(
+            Vector {
+                self::PROPERTY_TITLE,
+            },
+            $configuration
         );
 
         return $related_articles_rule;
     }
 
-    public function apply($transformer, $instant_article, $node)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
+        invariant($instant_article instanceof InstantArticle, 'Error, $instant_article is not InstantArticle');
         $related_articles = RelatedArticles::create();
 
-        $title = $this->getProperty(self::PROPERTY_TITLE, $node);
+        $title = $this->getPropertyString(self::PROPERTY_TITLE, $node);
         if ($title) {
             $related_articles->withTitle($title);
         }

@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\RelatedItem;
 use Facebook\InstantArticles\Elements\RelatedArticles;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
@@ -17,17 +18,17 @@ class RelatedItemRule extends ConfigurationSelectorRule
     const PROPERTY_SPONSORED = 'related.sponsored';
     const PROPERTY_URL = 'related.url';
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return RelatedArticles::getClassName();
+        return Vector { RelatedArticles::getClassName() };
     }
 
-    public static function create()
+    public static function create(): RelatedItemRule
     {
         return new RelatedItemRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): RelatedItemRule
     {
         $related_item_rule = self::create();
         $related_item_rule->withSelector($configuration['selector']);
@@ -43,12 +44,12 @@ class RelatedItemRule extends ConfigurationSelectorRule
         return $related_item_rule;
     }
 
-    public function apply($transformer, $related_articles, $node)
+    public function apply(Transformer $transformer, \Facebook\InstantArticles\Elements\Element $related_articles, \DOMNode $node): \Facebook\InstantArticles\Elements\Element
     {
         $related_item = RelatedItem::create();
         $related_articles->addRelated($related_item);
 
-        $url = $this->getProperty(self::PROPERTY_URL, $node);
+        $url = $this->getPropertyString(self::PROPERTY_URL, $node);
         if ($url) {
             $related_item->withURL($url);
         } else {

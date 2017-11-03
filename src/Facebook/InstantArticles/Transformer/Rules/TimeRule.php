@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Time;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
@@ -27,39 +28,40 @@ class TimeRule extends ConfigurationSelectorRule
 
     private $type = \Facebook\InstantArticles\Elements\Time::PUBLISHED;
 
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return Header::getClassName();
+        return Vector { Header::getClassName() };
     }
 
-    public static function create()
+    public static function create(): TimeRule
     {
         return new TimeRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): TimeRule
     {
         $time_rule = self::create();
-        $time_rule->withSelector($configuration['selector']);
+        $time_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
         $time_rule->withProperties(
-            [
+            Vector {
                 self::PROPERTY_TIME,
-                self::PROPERTY_DATETIME_TYPE
-            ],
+                self::PROPERTY_DATETIME_TYPE,
+            },
             $configuration
         );
 
         // Just for retrocompatibility - issue #172
-        if (isset($configuration[self::PROPERTY_TIME_TYPE_DEPRECATED])) {
-            $time_rule->type = $configuration[self::PROPERTY_TIME_TYPE_DEPRECATED];
-        }
+        // if (array_key_exists(self::PROPERTY_TIME_TYPE_DEPRECATED, $configuration)) {
+        //     $time_rule->type = $configuration[self::PROPERTY_TIME_TYPE_DEPRECATED];
+        // }
 
         return $time_rule;
     }
 
-    public function apply($transformer, $header, $node)
+    public function apply(Transformer $transformer, Element $header, \DOMNode $node): Element
     {
+        invariant($header instanceof Header, 'Error, $header is not Header');
         $time_type = $this->getProperty(self::PROPERTY_DATETIME_TYPE, $node);
         if ($time_type) {
             $this->type = $time_type;
@@ -81,8 +83,6 @@ class TimeRule extends ConfigurationSelectorRule
                 )
             );
         }
-
-
 
         return $header;
     }
