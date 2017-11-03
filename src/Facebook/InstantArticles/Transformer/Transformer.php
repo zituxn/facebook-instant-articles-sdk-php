@@ -227,12 +227,12 @@ class Transformer
                 $contextClassNames = self::getAllClassTypes($context->getClassName());
 
                 // Look for rules applying to any of them as context
-                $matchingContextRules = [];
+                $matchingContextRules = Vector {};
                 foreach ($contextClassNames as $contextClassName) {
                     if (isset($this->rules[$contextClassName])) {
                         // Use array union (+) instead of merge to preserve
                         // indexes (as they represent the order of insertion)
-                        $matchingContextRules = $matchingContextRules + $this->rules[$contextClassName];
+                        $matchingContextRules = $matchingContextRules->addAll($this->rules[$contextClassName]);
                     }
                 }
 
