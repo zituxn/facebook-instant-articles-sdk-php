@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,39 +8,38 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\ListElement;
 
 class ListElementRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return InstantArticle::getClassName();
+        return Vector { InstantArticle::getClassName() };
     }
 
-    public static function create()
+    public static function create(): ListElementRule
     {
         return new ListElementRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom($configuration): ListElementRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $listElementRule = self::create();
+        $listElementRule->withSelector(Type::getMapString($configuration, 'selector'));
+        return $listElementRule;
     }
 
-    public function apply($transformer, $instant_article, $element)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $element): Element
     {
         $list =
             $element->nodeName === 'ol' ?
                 ListElement::createOrdered() :
                 ListElement::createUnordered();
+        invariant($instant_article instanceof InstantArticle, 'Error, $instant_article is not InstantArticle');
         $instant_article->addChild($list);
         $transformer->transform($list, $element);
         return $instant_article;
-    }
-
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
     }
 }

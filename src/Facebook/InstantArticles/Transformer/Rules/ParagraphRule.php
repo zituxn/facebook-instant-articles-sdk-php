@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,37 +8,36 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Paragraph;
 
 class ParagraphRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return InstantArticle::getClassName();
+        return Vector { InstantArticle::getClassName() };
     }
 
-    public static function create()
+    public static function create(): ParagraphRule
     {
         return new ParagraphRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): ParagraphRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $paragraphRule = self::create();
+        $paragraphRule->withSelector(Type::getMapString($configuration, 'selector'));
+        return $paragraphRule;
     }
 
-    public function apply($transformer, $context_element, $element)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $element): Element
     {
         $p = Paragraph::create();
-        $context_element->addChild($p);
+        invariant($instant_article instanceof InstantArticle, 'Error, $instant_article is not InstantArticle');
+        $instant_article->addChild($p);
         $transformer->transform($p, $element);
 
-        return $context_element;
-    }
-
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
+        return $instant_article;
     }
 }

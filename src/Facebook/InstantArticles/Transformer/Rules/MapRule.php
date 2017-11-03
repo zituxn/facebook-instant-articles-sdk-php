@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,31 +8,32 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
-use Facebook\InstantArticles\Elements\Map;
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 
 class MapRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return InstantArticle::getClassName();
+        return Vector { InstantArticle::getClassName() };
     }
 
-    public static function create()
+    public static function create(): MapRule
     {
         return new MapRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): MapRule
     {
         $map_rule = self::create();
-        $map_rule->withSelector($configuration['selector']);
+        $map_rule->withSelector(Type::mapGetString($configuration, 'selector'));
         return $map_rule;
     }
 
-    public function apply($transformer, $instant_article, $node)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
-        $map = Map::create();
+        $map = Facebook\InstantArticles\Elements\Map::create();
+        invariant($instant_article instanceof InstantArticle, 'Error, $instant_article is not InstantArticle');
         $instant_article->addChild($map);
         $transformer->transform($map, $node);
 

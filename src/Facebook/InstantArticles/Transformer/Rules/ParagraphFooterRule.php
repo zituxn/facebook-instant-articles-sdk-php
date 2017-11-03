@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,36 +8,35 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Elements\Footer;
 
 class ParagraphFooterRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return Footer::getClassName();
+        return Vector { Footer::getClassName() };
     }
 
-    public static function create()
+    public static function create(): ParagraphFooterRule
     {
         return new ParagraphFooterRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): ParagraphFooterRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $paragraphFooterRule = self::create();
+        $paragraphFooterRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        return $paragraphFooterRule;
     }
 
-    public function apply($transformer, $footer, $element)
+    public function apply(Transformer $transformer, Element $footer, \DOMNode $element): Element
     {
         $p = Paragraph::create();
+        invariant($footer instanceof Footer, 'Error, $footer is not Footer');
         $footer->addCredit($p);
         $transformer->transform($p, $element);
         return $footer;
-    }
-
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
     }
 }

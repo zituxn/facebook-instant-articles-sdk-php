@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -9,32 +9,30 @@
 namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Element;
+use Facebook\InstantArticles\Elements\Element;
 
 class PassThroughRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): Vector<string>
     {
-        return Element::getClassName();
+        return Vector { Element::getClassName() };
     }
 
-    public static function create()
+    public static function create(): PassThroughRule
     {
         return new PassThroughRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(Map $configuration): PassThroughRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $passThroughRule = self::create();
+        $passThroughRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        return $passThroughRule;
     }
 
-    public function apply($transformer, $context, $node)
+    public function apply(Transformer $transformer, Element $context, \DOMNode $node): Element
     {
         $transformer->transform($context, $node);
         return $context;
-    }
-
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
     }
 }
