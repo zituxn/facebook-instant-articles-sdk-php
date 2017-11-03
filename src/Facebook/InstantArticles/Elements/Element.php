@@ -74,6 +74,16 @@ abstract class Element
     }
 
     /**
+     * Auxiliary method to extract all Elements full qualified class name.
+     *
+     * @return string The full qualified name of class.
+     */
+    public function getObjClassName(): string
+    {
+        return get_called_class();
+    }
+
+    /**
      * Method that checks if the element is valid, not empty. If !valid() it wont be rendered.
      * @since v1.0.7
      * @return boolean true for valid element, false otherwise.

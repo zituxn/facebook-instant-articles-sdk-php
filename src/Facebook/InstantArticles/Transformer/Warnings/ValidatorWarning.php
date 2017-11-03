@@ -41,7 +41,7 @@ class ValidatorWarning extends TransformerWarning
             $this->configuration = parse_ini_file("validator_warning_messages.ini", true);
         }
 
-        $simple_class_name = substr(strrchr($this->getContext()?->getClassName(), '\\'), 1);
+        $simple_class_name = substr(strrchr($this->getContext()?->getObjClassName(), '\\'), 1);
 
         if (!array_key_exists('warning_messages', $this->configuration) ||
             !array_key_exists($simple_class_name, $this->configuration['warning_messages'])) {
