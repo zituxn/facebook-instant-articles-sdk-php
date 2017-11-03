@@ -70,6 +70,7 @@ class GeoTagRule extends ConfigurationSelectorRule
             );
         }
 
+        invariant($media_container instanceof Element, 'Error, $media_container is not Element');
         return $media_container;
     }
 }
