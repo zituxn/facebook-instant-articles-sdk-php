@@ -11,7 +11,7 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\TextContainer;
 
-class TextNodeRule extends Rule
+class TextNodeRule extends ConfigurationSelectorRule
 {
     public function getContextClass(): Vector<string>
     {
