@@ -11,7 +11,9 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Analytics;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class AnalyticsRule extends ConfigurationSelectorRule
 {
@@ -60,7 +62,8 @@ class AnalyticsRule extends ConfigurationSelectorRule
         }
 
         if ($url || $embed_code) {
-            Type::elementAsInstantArticle($instant_article)->addChild($analytics);
+            invariant($instant_article instanceof InstantArticle, 'Error, $element is not a InstantArticle.');
+            $instant_article->addChild($analytics);
         } else {
             $transformer->addWarning(
                 new InvalidSelector(

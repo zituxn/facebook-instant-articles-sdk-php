@@ -11,6 +11,8 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\Cite;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class CaptionCreditRule extends ConfigurationSelectorRule
 {
@@ -27,7 +29,7 @@ class CaptionCreditRule extends ConfigurationSelectorRule
     public static function createFrom(Map $configuration): CaptionCreditRule
     {
         $cite_rule = self::create();
-        $cite_rule->withSelector(Type::getMapString($configuration, 'selector'));
+        $cite_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
         $cite_rule->withProperties(
             Vector {

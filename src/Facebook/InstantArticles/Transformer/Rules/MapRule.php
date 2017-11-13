@@ -10,6 +10,9 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Elements\MapElement;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class MapRule extends ConfigurationSelectorRule
 {
@@ -32,7 +35,7 @@ class MapRule extends ConfigurationSelectorRule
 
     public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
-        $map = Facebook\InstantArticles\Elements\Map::create();
+        $map = MapElement::create();
         invariant($instant_article instanceof InstantArticle, 'Error, $instant_article is not InstantArticle');
         $instant_article->addChild($map);
         $transformer->transform($map, $node);

@@ -8,6 +8,9 @@
  */
 namespace Facebook\InstantArticles\Validators;
 
+use Facebook\InstantArticles\Elements\Element;
+use Facebook\InstantArticles\Elements\InstantArticle;
+
 /**
  * Class that have all the typechecks and sizechecks for elements and classes
  * that needs to be well checked.
@@ -269,11 +272,11 @@ class Type
      * Gets a string value from mixed value in Map, performing a type safety operation
      * @param Map<string, mixed> $map The map containing a mixed value which should be treated as string
      */
-    public static function mapGetString(Map<string, mixed> $map, string $property): ?string
+    public static function mapGetString(Map<string, mixed> $map, string $property): string
     {
-        $value = null;
+        $value = "";
         if (array_key_exists($property, $map)) {
-            $value = is_string($map[$property]) ? (string) $map[$property] : null;
+            $value = is_string($map[$property]) ? (string) $map[$property] : "";
         }
         return $value;
     }
@@ -285,6 +288,7 @@ class Type
      */
     public static function mixedToArray(mixed $value): array
     {
+        var_dump($value);
         invariant(is_array($value), 'Error, $value is not an array');
         return $value;
     }
@@ -298,11 +302,5 @@ class Type
     {
         invariant($node instanceof \DOMElement, 'Error, $node is not a \DOMElement.');
         return $node;
-    }
-
-    public static function elementAsInstantArticle(Element $element): InstantArticle
-    {
-        invariant($element instanceof InstantArticle, 'Error, $element is not a InstantArticle.');
-        return $element;
     }
 }

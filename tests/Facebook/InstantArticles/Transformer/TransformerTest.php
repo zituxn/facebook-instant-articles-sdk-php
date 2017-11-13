@@ -144,7 +144,7 @@ class TransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $rule2 = new ItalicRule();
         $transformer->addRule($rule1);
         $transformer->addRule($rule2);
-        $this->assertEquals([$rule1, $rule2], $transformer->getRules());
+        $this->assertEquals(Vector {$rule1, $rule2}, $transformer->getRules());
     }
 
     public function testTransformerSetRules()
@@ -152,7 +152,7 @@ class TransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $transformer = new Transformer();
         $rule1 = new ParagraphRule();
         $rule2 = new ItalicRule();
-        $transformer->setRules([$rule1, $rule2]);
+        $transformer->setRules(Vector {$rule1, $rule2});
         $this->assertEquals([$rule1, $rule2], $transformer->getRules());
     }
 

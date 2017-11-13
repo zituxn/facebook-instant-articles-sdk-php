@@ -11,6 +11,8 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Cite;
 use Facebook\InstantArticles\Elements\Pullquote;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class PullquoteCiteRule extends ConfigurationSelectorRule
 {

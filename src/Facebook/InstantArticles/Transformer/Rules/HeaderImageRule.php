@@ -11,7 +11,9 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Header;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class HeaderImageRule extends ConfigurationSelectorRule
 {

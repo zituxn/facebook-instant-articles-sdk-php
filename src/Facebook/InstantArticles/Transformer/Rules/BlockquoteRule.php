@@ -11,6 +11,8 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Blockquote;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class BlockquoteRule extends ConfigurationSelectorRule
 {
@@ -35,7 +37,8 @@ class BlockquoteRule extends ConfigurationSelectorRule
     public function apply(Transformer $transformer, Element $instant_article, \DOMNode $element): Element
     {
         $blockquote = Blockquote::create();
-        Type::elementAsInstantArticle($instant_article)->addChild($blockquote);
+        invariant($instant_article instanceof InstantArticle, 'Error, $element is not a InstantArticle.');
+        $instant_article->addChild($blockquote);
         $transformer->transform($blockquote, $element);
         return $instant_article;
     }

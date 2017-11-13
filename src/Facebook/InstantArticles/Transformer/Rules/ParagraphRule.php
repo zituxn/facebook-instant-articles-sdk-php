@@ -11,6 +11,8 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Paragraph;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class ParagraphRule extends ConfigurationSelectorRule
 {
@@ -27,7 +29,7 @@ class ParagraphRule extends ConfigurationSelectorRule
     public static function createFrom(Map $configuration): ParagraphRule
     {
         $paragraphRule = self::create();
-        $paragraphRule->withSelector(Type::getMapString($configuration, 'selector'));
+        $paragraphRule->withSelector(Type::mapGetString($configuration, 'selector'));
         return $paragraphRule;
     }
 

@@ -13,6 +13,7 @@ use Facebook\InstantArticles\Transformer\Getters\AbstractGetter;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 use Facebook\InstantArticles\Transformer\Getters\GetterFactory;
 use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 abstract class ConfigurationSelectorRule extends Rule
 {
@@ -55,16 +56,18 @@ abstract class ConfigurationSelectorRule extends Rule
     public function withProperties(Vector<string> $properties, Map<string, mixed> $configuration): void
     {
         foreach ($properties as $property) {
-            $this->withProperty(
-                $property,
-                Type::mixedToArray(self::retrieveProperty($configuration, $property))
-            );
+            if (self::retrieveProperty($configuration, $property)) {
+                $this->withProperty(
+                    $property,
+                    Type::mixedToArray(self::retrieveProperty($configuration, $property))
+                );
+            }
         }
     }
 
     public function matchesContext(Element $context): bool
     {
-        if ($context instanceof $this->getContextClass()) {
+        if ($context instanceof $this) {
             return true;
         }
         return false;
@@ -82,32 +85,34 @@ abstract class ConfigurationSelectorRule extends Rule
             return true;
         }
 
-        // Handles selector = .class
-        if (preg_match('/^\.[a-zA-Z][a-zA-Z0-9-]*$/', $this->selector) === 1) {
-            // Tries every class
-            $classNames = explode(' ', Type::nodeAsElement($node)->getAttribute('class'));
-            foreach ($classNames as $className) {
-                if ('.' . $className === $this->selector) {
-                    return true;
+        if ($node instanceof \DOMElement) {
+            // Handles selector = .class
+            if (preg_match('/^\.[a-zA-Z][a-zA-Z0-9-]*$/', $this->selector) === 1) {
+                // Tries every class
+                $classNames = explode(' ', $node->getAttribute('class'));
+                foreach ($classNames as $className) {
+                    if ('.' . $className === $this->selector) {
+                        return true;
+                    }
                 }
+
+                // No match!
+                return false;
             }
 
-            // No match!
-            return false;
-        }
-
-        // Handles selector = tag.class
-        if (preg_match('/^[a-zA-Z][a-zA-Z0-9-]*(\.[a-zA-Z][a-zA-Z0-9-]*)?$/', $this->selector) === 1) {
-            // Tries every class
-            $classNames = explode(' ', Type::nodeAsElement($node)->getAttribute('class'));
-            foreach ($classNames as $className) {
-                if ($node->nodeName . '.' . $className === $this->selector) {
-                    return true;
+            // Handles selector = tag.class
+            if (preg_match('/^[a-zA-Z][a-zA-Z0-9-]*(\.[a-zA-Z][a-zA-Z0-9-]*)?$/', $this->selector) === 1) {
+                // Tries every class
+                $classNames = explode(' ', $node->getAttribute('class'));
+                foreach ($classNames as $className) {
+                    if ($node->nodeName . '.' . $className === $this->selector) {
+                        return true;
+                    }
                 }
-            }
 
-            // No match!
-            return false;
+                // No match!
+                return false;
+            }
         }
 
         // Proceed with the more expensive XPath query

@@ -11,6 +11,8 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Ad;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class HeaderAdRule extends ConfigurationSelectorRule
 {

@@ -13,6 +13,8 @@ use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\H2;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class H2Rule extends ConfigurationSelectorRule
 {

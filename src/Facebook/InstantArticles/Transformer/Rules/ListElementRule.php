@@ -11,6 +11,8 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\ListElement;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class ListElementRule extends ConfigurationSelectorRule
 {
@@ -27,7 +29,7 @@ class ListElementRule extends ConfigurationSelectorRule
     public static function createFrom($configuration): ListElementRule
     {
         $listElementRule = self::create();
-        $listElementRule->withSelector(Type::getMapString($configuration, 'selector'));
+        $listElementRule->withSelector(Type::mapGetString($configuration, 'selector'));
         return $listElementRule;
     }
 

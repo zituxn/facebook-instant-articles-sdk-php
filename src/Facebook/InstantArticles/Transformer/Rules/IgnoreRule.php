@@ -9,6 +9,8 @@
 namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Element;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class IgnoreRule extends ConfigurationSelectorRule
 {
@@ -20,7 +22,7 @@ class IgnoreRule extends ConfigurationSelectorRule
     public static function createFrom(Map $configuration): IgnoreRule
     {
         $ignoreRule = self::create();
-        $ignoreRule->withSelector(Type::getMapString($configuration, 'selector'));
+        $ignoreRule->withSelector(Type::mapGetString($configuration, 'selector'));
         return $ignoreRule;
     }
 

@@ -11,6 +11,8 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\H1;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class HeaderTitleRule extends ConfigurationSelectorRule
 {
@@ -27,14 +29,16 @@ class HeaderTitleRule extends ConfigurationSelectorRule
     public static function createFrom(Map $configuration): HeaderTitleRule
     {
         $headerTitleRule = self::create();
-        $headerTitleRule->withSelector(Type::getMapString($configuration, 'selector'));
+        $headerTitleRule->withSelector(Type::mapGetString($configuration, 'selector'));
         return $headerTitleRule;
     }
 
     public function apply(Transformer $transformer, Element $header, \DOMNode $h1): Element
     {
-        invariant($header instanceof Header, 'Error, $header not Header');
-        $header->withTitle($transformer->transform(H1::create(), $h1));
+        invariant($header instanceof Header, 'Error, $header is not Header');
+        $title = $transformer->transform(H1::create(), $h1);
+        invariant($title instanceof H1, 'Error, $title is not H1');
+        $header->withTitle($title);
         return $header;
     }
 }

@@ -8,10 +8,10 @@
  */
 namespace Facebook\InstantArticles\Client;
 
-use Facebook\Exceptions\FacebookResponseException;
-use Facebook\Facebook;
-use Facebook\Exceptions\FacebookSDKException;
-use Facebook\Authentication\AccessToken;
+use \Facebook\Exceptions\FacebookResponseException;
+use \Facebook\Facebook;
+use \Facebook\Exceptions\FacebookSDKException;
+use \Facebook\Authentication\AccessToken;
 use Facebook\InstantArticles\Validators\Type;
 
 class Helper

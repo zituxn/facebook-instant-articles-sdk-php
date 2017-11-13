@@ -9,6 +9,7 @@
 namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Element;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 abstract class Rule
 {

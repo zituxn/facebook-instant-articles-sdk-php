@@ -11,7 +11,7 @@ namespace Facebook\InstantArticles\Elements;
 use Facebook\InstantArticles\Validators\Type;
 
 /**
- * Class Map
+ * Class MapElement
  * This element Class holds map content for the articles.
  *
  * Example:
@@ -34,7 +34,7 @@ use Facebook\InstantArticles\Validators\Type;
  *  </figure>
  *
  */
-class Map extends Audible implements ChildrenContainer, Captionable, GeoTaggable
+class MapElement extends Audible implements ChildrenContainer, Captionable, GeoTaggable
 {
     /**
      * @var Caption The caption for Image
@@ -60,9 +60,9 @@ class Map extends Audible implements ChildrenContainer, Captionable, GeoTaggable
      *
      * @return Map the new instance
      */
-    public static function create(): \Facebook\InstantArticles\Elements\Map
+    public static function create(): MapElement
     {
-        return new self();
+        return new static();
     }
 
     /**
@@ -74,7 +74,7 @@ class Map extends Audible implements ChildrenContainer, Captionable, GeoTaggable
      *
      * @return $this
      */
-    public function withCaption(Caption $caption): \Facebook\InstantArticles\Elements\Map
+    public function withCaption(Caption $caption): MapElement
     {
         $this->caption = $caption;
 
@@ -90,7 +90,7 @@ class Map extends Audible implements ChildrenContainer, Captionable, GeoTaggable
      *
      * @return $this
      */
-    public function withGeoTag(GeoTag $geo_tag): \Facebook\InstantArticles\Elements\Map
+    public function withGeoTag(GeoTag $geo_tag): MapElement
     {
         $this->geoTag = $geo_tag;
 

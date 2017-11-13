@@ -10,6 +10,7 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\TextContainer;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class TextNodeRule extends ConfigurationSelectorRule
 {

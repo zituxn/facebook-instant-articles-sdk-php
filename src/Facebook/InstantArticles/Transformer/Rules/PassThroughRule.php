@@ -9,7 +9,8 @@
 namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Element;
-use Facebook\InstantArticles\Elements\Element;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class PassThroughRule extends ConfigurationSelectorRule
 {

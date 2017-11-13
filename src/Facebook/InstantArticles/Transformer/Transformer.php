@@ -238,7 +238,7 @@ class Transformer
                 }
 
                 // Sort by insertion order
-                ksort($matchingContextRules);
+                //ksort($matchingContextRules);
 
                 // Process in reverse order
                 $matchingContextRules = array_reverse($matchingContextRules);
@@ -289,7 +289,7 @@ class Transformer
                             'createFrom'
                         );
                 }
-                $this->addRule($factory_method->invoke(null, $configuration_rule));
+                $this->addRule($factory_method->invoke(null, new Map($configuration_rule)));
             }
         }
     }

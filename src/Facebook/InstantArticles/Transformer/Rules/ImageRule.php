@@ -14,7 +14,9 @@ use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\Cite;
 use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class ImageRule extends ConfigurationSelectorRule
 {
@@ -87,6 +89,7 @@ class ImageRule extends ConfigurationSelectorRule
             return $context;
         }
 
+        invariant(!is_null($instant_article), 'Error, $instant_article should not be null.');
         // Builds the image
         $url = $this->getPropertyString(self::PROPERTY_IMAGE_URL, $node);
         if ($url) {
@@ -127,14 +130,18 @@ class ImageRule extends ConfigurationSelectorRule
         $caption = null;
         if ($this->getProperty(self::PROPERTY_CAPTION, $node)) {
             $caption = Caption::create();
-            $transformer->transform($caption, $this->getProperty(self::PROPERTY_CAPTION, $node));
+            $captionElement = $this->getProperty(self::PROPERTY_CAPTION, $node);
+            invariant($captionElement instanceof \DOMNode, 'Error, $captionElement is not \DOMNode.');
+            $transformer->transform($caption, $captionElement);
         }
         if ($this->getProperty(self::PROPERTY_CREDIT, $node)) {
             if ($caption === null) {
                 $caption = Caption::create();
             }
             $credit = Cite::create();
-            $transformer->transform($credit, $this->getProperty(self::PROPERTY_CREDIT, $node));
+            $creditElement = $this->getProperty(self::PROPERTY_CREDIT, $node);
+            invariant($creditElement instanceof \DOMNode, 'Error, $creditElement is not \DOMNode.');
+            $transformer->transform($credit, $creditElement);
             $caption->withCredit($credit);
         }
         if ($caption !== null) {

@@ -13,7 +13,9 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Video;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class VideoRule extends ConfigurationSelectorRule
 {

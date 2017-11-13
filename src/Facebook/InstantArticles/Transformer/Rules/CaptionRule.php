@@ -9,13 +9,13 @@
 namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Element;
-use Facebook\InstantArticles\Elements\Map;
 use Facebook\InstantArticles\Elements\Interactive;
 use Facebook\InstantArticles\Elements\Slideshow;
-use Facebook\InstantArticles\Elements\SocialEmbed;
 use Facebook\InstantArticles\Elements\Video;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Caption;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class CaptionRule extends ConfigurationSelectorRule
 {
@@ -25,11 +25,10 @@ class CaptionRule extends ConfigurationSelectorRule
     {
         return
             Vector {
-                Facebook\InstantArticles\Elements\Map::getClassName(),
+                \Facebook\InstantArticles\Elements\Map::getClassName(),
                 Image::getClassName(),
                 Interactive::getClassName(),
                 Slideshow::getClassName(),
-                SocialEmbed::getClassName(),
                 Video::getClassName(),
             };
     }
@@ -42,7 +41,7 @@ class CaptionRule extends ConfigurationSelectorRule
     public static function createFrom(Map $configuration): CaptionRule
     {
         $caption_rule = self::create();
-        $caption_rule->withSelector(Type::getMapString($configuration, 'selector'));
+        $caption_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
         $caption_rule->withProperties(
             Vector {

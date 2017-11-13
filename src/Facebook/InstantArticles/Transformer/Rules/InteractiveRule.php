@@ -13,6 +13,8 @@ use Facebook\InstantArticles\Elements\Interactive;
 use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class InteractiveRule extends ConfigurationSelectorRule
 {
@@ -88,6 +90,7 @@ class InteractiveRule extends ConfigurationSelectorRule
         if ($url) {
             $interactive->withSource($url);
         }
+        invariant(!is_null($instant_article), 'Error, $instant_article should not be null.');
         if ($iframe || $url) {
             $instant_article->addChild($interactive);
             if ($instant_article !== $context) {

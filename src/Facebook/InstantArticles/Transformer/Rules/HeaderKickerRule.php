@@ -10,6 +10,8 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Header;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class HeaderKickerRule extends ConfigurationSelectorRule
 {
@@ -33,7 +35,9 @@ class HeaderKickerRule extends ConfigurationSelectorRule
     public function apply(Transformer $transformer, Element $header, \DOMNode $h3): Element
     {
         invariant($header instanceof Header, 'Error, $header is not Header');
-        $header->withTitle($transformer->transform(H3::create(), $h3));
+        $kicker = $transformer->transform(H3::create(), $h3);
+        invariant($kicker instanceof H3, 'Error, $kicker is not H3.');
+        $header->withKicker($kicker);
         return $header;
     }
 }

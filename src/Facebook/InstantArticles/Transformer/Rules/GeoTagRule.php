@@ -11,10 +11,11 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Video;
-use Facebook\InstantArticles\Elements\Map;
 use Facebook\InstantArticles\Elements\GeoTag;
 use Facebook\InstantArticles\Elements\GeoTaggable;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class GeoTagRule extends ConfigurationSelectorRule
 {
@@ -25,7 +26,7 @@ class GeoTagRule extends ConfigurationSelectorRule
         return Vector {
             Image::getClassName(),
             Video::getClassName(),
-            Facbook\InstantArticles\Elements\Map::getClassName(),
+            \Facebook\InstantArticles\Elements\Map::getClassName(),
         };
     }
 
@@ -37,11 +38,13 @@ class GeoTagRule extends ConfigurationSelectorRule
     public static function createFrom(Map $configuration): GeoTagRule
     {
         $geo_tag_rule = self::create();
-        $geo_tag_rule->withSelector(Type::getMapString($configuration, 'selector'));
+        $geo_tag_rule->withSelector(Type::mapGetString($configuration, 'selector'));
 
-        $geo_tag_rule->withProperty(
-            self::PROPERTY_MAP_GEOTAG,
-            Type::mixedToArray(self::retrieveProperty($configuration, self::PROPERTY_MAP_GEOTAG))
+        $geo_tag_rule->withProperties(
+            Vector {
+                self::PROPERTY_MAP_GEOTAG,
+            },
+            $configuration
         );
 
         return $geo_tag_rule;

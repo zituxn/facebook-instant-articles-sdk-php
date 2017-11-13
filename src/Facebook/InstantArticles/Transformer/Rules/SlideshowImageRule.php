@@ -12,7 +12,9 @@ use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\Slideshow;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class SlideshowImageRule extends ConfigurationSelectorRule
 {
@@ -47,9 +49,10 @@ class SlideshowImageRule extends ConfigurationSelectorRule
         return $image_rule;
     }
 
-    public function apply($transformer, $slideshow, $node)
+    public function apply(Transformer $transformer, Element $slideshow, \DOMNode $node): Element
     {
         $image = Image::create();
+        invariant($slideshow instanceof Slideshow, 'Error, $slideshow is not Slideshow.');
 
         // Builds the image
         $url = $this->getPropertyString(self::PROPERTY_IMAGE_URL, $node);

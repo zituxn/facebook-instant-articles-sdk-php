@@ -11,7 +11,9 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Ad;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class AdRule extends ConfigurationSelectorRule
 {
@@ -74,7 +76,8 @@ class AdRule extends ConfigurationSelectorRule
         }
 
         if ($url || $embed_code) {
-            Type::elementAsInstantArticle($instant_article)->addChild($ad);
+            invariant($instant_article instanceof InstantArticle, 'Error, $element is not a InstantArticle.');
+            $instant_article->addChild($ad);
         } else {
             $transformer->addWarning(
                 new InvalidSelector(

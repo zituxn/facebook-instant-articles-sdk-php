@@ -40,18 +40,18 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
             ->withSelector("div.post-content > p > em")
             ->withProperty(
                 AuthorRule::PROPERTY_AUTHOR_URL,
-                [
+                Map {
                     "type" => "string",
                     "selector" => "a",
                     "attribute" => "href"
-                ]
+                }
             )
             ->withProperty(
                 AuthorRule::PROPERTY_AUTHOR_NAME,
-                [
+                Map {
                     "type" => "string",
                     "selector" => "span"
-                ]
+                }
             );
         $this->assertEquals(get_class($author_rule), AuthorRule::getClassName());
     }

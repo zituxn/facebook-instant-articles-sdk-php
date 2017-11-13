@@ -8,10 +8,10 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
-use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\RelatedItem;
 use Facebook\InstantArticles\Elements\RelatedArticles;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Validators\Type;
 
 class RelatedItemRule extends ConfigurationSelectorRule
 {
@@ -34,18 +34,19 @@ class RelatedItemRule extends ConfigurationSelectorRule
         $related_item_rule->withSelector($configuration['selector']);
 
         $related_item_rule->withProperties(
-            [
+            Vector {
                 self::PROPERTY_SPONSORED,
                 self::PROPERTY_URL
-            ],
+            },
             $configuration
         );
 
         return $related_item_rule;
     }
 
-    public function apply(Transformer $transformer, \Facebook\InstantArticles\Elements\Element $related_articles, \DOMNode $node): \Facebook\InstantArticles\Elements\Element
+    public function apply(Facebook\InstantArticles\Transformer\Transformer $transformer, Facebook\InstantArticles\Elements\Element $related_articles, \DOMNode $node): Facebook\InstantArticles\Elements\Element
     {
+        invariant($related_articles instanceof RelatedArticles, 'Error, $related_articles is not RelatedArticles.');
         $related_item = RelatedItem::create();
         $related_articles->addRelated($related_item);
 

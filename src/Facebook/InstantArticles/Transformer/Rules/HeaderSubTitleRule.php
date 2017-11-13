@@ -11,6 +11,8 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\H2;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class HeaderSubTitleRule extends ConfigurationSelectorRule
 {
@@ -34,7 +36,9 @@ class HeaderSubTitleRule extends ConfigurationSelectorRule
     public function apply(Transformer $transformer, Element $header, \DOMNode $h2): Element
     {
         invariant($header instanceof Header, 'Error, $header not Header');
-        $header->withSubTitle($transformer->transform(H2::create(), $h2));
+        $subtitle = $transformer->transform(H2::create(), $h2);
+        invariant($subtitle instanceof H2, 'Error, $subtitle is not H2.');
+        $header->withSubTitle($subtitle);
         return $header;
     }
 }

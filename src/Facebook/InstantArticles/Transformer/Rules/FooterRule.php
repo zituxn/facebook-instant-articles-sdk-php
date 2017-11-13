@@ -11,6 +11,8 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Footer;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class FooterRule extends ConfigurationSelectorRule
 {
@@ -35,7 +37,8 @@ class FooterRule extends ConfigurationSelectorRule
     public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
         $footer = Footer::create();
-        Type::elementAsInstantArticle($instant_article)->withFooter($footer);
+        invariant($instant_article instanceof InstantArticle, 'Error, $element is not a InstantArticle.');
+        $instant_article->withFooter($footer);
         $transformer->transform($footer, $node);
         return $instant_article;
     }

@@ -14,7 +14,9 @@ use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Author;
 use Facebook\InstantArticles\Elements\Time;
 use Facebook\InstantArticles\Elements\H1;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class GlobalRule extends ConfigurationSelectorRule
 {
@@ -67,8 +69,7 @@ class GlobalRule extends ConfigurationSelectorRule
         $authorName = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_NAME, $node);
         $authorRoleContribution = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_ROLE_CONTRIBUTION, $node);
         $authorDescription = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_DESCRIPTION, $node);
-
-        $instantArticle = Type::elementAsInstantArticle($instantArticle);
+        invariant($instantArticle instanceof InstantArticle, 'Error, $element is not a InstantArticle.');
         $header = $instantArticle->getHeader();
         if (!$header) {
             $header = Header::create();
@@ -104,8 +105,10 @@ class GlobalRule extends ConfigurationSelectorRule
 
         // Treats title
         $articleTitle = $this->getProperty(self::PROPERTY_GLOBAL_TITLE, $node);
-        if ($articleTitle) {
-            $header->withTitle($transformer->transform(H1::create(), $articleTitle));
+        if ($articleTitle && $articleTitle instanceof \DOMNode) {
+            $h1 = $transformer->transform(H1::create(), $articleTitle);
+            invariant($h1 instanceof H1, 'Error, $h1 is not H1.');
+            $header->withTitle($h1);
         } else {
             $transformer->addWarning(
                 new InvalidSelector(
@@ -140,6 +143,7 @@ class GlobalRule extends ConfigurationSelectorRule
         }
 
         $body = $this->getProperty(self::PROPERTY_GLOBAL_BODY, $node);
+        invariant($body instanceof \DOMNode, 'Error, $body is not \DOMNode.');
         $transformer->transform($instantArticle, $body);
 
         return $instantArticle;
