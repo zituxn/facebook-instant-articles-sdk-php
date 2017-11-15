@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -12,6 +12,8 @@ use Facebook\InstantArticles\Elements\RelatedItem;
 use Facebook\InstantArticles\Elements\RelatedArticles;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
+use Facebook\InstantArticles\Elements\Element;
 
 class RelatedItemRule extends ConfigurationSelectorRule
 {
@@ -28,7 +30,7 @@ class RelatedItemRule extends ConfigurationSelectorRule
         return new RelatedItemRule();
     }
 
-    public static function createFrom(Map $configuration): RelatedItemRule
+    public static function createFrom(array $configuration): RelatedItemRule
     {
         $related_item_rule = self::create();
         $related_item_rule->withSelector($configuration['selector']);
@@ -44,7 +46,7 @@ class RelatedItemRule extends ConfigurationSelectorRule
         return $related_item_rule;
     }
 
-    public function apply(Facebook\InstantArticles\Transformer\Transformer $transformer, Facebook\InstantArticles\Elements\Element $related_articles, \DOMNode $node): Facebook\InstantArticles\Elements\Element
+    public function apply(Transformer $transformer, Element $related_articles, \DOMNode $node): Element
     {
         invariant($related_articles instanceof RelatedArticles, 'Error, $related_articles is not RelatedArticles.');
         $related_item = RelatedItem::create();

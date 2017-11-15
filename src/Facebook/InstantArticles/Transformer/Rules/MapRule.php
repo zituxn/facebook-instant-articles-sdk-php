@@ -26,10 +26,10 @@ class MapRule extends ConfigurationSelectorRule
         return new MapRule();
     }
 
-    public static function createFrom(Map $configuration): MapRule
+    public static function createFrom(array $configuration): MapRule
     {
         $map_rule = self::create();
-        $map_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $map_rule->withSelector($configuration['selector']);
         return $map_rule;
     }
 

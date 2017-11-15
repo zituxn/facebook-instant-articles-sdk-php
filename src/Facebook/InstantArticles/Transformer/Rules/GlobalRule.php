@@ -39,12 +39,11 @@ class GlobalRule extends ConfigurationSelectorRule
         return new GlobalRule();
     }
 
-    public static function createFrom($configuration): GlobalRule
+    public static function createFrom(array $configuration): GlobalRule
     {
         $rule = GlobalRule::create();
 
         $rule->withSelector($configuration['selector']);
-        $properties = $configuration['properties'];
         $rule->withProperties(
             Vector {
                 self::PROPERTY_GLOBAL_AUTHOR_URL,
@@ -56,7 +55,7 @@ class GlobalRule extends ConfigurationSelectorRule
                 self::PROPERTY_TIME_PUBLISHED,
                 self::PROPERTY_GLOBAL_BODY,
             },
-            $properties
+            $configuration
         );
 
         return $rule;
@@ -64,6 +63,9 @@ class GlobalRule extends ConfigurationSelectorRule
 
     public function apply(Transformer $transformer, Element $instantArticle, \DOMNode $node): Element
     {
+        if (!$node || !$node->hasChildNodes()) {
+            return $instantArticle;
+        }
         // Builds the author
         $authorUrl = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_URL, $node);
         $authorName = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_NAME, $node);
@@ -143,8 +145,9 @@ class GlobalRule extends ConfigurationSelectorRule
         }
 
         $body = $this->getProperty(self::PROPERTY_GLOBAL_BODY, $node);
-        invariant($body instanceof \DOMNode, 'Error, $body is not \DOMNode.');
-        $transformer->transform($instantArticle, $body);
+        if ($body && $body instanceof \DOMNode) {
+            $transformer->transform($instantArticle, $body);
+        }
 
         return $instantArticle;
     }

@@ -26,10 +26,10 @@ class HeaderTitleRule extends ConfigurationSelectorRule
         return new HeaderTitleRule();
     }
 
-    public static function createFrom(Map $configuration): HeaderTitleRule
+    public static function createFrom(array $configuration): HeaderTitleRule
     {
         $headerTitleRule = self::create();
-        $headerTitleRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $headerTitleRule->withSelector($configuration['selector']);
         return $headerTitleRule;
     }
 

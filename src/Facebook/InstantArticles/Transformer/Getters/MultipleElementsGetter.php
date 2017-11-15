@@ -17,20 +17,20 @@ class MultipleElementsGetter extends AbstractGetter
     /**
      * @var Getters
      */
-    protected Vector<AbstractGetter> $children = Vector {};
+    protected array<AbstractGetter> $children = array();
 
-    public function createFrom(Map<string, string> $properties): MultipleElementsGetter
+    public function createFrom(array<string, string> $properties): MultipleElementsGetter
     {
         $v = $properties['children'];
-        invariant($v instanceof Vector, "Not Vector");
+        invariant(is_array($v), "Not array");
         foreach ($v as $childName => $getter_configuration) {
-            $this->children->add(GetterFactory::create($getter_configuration));
+            $this->children[] = GetterFactory::create($getter_configuration);
         }
 
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): mixed
     {
         $fragment = $node->ownerDocument->createDocumentFragment();
         foreach ($this->children as $child) {

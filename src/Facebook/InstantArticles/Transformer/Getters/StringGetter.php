@@ -22,7 +22,7 @@ class StringGetter extends AbstractGetter
      */
     protected string $suffix = "";
 
-    public function createFrom(Map<string, string> $properties): StringGetter
+    public function createFrom(array<string, string> $properties): StringGetter
     {
         if (isset($properties['selector'])) {
             $this->withSelector($properties['selector']);
@@ -61,7 +61,7 @@ class StringGetter extends AbstractGetter
         return $this;
     }
 
-    public function get(\DOMNode $node): ?string
+    public function get(\DOMNode $node): mixed
     {
         $elements = $this->findAll($node, $this->selector);
         if (!empty($elements) && $elements->item(0)) {

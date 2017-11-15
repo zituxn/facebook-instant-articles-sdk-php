@@ -29,10 +29,10 @@ class HeaderImageRule extends ConfigurationSelectorRule
         return new HeaderImageRule();
     }
 
-    public static function createFrom(Map $configuration): HeaderImageRule
+    public static function createFrom(array $configuration): HeaderImageRule
     {
         $image_rule = self::create();
-        $image_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $image_rule->withSelector($configuration['selector']);
 
         $image_rule->withProperties(
             Vector {

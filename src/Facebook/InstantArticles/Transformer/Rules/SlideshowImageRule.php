@@ -9,6 +9,8 @@
 namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Element;
+use Facebook\InstantArticles\Elements\H1;
+use Facebook\InstantArticles\Elements\Cite;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\Slideshow;
@@ -32,10 +34,10 @@ class SlideshowImageRule extends ConfigurationSelectorRule
         return new SlideshowImageRule();
     }
 
-    public static function createFrom(Map $configuration): SlideshowImageRule
+    public static function createFrom(array $configuration): SlideshowImageRule
     {
         $image_rule = self::create();
-        $image_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $image_rule->withSelector($configuration['selector']);
 
         $image_rule->withProperties(
             Vector {
@@ -80,7 +82,9 @@ class SlideshowImageRule extends ConfigurationSelectorRule
 
         $caption_credit = $this->getPropertyString(self::PROPERTY_CAPTION_CREDIT, $node);
         if ($caption_credit) {
-            $caption->withCredit(Cite::create()->appendText($caption_credit));
+            $cite = Cite::create();
+            $cite->appendText($caption_credit);
+            $caption->withCredit($cite);
         }
 
         return $slideshow;

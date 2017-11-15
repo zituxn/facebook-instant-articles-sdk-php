@@ -15,8 +15,8 @@ abstract class BaseHTMLTestCase extends \PHPUnit_Framework_TestCase
         $from = ['/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/> </s'];
         $to = ['>', '<', '\\1', '><'];
         $this->assertEquals(
-            preg_replace($from, $to, $expected),
-            preg_replace($from, $to, $actual)
+            str_replace('><', ">".PHP_EOL."<", preg_replace($from, $to, $expected)),
+            str_replace('><', ">".PHP_EOL."<", preg_replace($from, $to, $actual))
         );
     }
 }

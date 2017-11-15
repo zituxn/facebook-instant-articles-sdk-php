@@ -32,11 +32,11 @@ class AuthorRule extends ConfigurationSelectorRule
         return new AuthorRule();
     }
 
-    public static function createFrom(Map $configuration): AuthorRule
+    public static function createFrom(array $configuration): AuthorRule
     {
         $author_rule = AuthorRule::create();
 
-        $author_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $author_rule->withSelector($configuration['selector']);
         //$properties = $configuration['properties'];
         $author_rule->withProperties(
             Vector {

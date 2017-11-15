@@ -29,7 +29,7 @@ class ListElementRule extends ConfigurationSelectorRule
     public static function createFrom($configuration): ListElementRule
     {
         $listElementRule = self::create();
-        $listElementRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $listElementRule->withSelector($configuration['selector']);
         return $listElementRule;
     }
 

@@ -28,7 +28,7 @@ class NextSiblingElementGetter extends AbstractGetter
         return $this;
     }
 
-    public function createFrom(Map<string, string> $properties): NextSiblingElementGetter
+    public function createFrom(array<string, string> $properties): NextSiblingElementGetter
     {
         if (isset($properties['selector'])) {
             $this->withSelector($properties['selector']);
@@ -43,7 +43,7 @@ class NextSiblingElementGetter extends AbstractGetter
         return $this;
     }
 
-    public function get(\DOMNode $node): ?\DOMNode
+    public function get(\DOMNode $node): mixed
     {
         $elements = $this->findAll($node, $this->selector);
         if (!empty($elements) && $elements->item(0)) {

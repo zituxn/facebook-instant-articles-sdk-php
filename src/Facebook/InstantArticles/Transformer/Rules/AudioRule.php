@@ -32,10 +32,10 @@ class AudioRule extends ConfigurationSelectorRule
         return new AudioRule();
     }
 
-    public static function createFrom(Map $configuration): AudioRule
+    public static function createFrom(array $configuration): AudioRule
     {
         $audio_rule = self::create();
-        $audio_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $audio_rule->withSelector($configuration['selector']);
 
         $audio_rule->withProperties(
             Vector {

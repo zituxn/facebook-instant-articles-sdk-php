@@ -219,7 +219,7 @@ class Type
      * @param string $text The text that will be checked.
      * @return true if empty, false otherwise.
      */
-    public static function isTextEmpty(string $text): bool
+    public static function isTextEmpty(?string $text): bool
     {
         if ($text === null) {
             return true;
@@ -288,7 +288,6 @@ class Type
      */
     public static function mixedToArray(mixed $value): array
     {
-        var_dump($value);
         invariant(is_array($value), 'Error, $value is not an array');
         return $value;
     }

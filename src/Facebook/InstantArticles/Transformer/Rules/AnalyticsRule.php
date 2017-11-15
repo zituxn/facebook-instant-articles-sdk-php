@@ -30,10 +30,10 @@ class AnalyticsRule extends ConfigurationSelectorRule
         return new AnalyticsRule();
     }
 
-    public static function createFrom(Map $configuration)
+    public static function createFrom(array $configuration)
     {
         $analytics_rule = self::create();
-        $analytics_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $analytics_rule->withSelector($configuration['selector']);
 
         $analytics_rule->withProperties(
             Vector {

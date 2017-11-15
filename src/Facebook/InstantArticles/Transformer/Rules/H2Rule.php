@@ -32,10 +32,10 @@ class H2Rule extends ConfigurationSelectorRule
         return new H2Rule();
     }
 
-    public static function createFrom(Map $configuration): H2Rule
+    public static function createFrom(array $configuration): H2Rule
     {
         $h2_rule = self::create();
-        $h2_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $h2_rule->withSelector($configuration['selector']);
 
         $h2_rule->withProperties(
             Vector {

@@ -21,10 +21,10 @@ class ItalicRule extends ConfigurationSelectorRule
         return new ItalicRule();
     }
 
-    public static function createFrom(Map $configuration): ItalicRule
+    public static function createFrom(array $configuration): ItalicRule
     {
         $italicRule = self::create();
-        $italicRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $italicRule->withSelector($configuration['selector']);
         return $italicRule;
     }
 

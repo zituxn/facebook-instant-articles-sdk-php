@@ -8,6 +8,8 @@
  */
 namespace Facebook\InstantArticles\Transformer\Getters;
 
+use Symfony\Component\CssSelector\CssSelectorConverter;
+
 /**
  * Class abstract for all getters.
  */
@@ -66,16 +68,16 @@ abstract class AbstractGetter
      *
      * @return static
      */
-    abstract public function createFrom(Map<string, string> $configuration): AbstractGetter;
+    abstract public function createFrom(array<string, string> $configuration): AbstractGetter;
 
     /**
      * Method that should retrieve
      *
      * @param \DOMNode $node
      *
-     * @return mixed (depending on the Getter implementing class)
+     * @return mixed (depending on the Getter implementing class). @see get<type>
      */
-    abstract public function get($node): mixed;
+    abstract public function get(\DOMNode $node): mixed;
 
     /**
      * Auxiliary method to extract full qualified class name.

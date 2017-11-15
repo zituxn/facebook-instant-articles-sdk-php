@@ -24,7 +24,7 @@ class TextNodeRule extends ConfigurationSelectorRule
         return new TextNodeRule();
     }
 
-    public static function createFrom(Map $configuration): TextNodeRule
+    public static function createFrom(array $configuration): TextNodeRule
     {
         return self::create();
     }

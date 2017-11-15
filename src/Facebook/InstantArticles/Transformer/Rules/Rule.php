@@ -15,27 +15,25 @@ abstract class Rule
 {
     public function matches(Element $context, \DOMNode $node): bool
     {
-        $log = \Logger::getLogger('facebook-instantarticles-transformer');
-
         $matches_context = $this->matchesContext($context);
         $matches_node = $this->matchesNode($node);
-        if ($matches_context && $matches_node) {
-            $log->debug('context class: '.get_class($context));
-            $log->debug('context matches: '.($matches_context ? 'MATCHES' : 'no match'));
-            $log->debug('node name: <'.$node->nodeName.' />');
-            $log->debug('node matches: '.($matches_node ? 'MATCHES' : 'no match'));
-            $log->debug('rule: '.get_class($this));
-            $log->debug('-------');
-        }
-        if ($node->nodeName === 'iframe') {
-            $log->debug('context class: '.get_class($context));
-            $log->debug('context matches: '.($matches_context ? 'MATCHES' : 'no match'));
-            $log->debug('node name: <'.$node->nodeName.' />');
-            $log->debug('node: '.$node->ownerDocument->saveXML($node).' />');
-            $log->debug('node matches: '.($matches_node ? 'MATCHES' : 'no match'));
-            $log->debug('rule: '.get_class($this));
-            $log->debug('-------');
-        }
+        // if ($matches_context && $matches_node) {
+        //     var_dump('context class: '.get_class($context));
+        //     var_dump('context matches: '.($matches_context ? 'MATCHES' : 'no match'));
+        //     var_dump('node name: <'.$node->nodeName.' />');
+        //     var_dump('node matches: '.($matches_node ? 'MATCHES' : 'no match'));
+        //     var_dump('rule: '.get_class($this));
+        //     var_dump('-------');
+        // }
+        // if ($node->nodeName === 'iframe') {
+        //     var_dump('context class: '.get_class($context));
+        //     var_dump('context matches: '.($matches_context ? 'MATCHES' : 'no match'));
+        //     var_dump('node name: <'.$node->nodeName.' />');
+        //     var_dump('node: '.$node->ownerDocument->saveXML($node));
+        //     var_dump('node matches: '.($matches_node ? 'MATCHES' : 'no match'));
+        //     var_dump('rule: '.get_class($this));
+        //     var_dump('-------');
+        // }
         return $matches_context && $matches_node;
     }
 
@@ -55,7 +53,7 @@ abstract class Rule
         );
     }
 
-    public static function createFrom(Map<string, mixed> $configuration): Rule
+    public static function createFrom(array $configuration): Rule
     {
         throw new \Exception(
             'All Rule class extensions should implement the '.
@@ -63,13 +61,13 @@ abstract class Rule
         );
     }
 
-    public static function retrieveProperty(Map<string, mixed> $properties, string $property_name): mixed
+    public static function retrieveProperty(array<string, mixed> $properties, string $property_name): mixed
     {
         if (array_key_exists($property_name, $properties)) {
             return $properties[$property_name];
         } elseif (array_key_exists('properties', $properties)) {
             $mappedProperties = $properties['properties'];
-            if ($mappedProperties instanceof Map && array_key_exists($property_name, $mappedProperties)) {
+            if (is_array($mappedProperties) && array_key_exists($property_name, $mappedProperties)) {
                 return $mappedProperties[$property_name];
             }
         }

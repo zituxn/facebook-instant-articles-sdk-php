@@ -28,11 +28,11 @@ class SponsorRule extends ConfigurationSelectorRule
         return new SponsorRule();
     }
 
-    public static function createFrom(Map $configuration): SponsorRule
+    public static function createFrom(array $configuration): SponsorRule
     {
         $sponsor_rule = SponsorRule::create();
 
-        $sponsor_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $sponsor_rule->withSelector($configuration['selector']);
 
         $sponsor_rule->withProperties(
             Vector {

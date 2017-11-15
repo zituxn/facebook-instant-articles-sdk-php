@@ -26,10 +26,10 @@ class ListItemRule extends ConfigurationSelectorRule
         return new ListItemRule();
     }
 
-    public static function createFrom(Map $configuration): ListItemRule
+    public static function createFrom(array $configuration): ListItemRule
     {
         $listItemRule = self::create();
-        $listItemRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $listItemRule->withSelector($configuration['selector']);
         return $listItemRule;
     }
 

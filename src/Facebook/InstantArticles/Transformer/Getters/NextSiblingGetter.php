@@ -12,7 +12,7 @@ use Facebook\InstantArticles\Validators\Type;
 
 class NextSiblingGetter extends AbstractGetter
 {
-    public function createFrom(Map<string, string> $properties)
+    public function createFrom(array<string, string> $properties)
     {
         if (isset($properties['selector'])) {
             $this->withSelector($properties['selector']);
@@ -22,7 +22,7 @@ class NextSiblingGetter extends AbstractGetter
         }
     }
 
-    public function get(\DOMNode $node): ?string
+    public function get(\DOMNode $node): mixed
     {
         $elements = $this->findAll($node, $this->selector);
         if (!empty($elements) && $elements->item(0)) {

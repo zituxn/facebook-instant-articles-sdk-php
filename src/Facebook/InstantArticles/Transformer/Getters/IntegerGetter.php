@@ -12,7 +12,7 @@ use Facebook\InstantArticles\Validators\Type;
 
 class IntegerGetter extends AbstractGetter
 {
-    public function createFrom(Map<string, string> $properties): IntegerGetter
+    public function createFrom(array<string, string> $properties): IntegerGetter
     {
         if (isset($properties['selector'])) {
             $this->withSelector($properties['selector']);
@@ -23,7 +23,7 @@ class IntegerGetter extends AbstractGetter
         return $this;
     }
 
-    public function get(\DOMNode $node): ?int
+    public function get(\DOMNode $node): mixed
     {
         $elements = $this->findAll($node, $this->selector);
         if (!empty($elements) && $elements->item(0)) {

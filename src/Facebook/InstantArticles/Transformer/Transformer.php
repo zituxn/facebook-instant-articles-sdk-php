@@ -19,9 +19,14 @@ use Facebook\InstantArticles\Validators\InstantArticleValidator;
 class Transformer
 {
     /**
-     * @var Vector<Rule>
+     * @var array<array<int, Rule>> This is the internal map for rules to be applied
      */
-    private Map<string, Vector<Rule>> $rules = Map {};
+    private array $rules = array();
+
+    /**
+     * @var array<Rule> This is the original flat array.
+     */
+    private array $_rules = array();
 
     /**
      * @var array
@@ -36,7 +41,7 @@ class Transformer
     /**
      * @var array
      */
-    private static $allClassTypes = [];
+    private static $allClassTypes = array();
 
     /**
      * @var InstantArticle the initial context.
@@ -68,11 +73,13 @@ class Transformer
      * @param DOMElement $node The node to clone
      * @return DOMElement The cloned node.
      */
-    public static function cloneNode(\DOMElement $node): \DOMElement
+    public static function cloneNode(\DOMNode $node): \DOMNode
     {
         $clone = $node->cloneNode(true);
-        if ($clone->hasAttribute(self::INSTANT_ARTICLES_PARSED_FLAG)) {
-            $clone->removeAttribute(self::INSTANT_ARTICLES_PARSED_FLAG);
+        if ($clone instanceof \DOMElement) {
+            if ($clone->hasAttribute(self::INSTANT_ARTICLES_PARSED_FLAG)) {
+                $clone->removeAttribute(self::INSTANT_ARTICLES_PARSED_FLAG);
+            }
         }
         return $clone;
     }
@@ -82,7 +89,7 @@ class Transformer
      *
      * @param DOMNode $node The node to clone
      */
-    public static function markAsProcessed(\DOMElement $node): void
+    public static function markAsProcessed(\DOMNode $node): void
     {
         if ($node instanceof \DOMElement) {
             $node->setAttribute(self::INSTANT_ARTICLES_PARSED_FLAG, 'true');
@@ -100,34 +107,6 @@ class Transformer
             return $node->getAttribute(self::INSTANT_ARTICLES_PARSED_FLAG) == 'true';
         }
         return false;
-    }
-
-
-    /**
-     * Gets all types a given class is, including itself, parent classes and interfaces.
-     *
-     * @param string $className - the name of the className
-     *
-     * @return array of class names the provided class name is
-     */
-    private static function getAllClassTypes(string $className): array
-    {
-        // Memoizes
-        if (isset(self::$allClassTypes[$className])) {
-            return self::$allClassTypes[$className];
-        }
-
-        $classParents = class_parents($className, true);
-        $classInterfaces = class_implements($className, true);
-        $classNames = [$className];
-        if ($classParents) {
-            $classNames = array_merge($classNames, $classParents);
-        }
-        if ($classInterfaces) {
-            $classNames = array_merge($classNames, $classInterfaces);
-        }
-        self::$allClassTypes[$className] = $classNames;
-        return $classNames;
     }
 
     /**
@@ -151,6 +130,7 @@ class Transformer
                 $this->rules[$context] = Vector {};
             }
             $this->rules[$context]->add($rule);
+            $this->_rules[] = $rule;
         }
     }
 
@@ -224,27 +204,12 @@ class Transformer
                 }
                 $matched = false;
 
-                // Get all classes and interfaces this context extends/implements
-                $contextClassNames = self::getAllClassTypes($context->getObjClassName());
-
-                // Look for rules applying to any of them as context
-                $matchingContextRules = Vector {};
-                foreach ($contextClassNames as $contextClassName) {
-                    if (isset($this->rules[$contextClassName])) {
-                        // Use array union (+) instead of merge to preserve
-                        // indexes (as they represent the order of insertion)
-                        $matchingContextRules = $matchingContextRules->addAll($this->rules[$contextClassName]);
-                    }
-                }
-
-                // Sort by insertion order
-                //ksort($matchingContextRules);
-
                 // Process in reverse order
-                $matchingContextRules = array_reverse($matchingContextRules);
+                $matchingContextRules = array_reverse($this->_rules);
                 foreach ($matchingContextRules as $rule) {
-                    // We know context was matched, now check if it matches the node
-                    if ($rule->matchesNode($child)) {
+
+                    if ($rule->matches($current_context, $child)) {
+                        self::markAsProcessed($child);
                         $current_context = $rule->apply($this, $current_context, $child);
                         $matched = true;
 
@@ -289,7 +254,7 @@ class Transformer
                             'createFrom'
                         );
                 }
-                $this->addRule($factory_method->invoke(null, new Map($configuration_rule)));
+                $this->addRule($factory_method->invoke(null, $configuration_rule));
             }
         }
     }
@@ -299,7 +264,8 @@ class Transformer
      */
     public function resetRules(): void
     {
-        $this->rules = Map {};
+        $this->rules = array();
+        $this->_rules = array();
     }
 
     /**
@@ -307,19 +273,9 @@ class Transformer
      *
      * @return Vector<Rule> List of configured rules.
      */
-    public function getRules(): Vector<Rule>
+    public function getRules(): array
     {
-        // Do not expose internal map, just a simple array
-        // to keep the interface backwards compatible.
-        $flatten_rules = Vector {};
-        foreach ($this->rules as $ruleset) {
-            foreach ($ruleset as $priority => $rule) {
-                $flatten_rules[$priority] = $rule;
-            }
-        }
-
-        ksort($flatten_rules);
-        return $flatten_rules;
+        return $this->_rules;
     }
 
     /**
@@ -327,7 +283,7 @@ class Transformer
      *
      * @param Vector<Rule> $rules List of configured rules.
      */
-    public function setRules(Vector<Rule> $rules): void
+    public function setRules(array $rules): void
     {
         $this->resetRules();
         foreach ($rules as $rule) {

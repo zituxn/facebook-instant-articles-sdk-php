@@ -14,6 +14,9 @@ use Facebook\InstantArticles\Elements\Slideshow;
 use Facebook\InstantArticles\Elements\Video;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Caption;
+use Facebook\InstantArticles\Elements\Captionable;
+use Facebook\InstantArticles\Elements\MapElement;
+use Facebook\InstantArticles\Elements\H1;
 use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Transformer;
 
@@ -25,7 +28,7 @@ class CaptionRule extends ConfigurationSelectorRule
     {
         return
             Vector {
-                \Facebook\InstantArticles\Elements\Map::getClassName(),
+                MapElement::getClassName(),
                 Image::getClassName(),
                 Interactive::getClassName(),
                 Slideshow::getClassName(),
@@ -38,10 +41,10 @@ class CaptionRule extends ConfigurationSelectorRule
         return new CaptionRule();
     }
 
-    public static function createFrom(Map $configuration): CaptionRule
+    public static function createFrom(array $configuration): CaptionRule
     {
         $caption_rule = self::create();
-        $caption_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $caption_rule->withSelector($configuration['selector']);
 
         $caption_rule->withProperties(
             Vector {
@@ -105,7 +108,7 @@ class CaptionRule extends ConfigurationSelectorRule
             $caption->withFontsize(Caption::SIZE_XLARGE);
         }
 
-        $text_default = $this->getProperty(self::PROPERTY_DEFAULT, $node);
+        $text_default = $this->getPropertyString(self::PROPERTY_DEFAULT, $node);
         if ($text_default) {
             invariant(is_string($text_default), 'Error, $text_default is not a string');
             $caption->withTitle(H1::create()->appendText($text_default));
@@ -113,6 +116,7 @@ class CaptionRule extends ConfigurationSelectorRule
             $transformer->transform($caption, $node);
         }
 
+        invariant($container_of_caption instanceof Element, 'Error, $container_of_caption is not Element');
         return $container_of_caption;
     }
 }

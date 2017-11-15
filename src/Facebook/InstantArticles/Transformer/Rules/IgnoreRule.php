@@ -19,10 +19,10 @@ class IgnoreRule extends ConfigurationSelectorRule
         return new IgnoreRule();
     }
 
-    public static function createFrom(Map $configuration): IgnoreRule
+    public static function createFrom(array $configuration): IgnoreRule
     {
         $ignoreRule = self::create();
-        $ignoreRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $ignoreRule->withSelector($configuration['selector']);
         return $ignoreRule;
     }
 

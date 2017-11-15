@@ -26,10 +26,10 @@ class BoldRule extends ConfigurationSelectorRule
         return new BoldRule();
     }
 
-    public static function createFrom(Map $configuration): BoldRule
+    public static function createFrom(array $configuration): BoldRule
     {
         $boldRule = BoldRule::create();
-        $boldRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $boldRule->withSelector($configuration['selector']);
         return $boldRule;
     }
 

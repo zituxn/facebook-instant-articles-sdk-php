@@ -17,7 +17,7 @@ class ConstantGetter extends AbstractGetter
      */
     protected ?string $value;
 
-    public function createFrom($properties): ConstantGetter
+    public function createFrom(array<string, string> $properties): ConstantGetter
     {
         return $this->withValue($properties['value']);
     }
@@ -33,7 +33,7 @@ class ConstantGetter extends AbstractGetter
         return $this;
     }
 
-    public function get(?\DOMNode $node): ?string
+    public function get(\DOMNode $node): mixed
     {
         return $this->value;
     }

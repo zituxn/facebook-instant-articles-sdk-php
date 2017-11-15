@@ -17,7 +17,7 @@ class DateGetter extends AbstractGetter
      */
     protected ?string $format;
 
-    public function createFrom(Map<string, string> $properties): DateGetter
+    public function createFrom(array<string, string> $properties): DateGetter
     {
         if (isset($properties['selector'])) {
             $this->withSelector($properties['selector']);
@@ -42,7 +42,7 @@ class DateGetter extends AbstractGetter
         return $this;
     }
 
-    public function get(\DOMNode $node): ?\DateTime
+    public function get(\DOMNode $node): mixed
     {
         $elements = $this->findAll($node, $this->selector);
         if (!empty($elements) && $elements->item(0)) {

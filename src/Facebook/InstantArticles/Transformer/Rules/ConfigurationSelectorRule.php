@@ -25,7 +25,7 @@ abstract class ConfigurationSelectorRule extends Rule
     /**
      * @var AbstractGetter[]
      */
-    protected Map<string, AbstractGetter> $properties = Map {};
+    protected array<string, AbstractGetter> $properties = array();
 
     /**
      * @param string $selector
@@ -53,7 +53,7 @@ abstract class ConfigurationSelectorRule extends Rule
         return $this;
     }
 
-    public function withProperties(Vector<string> $properties, Map<string, mixed> $configuration): void
+    public function withProperties(Vector<string> $properties, array<string, mixed> $configuration): ConfigurationSelectorRule
     {
         foreach ($properties as $property) {
             if (self::retrieveProperty($configuration, $property)) {
@@ -63,12 +63,15 @@ abstract class ConfigurationSelectorRule extends Rule
                 );
             }
         }
+        return $this;
     }
 
     public function matchesContext(Element $context): bool
     {
-        if ($context instanceof $this) {
-            return true;
+        foreach($this->getContextClass() as $contextClass) {
+            if (strcmp($context::getClassName(), $contextClass) === 0 || is_subclass_of ($context, $contextClass)) {
+                return true;
+            }
         }
         return false;
     }
@@ -76,12 +79,12 @@ abstract class ConfigurationSelectorRule extends Rule
     public function matchesNode(\DOMNode $node): bool
     {
         // Only matches DOMElements (ignore text and comments)
-        if (!$node instanceof \DOMNode) {
+        if (!$node instanceof \DOMNode || Type::isTextEmpty($this->selector)) {
             return false;
         }
 
         // Handles selector = tag
-        if ($node->nodeName === $this->selector) {
+        if (strcmp($node->nodeName, $this->selector) === 0) {
             return true;
         }
 
@@ -175,11 +178,76 @@ abstract class ConfigurationSelectorRule extends Rule
     public function getPropertyString(string $property_name, \DOMNode $node): string
     {
         $value = $this->getProperty($property_name, $node);
-        invariant(is_string($value), 'Error, $value not string');
-        return $value;
+        if ($value && is_string($value)) {
+            return $value;
+        }
+        return '';
     }
 
-    public function getProperties(): Map<string, AbstractGetter>
+    public function getPropertyInt(string $property_name, \DOMNode $node): int
+    {
+        $value = $this->getProperty($property_name, $node);
+        if ($value && is_int($value)) {
+            return $value;
+        }
+        return -1;
+    }
+
+    public function getPropertyElement(string $property_name, \DOMNode $node): ?\DOMElement
+    {
+        $value = $this->getProperty($property_name, $node);
+        if ($value && $value instanceof \DOMElement) {
+            return $value;
+        }
+        return null;
+    }
+
+    public function getPropertyNode(string $property_name, \DOMNode $node): ?\DOMNode
+    {
+        $value = $this->getProperty($property_name, $node);
+        if ($value && $value instanceof \DOMNode) {
+            return $value;
+        }
+        return null;
+    }
+
+    public function getPropertyArray(string $property_name, \DOMNode $node): array
+    {
+        $value = $this->getProperty($property_name, $node);
+        if ($value && is_array($value)) {
+            return $value;
+        }
+        return array();
+    }
+
+    public function getPropertyDateTime(string $property_name, \DOMNode $node): ?\DateTime
+    {
+        $value = $this->getProperty($property_name, $node);
+        if ($value && $value instanceof \DateTime) {
+            return $value;
+        }
+        return null;
+    }
+
+    public function getPropertyBoolean(string $property_name, \DOMNode $node): bool
+    {
+        $value = $this->getProperty($property_name, $node);
+        if ($value !== null && is_bool($value)) {
+            return $value;
+        }
+        return false;
+    }
+
+    public function getPropertyFragment(string $property_name, \DOMNode $node): ?\DOMDocumentFragment
+    {
+        $value = $this->getProperty($property_name, $node);
+        if ($value && $value instanceof \DOMDocumentFragment) {
+            return $value;
+        }
+        return null;
+    }
+
+    public function getProperties(): array<string, AbstractGetter>
     {
         return $this->properties;
     }

@@ -26,10 +26,10 @@ class PullquoteRule extends ConfigurationSelectorRule
         return new PullquoteRule();
     }
 
-    public static function createFrom(Map $configuration): PullquoteRule
+    public static function createFrom(array $configuration): PullquoteRule
     {
         $pullquoteRule = self::create();
-        $pullquoteRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $pullquoteRule->withSelector($configuration['selector']);
         return $pullquoteRule;
     }
 

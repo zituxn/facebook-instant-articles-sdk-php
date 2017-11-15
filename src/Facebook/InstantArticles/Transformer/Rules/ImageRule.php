@@ -46,10 +46,10 @@ class ImageRule extends ConfigurationSelectorRule
         return new self();
     }
 
-    public static function createFrom(Map $configuration): ImageRule
+    public static function createFrom(array $configuration): ImageRule
     {
         $image_rule = self::create();
-        $image_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $image_rule->withSelector($configuration['selector']);
 
         $image_rule->withProperties(
             Vector {

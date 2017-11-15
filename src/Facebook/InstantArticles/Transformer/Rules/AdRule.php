@@ -32,10 +32,10 @@ class AdRule extends ConfigurationSelectorRule
         return new AdRule();
     }
 
-    public static function createFrom(Map $configuration): ConfigurationSelectorRule
+    public static function createFrom(array<string, string> $configuration): ConfigurationSelectorRule
     {
         $ad_rule = self::create();
-        $ad_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $ad_rule->withSelector($configuration['selector']);
 
         $ad_rule->withProperties(
             Vector {

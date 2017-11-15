@@ -26,10 +26,10 @@ class LineBreakRule extends ConfigurationSelectorRule
         return new LineBreakRule();
     }
 
-    public static function createFrom(Map $configuration): LineBreakRule
+    public static function createFrom(array $configuration): LineBreakRule
     {
         $lineBreakRule = self::create();
-        $lineBreakRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $lineBreakRule->withSelector($configuration['selector']);
         return $lineBreakRule;
     }
 

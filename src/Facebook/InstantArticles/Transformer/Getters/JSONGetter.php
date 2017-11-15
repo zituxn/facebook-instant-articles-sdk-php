@@ -12,7 +12,7 @@ use Facebook\InstantArticles\Validators\Type;
 
 class JSONGetter extends AbstractGetter
 {
-    public function createFrom(Map<string, string> $properties): JSONGetter
+    public function createFrom(array<string, string> $properties): JSONGetter
     {
         if (isset($properties['selector'])) {
             $this->withSelector($properties['selector']);

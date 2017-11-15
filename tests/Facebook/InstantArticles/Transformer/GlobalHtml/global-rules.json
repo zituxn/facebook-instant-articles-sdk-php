@@ -187,7 +187,7 @@
             }
         },
         {
-            "class":"SocialEmbedRule",
+            "class":"InteractiveRule",
             "selector":"div.embed",
             "properties":{
                 "socialembed.iframe":{

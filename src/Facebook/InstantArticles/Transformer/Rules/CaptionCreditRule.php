@@ -26,10 +26,10 @@ class CaptionCreditRule extends ConfigurationSelectorRule
         return new CaptionCreditRule();
     }
 
-    public static function createFrom(Map $configuration): CaptionCreditRule
+    public static function createFrom(array $configuration): CaptionCreditRule
     {
         $cite_rule = self::create();
-        $cite_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $cite_rule->withSelector($configuration['selector']);
 
         $cite_rule->withProperties(
             Vector {

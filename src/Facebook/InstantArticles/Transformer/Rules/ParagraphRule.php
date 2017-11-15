@@ -26,10 +26,10 @@ class ParagraphRule extends ConfigurationSelectorRule
         return new ParagraphRule();
     }
 
-    public static function createFrom(Map $configuration): ParagraphRule
+    public static function createFrom(array $configuration): ParagraphRule
     {
         $paragraphRule = self::create();
-        $paragraphRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $paragraphRule->withSelector($configuration['selector']);
         return $paragraphRule;
     }
 

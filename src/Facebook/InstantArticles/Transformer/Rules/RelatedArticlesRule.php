@@ -28,10 +28,10 @@ class RelatedArticlesRule extends ConfigurationSelectorRule
         return new RelatedArticlesRule();
     }
 
-    public static function createFrom(Map $configuration): RelatedArticlesRule
+    public static function createFrom(array $configuration): RelatedArticlesRule
     {
         $related_articles_rule = self::create();
-        $related_articles_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $related_articles_rule->withSelector($configuration['selector']);
 
         $related_articles_rule->withProperties(
             Vector {

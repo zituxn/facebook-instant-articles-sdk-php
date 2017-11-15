@@ -26,10 +26,10 @@ class EmphasizedRule extends ConfigurationSelectorRule
         return new EmphasizedRule();
     }
 
-    public static function createFrom(Map $configuration): EmphasizedRule
+    public static function createFrom(array $configuration): EmphasizedRule
     {
         $emphasizedRule = self::create();
-        $emphasizedRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $emphasizedRule->withSelector($configuration['selector']);
         return $emphasizedRule;
     }
 

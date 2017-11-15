@@ -26,10 +26,10 @@ class BlockquoteRule extends ConfigurationSelectorRule
         return new BlockquoteRule();
     }
 
-    public static function createFrom(Map $configuration): BlockquoteRule
+    public static function createFrom(array $configuration): BlockquoteRule
     {
         $blockquoteRule = BlockquoteRule::create();
-        $blockquoteRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $blockquoteRule->withSelector($configuration['selector']);
 
         return $blockquoteRule;
     }

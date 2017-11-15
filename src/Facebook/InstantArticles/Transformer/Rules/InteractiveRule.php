@@ -39,10 +39,10 @@ class InteractiveRule extends ConfigurationSelectorRule
         return new self();
     }
 
-    public static function createFrom(Map $configuration): InteractiveRule
+    public static function createFrom(array $configuration): InteractiveRule
     {
-        $interactive_rule = static::create();
-        $interactive_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $interactive_rule = self::create();
+        $interactive_rule->withSelector($configuration['selector']);
 
         $interactive_rule->withProperties(
             Vector {

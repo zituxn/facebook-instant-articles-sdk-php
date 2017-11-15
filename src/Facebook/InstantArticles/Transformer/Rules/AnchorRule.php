@@ -29,11 +29,11 @@ class AnchorRule extends ConfigurationSelectorRule
         return Vector { TextContainer::getClassName() };
     }
 
-    public static function createFrom(Map $configuration): AnchorRule
+    public static function createFrom(array $configuration): AnchorRule
     {
         $anchor_rule = self::create();
 
-        $anchor_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $anchor_rule->withSelector($configuration['selector']);
         //$properties = $configuration['properties'];
         $anchor_rule->withProperties(
             Vector {

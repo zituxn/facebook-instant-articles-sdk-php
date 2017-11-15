@@ -143,6 +143,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Type::isTextEmpty("\t\n\r"));
         $this->assertTrue(Type::isTextEmpty("&nbsp;"));
         $this->assertTrue(Type::isTextEmpty("\n"));
+        $this->assertTrue(Type::isTextEmpty(null));
     }
 
     public function testEnforceElementTag()

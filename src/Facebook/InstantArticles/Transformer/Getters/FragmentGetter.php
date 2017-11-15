@@ -19,7 +19,7 @@ class FragmentGetter extends AbstractGetter
      */
     protected ?string $fragment;
 
-    public function createFrom(Map<string, string> $properties): FragmentGetter
+    public function createFrom(array<string, string> $properties): FragmentGetter
     {
         return $this->withFragment($properties['fragment']);
     }
@@ -35,7 +35,7 @@ class FragmentGetter extends AbstractGetter
         return $this;
     }
 
-    public function get(\DOMNode $node): ?\DOMDocumentFragment
+    public function get(\DOMNode $node): mixed
     {
         $fragment = $node->ownerDocument->createDocumentFragment();
         $is_valid_markup = @$fragment->appendXML($this->fragment);

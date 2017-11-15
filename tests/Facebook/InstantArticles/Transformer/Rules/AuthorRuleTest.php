@@ -15,21 +15,21 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
     public function testCreateFromProperties()
     {
         $author_rule = AuthorRule::createFrom(
-            [
+            array (
                 "class" => "Facebook\\InstantArticles\\Transformer\\Rules\\AuthorRule",
                 "selector" => "div.post-content > p > em",
-                "properties" => [
-                    "author.url" => [
+                "properties" => array (
+                    "author.url" => array (
                         "type" => "string",
                         "selector" => "a",
                         "attribute" => "href"
-                    ],
-                    "author.description" => [
+                    ),
+                    "author.description" => array (
                         "type" => "string",
                         "selector" => "#text:nth-child(2)"
-                    ]
-                ]
-            ]
+                    )
+                )
+            )
         );
         $this->assertEquals(get_class($author_rule), AuthorRule::getClassName());
     }
@@ -38,22 +38,23 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $author_rule = AuthorRule::create()
             ->withSelector("div.post-content > p > em")
-            ->withProperty(
-                AuthorRule::PROPERTY_AUTHOR_URL,
-                Map {
-                    "type" => "string",
-                    "selector" => "a",
-                    "attribute" => "href"
-                }
-            )
-            ->withProperty(
-                AuthorRule::PROPERTY_AUTHOR_NAME,
-                Map {
-                    "type" => "string",
-                    "selector" => "span"
-                }
+            ->withProperties(
+                Vector { AuthorRule::PROPERTY_AUTHOR_URL, AuthorRule::PROPERTY_AUTHOR_NAME, },
+                array(
+                    AuthorRule::PROPERTY_AUTHOR_URL =>
+                    array (
+                        "type" => "string",
+                        "selector" => "a",
+                        "attribute" => "href"
+                    ),
+                    AuthorRule::PROPERTY_AUTHOR_NAME =>
+                    array (
+                        "type" => "string",
+                        "selector" => "span"
+                    ),
+                )
             );
-        $this->assertEquals(get_class($author_rule), AuthorRule::getClassName());
+        $this->assertEquals($author_rule->getClassName(), AuthorRule::getClassName());
     }
 
     public function testExpectedNameWithLink()

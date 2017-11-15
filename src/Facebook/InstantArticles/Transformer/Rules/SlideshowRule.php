@@ -26,10 +26,10 @@ class SlideshowRule extends ConfigurationSelectorRule
         return new SlideshowRule();
     }
 
-    public static function createFrom(Map $configuration): SlideshowRule
+    public static function createFrom(array $configuration): SlideshowRule
     {
         $slideshow_rule = self::create();
-        $slideshow_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $slideshow_rule->withSelector($configuration['selector']);
 
         return $slideshow_rule;
     }

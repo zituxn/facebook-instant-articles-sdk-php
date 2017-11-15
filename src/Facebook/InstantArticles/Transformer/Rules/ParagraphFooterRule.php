@@ -26,10 +26,10 @@ class ParagraphFooterRule extends ConfigurationSelectorRule
         return new ParagraphFooterRule();
     }
 
-    public static function createFrom(Map $configuration): ParagraphFooterRule
+    public static function createFrom(array $configuration): ParagraphFooterRule
     {
         $paragraphFooterRule = self::create();
-        $paragraphFooterRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $paragraphFooterRule->withSelector($configuration['selector']);
         return $paragraphFooterRule;
     }
 

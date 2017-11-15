@@ -40,10 +40,10 @@ class TimeRule extends ConfigurationSelectorRule
         return new TimeRule();
     }
 
-    public static function createFrom(Map $configuration): TimeRule
+    public static function createFrom(array $configuration): TimeRule
     {
         $time_rule = self::create();
-        $time_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $time_rule->withSelector($configuration['selector']);
 
         $time_rule->withProperties(
             Vector {

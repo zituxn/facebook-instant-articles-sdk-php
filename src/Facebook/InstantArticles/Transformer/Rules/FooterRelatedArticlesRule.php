@@ -26,10 +26,10 @@ class FooterRelatedArticlesRule extends ConfigurationSelectorRule
         return new FooterRelatedArticlesRule();
     }
 
-    public static function createFrom(Map $configuration): FooterRelatedArticlesRule
+    public static function createFrom(array $configuration): FooterRelatedArticlesRule
     {
         $related_articles_rule = self::create();
-        $related_articles_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $related_articles_rule->withSelector($configuration['selector']);
 
         return $related_articles_rule;
     }

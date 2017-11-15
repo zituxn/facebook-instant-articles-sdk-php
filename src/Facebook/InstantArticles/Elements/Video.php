@@ -34,7 +34,7 @@ use Facebook\InstantArticles\Validators\Type;
  * @see Map
  * @package Facebook\InstantArticle\Elements
  */
-class Video extends Element implements ChildrenContainer, GeoTaggable
+class Video extends Element implements ChildrenContainer, GeoTaggable, Captionable
 {
     const ASPECT_FIT = 'aspect-fit';
     const ASPECT_FIT_ONLY = 'aspect-fit-only';

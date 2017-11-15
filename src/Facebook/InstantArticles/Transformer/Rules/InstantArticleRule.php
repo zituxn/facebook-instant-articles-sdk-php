@@ -32,10 +32,10 @@ class InstantArticleRule extends ConfigurationSelectorRule
         return new InstantArticleRule();
     }
 
-    public static function createFrom(Map $configuration): InstantArticleRule
+    public static function createFrom(array $configuration): InstantArticleRule
     {
         $canonical_rule = self::create();
-        $canonical_rule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $canonical_rule->withSelector($configuration['selector']);
 
         $canonical_rule->withProperties(
             Vector {

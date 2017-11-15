@@ -9,6 +9,7 @@
 namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Facebook\InstantArticles\Elements\Element;
+use Facebook\InstantArticles\Elements\H3;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Transformer;
@@ -25,10 +26,10 @@ class HeaderKickerRule extends ConfigurationSelectorRule
         return new HeaderKickerRule();
     }
 
-    public static function createFrom(Map $configuration): HeaderKickerRule
+    public static function createFrom(array $configuration): HeaderKickerRule
     {
         $kickerRule = self::create();
-        $kickerRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $kickerRule->withSelector($configuration['selector']);
         return $kickerRule;
     }
 

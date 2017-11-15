@@ -26,10 +26,10 @@ class FooterRule extends ConfigurationSelectorRule
         return new FooterRule();
     }
 
-    public static function createFrom(Map $configuration): FooterRule
+    public static function createFrom(array $configuration): FooterRule
     {
         $footerRule = self::create();
-        $footerRule->withSelector(Type::mapGetString($configuration, 'selector'));
+        $footerRule->withSelector($configuration['selector']);
 
         return $footerRule;
     }
