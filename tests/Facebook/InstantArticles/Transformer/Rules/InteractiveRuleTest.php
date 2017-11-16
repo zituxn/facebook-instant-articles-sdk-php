@@ -74,7 +74,9 @@ JSON;
         $rule = InteractiveRule::createFrom($this->config);
 
         $instant_article = $rule->apply(new Transformer(), InstantArticle::create(), $this->iframe);
-        invariant($instant_article instanceof InstantArticle, 'Not IA?');
+        invariant($instant_article instanceof InstantArticle, 'Not an Instant Article');
+        $instant_article->addMetaProperty('op:generator:version', '1.0.0');
+        $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
         $expected =
             '<!doctype html>'.
             '<html>'.
@@ -82,7 +84,8 @@ JSON;
                 '<link rel="canonical" href=""/>'.
                 '<meta charset="utf-8"/>'.
                 '<meta property="op:generator" content="facebook-instant-articles-sdk-php"/>'.
-                '<meta property="op:generator:version" content="1.6.2"/>'.
+                '<meta property="op:generator:version" content="1.0.0"/>'.
+                '<meta property="op:generator:transformer:version" content="1.0.0"/>'.
                 '<meta property="op:markup_version" content="v1.0"/>'.
               '</head>'.
               '<body>'.

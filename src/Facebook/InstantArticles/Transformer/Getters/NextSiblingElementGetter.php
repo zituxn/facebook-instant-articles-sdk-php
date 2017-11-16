@@ -50,9 +50,9 @@ class NextSiblingElementGetter extends AbstractGetter
             $element = $elements->item(0);
             do {
                 $element = $element->nextSibling;
-            } while ($element !== null && !($element instanceof \DOMNode));
+            } while ($element !== null && !($element instanceof \DOMElement));
 
-            if ($element && $element instanceof \DOMNode) {
+            if ($element && $element instanceof \DOMElement) {
                 if ($this->siblingSelector) {
                     $siblings = $this->findAll($element, $this->siblingSelector);
                     if (!empty($siblings) && $siblings->item(0)) {
