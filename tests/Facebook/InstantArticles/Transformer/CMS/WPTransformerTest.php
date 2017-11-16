@@ -1,4 +1,4 @@
-<?php
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -17,7 +17,7 @@ use Facebook\InstantArticles\Elements\Author;
 
 class WPTransformerTest extends \Facebook\Util\BaseHTMLTestCase
 {
-    public function testTransformerLikeWPContent()
+    public function testTransformerLikeWPContent(): void
     {
         $json_file = file_get_contents(__DIR__ . '/wp-rules.json');
         $instant_article = InstantArticle::create();
@@ -57,7 +57,7 @@ class WPTransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEquals(3, count($transformer->getWarnings()));
     }
 
-    public function testTitleTransformedWithBold()
+    public function testTitleTransformedWithBold(): void
     {
         $transformer = new Transformer();
         $json_file = file_get_contents(__DIR__ . '/wp-rules.json');
@@ -65,14 +65,9 @@ class WPTransformerTest extends \Facebook\Util\BaseHTMLTestCase
 
         $title_html_string = '<?xml encoding="utf-8" ?><h1>Title <b>in bold</b></h1>';
 
-        libxml_use_internal_errors(true);
-        $document = new \DOMDocument();
-        $document->loadHtml($title_html_string);
-        libxml_use_internal_errors(false);
-
         $header = Header::create();
-        $transformer->transform($header, $document);
+        $transformer->transformString($header, $title_html_string);
 
-        $this->assertEqualsHtml('<h1>Title <b>in bold</b></h1>', $header->getTitle()->render());
+        $this->assertEqualsHtml('<h1>Title <b>in bold</b></h1>', $header->getTitle()?->render());
     }
 }
