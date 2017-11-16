@@ -55,11 +55,9 @@ class WPTransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $result);
         // there must be 3 warnings related to <img> inside <li> that is not supported by IA
         $this->assertEquals(3, count($transformer->getWarnings()));
-
-
     }
 
-    /*public function testTitleTransformedWithBold()
+    public function testTitleTransformedWithBold()
     {
         $transformer = new Transformer();
         $json_file = file_get_contents(__DIR__ . '/wp-rules.json');
@@ -76,5 +74,5 @@ class WPTransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $transformer->transform($header, $document);
 
         $this->assertEqualsHtml('<h1>Title <b>in bold</b></h1>', $header->getTitle()->render());
-    }*/
+    }
 }

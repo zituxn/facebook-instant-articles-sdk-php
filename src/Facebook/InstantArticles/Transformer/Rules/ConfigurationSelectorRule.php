@@ -56,10 +56,11 @@ abstract class ConfigurationSelectorRule extends Rule
     public function withProperties(Vector<string> $properties, array<string, mixed> $configuration): ConfigurationSelectorRule
     {
         foreach ($properties as $property) {
-            if (self::retrieveProperty($configuration, $property)) {
+            $retrievedProperty = self::retrieveProperty($configuration, $property);
+            if ($retrievedProperty !== null) {
                 $this->withProperty(
                     $property,
-                    Type::mixedToArray(self::retrieveProperty($configuration, $property))
+                    $retrievedProperty
                 );
             }
         }

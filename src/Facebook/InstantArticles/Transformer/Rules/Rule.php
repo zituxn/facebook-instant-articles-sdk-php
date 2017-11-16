@@ -61,7 +61,7 @@ abstract class Rule
         );
     }
 
-    public static function retrieveProperty(array<string, mixed> $properties, string $property_name): mixed
+    public static function retrieveProperty(array $properties, string $property_name): ?array
     {
         if (array_key_exists($property_name, $properties)) {
             return $properties[$property_name];

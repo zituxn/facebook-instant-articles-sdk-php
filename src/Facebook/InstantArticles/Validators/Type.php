@@ -267,39 +267,4 @@ class Type
             );
         }
     }
-
-    /**
-     * Gets a string value from mixed value in Map, performing a type safety operation
-     * @param Map<string, mixed> $map The map containing a mixed value which should be treated as string
-     */
-    public static function mapGetString(Map<string, mixed> $map, string $property): string
-    {
-        $value = "";
-        if (array_key_exists($property, $map)) {
-            $value = is_string($map[$property]) ? (string) $map[$property] : "";
-        }
-        return $value;
-    }
-
-    /**
-     * Casts and force a mixed type to be an Array
-     * @param mixed $value The mixed to be treated as Array
-     * @return array the $value as array type safe
-     */
-    public static function mixedToArray(mixed $value): array
-    {
-        invariant(is_array($value), 'Error, $value is not an array');
-        return $value;
-    }
-
-    /**
-     * Casts and force a \DOMNode type to be an \DOMElement
-     * @param \DOMNode $node The \DOMNode to be treated as \DOMElement
-     * @return \DOMElement the $node as \DOMElement type safe
-     */
-    public static function nodeAsElement(\DOMNode $node): \DOMElement
-    {
-        invariant($node instanceof \DOMElement, 'Error, $node is not a \DOMElement.');
-        return $node;
-    }
 }
