@@ -87,7 +87,8 @@ class InstantArticleRuleTest extends \Facebook\Util\BaseHTMLTestCase
               '<head>'.
                 '<link rel="canonical" href="http://foo.com/article.html"/><meta charset="utf-8"/>'.
                 '<meta property="op:generator" content="facebook-instant-articles-sdk-php"/>'.
-                '<meta property="op:generator:version" content="1.6.2"/>'.
+                '<meta property="op:generator:version" content="1.0.0"/>'.
+                '<meta property="op:generator:transformer:version" content="1.0.0"/>'.
                 '<meta property="op:markup_version" content="v1.0"/>'.
               '</head>'.
               '<body>'.
@@ -95,6 +96,6 @@ class InstantArticleRuleTest extends \Facebook\Util\BaseHTMLTestCase
                 '</article>'.
               '</body>'.
             '</html>';
-        var_dump($instant_article->render());
+        $this->assertEqualsHtml($expected, $instant_article->render());
     }
 }
