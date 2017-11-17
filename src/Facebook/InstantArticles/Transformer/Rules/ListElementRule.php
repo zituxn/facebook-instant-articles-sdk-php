@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class ListElementRule extends ConfigurationSelectorRule
         return new ListElementRule();
     }
 
-    public static function createFrom($configuration): ListElementRule
+    public static function createFrom(array<string, mixed> $configuration): ListElementRule
     {
         $listElementRule = self::create();
-        $listElementRule->withSelector($configuration['selector']);
+        $listElementRule->withSelector(Type::mixedToString($configuration['selector']));
         return $listElementRule;
     }
 

@@ -68,8 +68,12 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
             '</header>';
 
         $parser = new Parser();
-        $instantArticle = $parser->parse($html);
-        $author = $instantArticle->getHeader()->getAuthors()[0];
+        $instantArticle = $parser->parseString($html);
+        $header = $instantArticle->getHeader();
+        invariant($header !== null, '$header should not be null');
+        $authors = $header->getAuthors();
+        invariant($authors !== null, '$authors should not be null');
+        $author = $authors[0];
 
         $this->assertEqualsHtml($expectedName, $author->getName());
     }
@@ -85,8 +89,12 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
             '</header>';
 
         $parser = new Parser();
-        $instantArticle = $parser->parse($html);
-        $author = $instantArticle->getHeader()->getAuthors()[0];
+        $instantArticle = $parser->parseString($html);
+        $header = $instantArticle->getHeader();
+        invariant($header !== null, '$header should not be null');
+        $authors = $header->getAuthors();
+        invariant($authors !== null, '$authors should not be null');
+        $author = $authors[0];
 
         $this->assertEqualsHtml($expectedName, $author->getName());
     }

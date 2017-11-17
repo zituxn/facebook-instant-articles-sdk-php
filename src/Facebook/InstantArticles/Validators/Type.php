@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -228,7 +228,7 @@ class Type
         $text = preg_replace("/\s+/", "", $text);
         $text = str_replace("&nbsp;", "", $text);
 
-        return empty($text);
+        return strlen($text) === 0;
     }
 
     /**
@@ -266,5 +266,13 @@ class Type
                 "Tag <".$tagName."> expected, <".$tag->nodeName."> informed."
             );
         }
+    }
+
+    public static function mixedToString(mixed $mix): ?string
+    {
+        if ($mix !== null && is_string($mix)) {
+            return $mix;
+        }
+        return null;
     }
 }

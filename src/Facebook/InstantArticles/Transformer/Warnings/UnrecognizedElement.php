@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -16,11 +16,11 @@ class UnrecognizedElement extends TransformerWarning {
    * @param Element $context
    * @param \DOMNode $node
    */
-  public function __construct($context, \DOMNode $node) {
+  public function __construct(Element $context, \DOMNode $node) {
     parent::__construct(
       null,
       $context,
-      $node ? $node->cloneNode() : null,
+      $node->cloneNode(),
       null,
     );
   }
@@ -28,7 +28,7 @@ class UnrecognizedElement extends TransformerWarning {
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $reflection = new \ReflectionClass(get_class($this->getContext()));
         $className = $reflection->getShortName();

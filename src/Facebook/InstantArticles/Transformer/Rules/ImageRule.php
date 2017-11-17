@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -16,6 +16,7 @@ use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Warnings\NoRootInstantArticleFoundWarning;
 use Facebook\InstantArticles\Transformer\Transformer;
 
 class ImageRule extends ConfigurationSelectorRule
@@ -46,10 +47,10 @@ class ImageRule extends ConfigurationSelectorRule
         return new self();
     }
 
-    public static function createFrom(array $configuration): ImageRule
+    public static function createFrom(array<string, mixed> $configuration): ImageRule
     {
         $image_rule = self::create();
-        $image_rule->withSelector($configuration['selector']);
+        $image_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $image_rule->withProperties(
             Vector {
@@ -75,7 +76,7 @@ class ImageRule extends ConfigurationSelectorRule
 
         if ($context instanceof InstantArticle) {
             $instant_article = $context;
-        } elseif ($transformer->getInstantArticle()) {
+        } elseif ($transformer->getInstantArticle() !== null) {
             $instant_article = $transformer->getInstantArticle();
             $context->disableEmptyValidation();
             $context = Paragraph::create();
@@ -84,7 +85,7 @@ class ImageRule extends ConfigurationSelectorRule
             $transformer->addWarning(
                 // This new error message should be something like:
                 // Could not transform Image, as no root InstantArticle was provided.
-                new NoRootInstantArticleFoundWarning(null, $node)
+                new NoRootInstantArticleFoundWarning($image, $node)
             );
             return $context;
         }
@@ -92,7 +93,7 @@ class ImageRule extends ConfigurationSelectorRule
         invariant(!is_null($instant_article), 'Error, $instant_article should not be null.');
         // Builds the image
         $url = $this->getPropertyString(self::PROPERTY_IMAGE_URL, $node);
-        if ($url) {
+        if ($url !== null) {
             $image->withURL($url);
             $instant_article->addChild($image);
             if ($instant_article !== $context) {
@@ -109,41 +110,41 @@ class ImageRule extends ConfigurationSelectorRule
             );
         }
 
-        if ($this->getProperty(Image::ASPECT_FIT, $node)) {
+        if ($this->getPropertyBoolean(Image::ASPECT_FIT, $node)) {
             $image->withPresentation(Image::ASPECT_FIT);
-        } elseif ($this->getProperty(Image::ASPECT_FIT_ONLY, $node)) {
+        } elseif ($this->getPropertyBoolean(Image::ASPECT_FIT_ONLY, $node)) {
             $image->withPresentation(Image::ASPECT_FIT_ONLY);
-        } elseif ($this->getProperty(Image::FULLSCREEN, $node)) {
+        } elseif ($this->getPropertyBoolean(Image::FULLSCREEN, $node)) {
             $image->withPresentation(Image::FULLSCREEN);
-        } elseif ($this->getProperty(Image::NON_INTERACTIVE, $node)) {
+        } elseif ($this->getPropertyBoolean(Image::NON_INTERACTIVE, $node)) {
             $image->withPresentation(Image::NON_INTERACTIVE);
         }
 
-        if ($this->getProperty(self::PROPERTY_LIKE, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_LIKE, $node)) {
             $image->enableLike();
         }
 
-        if ($this->getProperty(self::PROPERTY_COMMENTS, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_COMMENTS, $node)) {
             $image->enableComments();
         }
 
         $caption = null;
-        if ($this->getProperty(self::PROPERTY_CAPTION, $node)) {
+        $captionElement = $this->getPropertyNode(self::PROPERTY_CAPTION, $node);
+        if ($captionElement !== null) {
             $caption = Caption::create();
-            $captionElement = $this->getProperty(self::PROPERTY_CAPTION, $node);
-            invariant($captionElement instanceof \DOMNode, 'Error, $captionElement is not \DOMNode.');
             $transformer->transform($caption, $captionElement);
         }
-        if ($this->getProperty(self::PROPERTY_CREDIT, $node)) {
+
+        $creditElement = $this->getPropertyNode(self::PROPERTY_CREDIT, $node);
+        if ($creditElement !== null) {
             if ($caption === null) {
                 $caption = Caption::create();
             }
             $credit = Cite::create();
-            $creditElement = $this->getProperty(self::PROPERTY_CREDIT, $node);
-            invariant($creditElement instanceof \DOMNode, 'Error, $creditElement is not \DOMNode.');
             $transformer->transform($credit, $creditElement);
             $caption->withCredit($credit);
         }
+
         if ($caption !== null) {
             $image->withCaption($caption);
         }

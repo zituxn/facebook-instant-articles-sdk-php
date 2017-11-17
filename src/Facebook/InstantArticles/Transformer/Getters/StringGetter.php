@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -22,18 +22,18 @@ class StringGetter extends AbstractGetter
      */
     protected string $suffix = "";
 
-    public function createFrom(array<string, string> $properties): StringGetter
+    public function createFrom(array<string, string> $properties): this
     {
-        if (isset($properties['selector'])) {
+        if (array_key_exists('selector', $properties)) {
             $this->withSelector($properties['selector']);
         }
-        if (isset($properties['attribute'])) {
+        if (array_key_exists('attribute', $properties)) {
             $this->withAttribute($properties['attribute']);
         }
-        if (isset($properties['prefix'])) {
+        if (array_key_exists('prefix', $properties)) {
             $this->withPrefix($properties['prefix']);
         }
-        if (isset($properties['suffix'])) {
+        if (array_key_exists('suffix', $properties)) {
             $this->withSuffix($properties['suffix']);
         }
         return $this;
@@ -44,7 +44,7 @@ class StringGetter extends AbstractGetter
      *
      * @return $this
      */
-    public function withPrefix(string $prefix): StringGetter
+    public function withPrefix(string $prefix): this
     {
         $this->prefix = $prefix;
         return $this;
@@ -55,7 +55,7 @@ class StringGetter extends AbstractGetter
      *
      * @return $this
      */
-    public function withSuffix(string $suffix): StringGetter
+    public function withSuffix(string $suffix): this
     {
         $this->suffix = $suffix;
         return $this;
@@ -64,9 +64,9 @@ class StringGetter extends AbstractGetter
     public function get(\DOMNode $node): mixed
     {
         $elements = $this->findAll($node, $this->selector);
-        if (!empty($elements) && $elements->item(0)) {
+        if ($elements !== null && $elements->length > 0 && $elements->item(0) !== null) {
             $element = $elements->item(0);
-            if ($this->attribute) {
+            if ($this->attribute !== null) {
                 $result = $element->getAttribute($this->attribute);
             } else {
                 $result = $element->textContent;

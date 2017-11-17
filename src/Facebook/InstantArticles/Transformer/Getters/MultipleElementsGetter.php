@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -19,7 +19,7 @@ class MultipleElementsGetter extends AbstractGetter
      */
     protected array<AbstractGetter> $children = array();
 
-    public function createFrom(array<string, string> $properties): MultipleElementsGetter
+    public function createFrom(array<string, string> $properties): this
     {
         $v = $properties['children'];
         invariant(is_array($v), "Not array");

@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -19,7 +19,7 @@ class FragmentGetter extends AbstractGetter
      */
     protected ?string $fragment;
 
-    public function createFrom(array<string, string> $properties): FragmentGetter
+    public function createFrom(array<string, string> $properties): this
     {
         return $this->withFragment($properties['fragment']);
     }
@@ -29,7 +29,7 @@ class FragmentGetter extends AbstractGetter
      *
      * @return $this
      */
-    public function withFragment(string $fragment): FragmentGetter
+    public function withFragment(string $fragment): this
     {
         $this->fragment = $fragment;
         return $this;

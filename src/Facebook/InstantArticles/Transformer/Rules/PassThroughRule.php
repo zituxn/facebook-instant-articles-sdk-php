@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -24,10 +24,10 @@ class PassThroughRule extends ConfigurationSelectorRule
         return new PassThroughRule();
     }
 
-    public static function createFrom(array $configuration): PassThroughRule
+    public static function createFrom(array<string, mixed> $configuration): PassThroughRule
     {
         $passThroughRule = self::create();
-        $passThroughRule->withSelector($configuration['selector']);
+        $passThroughRule->withSelector(Type::mixedToString($configuration['selector']));
         return $passThroughRule;
     }
 

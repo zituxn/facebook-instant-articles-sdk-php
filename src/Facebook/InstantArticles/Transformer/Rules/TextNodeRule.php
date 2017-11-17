@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -24,7 +24,7 @@ class TextNodeRule extends ConfigurationSelectorRule
         return new TextNodeRule();
     }
 
-    public static function createFrom(array $configuration): TextNodeRule
+    public static function createFrom(array<string, mixed> $configuration): TextNodeRule
     {
         return self::create();
     }

@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -32,10 +32,10 @@ class AdRule extends ConfigurationSelectorRule
         return new AdRule();
     }
 
-    public static function createFrom(array<string, string> $configuration): ConfigurationSelectorRule
+    public static function createFrom(array<string, mixed> $configuration): ConfigurationSelectorRule
     {
         $ad_rule = self::create();
-        $ad_rule->withSelector($configuration['selector']);
+        $ad_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $ad_rule->withProperties(
             Vector {
@@ -56,26 +56,26 @@ class AdRule extends ConfigurationSelectorRule
 
         // Builds the ad
         $height = $this->getPropertyInt(self::PROPERTY_AD_HEIGHT_URL, $node);
-        if ($height) {
+        if ($height !== null) {
             $ad->withHeight($height);
         }
 
         $width = $this->getPropertyInt(self::PROPERTY_AD_WIDTH_URL, $node);
-        if ($width) {
+        if ($width !== null) {
             $ad->withWidth($width);
         }
 
         $url = $this->getPropertyString(self::PROPERTY_AD_URL, $node);
-        if ($url) {
+        if ($url !== null) {
             $ad->withSource($url);
         }
 
         $embed_code = $this->getPropertyNode(self::PROPERTY_AD_EMBED_URL, $node);
-        if ($embed_code) {
+        if ($embed_code !== null) {
             $ad->withHTML($embed_code);
         }
 
-        if ($url || $embed_code) {
+        if ($url !== null || $embed_code !== null) {
             invariant($instant_article instanceof InstantArticle, 'Error, $element is not a InstantArticle.');
             $instant_article->addChild($ad);
         } else {

@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -31,10 +31,10 @@ class JetpackSlideshowRule extends ConfigurationSelectorRule
         return new JetpackSlideshowRule();
     }
 
-    public static function createFrom(array $configuration): JetpackSlideshowRule
+    public static function createFrom(array<string, mixed> $configuration): JetpackSlideshowRule
     {
         $slideshow_rule = self::create();
-        $slideshow_rule->withSelector($configuration['selector']);
+        $slideshow_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $slideshow_rule->withProperties(
             Vector {
@@ -55,7 +55,7 @@ class JetpackSlideshowRule extends ConfigurationSelectorRule
 
         $gallery = $this->getProperty(self::PROPERTY_JETPACK_DATA_GALLERY, $node);
 
-        if ($gallery && isset($gallery) && is_array($gallery)) {
+        if ($gallery !== null && is_array($gallery)) {
             foreach ($gallery as $gallery_image) {
                 // Constructs Image if it contains URL
                 if (!Type::isTextEmpty($gallery_image['src'])) {

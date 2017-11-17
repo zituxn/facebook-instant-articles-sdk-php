@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -32,10 +32,10 @@ class AudioRule extends ConfigurationSelectorRule
         return new AudioRule();
     }
 
-    public static function createFrom(array $configuration): AudioRule
+    public static function createFrom(array<string, mixed> $configuration): AudioRule
     {
         $audio_rule = self::create();
-        $audio_rule->withSelector($configuration['selector']);
+        $audio_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $audio_rule->withProperties(
             Vector {
@@ -60,7 +60,7 @@ class AudioRule extends ConfigurationSelectorRule
         $autoplay = $this->getPropertyString(self::PROPERTY_AUDIO_AUTOPLAY, $node);
         $muted = $this->getPropertyString(self::PROPERTY_AUDIO_MUTED, $node);
 
-        if ($url) {
+        if ($url !== null) {
             $audio->withURL($url);
             invariant($audible instanceof Audible, 'Error, $audible is not Audible.');
             $audible->withAudio($audio);
@@ -76,7 +76,7 @@ class AudioRule extends ConfigurationSelectorRule
             );
         }
 
-        if ($title) {
+        if ($title !== null) {
             $audio->withTitle($title);
         }
         if ($autoplay === "" || $autoplay === "true" || $autoplay === "autoplay") {

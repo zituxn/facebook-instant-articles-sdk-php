@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -30,10 +30,10 @@ class RelatedItemRule extends ConfigurationSelectorRule
         return new RelatedItemRule();
     }
 
-    public static function createFrom(array $configuration): RelatedItemRule
+    public static function createFrom(array<string, mixed> $configuration): RelatedItemRule
     {
         $related_item_rule = self::create();
-        $related_item_rule->withSelector($configuration['selector']);
+        $related_item_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $related_item_rule->withProperties(
             Vector {
@@ -53,7 +53,7 @@ class RelatedItemRule extends ConfigurationSelectorRule
         $related_articles->addRelated($related_item);
 
         $url = $this->getPropertyString(self::PROPERTY_URL, $node);
-        if ($url) {
+        if ($url !== null) {
             $related_item->withURL($url);
         } else {
             $transformer->addWarning(
@@ -66,7 +66,7 @@ class RelatedItemRule extends ConfigurationSelectorRule
             );
         }
 
-        if ($this->getProperty(self::PROPERTY_SPONSORED, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_SPONSORED, $node)) {
             $related_item->enableSponsored();
         }
 

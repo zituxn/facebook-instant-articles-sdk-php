@@ -9,8 +9,7 @@
 
 namespace Facebook\InstantArticles\Client;
 
-use \Facebook\Exceptions\FacebookSDKException;
-use \Facebook\Facebook;
+use Facebook\Exceptions\FacebookSDKException;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\InstantArticleInterface;
 use Facebook\InstantArticles\Validators\Type;
@@ -176,7 +175,7 @@ class Client
         $articleStatus = $response->getGraphNode()->getField('most_recent_import_status');
 
         $messages = Vector {};
-        if (isset($articleStatus['errors'])) {
+        if (array_key_exists('errors', $articleStatus)) {
             foreach ($articleStatus['errors'] as $error) {
                 $messages->add(ServerMessage::fromLevel($error['level'], $error['message']));
             }

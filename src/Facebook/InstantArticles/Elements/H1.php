@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -127,7 +127,7 @@ class H1 extends TextContainer
         if ($this->textAlignment) {
             $classes->add($this->textAlignment);
         }
-        if (!empty($classes)) {
+        if (!$classes->isEmpty()) {
             $h1->setAttribute('class', implode(' ', $classes));
         }
 

@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class ParagraphRule extends ConfigurationSelectorRule
         return new ParagraphRule();
     }
 
-    public static function createFrom(array $configuration): ParagraphRule
+    public static function createFrom(array<string, mixed> $configuration): ParagraphRule
     {
         $paragraphRule = self::create();
-        $paragraphRule->withSelector($configuration['selector']);
+        $paragraphRule->withSelector(Type::mixedToString($configuration['selector']));
         return $paragraphRule;
     }
 

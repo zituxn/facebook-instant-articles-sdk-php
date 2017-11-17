@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -17,7 +17,7 @@ class ConstantGetter extends AbstractGetter
      */
     protected ?string $value;
 
-    public function createFrom(array<string, string> $properties): ConstantGetter
+    public function createFrom(array<string, string> $properties): this
     {
         return $this->withValue($properties['value']);
     }
@@ -27,7 +27,7 @@ class ConstantGetter extends AbstractGetter
      *
      * @return $this
      */
-    public function withValue(string $value): ConstantGetter
+    public function withValue(string $value): this
     {
         $this->value = $value;
         return $this;

@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -12,12 +12,12 @@ use Facebook\InstantArticles\Validators\Type;
 
 class JSONGetter extends AbstractGetter
 {
-    public function createFrom(array<string, string> $properties): JSONGetter
+    public function createFrom(array<string, string> $properties): this
     {
-        if (isset($properties['selector'])) {
+        if (array_key_exists('selector', $properties)) {
             $this->withSelector($properties['selector']);
         }
-        if (isset($properties['attribute'])) {
+        if (array_key_exists('attribute', $properties)) {
             $this->withAttribute($properties['attribute']);
         }
         return $this;
@@ -28,9 +28,9 @@ class JSONGetter extends AbstractGetter
         $content = "";
 
         $elements = $this->findAll($node, $this->selector);
-        if (!empty($elements) && $elements->item(0)) {
+        if ($elements !== null && $elements->length > 0 && $elements->item(0) !== null) {
             $element = $elements->item(0);
-            if ($this->attribute) {
+            if ($this->attribute !== null) {
                 $content = $element->getAttribute($this->attribute);
             } else {
                 $content = $element->textContent;

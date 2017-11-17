@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -21,10 +21,10 @@ class ItalicRule extends ConfigurationSelectorRule
         return new ItalicRule();
     }
 
-    public static function createFrom(array $configuration): ItalicRule
+    public static function createFrom(array<string, mixed> $configuration): ItalicRule
     {
         $italicRule = self::create();
-        $italicRule->withSelector($configuration['selector']);
+        $italicRule->withSelector(Type::mixedToString($configuration['selector']));
         return $italicRule;
     }
 

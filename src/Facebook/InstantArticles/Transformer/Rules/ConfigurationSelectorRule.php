@@ -32,10 +32,9 @@ abstract class ConfigurationSelectorRule extends Rule
      *
      * @return $this
      */
-    public function withSelector(string $selector): ConfigurationSelectorRule
+    public function withSelector(?string $selector): ConfigurationSelectorRule
     {
         $this->selector = $selector;
-
         return $this;
     }
 
@@ -45,11 +44,9 @@ abstract class ConfigurationSelectorRule extends Rule
      *
      * @return $this
      */
-    public function withProperty(string $property, array $value): ConfigurationSelectorRule
+    public function withProperty(string $property, array<string, string> $value): ConfigurationSelectorRule
     {
-        if ($value) {
-            $this->properties[$property] = GetterFactory::create($value);
-        }
+        $this->properties[$property] = GetterFactory::create($value);
         return $this;
     }
 
@@ -57,7 +54,7 @@ abstract class ConfigurationSelectorRule extends Rule
     {
         foreach ($properties as $property) {
             $retrievedProperty = self::retrieveProperty($configuration, $property);
-            if ($retrievedProperty !== null) {
+            if ($retrievedProperty !== null && is_array($retrievedProperty)) {
                 $this->withProperty(
                     $property,
                     $retrievedProperty
@@ -165,7 +162,7 @@ abstract class ConfigurationSelectorRule extends Rule
     public function getProperty(string $property_name, \DOMNode $node): mixed
     {
         $value = null;
-        if (isset($this->properties[$property_name])) {
+        if (array_key_exists($property_name, $this->properties)) {
             $value = $this->properties[$property_name]->get($node);
         }
         return $value;

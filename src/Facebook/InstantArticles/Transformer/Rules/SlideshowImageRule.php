@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -34,10 +34,10 @@ class SlideshowImageRule extends ConfigurationSelectorRule
         return new SlideshowImageRule();
     }
 
-    public static function createFrom(array $configuration): SlideshowImageRule
+    public static function createFrom(array<string, mixed> $configuration): SlideshowImageRule
     {
         $image_rule = self::create();
-        $image_rule->withSelector($configuration['selector']);
+        $image_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $image_rule->withProperties(
             Vector {
@@ -58,7 +58,7 @@ class SlideshowImageRule extends ConfigurationSelectorRule
 
         // Builds the image
         $url = $this->getPropertyString(self::PROPERTY_IMAGE_URL, $node);
-        if ($url) {
+        if ($url !== null) {
             $image->withURL($url);
             $slideshow->addImage($image);
         } else {
@@ -75,13 +75,13 @@ class SlideshowImageRule extends ConfigurationSelectorRule
         $caption = Caption::create();
 
         $caption_title = $this->getPropertyString(self::PROPERTY_CAPTION_TITLE, $node);
-        if ($caption_title) {
+        if ($caption_title !== null) {
             $caption->withTitle(H1::create()->appendText($caption_title));
             $image->withCaption($caption);
         }
 
         $caption_credit = $this->getPropertyString(self::PROPERTY_CAPTION_CREDIT, $node);
-        if ($caption_credit) {
+        if ($caption_credit !== null) {
             $cite = Cite::create();
             $cite->appendText($caption_credit);
             $caption->withCredit($cite);

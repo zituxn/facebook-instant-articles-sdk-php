@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -58,7 +58,7 @@ class InstantArticleStatus
      *
      * @return InstantArticleStatus
      */
-    public static function fromStatus(string $status, Vector<ServerMessage> $messages)
+    public static function fromStatus(string $status, Vector<ServerMessage> $messages): InstantArticleStatus
     {
         $status = strtolower($status);
         $validStatus = Type::isWithin(
@@ -73,8 +73,6 @@ class InstantArticleStatus
         if ($validStatus) {
             return new self($status, $messages);
         } else {
-            \Logger::getLogger('facebook-instantarticles-client')
-                ->info("Unknown status '$status'. Are you using the last SDK version?");
             return new self(self::UNKNOWN, $messages);
         }
     }

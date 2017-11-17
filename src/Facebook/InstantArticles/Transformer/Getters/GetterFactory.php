@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -47,7 +47,7 @@ class GetterFactory
      *
      * @return AbstractGetter
      */
-    public static function create(array $getter_configuration): AbstractGetter
+    public static function create(array<string, mixed> $getter_configuration): AbstractGetter
     {
         $GETTERS = Map {
             self::TYPE_STRING_GETTER => StringGetter::getClassName(),
@@ -69,7 +69,8 @@ class GetterFactory
         if (array_key_exists($class, $GETTERS)) {
             $class = $GETTERS[$class];
         }
-        $instance = new $class();
+        $reflection = new \ReflectionClass($class);
+        $instance = $reflection->newInstance();
         $instance->createFrom($getter_configuration);
         return $instance;
     }

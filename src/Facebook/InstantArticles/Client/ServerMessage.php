@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -69,8 +69,6 @@ class ServerMessage
         if ($validLevel) {
             return new self($level, $message);
         } else {
-            \Logger::getLogger('facebook-instantarticles-client')
-                ->info('Unknown message level "$level". Are you using the last SDK version?');
             return new self(self::INFO, $message);
         }
     }

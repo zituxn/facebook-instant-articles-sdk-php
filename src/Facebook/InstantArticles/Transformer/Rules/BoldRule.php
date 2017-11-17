@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class BoldRule extends ConfigurationSelectorRule
         return new BoldRule();
     }
 
-    public static function createFrom(array $configuration): BoldRule
+    public static function createFrom(array<string, mixed> $configuration): BoldRule
     {
         $boldRule = BoldRule::create();
-        $boldRule->withSelector($configuration['selector']);
+        $boldRule->withSelector(Type::mixedToString($configuration['selector']));
         return $boldRule;
     }
 

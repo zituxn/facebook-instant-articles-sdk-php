@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -32,11 +32,11 @@ class AuthorRule extends ConfigurationSelectorRule
         return new AuthorRule();
     }
 
-    public static function createFrom(array $configuration): AuthorRule
+    public static function createFrom(array<string, mixed> $configuration): AuthorRule
     {
         $author_rule = AuthorRule::create();
 
-        $author_rule->withSelector($configuration['selector']);
+        $author_rule->withSelector(Type::mixedToString($configuration['selector']));
         //$properties = $configuration['properties'];
         $author_rule->withProperties(
             Vector {
@@ -61,7 +61,7 @@ class AuthorRule extends ConfigurationSelectorRule
         $role_contribution = $this->getPropertyString(self::PROPERTY_AUTHOR_ROLE_CONTRIBUTION, $node);
         $description = $this->getPropertyString(self::PROPERTY_AUTHOR_DESCRIPTION, $node);
 
-        if ($name) {
+        if ($name !== null) {
             $author->withName($name);
             invariant($header instanceof Header, 'Error, $header is not a Header.');
             $header->addAuthor($author);
@@ -76,15 +76,15 @@ class AuthorRule extends ConfigurationSelectorRule
             );
         }
 
-        if ($role_contribution) {
+        if ($role_contribution !== null) {
             $author->withRoleContribution($role_contribution);
         }
 
-        if ($description) {
+        if ($description !== null) {
             $author->withDescription($description);
         }
 
-        if ($url) {
+        if ($url !== null) {
             $author->withURL($url);
         }
 

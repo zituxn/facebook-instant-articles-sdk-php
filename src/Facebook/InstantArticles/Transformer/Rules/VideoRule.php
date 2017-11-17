@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -29,7 +29,7 @@ class VideoRule extends ConfigurationSelectorRule
     /**
      * @var string
      */
-    private $childSelector;
+    private ?string $childSelector;
 
     public function getContextClass(): Vector<string>
     {
@@ -41,7 +41,7 @@ class VideoRule extends ConfigurationSelectorRule
         return new VideoRule();
     }
 
-    public function withContainsChild(string $child_selector): VideoRule
+    public function withContainsChild(?string $child_selector): VideoRule
     {
         $this->childSelector = $child_selector;
         return $this;
@@ -50,7 +50,7 @@ class VideoRule extends ConfigurationSelectorRule
     public function matchesNode(\DOMNode $node): bool
     {
         $matches_node = parent::matchesNode($node);
-        if ($matches_node && $this->childSelector) {
+        if ($matches_node === true && $this->childSelector !== null) {
             $matches_node = false;
             if ($node->hasChildNodes()) {
                 foreach ($node->childNodes as $child) {
@@ -70,13 +70,13 @@ class VideoRule extends ConfigurationSelectorRule
         return $matches_node;
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(array<string, mixed> $configuration): VideoRule
     {
         $video_rule = self::create();
-        $video_rule->withSelector($configuration['selector']);
+        $video_rule->withSelector(Type::mixedToString($configuration['selector']));
 
-        if (isset($configuration['containsChild'])) {
-            $video_rule->withContainsChild($configuration['containsChild']);
+        if (array_key_exists('containsChild', $configuration)) {
+            $video_rule->withContainsChild(Type::mixedToString($configuration['containsChild']));
         }
 
         $video_rule->withProperties(
@@ -107,7 +107,7 @@ class VideoRule extends ConfigurationSelectorRule
 
         // Builds the image
         $url = $this->getPropertyString(self::PROPERTY_VIDEO_URL, $node);
-        if ($url) {
+        if ($url !== null) {
             $video->withURL($url);
             $instant_article->addChild($video);
         } else {
@@ -122,33 +122,33 @@ class VideoRule extends ConfigurationSelectorRule
         }
 
         $video_type = $this->getPropertyString(self::PROPERTY_VIDEO_TYPE, $node);
-        if ($video_type) {
+        if ($video_type !== null) {
             $video->withContentType($video_type);
         }
 
-        if ($this->getProperty(Video::ASPECT_FIT, $node)) {
+        if ($this->getPropertyBoolean(Video::ASPECT_FIT, $node)) {
             $video->withPresentation(Video::ASPECT_FIT);
-        } elseif ($this->getProperty(Video::ASPECT_FIT_ONLY, $node)) {
+        } elseif ($this->getPropertyBoolean(Video::ASPECT_FIT_ONLY, $node)) {
             $video->withPresentation(Video::ASPECT_FIT_ONLY);
-        } elseif ($this->getProperty(Video::FULLSCREEN, $node)) {
+        } elseif ($this->getPropertyBoolean(Video::FULLSCREEN, $node)) {
             $video->withPresentation(Video::FULLSCREEN);
-        } elseif ($this->getProperty(Video::NON_INTERACTIVE, $node)) {
+        } elseif ($this->getPropertyBoolean(Video::NON_INTERACTIVE, $node)) {
             $video->withPresentation(Video::NON_INTERACTIVE);
         }
 
-        if ($this->getProperty(self::PROPERTY_CONTROLS, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_CONTROLS, $node)) {
             $video->enableControls();
         }
 
-        if ($this->getProperty(self::PROPERTY_PLAYBACK_MODE, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_PLAYBACK_MODE, $node)) {
             $video->disableAutoplay();
         }
 
-        if ($this->getProperty(self::PROPERTY_LIKE, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_LIKE, $node)) {
             $video->enableLike();
         }
 
-        if ($this->getProperty(self::PROPERTY_COMMENTS, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_COMMENTS, $node)) {
             $video->enableComments();
         }
 

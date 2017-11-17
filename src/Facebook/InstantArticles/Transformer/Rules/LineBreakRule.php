@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class LineBreakRule extends ConfigurationSelectorRule
         return new LineBreakRule();
     }
 
-    public static function createFrom(array $configuration): LineBreakRule
+    public static function createFrom(array<string, mixed> $configuration): LineBreakRule
     {
         $lineBreakRule = self::create();
-        $lineBreakRule->withSelector($configuration['selector']);
+        $lineBreakRule->withSelector(Type::mixedToString($configuration['selector']));
         return $lineBreakRule;
     }
 

@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -21,22 +21,22 @@ class NextSiblingElementGetter extends AbstractGetter
      *
      * @return $this
      */
-    public function withSiblingSelector(string $siblingSelector): NextSiblingElementGetter
+    public function withSiblingSelector(string $siblingSelector): this
     {
         $this->siblingSelector = $siblingSelector;
 
         return $this;
     }
 
-    public function createFrom(array<string, string> $properties): NextSiblingElementGetter
+    public function createFrom(array<string, string> $properties): this
     {
-        if (isset($properties['selector'])) {
+        if (array_key_exists('selector', $properties)) {
             $this->withSelector($properties['selector']);
         }
-        if (isset($properties['attribute'])) {
+        if (array_key_exists('attribute', $properties)) {
             $this->withAttribute($properties['attribute']);
         }
-        if (isset($properties['sibling.selector'])) {
+        if (array_key_exists('sibling.selector', $properties)) {
             $this->withSiblingSelector($properties['sibling.selector']);
         }
 
@@ -46,16 +46,16 @@ class NextSiblingElementGetter extends AbstractGetter
     public function get(\DOMNode $node): mixed
     {
         $elements = $this->findAll($node, $this->selector);
-        if (!empty($elements) && $elements->item(0)) {
+        if ($elements !== null && $elements->length > 0 && $elements->item(0)) {
             $element = $elements->item(0);
             do {
                 $element = $element->nextSibling;
             } while ($element !== null && !($element instanceof \DOMElement));
 
             if ($element && $element instanceof \DOMElement) {
-                if ($this->siblingSelector) {
+                if ($this->siblingSelector !== null) {
                     $siblings = $this->findAll($element, $this->siblingSelector);
-                    if (!empty($siblings) && $siblings->item(0)) {
+                    if ($siblings !== null && $siblings->length > 0 && $siblings->item(0) !== null) {
                         $siblingElement = $siblings->item(0);
                     } else {
                         // Returns null because sibling content doesn't match

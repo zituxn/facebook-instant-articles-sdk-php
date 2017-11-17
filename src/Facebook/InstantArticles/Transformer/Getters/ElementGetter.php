@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -14,7 +14,7 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
 
 class ElementGetter extends AbstractGetter
 {
-    public function createFrom(array<string, string> $properties): ElementGetter
+    public function createFrom(array<string, string> $properties): this
     {
         $this->withSelector($properties['selector']);
         return $this;
@@ -23,7 +23,7 @@ class ElementGetter extends AbstractGetter
     public function get(\DOMNode $node): mixed
     {
         $elements = $this->findAll($node, $this->selector);
-        if (!empty($elements) && isset($elements->length) && $elements->length > 0) {
+        if ($elements !== null && $elements->length > 0) {
             Transformer::markAsProcessed($elements->item(0));
             return Transformer::cloneNode($elements->item(0));
         }

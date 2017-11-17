@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -39,11 +39,11 @@ class GlobalRule extends ConfigurationSelectorRule
         return new GlobalRule();
     }
 
-    public static function createFrom(array $configuration): GlobalRule
+    public static function createFrom(array<string, mixed> $configuration): GlobalRule
     {
         $rule = GlobalRule::create();
 
-        $rule->withSelector($configuration['selector']);
+        $rule->withSelector(Type::mixedToString($configuration['selector']));
         $rule->withProperties(
             Vector {
                 self::PROPERTY_GLOBAL_AUTHOR_URL,
@@ -78,20 +78,20 @@ class GlobalRule extends ConfigurationSelectorRule
             $instantArticle->withHeader($header);
         }
 
-        if ($authorName) {
+        if ($authorName !== null) {
             $author = Author::create();
             $author->withName($authorName);
             $header->addAuthor($author);
 
-            if ($authorRoleContribution) {
+            if ($authorRoleContribution !== null) {
                 $author->withRoleContribution($authorRoleContribution);
             }
 
-            if ($authorDescription) {
+            if ($authorDescription !== null) {
                 $author->withDescription($authorDescription);
             }
 
-            if ($authorUrl) {
+            if ($authorUrl !== null) {
                 $author->withURL($authorUrl);
             }
         } else {
@@ -124,7 +124,7 @@ class GlobalRule extends ConfigurationSelectorRule
 
         // Treats Canonical URL
         $articleCanonicalUrl = $this->getPropertyString(self::PROPERTY_GLOBAL_CANONICAL_URL, $node);
-        if ($articleCanonicalUrl) {
+        if ($articleCanonicalUrl !== null) {
             $instantArticle->withCanonicalUrl($articleCanonicalUrl);
         } else {
             $transformer->addWarning(
@@ -139,13 +139,13 @@ class GlobalRule extends ConfigurationSelectorRule
 
         // Treats Time Published
         $timePublished = $this->getProperty(self::PROPERTY_TIME_PUBLISHED, $node);
-        if ($timePublished) {
+        if ($timePublished !== null) {
             invariant($timePublished instanceof \DateTime, 'Error $timePublished is not \DateTime.');
             $header->withTime(Time::create(Time::PUBLISHED)->withDatetime($timePublished));
         }
 
         $body = $this->getProperty(self::PROPERTY_GLOBAL_BODY, $node);
-        if ($body && $body instanceof \DOMNode) {
+        if ($body !== null && $body instanceof \DOMNode) {
             $transformer->transform($instantArticle, $body);
         }
 

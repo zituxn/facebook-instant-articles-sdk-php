@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class MapRule extends ConfigurationSelectorRule
         return new MapRule();
     }
 
-    public static function createFrom(array $configuration): MapRule
+    public static function createFrom(array<string, mixed> $configuration): MapRule
     {
         $map_rule = self::create();
-        $map_rule->withSelector($configuration['selector']);
+        $map_rule->withSelector(Type::mixedToString($configuration['selector']));
         return $map_rule;
     }
 

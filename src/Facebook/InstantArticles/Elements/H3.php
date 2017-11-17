@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -169,7 +169,7 @@ class H3 extends TextContainer
             $classes->add('op-kicker');
         }
 
-        if (!empty($classes)) {
+        if (!$classes->isEmpty()) {
             $h3->setAttribute('class', implode(' ', $classes));
         }
 

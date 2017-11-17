@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class HeaderKickerRule extends ConfigurationSelectorRule
         return new HeaderKickerRule();
     }
 
-    public static function createFrom(array $configuration): HeaderKickerRule
+    public static function createFrom(array<string, mixed> $configuration): HeaderKickerRule
     {
         $kickerRule = self::create();
-        $kickerRule->withSelector($configuration['selector']);
+        $kickerRule->withSelector(Type::mixedToString($configuration['selector']));
         return $kickerRule;
     }
 

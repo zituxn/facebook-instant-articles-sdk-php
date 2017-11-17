@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -30,10 +30,10 @@ class AnalyticsRule extends ConfigurationSelectorRule
         return new AnalyticsRule();
     }
 
-    public static function createFrom(array $configuration)
+    public static function createFrom(array<string, mixed> $configuration): AnalyticsRule
     {
         $analytics_rule = self::create();
-        $analytics_rule->withSelector($configuration['selector']);
+        $analytics_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $analytics_rule->withProperties(
             Vector {
@@ -46,22 +46,22 @@ class AnalyticsRule extends ConfigurationSelectorRule
         return $analytics_rule;
     }
 
-    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
         $analytics = Analytics::create();
 
         // Builds the analytics
         $url = $this->getPropertyString(self::PROPERTY_TRACKER_URL, $node);
-        if ($url) {
+        if ($url !== null) {
             $analytics->withSource($url);
         }
 
         $embed_code = $this->getPropertyNode(self::PROPERTY_TRACKER_EMBED_URL, $node);
-        if ($embed_code) {
+        if ($embed_code !== null) {
             $analytics->withHTML($embed_code);
         }
 
-        if ($url || $embed_code) {
+        if ($url !== null || $embed_code !== null) {
             invariant($instant_article instanceof InstantArticle, 'Error, $element is not a InstantArticle.');
             $instant_article->addChild($analytics);
         } else {

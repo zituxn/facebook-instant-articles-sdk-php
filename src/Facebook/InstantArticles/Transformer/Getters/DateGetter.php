@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -17,15 +17,15 @@ class DateGetter extends AbstractGetter
      */
     protected ?string $format;
 
-    public function createFrom(array<string, string> $properties): DateGetter
+    public function createFrom(array<string, string> $properties): this
     {
-        if (isset($properties['selector'])) {
+        if (array_key_exists('selector', $properties)) {
             $this->withSelector($properties['selector']);
         }
-        if (isset($properties['attribute'])) {
+        if (array_key_exists('attribute', $properties)) {
             $this->withAttribute($properties['attribute']);
         }
-        if (isset($properties['format'])) {
+        if (array_key_exists('format', $properties)) {
             $this->withFormat($properties['format']);
         }
         return $this;
@@ -36,7 +36,7 @@ class DateGetter extends AbstractGetter
      *
      * @return $this
      */
-    public function withFormat(string $format): DateGetter
+    public function withFormat(string $format): this
     {
         $this->format = $format;
         return $this;
@@ -45,11 +45,11 @@ class DateGetter extends AbstractGetter
     public function get(\DOMNode $node): mixed
     {
         $elements = $this->findAll($node, $this->selector);
-        if (!empty($elements) && $elements->item(0)) {
+        if ($elements !== null && $elements->length > 0 && $elements->item(0)) {
             $element = $elements->item(0);
 
-            if ($this->format) {
-                if ($this->attribute) {
+            if ($this->format !== null) {
+                if ($this->attribute !== null) {
                     return \DateTime::createFromFormat($this->format, $element->getAttribute($this->attribute));
                 }
                 return \DateTime::createFromFormat($this->format, $element->textContent);

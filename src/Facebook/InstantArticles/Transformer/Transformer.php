@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -21,12 +21,7 @@ class Transformer
     /**
      * @var array<array<int, Rule>> This is the internal map for rules to be applied
      */
-    private array $rules = array();
-
-    /**
-     * @var array<Rule> This is the original flat array.
-     */
-    private array $_rules = array();
+    private array<Rule> $rules = array();
 
     /**
      * @var array
@@ -37,11 +32,6 @@ class Transformer
      * @var bool
      */
     public bool $suppress_warnings = false;
-
-    /**
-     * @var array
-     */
-    private static $allClassTypes = array();
 
     /**
      * @var InstantArticle the initial context.
@@ -122,16 +112,7 @@ class Transformer
      */
     public function addRule(Rule $rule): void
     {
-        // Use context class as a key
-        $contexts = $rule->getContextClass();
-
-        foreach ($contexts as $context) {
-            if (!isset($this->rules[$context])) {
-                $this->rules[$context] = Vector {};
-            }
-            $this->rules[$context]->add($rule);
-            $this->_rules[] = $rule;
-        }
+        $this->rules[] = $rule;
     }
 
     /**
@@ -156,7 +137,7 @@ class Transformer
      *
      * @return mixed
      */
-    public function transformString(Element $context, string $content, string $encoding = "utf-8")
+    public function transformString(Element $context, string $content, string $encoding = "utf-8"): Element
     {
         $libxml_previous_state = libxml_use_internal_errors(true);
         $document = new \DOMDocument('1.0');
@@ -205,7 +186,7 @@ class Transformer
                 $matched = false;
 
                 // Process in reverse order
-                $matchingContextRules = array_reverse($this->_rules);
+                $matchingContextRules = array_reverse($this->rules);
                 foreach ($matchingContextRules as $rule) {
 
                     if ($rule->matches($current_context, $child)) {
@@ -222,7 +203,7 @@ class Transformer
                     !($child->nodeName === '#text' && trim($child->textContent) === '') &&
                     !($child->nodeName === '#comment') &&
                     !($child->nodeName === 'html' && $child instanceof \DOMDocumentType) &&
-                    !($child->nodeName === 'xml' && $child instanceof \DOMProcessingInstruction) &&
+                    // !($child->nodeName === 'xml' && $child instanceof \DOMProcessingInstruction) &&
                     !$this->suppress_warnings
                     ) {
                     $tag_content = $child->ownerDocument->saveXML($child);
@@ -239,10 +220,10 @@ class Transformer
     /**
      * @param string $json_file
      */
-    public function loadRules($json_file): void
+    public function loadRules(string $json_file): void
     {
         $configuration = json_decode($json_file, true);
-        if ($configuration && isset($configuration['rules'])) {
+        if ($configuration && array_key_exists('rules', $configuration)) {
             foreach ($configuration['rules'] as $configuration_rule) {
                 $class = $configuration_rule['class'];
                 try {
@@ -265,7 +246,6 @@ class Transformer
     public function resetRules(): void
     {
         $this->rules = array();
-        $this->_rules = array();
     }
 
     /**
@@ -273,9 +253,9 @@ class Transformer
      *
      * @return Vector<Rule> List of configured rules.
      */
-    public function getRules(): array
+    public function getRules(): array<Rule>
     {
-        return $this->_rules;
+        return $this->rules;
     }
 
     /**
@@ -283,7 +263,7 @@ class Transformer
      *
      * @param Vector<Rule> $rules List of configured rules.
      */
-    public function setRules(array $rules): void
+    public function setRules(array<Rule> $rules): void
     {
         $this->resetRules();
         foreach ($rules as $rule) {

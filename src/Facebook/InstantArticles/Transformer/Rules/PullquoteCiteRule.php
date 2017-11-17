@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class PullquoteCiteRule extends ConfigurationSelectorRule
         return new PullquoteCiteRule();
     }
 
-    public static function createFrom(array $configuration): PullquoteCiteRule
+    public static function createFrom(array<string, mixed> $configuration): PullquoteCiteRule
     {
         $cite_rule = self::create();
-        $cite_rule->withSelector($configuration['selector']);
+        $cite_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         return $cite_rule;
     }

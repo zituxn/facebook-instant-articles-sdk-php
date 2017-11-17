@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -506,7 +506,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
         return $children;
     }
 
-    public function getFirstParagraph()
+    public function getFirstParagraph(): Paragraph
     {
         $items = $this->getChildren();
         if ($items) {

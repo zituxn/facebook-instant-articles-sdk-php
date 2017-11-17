@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class SlideshowRule extends ConfigurationSelectorRule
         return new SlideshowRule();
     }
 
-    public static function createFrom(array $configuration): SlideshowRule
+    public static function createFrom(array<string, mixed> $configuration): SlideshowRule
     {
         $slideshow_rule = self::create();
-        $slideshow_rule->withSelector($configuration['selector']);
+        $slideshow_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         return $slideshow_rule;
     }

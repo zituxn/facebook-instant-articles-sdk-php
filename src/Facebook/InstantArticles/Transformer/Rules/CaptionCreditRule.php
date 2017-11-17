@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class CaptionCreditRule extends ConfigurationSelectorRule
         return new CaptionCreditRule();
     }
 
-    public static function createFrom(array $configuration): CaptionCreditRule
+    public static function createFrom(array<string, mixed> $configuration): CaptionCreditRule
     {
         $cite_rule = self::create();
-        $cite_rule->withSelector($configuration['selector']);
+        $cite_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $cite_rule->withProperties(
             Vector {
@@ -53,23 +53,23 @@ class CaptionCreditRule extends ConfigurationSelectorRule
         invariant($caption instanceof Caption, 'Error, $caption is not Caption.');
         $caption->withCredit($cite);
 
-        if ($this->getProperty(Caption::POSITION_BELOW, $node)) {
+        if ($this->getPropertyBoolean(Caption::POSITION_BELOW, $node)) {
             $cite->withPosition(Caption::POSITION_BELOW);
         }
-        if ($this->getProperty(Caption::POSITION_CENTER, $node)) {
+        if ($this->getPropertyBoolean(Caption::POSITION_CENTER, $node)) {
             $cite->withPosition(Caption::POSITION_CENTER);
         }
-        if ($this->getProperty(Caption::POSITION_ABOVE, $node)) {
+        if ($this->getPropertyBoolean(Caption::POSITION_ABOVE, $node)) {
             $cite->withPosition(Caption::POSITION_ABOVE);
         }
 
-        if ($this->getProperty(Caption::ALIGN_LEFT, $node)) {
+        if ($this->getPropertyBoolean(Caption::ALIGN_LEFT, $node)) {
             $cite->withTextAlignment(Caption::ALIGN_LEFT);
         }
-        if ($this->getProperty(Caption::ALIGN_CENTER, $node)) {
+        if ($this->getPropertyBoolean(Caption::ALIGN_CENTER, $node)) {
             $cite->withTextAlignment(Caption::ALIGN_CENTER);
         }
-        if ($this->getProperty(Caption::ALIGN_RIGHT, $node)) {
+        if ($this->getPropertyBoolean(Caption::ALIGN_RIGHT, $node)) {
             $cite->withTextAlignment(Caption::ALIGN_RIGHT);
         }
 

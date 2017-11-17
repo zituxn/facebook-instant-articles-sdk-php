@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -120,7 +120,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
     /**
      * @var boolean Default false, so every video will have no controls.
      */
-    private $isControlsShown = false;
+    private bool $isControlsShown = false;
 
     private function __construct()
     {
@@ -532,7 +532,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      * @see Element::isValid().
      * @return true for valid Video that contains not empty url, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return !Type::isTextEmpty($this->url);
     }
@@ -543,17 +543,17 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Video.
      */
-    public function getContainerChildren()
+    public function getContainerChildren(): Vector<Element>
     {
-        $children = array();
+        $children = Vector {};
 
         if ($this->caption) {
-            $children[] = $this->caption;
+            $children->add($this->caption);
         }
 
         // Geotag markup optional
         if ($this->geoTag) {
-            $children[] = $this->geoTag;
+            $children->add($this->geoTag);
         }
 
         return $children;

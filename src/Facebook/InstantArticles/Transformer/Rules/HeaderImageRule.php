@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -29,10 +29,10 @@ class HeaderImageRule extends ConfigurationSelectorRule
         return new HeaderImageRule();
     }
 
-    public static function createFrom(array $configuration): HeaderImageRule
+    public static function createFrom(array<string, mixed> $configuration): HeaderImageRule
     {
         $image_rule = self::create();
-        $image_rule->withSelector($configuration['selector']);
+        $image_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $image_rule->withProperties(
             Vector {
@@ -51,7 +51,7 @@ class HeaderImageRule extends ConfigurationSelectorRule
 
         // Builds the image
         $url = $this->getPropertyString(self::PROPERTY_IMAGE_URL, $node);
-        if ($url) {
+        if ($url !== null) {
             $image->withURL($url);
             $header->withCover($image);
         } else {

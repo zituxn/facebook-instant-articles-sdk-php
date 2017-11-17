@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class FooterRule extends ConfigurationSelectorRule
         return new FooterRule();
     }
 
-    public static function createFrom(array $configuration): FooterRule
+    public static function createFrom(array<string, mixed> $configuration): FooterRule
     {
         $footerRule = self::create();
-        $footerRule->withSelector($configuration['selector']);
+        $footerRule->withSelector(Type::mixedToString($configuration['selector']));
 
         return $footerRule;
     }

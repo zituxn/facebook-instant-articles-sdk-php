@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -149,7 +149,7 @@ class Cite extends TextContainer
         if ($this->verticalAlignment) {
             $classes->add($this->verticalAlignment);
         }
-        if (!empty($classes)) {
+        if (!$classes->isEmpty()) {
             $cite->setAttribute('class', implode(' ', $classes));
         }
         $cite->appendChild($this->textToDOMDocumentFragment($document));

@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -29,11 +29,11 @@ class AnchorRule extends ConfigurationSelectorRule
         return Vector { TextContainer::getClassName() };
     }
 
-    public static function createFrom(array $configuration): AnchorRule
+    public static function createFrom(array<string, mixed> $configuration): AnchorRule
     {
         $anchor_rule = self::create();
 
-        $anchor_rule->withSelector($configuration['selector']);
+        $anchor_rule->withSelector(Type::mixedToString($configuration['selector']));
         //$properties = $configuration['properties'];
         $anchor_rule->withProperties(
             Vector {
@@ -53,10 +53,10 @@ class AnchorRule extends ConfigurationSelectorRule
         $url = $this->getPropertyString(self::PROPERTY_ANCHOR_HREF, $element);
         $rel = $this->getPropertyString(self::PROPERTY_ANCHOR_REL, $element);
 
-        if ($url) {
+        if ($url !== null) {
             $anchor->withHref($url);
         }
-        if ($rel) {
+        if ($rel !== null) {
             $anchor->withRel($rel);
         }
         invariant($text_container instanceof TextContainer, 'Error, $text_container is not a TextContainer.');

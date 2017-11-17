@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -28,7 +28,7 @@ class TimeRule extends ConfigurationSelectorRule
     const PROPERTY_DATETIME_TYPE = 'article.datetype';
     const PROPERTY_TIME = 'article.time';
 
-    private $type = \Facebook\InstantArticles\Elements\Time::PUBLISHED;
+    private string $type = Time::PUBLISHED;
 
     public function getContextClass(): Vector<string>
     {
@@ -40,10 +40,10 @@ class TimeRule extends ConfigurationSelectorRule
         return new TimeRule();
     }
 
-    public static function createFrom(array $configuration): TimeRule
+    public static function createFrom(array<string, mixed> $configuration): TimeRule
     {
         $time_rule = self::create();
-        $time_rule->withSelector($configuration['selector']);
+        $time_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $time_rule->withProperties(
             Vector {
@@ -64,14 +64,14 @@ class TimeRule extends ConfigurationSelectorRule
     public function apply(Transformer $transformer, Element $header, \DOMNode $node): Element
     {
         invariant($header instanceof Header, 'Error, $header is not Header');
-        $time_type = $this->getProperty(self::PROPERTY_DATETIME_TYPE, $node);
-        if ($time_type) {
+        $time_type = $this->getPropertyString(self::PROPERTY_DATETIME_TYPE, $node);
+        if ($time_type !== null) {
             $this->type = $time_type;
         }
 
         // Builds the image
-        $time_string = $this->getProperty(self::PROPERTY_TIME, $node);
-        if ($time_string) {
+        $time_string = $this->getPropertyString(self::PROPERTY_TIME, $node);
+        if ($time_string !== null) {
             $time = Time::create($this->type);
             $time->withDatetime(new \DateTime($time_string, $transformer->getDefaultDateTimeZone()));
             $header->withTime($time);

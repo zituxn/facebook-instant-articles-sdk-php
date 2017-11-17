@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -13,6 +13,7 @@ use Facebook\InstantArticles\Elements\Interactive;
 use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Warnings\NoRootInstantArticleFoundWarning;
 use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Transformer;
 
@@ -20,8 +21,8 @@ class InteractiveRule extends ConfigurationSelectorRule
 {
     const PROPERTY_IFRAME = 'interactive.iframe';
     const PROPERTY_URL = 'interactive.url';
-    const PROPERTY_WIDTH_NO_MARGIN = \Facebook\InstantArticles\Elements\Interactive::NO_MARGIN;
-    const PROPERTY_WIDTH_COLUMN_WIDTH = \Facebook\InstantArticles\Elements\Interactive::COLUMN_WIDTH;
+    const PROPERTY_WIDTH_NO_MARGIN = 'no-margin';
+    const PROPERTY_WIDTH_COLUMN_WIDTH = 'column-width';
     const PROPERTY_HEIGHT = 'interactive.height';
     const PROPERTY_WIDTH = 'interactive.width';
 
@@ -39,10 +40,10 @@ class InteractiveRule extends ConfigurationSelectorRule
         return new self();
     }
 
-    public static function createFrom(array $configuration): InteractiveRule
+    public static function createFrom(array<string, mixed> $configuration): InteractiveRule
     {
         $interactive_rule = self::create();
-        $interactive_rule->withSelector($configuration['selector']);
+        $interactive_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $interactive_rule->withProperties(
             Vector {
@@ -74,24 +75,23 @@ class InteractiveRule extends ConfigurationSelectorRule
             $transformer->addWarning(
                 // This new error message should be something like:
                 // Could not transform Image, as no root InstantArticle was provided.
-                new NoRootInstantArticleFoundWarning(null, $node)
+                new NoRootInstantArticleFoundWarning($interactive, $node)
             );
             return $context;
         }
 
         // Builds the interactive
-        $iframe = $this->getProperty(self::PROPERTY_IFRAME, $node);
+        $iframe = $this->getPropertyNode(self::PROPERTY_IFRAME, $node);
 
         $url = $this->getPropertyString(self::PROPERTY_URL, $node);
-        if ($iframe) {
-            invariant($iframe instanceof \DOMNode, 'Error, $iframe is not a \DOMNode');
+        if ($iframe !== null) {
             $interactive->withHTML($iframe);
         }
-        if ($url) {
+        if ($url !== null) {
             $interactive->withSource($url);
         }
         invariant(!is_null($instant_article), 'Error, $instant_article should not be null.');
-        if ($iframe || $url) {
+        if ($iframe !== null || $url !== null) {
             $instant_article->addChild($interactive);
             if ($instant_article !== $context) {
                 $instant_article->addChild($context);
@@ -107,19 +107,19 @@ class InteractiveRule extends ConfigurationSelectorRule
             );
         }
 
-        if ($this->getProperty(self::PROPERTY_WIDTH_COLUMN_WIDTH, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_WIDTH_COLUMN_WIDTH, $node)) {
             $interactive->withMargin(Interactive::COLUMN_WIDTH);
         } else {
             $interactive->withMargin(Interactive::NO_MARGIN);
         }
 
-        $width = $this->getProperty(self::PROPERTY_WIDTH, $node);
-        if ($width && is_int($width)) {
+        $width = $this->getPropertyInt(self::PROPERTY_WIDTH, $node);
+        if ($width !== null) {
             $interactive->withWidth($width);
         }
 
-        $height = $this->getProperty(self::PROPERTY_HEIGHT, $node);
-        if ($height && is_int($height)) {
+        $height = $this->getPropertyInt(self::PROPERTY_HEIGHT, $node);
+        if ($height !== null) {
             $interactive->withHeight($height);
         }
 

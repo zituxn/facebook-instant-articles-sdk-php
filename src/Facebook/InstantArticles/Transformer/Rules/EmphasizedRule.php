@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class EmphasizedRule extends ConfigurationSelectorRule
         return new EmphasizedRule();
     }
 
-    public static function createFrom(array $configuration): EmphasizedRule
+    public static function createFrom(array<string, mixed> $configuration): EmphasizedRule
     {
         $emphasizedRule = self::create();
-        $emphasizedRule->withSelector($configuration['selector']);
+        $emphasizedRule->withSelector(Type::mixedToString($configuration['selector']));
         return $emphasizedRule;
     }
 

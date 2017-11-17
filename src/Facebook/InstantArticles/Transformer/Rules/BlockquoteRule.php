@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class BlockquoteRule extends ConfigurationSelectorRule
         return new BlockquoteRule();
     }
 
-    public static function createFrom(array $configuration): BlockquoteRule
+    public static function createFrom(array<string, mixed> $configuration): BlockquoteRule
     {
         $blockquoteRule = BlockquoteRule::create();
-        $blockquoteRule->withSelector($configuration['selector']);
+        $blockquoteRule->withSelector(Type::mixedToString($configuration['selector']));
 
         return $blockquoteRule;
     }

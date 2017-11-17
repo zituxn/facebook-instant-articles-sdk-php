@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -51,12 +51,12 @@ class Ad extends ElementWithHTML
     /**
      * @var boolean Ad will be reused if additional placement slots are available. False by default.
      */
-    private $isDefaultForReuse = false;
+    private bool $isDefaultForReuse = false;
 
     /**
      * Ad will be reused in additional impression slots.
      */
-    public function enableDefaultForReuse()
+    public function enableDefaultForReuse(): this
     {
         $this->isDefaultForReuse = true;
         return $this;
@@ -65,7 +65,7 @@ class Ad extends ElementWithHTML
     /**
      * Ad will not be used in additional impression slots.
      */
-    public function disableDefaultForReuse()
+    public function disableDefaultForReuse(): this
     {
         $this->isDefaultForReuse = false;
         return $this;
@@ -200,7 +200,7 @@ class Ad extends ElementWithHTML
      * @see Element::isValid().
      * @return true for valid Ad that contains valid src or html, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return !Type::isTextEmpty($this->source) || $this->html;
     }

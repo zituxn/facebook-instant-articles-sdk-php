@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -124,7 +124,7 @@ class ListElement extends Element implements ChildrenContainer
     /**
      * @return Vector<ListItem> the list text items
      */
-    public function getItems()
+    public function getItems(): Vector<ListItem>
     {
         return $this->items;
     }

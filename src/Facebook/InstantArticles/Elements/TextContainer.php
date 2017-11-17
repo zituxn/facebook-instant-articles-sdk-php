@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -42,9 +42,10 @@ abstract class TextContainer extends Element implements ChildrenContainer
     /**
      * Clears the text.
      */
-    public function clearText()
+    public function clearText(): this
     {
         $this->textChildren = Vector {};
+        return $this;
     }
 
     /**

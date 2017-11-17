@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -17,12 +17,12 @@ class XpathGetter extends AbstractGetter
      */
     protected ?string $attribute;
 
-    public function createFrom(array<string, string> $properties): XpathGetter
+    public function createFrom(array<string, string> $properties): this
     {
-        if (isset($properties['selector'])) {
+        if (array_key_exists('selector', $properties)) {
             $this->withSelector($properties['selector']);
         }
-        if (isset($properties['attribute'])) {
+        if (array_key_exists('attribute', $properties)) {
             $this->withAttribute($properties['attribute']);
         }
         return $this;
@@ -33,7 +33,7 @@ class XpathGetter extends AbstractGetter
      *
      * @return $this
      */
-    public function withAttribute(string $attribute): XpathGetter
+    public function withAttribute(string $attribute): this
     {
         $this->attribute = $attribute;
 
@@ -45,9 +45,9 @@ class XpathGetter extends AbstractGetter
         $domXPath = new \DOMXPath($node->ownerDocument);
         $elements = $domXPath->query($this->selector, $node);
 
-        if (!empty($elements) && $elements->item(0)) {
+        if ($elements !== null && $elements->length > 0 && $elements->item(0) !== null) {
             $element = $elements->item(0);
-            if ($this->attribute) {
+            if ($this->attribute !== null) {
                 return $element->getAttribute($this->attribute);
             }
             return $element->textContent;

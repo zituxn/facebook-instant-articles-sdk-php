@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -53,7 +53,7 @@ abstract class Rule
         );
     }
 
-    public static function createFrom(array $configuration): Rule
+    public static function createFrom(array<string, mixed> $configuration): Rule
     {
         throw new \Exception(
             'All Rule class extensions should implement the '.
@@ -61,7 +61,7 @@ abstract class Rule
         );
     }
 
-    public static function retrieveProperty(array $properties, string $property_name): ?array
+    public static function retrieveProperty(array<string, mixed> $properties, string $property_name): mixed
     {
         if (array_key_exists($property_name, $properties)) {
             return $properties[$property_name];

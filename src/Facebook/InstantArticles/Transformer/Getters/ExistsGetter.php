@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -12,12 +12,12 @@ use Facebook\InstantArticles\Validators\Type;
 
 class ExistsGetter extends AbstractGetter
 {
-    public function createFrom(array<string, string> $properties): ExistsGetter
+    public function createFrom(array<string, string> $properties): this
     {
-        if (isset($properties['selector'])) {
+        if (array_key_exists('selector', $properties)) {
             $this->withSelector($properties['selector']);
         }
-        if (isset($properties['attribute'])) {
+        if (array_key_exists('attribute', $properties)) {
             $this->withAttribute($properties['attribute']);
         }
         return $this;
@@ -26,8 +26,8 @@ class ExistsGetter extends AbstractGetter
     public function get(\DOMNode $node): mixed
     {
         $elements = $this->findAll($node, $this->selector);
-        if (!empty($elements) && $elements->item(0)) {
-            if (!$this->attribute) {
+        if ($elements !== null && $elements->length > 0 && $elements->item(0) !== null) {
+            if ($this->attribute === null) {
                 return true;
             }
             return $elements->item(0)->hasAttribute($this->attribute);

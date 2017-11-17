@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -28,11 +28,11 @@ class SponsorRule extends ConfigurationSelectorRule
         return new SponsorRule();
     }
 
-    public static function createFrom(array $configuration): SponsorRule
+    public static function createFrom(array<string, mixed> $configuration): SponsorRule
     {
         $sponsor_rule = SponsorRule::create();
 
-        $sponsor_rule->withSelector($configuration['selector']);
+        $sponsor_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $sponsor_rule->withProperties(
             Vector {
@@ -44,10 +44,10 @@ class SponsorRule extends ConfigurationSelectorRule
         return $sponsor_rule;
     }
 
-    public function apply(Transformer $transformer, Element $header, \DOMNode $node)
+    public function apply(Transformer $transformer, Element $header, \DOMNode $node): Element
     {
         $page_url = $this->getPropertyString(self::PROPERTY_SPONSOR_PAGE_URL, $node);
-        if ($page_url && !Type::isTextEmpty($page_url)) {
+        if ($page_url !== null && !Type::isTextEmpty($page_url)) {
             $sponsor = Sponsor::create();
             invariant($header instanceof Header, 'Error, $header is not Header.');
             $header->withSponsor($sponsor);

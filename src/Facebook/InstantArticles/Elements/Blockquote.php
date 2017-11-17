@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright 2014 Facebook, Inc.
  *

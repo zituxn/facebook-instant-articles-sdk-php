@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -36,10 +36,10 @@ class GeoTagRule extends ConfigurationSelectorRule
         return new GeoTagRule();
     }
 
-    public static function createFrom(array $configuration): GeoTagRule
+    public static function createFrom(array<string, mixed> $configuration): GeoTagRule
     {
         $geo_tag_rule = self::create();
-        $geo_tag_rule->withSelector($configuration['selector']);
+        $geo_tag_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $geo_tag_rule->withProperties(
             Vector {

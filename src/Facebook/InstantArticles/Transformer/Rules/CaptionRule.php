@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -41,10 +41,10 @@ class CaptionRule extends ConfigurationSelectorRule
         return new CaptionRule();
     }
 
-    public static function createFrom(array $configuration): CaptionRule
+    public static function createFrom(array<string, mixed> $configuration): CaptionRule
     {
         $caption_rule = self::create();
-        $caption_rule->withSelector($configuration['selector']);
+        $caption_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $caption_rule->withProperties(
             Vector {
@@ -109,7 +109,7 @@ class CaptionRule extends ConfigurationSelectorRule
         }
 
         $text_default = $this->getPropertyString(self::PROPERTY_DEFAULT, $node);
-        if ($text_default) {
+        if ($text_default !== null) {
             invariant(is_string($text_default), 'Error, $text_default is not a string');
             $caption->withTitle(H1::create()->appendText($text_default));
         } else {

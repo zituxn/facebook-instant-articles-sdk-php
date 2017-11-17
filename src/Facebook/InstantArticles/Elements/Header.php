@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -468,7 +468,7 @@ class Header extends Element implements ChildrenContainer
      * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Header.
      */
-    public function getContainerChildren()
+    public function getContainerChildren(): Vector<Element>
     {
         $children = Vector {};
 

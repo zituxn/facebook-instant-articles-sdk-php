@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -28,10 +28,10 @@ class RelatedArticlesRule extends ConfigurationSelectorRule
         return new RelatedArticlesRule();
     }
 
-    public static function createFrom(array $configuration): RelatedArticlesRule
+    public static function createFrom(array<string, mixed> $configuration): RelatedArticlesRule
     {
         $related_articles_rule = self::create();
-        $related_articles_rule->withSelector($configuration['selector']);
+        $related_articles_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $related_articles_rule->withProperties(
             Vector {
@@ -49,7 +49,7 @@ class RelatedArticlesRule extends ConfigurationSelectorRule
         $related_articles = RelatedArticles::create();
 
         $title = $this->getPropertyString(self::PROPERTY_TITLE, $node);
-        if ($title) {
+        if ($title !== null) {
             $related_articles->withTitle($title);
         }
         $instant_article->addChild($related_articles);

@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26,10 +26,10 @@ class HeaderRule extends ConfigurationSelectorRule
         return new HeaderRule();
     }
 
-    public static function createFrom(array $configuration): HeaderRule
+    public static function createFrom(array<string, mixed> $configuration): HeaderRule
     {
         $header_rule = self::create();
-        $header_rule->withSelector($configuration['selector']);
+        $header_rule->withSelector(Type::mixedToString($configuration['selector']));
         return $header_rule;
     }
 

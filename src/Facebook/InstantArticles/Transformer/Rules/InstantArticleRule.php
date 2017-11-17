@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -32,10 +32,10 @@ class InstantArticleRule extends ConfigurationSelectorRule
         return new InstantArticleRule();
     }
 
-    public static function createFrom(array $configuration): InstantArticleRule
+    public static function createFrom(array<string, mixed> $configuration): InstantArticleRule
     {
         $canonical_rule = self::create();
-        $canonical_rule->withSelector($configuration['selector']);
+        $canonical_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $canonical_rule->withProperties(
             Vector {
@@ -56,7 +56,7 @@ class InstantArticleRule extends ConfigurationSelectorRule
         invariant($instant_article instanceof InstantArticle, 'Error, $instant_article is not InstantArticle');
         // Builds the image
         $url = $this->getPropertyString(self::PROPERTY_CANONICAL, $node);
-        if ($url) {
+        if ($url !== null) {
             $instant_article->withCanonicalUrl($url);
         } else {
             $transformer->addWarning(
@@ -70,12 +70,12 @@ class InstantArticleRule extends ConfigurationSelectorRule
         }
 
         $charset = $this->getPropertyString(self::PROPERTY_CHARSET, $node);
-        if ($charset) {
+        if ($charset !== null) {
             $instant_article->withCharset($charset);
         }
 
-        $markup_version = $this->getProperty(self::PROPERTY_MARKUP_VERSION, $node);
-        if ($markup_version) {
+        $markup_version = $this->getPropertyString(self::PROPERTY_MARKUP_VERSION, $node);
+        if ($markup_version !== null) {
             //TODO Validate if the markup is valid with this code
         }
 
@@ -84,7 +84,7 @@ class InstantArticleRule extends ConfigurationSelectorRule
             $instant_article->disableAutomaticAdPlacement();
         } else {
             $instant_article->enableAutomaticAdPlacement();
-            $pairs = explode(' ', $auto_ad_placement ?: '', 2);
+            $pairs = explode(' ', $auto_ad_placement !== null ? $auto_ad_placement : '', 2);
             if (count($pairs) === 2) {
                 list($name, $value) = explode('=', $pairs[1], 2);
                 $instant_article->withAdDensity($value);
@@ -92,7 +92,7 @@ class InstantArticleRule extends ConfigurationSelectorRule
         }
 
         $style = $this->getPropertyString(self::PROPERTY_STYLE, $node);
-        if ($style) {
+        if ($style !== null) {
             $instant_article->withStyle($style);
         }
 

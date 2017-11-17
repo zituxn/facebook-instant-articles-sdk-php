@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -19,10 +19,10 @@ class IgnoreRule extends ConfigurationSelectorRule
         return new IgnoreRule();
     }
 
-    public static function createFrom(array $configuration): IgnoreRule
+    public static function createFrom(array<string, mixed> $configuration): IgnoreRule
     {
         $ignoreRule = self::create();
-        $ignoreRule->withSelector($configuration['selector']);
+        $ignoreRule->withSelector(Type::mixedToString($configuration['selector']));
         return $ignoreRule;
     }
 
