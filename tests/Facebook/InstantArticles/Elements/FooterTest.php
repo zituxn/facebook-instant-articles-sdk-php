@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,7 +10,7 @@ namespace Facebook\InstantArticles\Elements;
 
 class FooterTest extends \Facebook\Util\BaseHTMLTestCase
 {
-    public function testRenderEmpty()
+    public function testRenderEmpty(): void
     {
         $footer = Footer::create();
 
@@ -20,7 +20,7 @@ class FooterTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderBasic()
+    public function testRenderBasic(): void
     {
         $footer =
             Footer::create()
@@ -37,7 +37,7 @@ class FooterTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithParagraphCredits()
+    public function testRenderWithParagraphCredits(): void
     {
         $footer =
             Footer::create()
@@ -62,7 +62,7 @@ class FooterTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithParagraphCreditsAppend()
+    public function testRenderWithParagraphCreditsAppend(): void
     {
         $footer =
             Footer::create()
@@ -89,11 +89,13 @@ class FooterTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithCopyright()
+    public function testRenderWithCopyright(): void
     {
+        $small = Small::create();
+        $small->appendText('2016 Facebook');
         $footer =
             Footer::create()
-                ->withCopyright(Small::create()->appendText('2016 Facebook'));
+                ->withCopyright($small);
 
         $expected =
             '<footer>'.
@@ -106,16 +108,16 @@ class FooterTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithCopyrightSmallElement()
+    public function testRenderWithCopyrightSmallElement(): void
     {
-        $small =
-            Small::create()
-                ->appendText("2016 ")
-                ->appendText(
-                    Anchor::create()
-                        ->withHRef('https://facebook.com')
-                        ->appendText('Facebook')
-                );
+        $small = Small::create();
+        $small
+            ->appendText("2016 ")
+            ->appendText(
+                Anchor::create()
+                    ->withHref('https://facebook.com')
+                    ->appendText('Facebook')
+            );
         $footer =
             Footer::create()
                 ->withCopyright($small);
@@ -131,11 +133,13 @@ class FooterTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithRelatedArticles()
+    public function testRenderWithRelatedArticles(): void
     {
+        $small = Small::create();
+        $small->appendText('2016 Facebook');
         $footer =
             Footer::create()
-                ->withCopyright(Small::create()->appendText('2016 Facebook'))
+                ->withCopyright($small)
                 ->withRelatedArticles(
                     RelatedArticles::create()
                         ->addRelated(RelatedItem::create()->withURL('http://related.com/1'))

@@ -176,22 +176,22 @@ abstract class ConfigurationSelectorRule extends Rule
      * @param $node
      * @return the string
      */
-    public function getPropertyString(string $property_name, \DOMNode $node): string
+    public function getPropertyString(string $property_name, \DOMNode $node): ?string
     {
         $value = $this->getProperty($property_name, $node);
         if ($value && is_string($value)) {
             return $value;
         }
-        return '';
+        return null;
     }
 
-    public function getPropertyInt(string $property_name, \DOMNode $node): int
+    public function getPropertyInt(string $property_name, \DOMNode $node): ?int
     {
         $value = $this->getProperty($property_name, $node);
         if ($value && is_int($value)) {
             return $value;
         }
-        return -1;
+        return null;
     }
 
     public function getPropertyElement(string $property_name, \DOMNode $node): ?\DOMElement
@@ -212,13 +212,13 @@ abstract class ConfigurationSelectorRule extends Rule
         return null;
     }
 
-    public function getPropertyArray(string $property_name, \DOMNode $node): array
+    public function getPropertyArray(string $property_name, \DOMNode $node): ?array
     {
         $value = $this->getProperty($property_name, $node);
         if ($value && is_array($value)) {
             return $value;
         }
-        return array();
+        return null;
     }
 
     public function getPropertyDateTime(string $property_name, \DOMNode $node): ?\DateTime

@@ -57,7 +57,7 @@ class InstantArticleRule extends ConfigurationSelectorRule
         // Builds the image
         $url = $this->getPropertyString(self::PROPERTY_CANONICAL, $node);
         if ($url) {
-            $instant_article->withCanonicalURL($url);
+            $instant_article->withCanonicalUrl($url);
         } else {
             $transformer->addWarning(
                 new InvalidSelector(

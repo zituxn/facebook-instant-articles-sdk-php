@@ -58,7 +58,7 @@ class Cite extends TextContainer
      *
      * @return $this
      */
-    public function withTextAlignment(string $text_alignment): Cite
+    public function withTextAlignment(string $text_alignment): this
     {
         Type::enforceWithin(
             $text_alignment,
@@ -84,7 +84,7 @@ class Cite extends TextContainer
      *
      * @return $this
      */
-    public function withVerticalAlignment(string $vertical_alignment): Cite
+    public function withVerticalAlignment(string $vertical_alignment): this
     {
         Type::enforceWithin(
             $vertical_alignment,
@@ -109,7 +109,7 @@ class Cite extends TextContainer
      * @param string $position that will be used.
      * @return $this
      */
-    public function withPosition(string $position): Cite
+    public function withPosition(string $position): this
     {
         Type::enforceWithin(
             $position,

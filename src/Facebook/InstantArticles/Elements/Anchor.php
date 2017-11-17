@@ -34,7 +34,7 @@ class Anchor extends FormattedText
     /**
      * @return Anchor
      */
-    public static function create()
+    public static function create(): Anchor
     {
         return new self();
     }
@@ -44,7 +44,7 @@ class Anchor extends FormattedText
      *
      * @return $this
      */
-    public function withHref(string $href): Anchor
+    public function withHref(string $href): this
     {
         $this->href = $href;
         return $this;
@@ -55,7 +55,7 @@ class Anchor extends FormattedText
      *
      * @return $this
      */
-    public function withRel(string $rel): Anchor
+    public function withRel(string $rel): this
     {
         $this->rel = $rel;
         return $this;

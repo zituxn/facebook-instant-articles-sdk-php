@@ -51,7 +51,7 @@ class Pullquote extends TextContainer
      *
      * @return $this
      */
-    public function withAttribution(Cite $attribution): Pullquote
+    public function withAttribution(Cite $attribution): this
     {
         $this->attribution = $attribution;
         return $this;
@@ -64,7 +64,7 @@ class Pullquote extends TextContainer
      *
      * @return $this
      */
-    public function withAttributionString(string $attribution): Pullquote
+    public function withAttributionString(string $attribution): this
     {
         $cite =  Cite::create();
         $cite->appendText($attribution);

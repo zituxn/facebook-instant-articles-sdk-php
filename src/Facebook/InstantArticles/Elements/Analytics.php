@@ -39,7 +39,7 @@ class Analytics extends ElementWithHTML
     {
     }
 
-    public static function create()
+    public static function create(): Analytics
     {
         return new self();
     }
@@ -51,7 +51,7 @@ class Analytics extends ElementWithHTML
      *
      * @return $this
      */
-    public function withSource(string $source): Analytics
+    public function withSource(string $source): this
     {
         $this->source = $source;
 

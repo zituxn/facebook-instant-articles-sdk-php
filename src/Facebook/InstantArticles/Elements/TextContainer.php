@@ -32,7 +32,7 @@ abstract class TextContainer extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function appendText(mixed $child): TextContainer
+    public function appendText(mixed $child): this
     {
         // TODO Make sure this is string|TextContainer
         $this->textChildren->add($child);

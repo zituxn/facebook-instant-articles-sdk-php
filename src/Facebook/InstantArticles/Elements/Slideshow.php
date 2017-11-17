@@ -11,7 +11,7 @@ namespace Facebook\InstantArticles\Elements;
 use Facebook\InstantArticles\Validators\Type;
 
 /**
- * Class SlideShow
+ * Class Slideshow
  * This element Class is the slideshow for the article.
  *
  * Example:
@@ -79,7 +79,7 @@ class Slideshow extends Audible implements ChildrenContainer, Captionable
      *
      * @return $this
      */
-    public function withCaption(Caption $caption): Slideshow
+    public function withCaption(Caption $caption): this
     {
         $this->caption = $caption;
 
@@ -93,7 +93,7 @@ class Slideshow extends Audible implements ChildrenContainer, Captionable
      *
      * @return $this
      */
-    public function withImages(Vector<Image> $article_images): Slideshow
+    public function withImages(Vector<Image> $article_images): this
     {
         $this->article_images = $article_images;
 
@@ -107,7 +107,7 @@ class Slideshow extends Audible implements ChildrenContainer, Captionable
      *
      * @return $this
      */
-    public function addImage(Image $article_image): Slideshow
+    public function addImage(Image $article_image): this
     {
         $this->article_images->add($article_image);
 
@@ -123,7 +123,7 @@ class Slideshow extends Audible implements ChildrenContainer, Captionable
      *
      * @return $this
      */
-    public function withMapGeoTag(GeoTag $json): Slideshow
+    public function withMapGeoTag(GeoTag $json): this
     {
         $this->geotag = $json; // TODO Validate the json informed
 
@@ -137,7 +137,7 @@ class Slideshow extends Audible implements ChildrenContainer, Captionable
      *
      * @return $this
      */
-    public function withAudio(Audio $audio): Slideshow
+    public function withAudio(Audio $audio): this
     {
         $this->audio = $audio;
 

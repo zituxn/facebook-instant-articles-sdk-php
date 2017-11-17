@@ -63,7 +63,7 @@ class Blockquote extends TextContainer
      *
      * @return $this
      */
-    public function withText(string $text): Blockquote
+    public function withText(string $text): this
     {
         $this->text = $text;
         return $this;

@@ -10,5 +10,5 @@ namespace Facebook\InstantArticles\Elements;
 
 interface GeoTaggable
 {
-    public function withGeoTag(GeoTag $geoTag): Element;
+    public function withGeoTag(GeoTag $geoTag): this;
 }

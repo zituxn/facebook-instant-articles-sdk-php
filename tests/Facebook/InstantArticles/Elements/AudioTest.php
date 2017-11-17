@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,7 +10,7 @@ namespace Facebook\InstantArticles\Elements;
 
 class AudioTest extends \Facebook\Util\BaseHTMLTestCase
 {
-    public function testRenderEmpty()
+    public function testRenderEmpty(): void
     {
         $audio = Audio::create();
 
@@ -20,7 +20,7 @@ class AudioTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderBasic()
+    public function testRenderBasic(): void
     {
         $audio =
             Audio::create()
@@ -35,7 +35,7 @@ class AudioTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithTitle()
+    public function testRenderWithTitle(): void
     {
         $audio =
             Audio::create()
@@ -51,7 +51,7 @@ class AudioTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithAutoplay()
+    public function testRenderWithAutoplay(): void
     {
         $audio =
             Audio::create()
@@ -67,7 +67,7 @@ class AudioTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithMuted()
+    public function testRenderWithMuted(): void
     {
         $audio =
             Audio::create()
@@ -83,7 +83,7 @@ class AudioTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithTitleAndAutoplayMuted()
+    public function testRenderWithTitleAndAutoplayMuted(): void
     {
         $audio =
             Audio::create()

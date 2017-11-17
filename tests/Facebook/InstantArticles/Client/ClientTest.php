@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -18,7 +18,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     private $article;
     private $facebook;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->facebook = $this->getMockBuilder('Facebook\Facebook')
             ->disableOriginalConstructor()
@@ -36,7 +36,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 );
     }
 
-    public function testImportArticle()
+    public function testImportArticle(): void
     {
         $expectedSubmissionStatusID = 1;
 
@@ -72,7 +72,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedSubmissionStatusID, $resultSubmissionStatusID);
     }
 
-    public function testImportArticlePublished()
+    public function testImportArticlePublished(): void
     {
         $expectedSubmissionStatusID = 1;
 
@@ -111,7 +111,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests that a re-scrape is performed when requested at article import.
      */
-    public function testImportArticleRescrape()
+    public function testImportArticleRescrape(): void
     {
         $expectedSubmissionStatusID = 1;
 
@@ -161,7 +161,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Facebook\InstantArticles\Client\Client::removeArticle()
      */
-    public function testRemoveArticle()
+    public function testRemoveArticle(): void
     {
         $canonicalURL = 'http://facebook.com';
         $articleID = '1';
@@ -189,7 +189,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->client->removeArticle($canonicalURL);
     }
 
-    public function testImportArticleDevelopmentMode()
+    public function testImportArticleDevelopmentMode(): void
     {
         $this->client = new Client(
             $this->facebook,
@@ -231,7 +231,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedSubmissionStatusID, $resultSubmissionStatusID);
     }
 
-    public function testImportArticleDevelopmentModePublished()
+    public function testImportArticleDevelopmentModePublished(): void
     {
         $this->client = new Client(
             $this->facebook,
@@ -273,7 +273,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedSubmissionStatusID, $resultSubmissionStatusID);
     }
 
-    public function testGetArticleIDFromCanonicalURL()
+    public function testGetArticleIDFromCanonicalURL(): void
     {
         $canonicalURL = "http://facebook.com";
 
@@ -316,7 +316,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedArticleID, $articleID);
     }
 
-    public function testGetArticleIDFromNotFoundCanonicalURL()
+    public function testGetArticleIDFromNotFoundCanonicalURL(): void
     {
         $canonicalURL = "http://facebook.com";
 
@@ -400,7 +400,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedArticleID, $articleID);
     }
 
-    public function testDevelopmentModeGetArticleIDFromNotFoundCanonicalURL()
+    public function testDevelopmentModeGetArticleIDFromNotFoundCanonicalURL(): void
     {
         $canonicalURL = "http://facebook.com";
 
@@ -441,7 +441,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedArticleID, $articleID);
     }
 
-    public function testGetLastSubmissionStatus()
+    public function testGetLastSubmissionStatus(): void
     {
         $articleID = '123';
 
@@ -526,7 +526,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetSubmissionStatus()
+    public function testGetSubmissionStatus(): void
     {
         $submissionStatusID = '456';
 
@@ -613,7 +613,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetReviewSubmissionStatus()
+    public function testGetReviewSubmissionStatus(): void
     {
         $serverResponseMock =
             $this->getMockBuilder('Facebook\FacebookResponse')
@@ -644,7 +644,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('NOT_SUBMITTED', $result);
     }
 
-    public function testGetArticlesURLs()
+    public function testGetArticlesURLs(): void
     {
         $mockedMap = array(
             array('canonical_url'=>'http://url.com/1'),
@@ -679,7 +679,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testClaimURL()
+    public function testClaimURL(): void
     {
         $url = 'example.com';
 
@@ -717,7 +717,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $result = $this->client->claimURL($url);
     }
 
-    public function testClaimURLWithProtocl()
+    public function testClaimURLWithProtocl(): void
     {
         $url = 'http://example.com';
 
@@ -755,7 +755,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $result = $this->client->claimURL($url);
     }
 
-    public function testClaimURLError()
+    public function testClaimURLError(): void
     {
         $url = 'example.com';
         $error_user_msg = "Error message";
@@ -796,7 +796,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $result = $this->client->claimURL($url);
     }
 
-    public function testSubmitForReview()
+    public function testSubmitForReview(): void
     {
         $serverResponseMock =
             $this->getMockBuilder('Facebook\FacebookResponse')
@@ -832,7 +832,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $result = $this->client->submitForReview();
     }
 
-    public function testSubmitForReviewError()
+    public function testSubmitForReviewError(): void
     {
         $error_user_msg = "Error message";
 

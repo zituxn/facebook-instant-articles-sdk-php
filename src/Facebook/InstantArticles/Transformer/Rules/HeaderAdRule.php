@@ -55,22 +55,22 @@ class HeaderAdRule extends ConfigurationSelectorRule
         $ad = Ad::create();
 
         // Builds the ad
-        $height = $this->getProperty(self::PROPERTY_AD_HEIGHT_URL, $node);
+        $height = $this->getPropertyInt(self::PROPERTY_AD_HEIGHT_URL, $node);
         if ($height) {
             $ad->withHeight($height);
         }
 
-        $width = $this->getProperty(self::PROPERTY_AD_WIDTH_URL, $node);
+        $width = $this->getPropertyInt(self::PROPERTY_AD_WIDTH_URL, $node);
         if ($width) {
             $ad->withWidth($width);
         }
 
-        $url = $this->getProperty(self::PROPERTY_AD_URL, $node);
+        $url = $this->getPropertyString(self::PROPERTY_AD_URL, $node);
         if ($url) {
             $ad->withSource($url);
         }
 
-        $embed_code = $this->getProperty(self::PROPERTY_AD_EMBED_URL, $node);
+        $embed_code = $this->getPropertyNode(self::PROPERTY_AD_EMBED_URL, $node);
         if ($embed_code) {
             $ad->withHTML($embed_code);
         }

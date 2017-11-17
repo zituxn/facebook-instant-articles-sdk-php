@@ -107,7 +107,7 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withCover(Element $cover): Header
+    public function withCover(Element $cover): this
     {
         // if (Type::enforce(
         //     $cover,
@@ -129,7 +129,7 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withTitle(H1 $title): Header
+    public function withTitle(H1 $title): this
     {
         $this->title = $title;
 
@@ -143,7 +143,7 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withSubTitle(H2 $subtitle): Header
+    public function withSubTitle(H2 $subtitle): this
     {
         $this->subtitle = $subtitle;
 
@@ -157,7 +157,7 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function addAuthor(Author $author): Header
+    public function addAuthor(Author $author): this
     {
         $this->authors->add($author);
 
@@ -171,7 +171,7 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withAuthors(Vector<Author> $authors): Header
+    public function withAuthors(Vector<Author> $authors): this
     {
         $this->authors = $authors;
 
@@ -185,7 +185,7 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withPublishTime(Time $published): Header
+    public function withPublishTime(Time $published): this
     {
         $this->published = $published;
 
@@ -199,7 +199,7 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withModifyTime(Time $modified): Header
+    public function withModifyTime(Time $modified): this
     {
         $this->modified = $modified;
 
@@ -213,7 +213,7 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withTime(Time $time): Header
+    public function withTime(Time $time): this
     {
         if ($time->getType() === Time::MODIFIED) {
             $this->withModifyTime($time);
@@ -231,7 +231,7 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withKicker(H3 $kicker): Header
+    public function withKicker(H3 $kicker): this
     {
         $this->kicker = $kicker;
         $this->kicker->enableKicker();
@@ -246,7 +246,7 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function addAd(Ad $ad): Header
+    public function addAd(Ad $ad): this
     {
         $this->ads->add($ad);
 
@@ -260,7 +260,7 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withAds(Vector<Ad> $ads): Header
+    public function withAds(Vector<Ad> $ads): this
     {
         $this->ads = $ads;
 
@@ -274,7 +274,7 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withSponsor(Sponsor $sponsor): Header
+    public function withSponsor(Sponsor $sponsor): this
     {
         $this->sponsor = $sponsor;
 

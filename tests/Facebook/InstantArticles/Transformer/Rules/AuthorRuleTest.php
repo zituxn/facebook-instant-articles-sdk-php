@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -54,7 +54,7 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
                     ),
                 )
             );
-        $this->assertEquals($author_rule->getClassName(), AuthorRule::getClassName());
+        $this->assertEquals($author_rule->getObjClassName(), AuthorRule::getClassName());
     }
 
     public function testExpectedNameWithLink()

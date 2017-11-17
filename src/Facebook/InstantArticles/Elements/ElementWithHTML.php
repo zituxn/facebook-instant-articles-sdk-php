@@ -27,7 +27,7 @@ abstract class ElementWithHTML extends Element
      *
      * @return $this
      */
-    public function withHTML(\DOMNode $html): ElementWithHTML
+    public function withHTML(\DOMNode $html): this
     {
         // If this is raw HTML source, wrap in a CDATA section as it could contain JS etc. with characters (such as &) that are not allowed in unescaped form
         // if (Type::is($html, Type::STRING)) {
@@ -44,7 +44,7 @@ abstract class ElementWithHTML extends Element
      *
      * @return $this
      */
-    public function withHTMLString(string $html): ElementWithHTML
+    public function withHTMLString(string $html): this
     {
         $html = new \DOMCdataSection($html);
         $this->html = $html;

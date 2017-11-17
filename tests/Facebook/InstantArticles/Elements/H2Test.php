@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,7 +10,7 @@ namespace Facebook\InstantArticles\Elements;
 
 class H2Test extends \Facebook\Util\BaseHTMLTestCase
 {
-    public function testRenderEmpty()
+    public function testRenderEmpty(): void
     {
         $h2 = H2::create();
 
@@ -20,7 +20,7 @@ class H2Test extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderBasic()
+    public function testRenderBasic(): void
     {
         $h2 =
             H2::create()
@@ -35,7 +35,7 @@ class H2Test extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithPosition()
+    public function testRenderWithPosition(): void
     {
         $h2 =
             H2::create()
@@ -51,7 +51,7 @@ class H2Test extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithTextAlign()
+    public function testRenderWithTextAlign(): void
     {
         $h2 =
             H2::create()
@@ -67,7 +67,7 @@ class H2Test extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithPositionAndAlignment()
+    public function testRenderWithPositionAndAlignment(): void
     {
         $h2 =
             H2::create()
@@ -84,7 +84,7 @@ class H2Test extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithUnescapedHTML()
+    public function testRenderWithUnescapedHTML(): void
     {
         $h2 =
             H2::create()
@@ -102,7 +102,7 @@ class H2Test extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithFormattedText()
+    public function testRenderWithFormattedText(): void
     {
         $h2 =
             H2::create()
@@ -123,14 +123,14 @@ class H2Test extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithLink()
+    public function testRenderWithLink(): void
     {
         $h2 =
             H2::create()
                 ->appendText('Some ')
                 ->appendText(
                     Anchor::create()
-                        ->withHRef('http://foo.com')
+                        ->withHref('http://foo.com')
                         ->appendText('link')
                 )
                 ->appendText('.');
@@ -144,7 +144,7 @@ class H2Test extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithNestedFormattedText()
+    public function testRenderWithNestedFormattedText(): void
     {
         $h2 =
             H2::create()

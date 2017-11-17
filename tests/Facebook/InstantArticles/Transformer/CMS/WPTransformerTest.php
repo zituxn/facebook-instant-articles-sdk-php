@@ -32,7 +32,7 @@ class WPTransformerTest extends \Facebook\Util\BaseHTMLTestCase
         libxml_use_internal_errors(false);
 
         $instant_article
-            ->withCanonicalURL('http://localhost/article')
+            ->withCanonicalUrl('http://localhost/article')
             ->withHeader(
                 Header::create()
                     ->withTitle(H1::create()->appendText('Peace on <b>earth</b>'))

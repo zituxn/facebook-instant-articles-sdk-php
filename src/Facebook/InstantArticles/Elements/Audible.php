@@ -13,7 +13,7 @@ namespace Facebook\InstantArticles\Elements;
  * This class represents all elements that can contain Audio
  * <ul>
  *     <li>Image</li>
- *     <li>SlideShow</li>
+ *     <li>Slideshow</li>
  * </ul>.
  *
  * Example:
@@ -22,7 +22,7 @@ namespace Facebook\InstantArticles\Elements;
  *  </audio>
  *
  * @see Image
- * @see SlideShow
+ * @see Slideshow
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
 abstract class Audible extends Element implements ChildrenContainer
@@ -34,5 +34,5 @@ abstract class Audible extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    abstract public function withAudio(Audio $audio): Audible;
+    abstract public function withAudio(Audio $audio): this;
 }

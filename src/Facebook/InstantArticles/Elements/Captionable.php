@@ -10,5 +10,5 @@ namespace Facebook\InstantArticles\Elements;
 
 interface Captionable
 {
-    public function withCaption(Caption $caption): Element;
+    public function withCaption(Caption $caption): this;
 }

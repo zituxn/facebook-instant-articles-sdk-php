@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,7 +10,7 @@ namespace Facebook\InstantArticles\Elements;
 
 class AuthorTest extends \Facebook\Util\BaseHTMLTestCase
 {
-    public function testRenderEmpty()
+    public function testRenderEmpty(): void
     {
         $author =
             Author::create();
@@ -21,7 +21,7 @@ class AuthorTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderAuthorWithFB()
+    public function testRenderAuthorWithFB(): void
     {
         $author =
             Author::create()
@@ -39,7 +39,7 @@ class AuthorTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderAuthorWithTwitter()
+    public function testRenderAuthorWithTwitter(): void
     {
         $author =
             Author::create()

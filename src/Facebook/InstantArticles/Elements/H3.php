@@ -42,7 +42,7 @@ class H3 extends TextContainer
     /**
      * @return H3
      */
-    public static function create()
+    public static function create(): H3
     {
         return new self();
     }
@@ -58,7 +58,7 @@ class H3 extends TextContainer
      *
      * @return $this
      */
-    public function withTextAlignment(string $text_alignment): H3
+    public function withTextAlignment(string $text_alignment): this
     {
         Type::enforceWithin(
             $text_alignment,
@@ -79,7 +79,7 @@ class H3 extends TextContainer
      * @param string $position
      * @return $this
      */
-    public function withPostion(string $position): H3
+    public function withPostion(string $position): this
     {
         return $this->withPosition($position);
     }
@@ -95,7 +95,7 @@ class H3 extends TextContainer
      *
      * @return $this
      */
-    public function withPosition(string $position): H3
+    public function withPosition(string $position): this
     {
         Type::enforceWithin(
             $position,
@@ -115,7 +115,7 @@ class H3 extends TextContainer
      *
      * @return H3
      */
-    public function enableKicker(): H3
+    public function enableKicker(): this
     {
         $this->isKicker = true;
         return $this;
@@ -126,7 +126,7 @@ class H3 extends TextContainer
      *
      * @return H3
      */
-    public function disableKicker(): H3
+    public function disableKicker(): this
     {
         $this->isKicker = false;
         return $this;

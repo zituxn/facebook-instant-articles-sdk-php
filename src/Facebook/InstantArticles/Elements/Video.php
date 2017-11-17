@@ -17,7 +17,7 @@ use Facebook\InstantArticles\Validators\Type;
  * <ul>
  *     <li>Audio</li>
  *     <li>Image</li>
- *     <li>SlideShow</li>
+ *     <li>Slideshow</li>
  *     <li>Map</li>
  * </ul>
  *
@@ -30,7 +30,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see Audio
  * @see Image
- * @see SlideShow
+ * @see Slideshow
  * @see Map
  * @package Facebook\InstantArticle\Elements
  */
@@ -146,7 +146,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      * @see Caption
      * @return $this
      */
-    public function withCaption(Caption $caption): Video
+    public function withCaption(Caption $caption): this
     {
         $this->caption = $caption;
         return $this;
@@ -159,7 +159,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function withURL(string $url): Video
+    public function withURL(string $url): this
     {
         $this->url = $url;
         return $this;
@@ -177,7 +177,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function withPresentation(string $presentation): Video
+    public function withPresentation(string $presentation): this
     {
         Type::enforceWithin(
             $presentation,
@@ -198,7 +198,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function enableLike(): Video
+    public function enableLike(): this
     {
         $this->isLikeEnabled = true;
         return $this;
@@ -209,7 +209,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function disableLike(): Video
+    public function disableLike(): this
     {
         $this->isLikeEnabled = false;
         return $this;
@@ -220,7 +220,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function enableComments(): Video
+    public function enableComments(): this
     {
         $this->isCommentsEnabled = true;
         return $this;
@@ -231,7 +231,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function disableComments(): Video
+    public function disableComments(): this
     {
         $this->isCommentsEnabled = false;
         return $this;
@@ -242,7 +242,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function enableControls(): Video
+    public function enableControls(): this
     {
         $this->isControlsShown = true;
 
@@ -254,7 +254,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function disableControls(): Video
+    public function disableControls(): this
     {
         $this->isControlsShown = false;
         return $this;
@@ -265,7 +265,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function enableAutoplay(): Video
+    public function enableAutoplay(): this
     {
         $this->isAutoplay = true;
         return $this;
@@ -276,7 +276,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function disableAutoplay(): Video
+    public function disableAutoplay(): this
     {
         $this->isAutoplay = false;
         return $this;
@@ -287,7 +287,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function enableFeedCover(): Video
+    public function enableFeedCover(): this
     {
         $this->isFeedCover = true;
         return $this;
@@ -298,7 +298,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function disableFeedCover(): Video
+    public function disableFeedCover(): this
     {
         $this->isFeedCover = false;
         return $this;
@@ -310,7 +310,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function withContentType(string $contentType): Video
+    public function withContentType(string $contentType): this
     {
         $this->contentType = $contentType;
         return $this;
@@ -325,7 +325,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function withGeoTag(GeoTag $geoTag): Video
+    public function withGeoTag(GeoTag $geoTag): this
     {
         $this->geoTag = $geoTag;
         return $this;
@@ -338,7 +338,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      *
      * @return $this
      */
-    public function withAttribution(string $attribution): Video
+    public function withAttribution(string $attribution): this
     {
         $this->attribution = $attribution;
         return $this;

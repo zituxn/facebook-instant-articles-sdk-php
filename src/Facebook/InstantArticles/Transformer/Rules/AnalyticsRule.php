@@ -51,12 +51,12 @@ class AnalyticsRule extends ConfigurationSelectorRule
         $analytics = Analytics::create();
 
         // Builds the analytics
-        $url = $this->getProperty(self::PROPERTY_TRACKER_URL, $node);
+        $url = $this->getPropertyString(self::PROPERTY_TRACKER_URL, $node);
         if ($url) {
             $analytics->withSource($url);
         }
 
-        $embed_code = $this->getProperty(self::PROPERTY_TRACKER_EMBED_URL, $node);
+        $embed_code = $this->getPropertyNode(self::PROPERTY_TRACKER_EMBED_URL, $node);
         if ($embed_code) {
             $analytics->withHTML($embed_code);
         }

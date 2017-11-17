@@ -50,8 +50,8 @@ class AnchorRule extends ConfigurationSelectorRule
     {
         $anchor = Anchor::create();
 
-        $url = $this->getProperty(self::PROPERTY_ANCHOR_HREF, $element);
-        $rel = $this->getProperty(self::PROPERTY_ANCHOR_REL, $element);
+        $url = $this->getPropertyString(self::PROPERTY_ANCHOR_HREF, $element);
+        $rel = $this->getPropertyString(self::PROPERTY_ANCHOR_REL, $element);
 
         if ($url) {
             $anchor->withHref($url);

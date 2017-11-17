@@ -22,7 +22,7 @@ class Bold extends FormattedText
     /**
      * @return Bold
      */
-    public static function create()
+    public static function create(): Bold
     {
         return new self();
     }

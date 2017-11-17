@@ -82,4 +82,14 @@ abstract class Rule
     {
         return get_called_class();
     }
+
+    /**
+     * Auxiliary method to extract all Elements full qualified class name.
+     *
+     * @return string The full qualified name of class.
+     */
+    public function getObjClassName(): string
+    {
+        return get_called_class();
+    }
 }

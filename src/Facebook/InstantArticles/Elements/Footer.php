@@ -63,7 +63,7 @@ class Footer extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withCredits(Vector<mixed> $credits): Footer
+    public function withCredits(Vector<mixed> $credits): this
     {
         $this->credits = $credits;
 
@@ -77,7 +77,7 @@ class Footer extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function addCredit(mixed $credit): Footer
+    public function addCredit(mixed $credit): this
     {
         $this->credits->add($credit);
 
@@ -91,7 +91,7 @@ class Footer extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withCopyright(Small $copyright): Footer
+    public function withCopyright(Small $copyright): this
     {
         $this->copyright = $copyright;
 
@@ -105,7 +105,7 @@ class Footer extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withRelatedArticles(RelatedArticles $related_articles): Footer
+    public function withRelatedArticles(RelatedArticles $related_articles): this
     {
         $this->relatedArticles = $related_articles;
 

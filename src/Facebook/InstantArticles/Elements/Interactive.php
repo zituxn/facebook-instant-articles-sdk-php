@@ -69,7 +69,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer, Captiona
      *
      * @return $this
      */
-    public function withCaption(Caption $caption): Interactive
+    public function withCaption(Caption $caption): this
     {
         $this->caption = $caption;
 
@@ -83,7 +83,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer, Captiona
      *
      * @return $this
      */
-    public function withWidth(int $width): Interactive
+    public function withWidth(int $width): this
     {
         $this->width = $width;
 
@@ -97,7 +97,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer, Captiona
      *
      * @return $this
      */
-    public function withHeight(int $height): Interactive
+    public function withHeight(int $height): this
     {
         $this->height = $height;
 
@@ -111,7 +111,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer, Captiona
      *
      * @return $this
      */
-    public function withSource(string $source): Interactive
+    public function withSource(string $source): this
     {
         $this->source = $source;
 
@@ -128,7 +128,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer, Captiona
      *
      * @return $this
      */
-    public function withMargin(string $margin): Interactive
+    public function withMargin(string $margin): this
     {
         Type::enforceWithin(
             $margin,

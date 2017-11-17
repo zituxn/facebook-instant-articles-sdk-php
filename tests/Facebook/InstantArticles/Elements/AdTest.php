@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,8 +10,7 @@ namespace Facebook\InstantArticles\Elements;
 
 class AdTest extends \Facebook\Util\BaseHTMLTestCase
 {
-
-    public function testRenderEmpty()
+    public function testRenderEmpty(): void
     {
         $ad = Ad::create();
 
@@ -21,7 +20,7 @@ class AdTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderBasic()
+    public function testRenderBasic(): void
     {
         $ad =
             Ad::create()
@@ -36,7 +35,7 @@ class AdTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderBasicWithHeightAndWidth()
+    public function testRenderBasicWithHeightAndWidth(): void
     {
         $ad =
             Ad::create()
@@ -53,7 +52,7 @@ class AdTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderBasicWithDefaultEnabled()
+    public function testRenderBasicWithDefaultEnabled(): void
     {
         $ad =
             Ad::create()
@@ -71,7 +70,7 @@ class AdTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderInlineWithHeightAndWidth()
+    public function testRenderInlineWithHeightAndWidth(): void
     {
         $inline =
             '<h1>Some custom code</h1>'.

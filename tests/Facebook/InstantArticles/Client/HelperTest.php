@@ -15,7 +15,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     private $helper;
     private $facebook;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->facebook = $this->getMockBuilder('Facebook\Facebook')
             ->disableOriginalConstructor()
@@ -25,7 +25,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetPagesAndTokes()
+    public function testGetPagesAndTokes(): void
     {
         $pagesAndTokens = ['page' => 'token'];
 

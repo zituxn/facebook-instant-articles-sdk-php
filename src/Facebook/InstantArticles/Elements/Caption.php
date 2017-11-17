@@ -16,7 +16,7 @@ use Facebook\InstantArticles\Validators\Type;
  * <ul>
  *     <li>Image</li>
  *     <li>Video</li>
- *     <li>SlideShow</li>
+ *     <li>Slideshow</li>
  *     <li>Map</li>
  *     <li>Interactive</li>
  * </ul>.
@@ -29,7 +29,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see Image
  * @see Video
- * @see SlideShow
+ * @see Slideshow
  * @see Map
  * @see Interactive
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/caption}
@@ -111,7 +111,7 @@ class Caption extends FormattedText
      *
      * @return $this
      */
-    public function withTitle(H1 $title): Caption
+    public function withTitle(H1 $title): this
     {
         $this->title = $title;
         return $this;
@@ -124,7 +124,7 @@ class Caption extends FormattedText
      *
      * @return $this
      */
-    public function withSubTitle(H2 $sub_title): Caption
+    public function withSubTitle(H2 $sub_title): this
     {
         $this->subTitle = $sub_title;
         return $this;
@@ -137,7 +137,7 @@ class Caption extends FormattedText
      *
      * @return $this
      */
-    public function withCredit(Cite $credit): Caption
+    public function withCredit(Cite $credit): this
     {
         $this->credit = $credit;
         return $this;
@@ -155,7 +155,7 @@ class Caption extends FormattedText
      *
      * @return $this
      */
-    public function withFontsize(string $font_size): Caption
+    public function withFontsize(string $font_size): this
     {
         Type::enforceWithin(
             $font_size,
@@ -182,7 +182,7 @@ class Caption extends FormattedText
      *
      * @return $this
      */
-    public function withTextAlignment(string $text_alignment): Caption
+    public function withTextAlignment(string $text_alignment): this
     {
         Type::enforceWithin(
             $text_alignment,
@@ -208,7 +208,7 @@ class Caption extends FormattedText
      *
      * @return $this
      */
-    public function withVerticalAlignment(string $vertical_alignment): Caption
+    public function withVerticalAlignment(string $vertical_alignment): this
     {
         Type::enforceWithin(
             $vertical_alignment,
@@ -234,7 +234,7 @@ class Caption extends FormattedText
      *
      * @return $this
      */
-    public function withPosition(string $position): Caption
+    public function withPosition(string $position): this
     {
         Type::enforceWithin(
             $position,

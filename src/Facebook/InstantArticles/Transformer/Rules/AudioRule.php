@@ -55,10 +55,10 @@ class AudioRule extends ConfigurationSelectorRule
         $audio = Audio::create();
 
         // Builds the image
-        $url = $this->getProperty(self::PROPERTY_AUDIO_URL, $node);
-        $title = $this->getProperty(self::PROPERTY_AUDIO_TITLE, $node);
-        $autoplay = $this->getProperty(self::PROPERTY_AUDIO_AUTOPLAY, $node);
-        $muted = $this->getProperty(self::PROPERTY_AUDIO_MUTED, $node);
+        $url = $this->getPropertyString(self::PROPERTY_AUDIO_URL, $node);
+        $title = $this->getPropertyString(self::PROPERTY_AUDIO_TITLE, $node);
+        $autoplay = $this->getPropertyString(self::PROPERTY_AUDIO_AUTOPLAY, $node);
+        $muted = $this->getPropertyString(self::PROPERTY_AUDIO_MUTED, $node);
 
         if ($url) {
             $audio->withURL($url);

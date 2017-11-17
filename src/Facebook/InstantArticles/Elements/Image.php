@@ -17,7 +17,7 @@ use Facebook\InstantArticles\Validators\Type;
  * <ul>
  *     <li>Audio</li>
  *     <li>Video</li>
- *     <li>SlideShow</li>
+ *     <li>Slideshow</li>
  *     <li>Map</li>
  * </ul>.
  *
@@ -29,7 +29,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see Audio
  * @see Video
- * @see SlideShow
+ * @see Slideshow
  * @see Map
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
@@ -117,7 +117,7 @@ class Image extends Audible implements ChildrenContainer, Captionable, GeoTaggab
      *
      * @return $this
      */
-    public function withCaption(Caption $caption): Image
+    public function withCaption(Caption $caption): this
     {
         $this->caption = $caption;
 
@@ -131,7 +131,7 @@ class Image extends Audible implements ChildrenContainer, Captionable, GeoTaggab
      *
      * @return $this
      */
-    public function withURL(string $url): Image
+    public function withURL(string $url): this
     {
         $this->url = $url;
 
@@ -149,7 +149,7 @@ class Image extends Audible implements ChildrenContainer, Captionable, GeoTaggab
      *
      * @return $this
      */
-    public function withPresentation(string $presentation): Image
+    public function withPresentation(string $presentation): this
     {
         Type::enforceWithin(
             $presentation,
@@ -168,7 +168,7 @@ class Image extends Audible implements ChildrenContainer, Captionable, GeoTaggab
     /**
      * Makes like enabled for this image.
      */
-    public function enableLike(): Image
+    public function enableLike(): this
     {
         $this->isLikeEnabled = true;
 
@@ -178,7 +178,7 @@ class Image extends Audible implements ChildrenContainer, Captionable, GeoTaggab
     /**
      * Makes like disabled for this image.
      */
-    public function disableLike(): Image
+    public function disableLike(): this
     {
         $this->isLikeEnabled = false;
 
@@ -188,7 +188,7 @@ class Image extends Audible implements ChildrenContainer, Captionable, GeoTaggab
     /**
      * Makes comments enabled for this image.
      */
-    public function enableComments(): Image
+    public function enableComments(): this
     {
         $this->isCommentsEnabled = true;
 
@@ -198,7 +198,7 @@ class Image extends Audible implements ChildrenContainer, Captionable, GeoTaggab
     /**
      * Makes comments disabled for this image.
      */
-    public function disableComments(): Image
+    public function disableComments(): this
     {
         $this->isCommentsEnabled = false;
 
@@ -210,7 +210,7 @@ class Image extends Audible implements ChildrenContainer, Captionable, GeoTaggab
      *
      * @see {link:http://geojson.org/}
      */
-    public function withGeoTag(GeoTag $geo_tag): Image
+    public function withGeoTag(GeoTag $geo_tag): this
     {
         $this->geoTag = $geo_tag;
 
@@ -224,7 +224,7 @@ class Image extends Audible implements ChildrenContainer, Captionable, GeoTaggab
      *
      * @return $this
      */
-    public function withAudio(Audio $audio): Image
+    public function withAudio(Audio $audio): this
     {
         $this->audio = $audio;
 

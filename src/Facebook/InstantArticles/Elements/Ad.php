@@ -43,7 +43,7 @@ class Ad extends ElementWithHTML
     {
     }
 
-    public static function create()
+    public static function create(): Ad
     {
         return new self();
     }
@@ -78,7 +78,7 @@ class Ad extends ElementWithHTML
      *
      * @return $this
      */
-    public function withHeight(int $height): Ad
+    public function withHeight(int $height): this
     {
         $this->height = $height;
         return $this;
@@ -91,7 +91,7 @@ class Ad extends ElementWithHTML
      *
      * @return $this
      */
-    public function withSource(string $source): Ad
+    public function withSource(string $source): this
     {
         $this->source = $source;
         return $this;
@@ -104,7 +104,7 @@ class Ad extends ElementWithHTML
      *
      * @return $this
      */
-    public function withWidth(int $width): Ad
+    public function withWidth(int $width): this
     {
         $this->width = $width;
         return $this;

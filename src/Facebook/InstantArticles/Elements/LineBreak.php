@@ -27,7 +27,7 @@ class LineBreak extends FormattedText
         return new self();
     }
 
-    public function appendText(mixed $child): TextContainer
+    public function appendText(mixed $child): this
     {
         throw new \BadMethodCallException('Cannot append text to a line break');
     }

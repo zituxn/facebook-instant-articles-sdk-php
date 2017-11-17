@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -14,7 +14,7 @@ use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Footer;
 use Facebook\InstantArticles\Elements\Paragraph;
-use Facebook\InstantArticles\Elements\SlideShow;
+use Facebook\InstantArticles\Elements\Slideshow;
 use Facebook\InstantArticles\Elements\InstantArticle;
 
 /**
@@ -23,7 +23,7 @@ use Facebook\InstantArticles\Elements\InstantArticle;
  */
 class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
 {
-    public function testInstantArticle()
+    public function testInstantArticle(): void
     {
         $article =
             InstantArticle::create()
@@ -55,7 +55,7 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
 
                 // Slideshow
                 ->addChild(
-                    SlideShow::create()
+                    Slideshow::create()
                         ->addImage(
                             Image::create()
                                 ->withURL('https://jpeg.org/images/jpegls-home.jpg')
@@ -116,7 +116,7 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(9, count($warnings));
     }
 
-    public function testFooter()
+    public function testFooter(): void
     {
         $footer = Footer::create();
         $expected = '';

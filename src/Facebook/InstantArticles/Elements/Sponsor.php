@@ -43,7 +43,7 @@ class Sponsor extends Element
      *
      * @return $this
      */
-    public function withPageUrl(string $url): Sponsor
+    public function withPageUrl(string $url): this
     {
         $this->page_url = $url;
         return $this;

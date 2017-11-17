@@ -16,7 +16,7 @@ use Facebook\InstantArticles\Validators\Type;
  * <ul>
  *     <li>Image</li>
  *     <li>Video</li>
- *     <li>SlideShow</li>
+ *     <li>Slideshow</li>
  *     <li>Map</li>
  * </ul>.
  *
@@ -27,7 +27,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see Image
  * @see Video
- * @see SlideShow
+ * @see Slideshow
  * @see Map
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/audio}
  */
@@ -65,7 +65,7 @@ class Audio extends Element
     /**
      * @return Audio
      */
-    public static function create()
+    public static function create(): Audio
     {
         return new self();
     }
@@ -77,7 +77,7 @@ class Audio extends Element
      *
      * @return $this
      */
-    public function withURL(string $url): Audio
+    public function withURL(string $url): this
     {
         $this->url = $url;
 
@@ -91,7 +91,7 @@ class Audio extends Element
      *
      * @return $this
      */
-    public function withTitle(string $title): Audio
+    public function withTitle(string $title): this
     {
         $this->title = $title;
 
@@ -103,7 +103,7 @@ class Audio extends Element
      *
      * @return $this
      */
-    public function enableAutoplay(): Audio
+    public function enableAutoplay(): this
     {
         $this->autoplay = true;
 
@@ -115,7 +115,7 @@ class Audio extends Element
      *
      * @return $this
      */
-    public function disableAutoplay(): Audio
+    public function disableAutoplay(): this
     {
         $this->autoplay = false;
 
@@ -127,7 +127,7 @@ class Audio extends Element
      *
      * @return $this
      */
-    public function enableMuted(): Audio
+    public function enableMuted(): this
     {
         $this->muted = true;
 
@@ -139,7 +139,7 @@ class Audio extends Element
      *
      * @return $this
      */
-    public function disableMuted(): Audio
+    public function disableMuted(): this
     {
         $this->muted = false;
 

@@ -76,7 +76,7 @@ class ListElement extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function addItem(ListItem $new_item): ListElement
+    public function addItem(ListItem $new_item): this
     {
         $this->items->add($new_item);
 
@@ -90,7 +90,7 @@ class ListElement extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withItems(Vector<ListItem> $new_items): ListElement
+    public function withItems(Vector<ListItem> $new_items): this
     {
         $this->items = Vector {};
         $this->items->addAll($new_items);
@@ -102,7 +102,7 @@ class ListElement extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function enableOrdered(): ListElement
+    public function enableOrdered(): this
     {
         $this->isOrdered = true;
 
@@ -114,7 +114,7 @@ class ListElement extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function disableOrdered(): ListElement
+    public function disableOrdered(): this
     {
         $this->isOrdered = false;
 

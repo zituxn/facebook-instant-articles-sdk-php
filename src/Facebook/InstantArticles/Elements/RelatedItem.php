@@ -47,7 +47,7 @@ class RelatedItem extends Element
      *
      * @return $this
      */
-    public function withURL(string $url): RelatedItem
+    public function withURL(string $url): this
     {
         $this->url = $url;
 
@@ -59,7 +59,7 @@ class RelatedItem extends Element
      *
      * @return $this
      */
-    public function enableSponsored(): RelatedItem
+    public function enableSponsored(): this
     {
         $this->sponsored = true;
 
@@ -71,7 +71,7 @@ class RelatedItem extends Element
      *
      * @return $this
      */
-    public function disableSponsored(): RelatedItem
+    public function disableSponsored(): this
     {
         $this->sponsored = false;
 

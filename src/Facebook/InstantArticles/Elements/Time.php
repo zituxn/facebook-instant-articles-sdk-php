@@ -95,7 +95,7 @@ class Time extends Element
      *
      * @return $this
      */
-    public function withType(string $type): Time
+    public function withType(string $type): this
     {
         Type::enforceWithin(
             $type,
@@ -116,7 +116,7 @@ class Time extends Element
      *
      * @return $this
      */
-    public function withDatetime(\DateTime $date): Time
+    public function withDatetime(\DateTime $date): this
     {
         $this->date = $date;
 

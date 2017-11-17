@@ -79,7 +79,7 @@ class Author extends Element
      *
      * @return $this
      */
-    public function withURL(string $url): Author
+    public function withURL(string $url): this
     {
         $this->url = $url;
         return $this;
@@ -92,7 +92,7 @@ class Author extends Element
      *
      * @return $this
      */
-    public function withName(string $name): Author
+    public function withName(string $name): this
     {
         $this->name = $name;
         return $this;
@@ -105,7 +105,7 @@ class Author extends Element
      *
      * @return $this
      */
-    public function withDescription(string $description): Author
+    public function withDescription(string $description): this
     {
         $this->description = $description;
         return $this;
@@ -118,7 +118,7 @@ class Author extends Element
      *
      * @return $this
      */
-    public function withRoleContribution(string $role_contribution): Author
+    public function withRoleContribution(string $role_contribution): this
     {
         $this->roleContribution = $role_contribution;
         return $this;

@@ -37,7 +37,7 @@ class H2 extends TextContainer
     /**
      * @return H2
      */
-    public static function create()
+    public static function create(): H2
     {
         return new self();
     }
@@ -53,7 +53,7 @@ class H2 extends TextContainer
      *
      * @return $this
      */
-    public function withTextAlignment(string $text_alignment): H2
+    public function withTextAlignment(string $text_alignment): this
     {
         Type::enforceWithin(
             $text_alignment,
@@ -74,7 +74,7 @@ class H2 extends TextContainer
      * @param string $position
      * @return $this
      */
-    public function withPostion(string $position): H2
+    public function withPostion(string $position): this
     {
         return $this->withPosition($position);
     }
@@ -90,7 +90,7 @@ class H2 extends TextContainer
      *
      * @return $this
      */
-    public function withPosition(string $position): H2
+    public function withPosition(string $position): this
     {
         Type::enforceWithin(
             $position,

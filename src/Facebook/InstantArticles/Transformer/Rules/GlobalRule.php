@@ -125,7 +125,7 @@ class GlobalRule extends ConfigurationSelectorRule
         // Treats Canonical URL
         $articleCanonicalUrl = $this->getPropertyString(self::PROPERTY_GLOBAL_CANONICAL_URL, $node);
         if ($articleCanonicalUrl) {
-            $instantArticle->withCanonicalURL($articleCanonicalUrl);
+            $instantArticle->withCanonicalUrl($articleCanonicalUrl);
         } else {
             $transformer->addWarning(
                 new InvalidSelector(

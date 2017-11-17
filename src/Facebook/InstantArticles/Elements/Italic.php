@@ -20,7 +20,7 @@ class Italic extends FormattedText
     {
     }
 
-    public static function create()
+    public static function create(): Italic
     {
         return new self();
     }

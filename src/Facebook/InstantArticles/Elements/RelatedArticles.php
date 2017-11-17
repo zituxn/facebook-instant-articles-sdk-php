@@ -60,7 +60,7 @@ class RelatedArticles extends Element implements \Facebook\InstantArticles\Eleme
      *
      * @return $this
      */
-    public function addRelated(RelatedItem $item): RelatedArticles
+    public function addRelated(RelatedItem $item): this
     {
         $this->items->add($item);
 
@@ -74,7 +74,7 @@ class RelatedArticles extends Element implements \Facebook\InstantArticles\Eleme
      *
      * @return $this
      */
-    public function withTitle(string $title): RelatedArticles
+    public function withTitle(string $title): this
     {
         $this->title = $title;
 

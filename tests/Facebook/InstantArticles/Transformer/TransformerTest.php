@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -100,7 +100,7 @@ class TransformerTest extends \Facebook\Util\BaseHTMLTestCase
     //     $html_file = file_get_contents(__DIR__ . '/instant-article-example-multibyte.html');
     //
     //     $transformer->transformString($instant_article, $html_file, 'utf-8');
-    //     $instant_article->withCanonicalURL('http://foo.com/article.html');
+    //     $instant_article->withCanonicalUrl('http://foo.com/article.html');
     //     $instant_article->addMetaProperty('op:generator:version', '1.0.0');
     //     $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
     //     $result = $instant_article->render('', true)."\n";
@@ -124,7 +124,7 @@ class TransformerTest extends \Facebook\Util\BaseHTMLTestCase
     //     $html_file = file_get_contents(__DIR__ . '/instant-article-example-nonutf8.html');
     //
     //     $transformer->transformString($instant_article, $html_file, 'euc-jp');
-    //     $instant_article->withCanonicalURL('http://foo.com/article.html');
+    //     $instant_article->withCanonicalUrl('http://foo.com/article.html');
     //     $instant_article->addMetaProperty('op:generator:version', '1.0.0');
     //     $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
     //     $result = $instant_article->render('', true)."\n";

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,9 +10,9 @@ namespace Facebook\InstantArticles\Elements;
 
 class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
 {
-    public function testRenderEmpty()
+    public function testRenderEmpty(): void
     {
-        $caption = Caption::create(H1::create(""));
+        $caption = Caption::create()->withTitle(H1::create()->appendText(""));
 
         $expected = '';
 
@@ -20,10 +20,10 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderBasic()
+    public function testRenderBasic(): void
     {
         $caption =
-            Caption::create(H1::create(""))
+            Caption::create()
                 ->appendText('Caption Title');
 
         $expected =
@@ -35,7 +35,7 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithSubTitle()
+    public function testRenderWithSubTitle(): void
     {
         $caption =
             Caption::create()
@@ -52,12 +52,14 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithCredit()
+    public function testRenderWithCredit(): void
     {
+        $cite = Cite::create();
+        $cite->appendText('Caption Credit');
         $caption =
             Caption::create()
                 ->withTitle(H1::create()->appendText('Caption Title'))
-                ->withCredit(Cite::create()->appendText('Caption Credit'));
+                ->withCredit($cite);
 
         $expected =
             '<figcaption>'.
@@ -69,12 +71,12 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithPosition()
+    public function testRenderWithPosition(): void
     {
         $caption =
             Caption::create()
-                ->appendText('Caption Title')
-                ->withPosition(Caption::POSITION_BELOW);
+                ->withPosition(Caption::POSITION_BELOW)
+                ->appendText('Caption Title');
 
         $expected =
             '<figcaption class="op-vertical-below">'.
@@ -85,12 +87,12 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithLargeFontSize()
+    public function testRenderWithLargeFontSize(): void
     {
         $caption =
             Caption::create()
-                ->appendText('Caption Title')
-                ->withFontsize(Caption::SIZE_LARGE);
+                ->withFontsize(Caption::SIZE_LARGE)
+                ->appendText('Caption Title');
 
         $expected =
             '<figcaption class="op-large">'.
@@ -101,12 +103,12 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithSmallFontSize()
+    public function testRenderWithSmallFontSize(): void
     {
         $caption =
             Caption::create()
-                ->appendText('Small Caption Title')
-                ->withFontsize(Caption::SIZE_SMALL);
+                ->withFontsize(Caption::SIZE_SMALL)
+                ->appendText('Small Caption Title');
 
         $expected =
             '<figcaption class="op-small">'.
@@ -117,12 +119,12 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithTextAlignment()
+    public function testRenderWithTextAlignment(): void
     {
         $caption =
             Caption::create()
-                ->appendText('Caption Title')
-                ->withTextAlignment(Caption::ALIGN_LEFT);
+                ->withTextAlignment(Caption::ALIGN_LEFT)
+                ->appendText('Caption Title');
 
         $expected =
             '<figcaption class="op-left">'.
@@ -133,12 +135,12 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithVerticalAlignment()
+    public function testRenderWithVerticalAlignment(): void
     {
         $caption =
             Caption::create()
-                ->appendText('Caption Title')
-                ->withVerticalAlignment(Caption::VERTICAL_BOTTOM);
+                ->withVerticalAlignment(Caption::VERTICAL_BOTTOM)
+                ->appendText('Caption Title');
 
         $expected =
             '<figcaption class="op-vertical-bottom">'.
@@ -149,15 +151,15 @@ class CaptionTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithAllFormating()
+    public function testRenderWithAllFormating(): void
     {
         $caption =
             Caption::create()
-                ->appendText('Caption Title')
                 ->withFontsize(Caption::SIZE_LARGE)
                 ->withPosition(Caption::POSITION_BELOW)
                 ->withTextAlignment(Caption::ALIGN_LEFT)
-                ->withVerticalAlignment(Caption::VERTICAL_BOTTOM);
+                ->withVerticalAlignment(Caption::VERTICAL_BOTTOM)
+                ->appendText('Caption Title');
 
         $expected =
             '<figcaption class="op-left op-vertical-bottom op-large op-vertical-below">'.

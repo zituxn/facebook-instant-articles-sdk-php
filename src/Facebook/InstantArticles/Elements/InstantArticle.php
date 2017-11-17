@@ -118,7 +118,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withCanonicalURL(string $url): InstantArticle
+    public function withCanonicalUrl(string $url): this
     {
         $this->canonicalURL = $url;
 
@@ -132,7 +132,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withCharset(string $charset): InstantArticle
+    public function withCharset(string $charset): this
     {
         $this->charset = $charset;
 
@@ -146,7 +146,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withStyle(string $style): InstantArticle
+    public function withStyle(string $style): this
     {
         $this->style = $style;
 
@@ -156,7 +156,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * Use the strategy of auto ad placement
      */
-    public function enableAutomaticAdPlacement(): InstantArticle
+    public function enableAutomaticAdPlacement(): this
     {
         $this->isAutomaticAdPlaced = true;
         return $this;
@@ -165,7 +165,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * Use the strategy of manual ad placement
      */
-    public function disableAutomaticAdPlacement(): InstantArticle
+    public function disableAutomaticAdPlacement(): this
     {
         $this->isAutomaticAdPlaced = false;
         return $this;
@@ -178,7 +178,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withAdDensity(string $adDensity): InstantArticle
+    public function withAdDensity(string $adDensity): this
     {
         $this->adDensity = $adDensity;
 
@@ -188,7 +188,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * Updates article to use RTL orientation.
      */
-    public function enableRTL(): InstantArticle
+    public function enableRTL(): this
     {
         $this->isRTLEnabled = true;
         return $this;
@@ -197,7 +197,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * Updates article to use LTR orientation (default), disabling RTL.
      */
-    public function disableRTL(): InstantArticle
+    public function disableRTL(): this
     {
         $this->isRTLEnabled = false;
         return $this;
@@ -210,7 +210,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withHeader(Header $header): InstantArticle
+    public function withHeader(Header $header): this
     {
         $this->header = $header;
 
@@ -224,7 +224,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withFooter(Footer $footer): InstantArticle
+    public function withFooter(Footer $footer): this
     {
         $this->footer = $footer;
 
@@ -238,7 +238,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function withChildren(Vector<Element> $children): InstantArticle
+    public function withChildren(Vector<Element> $children): this
     {
         $this->children = Vector {};
         $this->children->addAll($children);
@@ -254,7 +254,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function deleteChild(int $index): InstantArticle
+    public function deleteChild(int $index): this
     {
         $this->children->removeKey($index);
 
@@ -268,7 +268,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function addChild(Element $child): InstantArticle
+    public function addChild(Element $child): this
     {
         $this->children->add($child);
 
@@ -282,7 +282,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function unshiftChild(Element $child): InstantArticle
+    public function unshiftChild(Element $child): this
     {
         array_unshift($this->children, $child);
 
@@ -353,7 +353,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      *
      * @return $this
      */
-    public function addMetaProperty(string $property_name, string $property_content): InstantArticle
+    public function addMetaProperty(string $property_name, string $property_content): this
     {
         $this->metaProperties[$property_name] = $property_content;
         return $this;

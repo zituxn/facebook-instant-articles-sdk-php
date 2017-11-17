@@ -62,7 +62,7 @@ class GeoTag extends Element
      *
      * @return $this
      */
-    public function withScript(string $script): GeoTag
+    public function withScript(string $script): this
     {
         $this->script = $script; // TODO Validate the json informed
 

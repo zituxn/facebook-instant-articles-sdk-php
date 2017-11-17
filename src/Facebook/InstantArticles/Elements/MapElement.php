@@ -74,7 +74,7 @@ class MapElement extends Audible implements ChildrenContainer, Captionable, GeoT
      *
      * @return $this
      */
-    public function withCaption(Caption $caption): MapElement
+    public function withCaption(Caption $caption): this
     {
         $this->caption = $caption;
 
@@ -90,7 +90,7 @@ class MapElement extends Audible implements ChildrenContainer, Captionable, GeoT
      *
      * @return $this
      */
-    public function withGeoTag(GeoTag $geo_tag): MapElement
+    public function withGeoTag(GeoTag $geo_tag): this
     {
         $this->geoTag = $geo_tag;
 
@@ -104,7 +104,7 @@ class MapElement extends Audible implements ChildrenContainer, Captionable, GeoT
      *
      * @return $this
      */
-    public function withAudio(Audio $audio): Audible
+    public function withAudio(Audio $audio): this
     {
         $this->audio = $audio;
 

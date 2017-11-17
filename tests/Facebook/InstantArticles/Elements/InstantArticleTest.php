@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -94,7 +94,7 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
 
                 // Slideshow
                 ->addChild(
-                    SlideShow::create()
+                    Slideshow::create()
                         ->addImage(
                             Image::create()
                                 ->withURL('https://jpeg.org/images/jpegls-home.jpg')
@@ -350,7 +350,7 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
 
                 // Slideshow
                 ->addChild(
-                    SlideShow::create()
+                    Slideshow::create()
                         ->addImage(
                             Image::create()
                                 ->withURL('https://jpeg.org/images/jpegls-home.jpg')
@@ -413,7 +413,7 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $ia =
             InstantArticle::create()
-                ->withCanonicalURL('http://wp.localtest.me/2016/04/12/stress-on-earth/')
+                ->withCanonicalUrl('http://wp.localtest.me/2016/04/12/stress-on-earth/')
                 ->enableAutomaticAdPlacement()
                 ->withHeader(
                     Header::create()
@@ -451,7 +451,7 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $article =
             InstantArticle::create()
-                ->withCanonicalURL('http://wp.localtest.me/2016/04/12/stress-on-earth/')
+                ->withCanonicalUrl('http://wp.localtest.me/2016/04/12/stress-on-earth/')
                 ->enableAutomaticAdPlacement()
                 ->enableRTL()
                 ->withHeader(
@@ -510,7 +510,7 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $article =
             InstantArticle::create()
-                ->withCanonicalURL('http://wp.localtest.me/2016/04/12/stress-on-earth/')
+                ->withCanonicalUrl('http://wp.localtest.me/2016/04/12/stress-on-earth/')
                 ->enableAutomaticAdPlacement()
                 ->enableRTL()
                 ->withHeader(
@@ -557,7 +557,7 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $article =
             InstantArticle::create()
-                ->withCanonicalURL('http://www.facebook-IA-test.com/category/test')
+                ->withCanonicalUrl('http://www.facebook-IA-test.com/category/test')
                 ->enableAutomaticAdPlacement()
                 ->withHeader(
                     Header::create()
@@ -619,7 +619,7 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $article =
             InstantArticle::create()
-                ->withCanonicalURL('http://www.facebook-IA-test.com/category/test')
+                ->withCanonicalUrl('http://www.facebook-IA-test.com/category/test')
                 ->enableAutomaticAdPlacement()
                 ->withHeader(
                     Header::create()
@@ -676,7 +676,7 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $article =
             InstantArticle::create()
-                ->withCanonicalURL('http://www.facebook-IA-test.com/category/test')
+                ->withCanonicalUrl('http://www.facebook-IA-test.com/category/test')
                 ->enableAutomaticAdPlacement()
                 ->withHeader(
                     Header::create()
