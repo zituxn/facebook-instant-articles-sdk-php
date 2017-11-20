@@ -36,8 +36,8 @@ class HeaderSubTitleRule extends ConfigurationSelectorRule
     public function apply(Transformer $transformer, Element $header, \DOMNode $h2): Element
     {
         invariant($header instanceof Header, 'Error, $header not Header');
-        $subtitle = $transformer->transform(H2::create(), $h2);
-        invariant($subtitle instanceof H2, 'Error, $subtitle is not H2.');
+        $subtitle = H2::create();
+        $transformer->transform($subtitle, $h2);
         $header->withSubTitle($subtitle);
         return $header;
     }

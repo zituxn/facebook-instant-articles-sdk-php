@@ -43,7 +43,7 @@ class GetterFactory
      * @see JSONGetter
      * @see XpathGetter
      *
-     * @param Map<string, string> $getter_configuration that maps the properties for getter
+     * @param array<string, string> $getter_configuration that maps the properties for getter
      *
      * @return AbstractGetter
      */

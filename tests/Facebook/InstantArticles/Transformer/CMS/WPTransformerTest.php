@@ -19,6 +19,7 @@ class WPTransformerTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testTransformerLikeWPContent(): void
     {
+        date_default_timezone_set('UTC');
         $json_file = file_get_contents(__DIR__ . '/wp-rules.json');
         $instant_article = InstantArticle::create();
         $transformer = new Transformer();
@@ -59,6 +60,7 @@ class WPTransformerTest extends \Facebook\Util\BaseHTMLTestCase
 
     public function testTitleTransformedWithBold(): void
     {
+        date_default_timezone_set('UTC');
         $transformer = new Transformer();
         $json_file = file_get_contents(__DIR__ . '/wp-rules.json');
         $transformer->loadRules($json_file);
@@ -68,6 +70,8 @@ class WPTransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $header = Header::create();
         $transformer->transformString($header, $title_html_string);
 
-        $this->assertEqualsHtml('<h1>Title <b>in bold</b></h1>', $header->getTitle()?->render());
+        $title = $header->getTitle();
+        invariant($title !== null, '$title should not be null');
+        $this->assertEqualsHtml('<h1>Title <b>in bold</b></h1>', $title->render());
     }
 }

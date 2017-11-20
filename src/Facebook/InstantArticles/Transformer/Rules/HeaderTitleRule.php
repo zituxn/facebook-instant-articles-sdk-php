@@ -36,8 +36,8 @@ class HeaderTitleRule extends ConfigurationSelectorRule
     public function apply(Transformer $transformer, Element $header, \DOMNode $h1): Element
     {
         invariant($header instanceof Header, 'Error, $header is not Header');
-        $title = $transformer->transform(H1::create(), $h1);
-        invariant($title instanceof H1, 'Error, $title is not H1');
+        $title = H1::create();
+        $transformer->transform($title, $h1);
         $header->withTitle($title);
         return $header;
     }

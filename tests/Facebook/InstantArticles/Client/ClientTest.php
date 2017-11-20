@@ -320,7 +320,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $canonicalURL = "http://facebook.com";
 
-        $expectedArticleID = -1;
+        $expectedArticleID = null;
 
         $serverResponseMock =
             $this->getMockBuilder('Facebook\FacebookResponse')
@@ -404,7 +404,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $canonicalURL = "http://facebook.com";
 
-        $expectedArticleID = -1;
+        $expectedArticleID = null;
 
         $serverResponseMock =
             $this->getMockBuilder('Facebook\FacebookResponse')

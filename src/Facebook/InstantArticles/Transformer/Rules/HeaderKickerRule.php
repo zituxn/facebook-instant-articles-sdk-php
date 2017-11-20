@@ -36,8 +36,8 @@ class HeaderKickerRule extends ConfigurationSelectorRule
     public function apply(Transformer $transformer, Element $header, \DOMNode $h3): Element
     {
         invariant($header instanceof Header, 'Error, $header is not Header');
-        $kicker = $transformer->transform(H3::create(), $h3);
-        invariant($kicker instanceof H3, 'Error, $kicker is not H3.');
+        $kicker = H3::create();
+        $transformer->transform($kicker, $h3);
         $header->withKicker($kicker);
         return $header;
     }

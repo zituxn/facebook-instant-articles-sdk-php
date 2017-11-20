@@ -10,7 +10,7 @@ namespace Facebook\Util;
 
 abstract class BaseHTMLTestCase extends \PHPUnit_Framework_TestCase
 {
-    protected function assertEqualsHtml($expected, $actual)
+    protected function assertEqualsHtml(string $expected, string $actual): void
     {
         $from = ['/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/> </s'];
         $to = ['>', '<', '\\1', '><'];

@@ -124,7 +124,6 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(CaptionRule::create()->matchesContext(Image::create()));
         $this->assertTrue(IgnoreRule::create()->matchesContext(InstantArticle::create()));
         $this->assertTrue(RelatedItemRule::create()->matchesContext(RelatedArticles::create()));
-        $this->assertTrue(ImageInsideParagraphRule::create()->matchesContext(InstantArticle::create()));
         $this->assertTrue(ImageRule::create()->matchesContext(InstantArticle::create()));
         $this->assertTrue(SlideshowImageRule::create()->matchesContext(Slideshow::create()));
         $this->assertTrue(EmphasizedRule::create()->matchesContext(Paragraph::create()));

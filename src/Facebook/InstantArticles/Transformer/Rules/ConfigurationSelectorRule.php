@@ -157,7 +157,7 @@ abstract class ConfigurationSelectorRule extends Rule
     /**
      * @param $property_name
      * @param $node
-     * @return null
+     * @return mixed The property fetched
      */
     public function getProperty(string $property_name, \DOMNode $node): mixed
     {
@@ -169,9 +169,9 @@ abstract class ConfigurationSelectorRule extends Rule
     }
 
     /**
-     * @param $property_name
-     * @param $node
-     * @return the string
+     * @param $property_name needle
+     * @param $node haystack
+     * @return string Property fetched as string
      */
     public function getPropertyString(string $property_name, \DOMNode $node): ?string
     {
@@ -182,6 +182,11 @@ abstract class ConfigurationSelectorRule extends Rule
         return null;
     }
 
+    /**
+     * @param $property_name needle
+     * @param $node haystack
+     * @return int Property fetched as int
+     */
     public function getPropertyInt(string $property_name, \DOMNode $node): ?int
     {
         $value = $this->getProperty($property_name, $node);
@@ -191,6 +196,11 @@ abstract class ConfigurationSelectorRule extends Rule
         return null;
     }
 
+    /**
+     * @param $property_name needle
+     * @param $node haystack
+     * @return \DOMElement Property fetched as \DOMElement
+     */
     public function getPropertyElement(string $property_name, \DOMNode $node): ?\DOMElement
     {
         $value = $this->getProperty($property_name, $node);
@@ -200,6 +210,11 @@ abstract class ConfigurationSelectorRule extends Rule
         return null;
     }
 
+    /**
+     * @param $property_name needle
+     * @param $node haystack
+     * @return \DOMNode Property fetched as \DOMNode
+     */
     public function getPropertyNode(string $property_name, \DOMNode $node): ?\DOMNode
     {
         $value = $this->getProperty($property_name, $node);
@@ -209,6 +224,11 @@ abstract class ConfigurationSelectorRule extends Rule
         return null;
     }
 
+    /**
+     * @param $property_name needle
+     * @param $node haystack
+     * @return array Property fetched as array
+     */
     public function getPropertyArray(string $property_name, \DOMNode $node): ?array
     {
         $value = $this->getProperty($property_name, $node);
@@ -218,6 +238,11 @@ abstract class ConfigurationSelectorRule extends Rule
         return null;
     }
 
+    /**
+     * @param $property_name needle
+     * @param $node haystack
+     * @return \DateTime Property fetched as \DateTime
+     */
     public function getPropertyDateTime(string $property_name, \DOMNode $node): ?\DateTime
     {
         $value = $this->getProperty($property_name, $node);
@@ -227,6 +252,11 @@ abstract class ConfigurationSelectorRule extends Rule
         return null;
     }
 
+    /**
+     * @param $property_name needle
+     * @param $node haystack
+     * @return bool Property fetched as bool
+     */
     public function getPropertyBoolean(string $property_name, \DOMNode $node): bool
     {
         $value = $this->getProperty($property_name, $node);
@@ -236,6 +266,11 @@ abstract class ConfigurationSelectorRule extends Rule
         return false;
     }
 
+    /**
+     * @param $property_name needle
+     * @param $node haystack
+     * @return \DOMDocumentFragment Property fetched as \DOMDocumentFragment
+     */
     public function getPropertyFragment(string $property_name, \DOMNode $node): ?\DOMDocumentFragment
     {
         $value = $this->getProperty($property_name, $node);

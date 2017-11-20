@@ -19,12 +19,12 @@ use Facebook\InstantArticles\Validators\InstantArticleValidator;
 class Transformer
 {
     /**
-     * @var array<array<int, Rule>> This is the internal map for rules to be applied
+     * @var array<Rule> This is the internal map for rules to be applied
      */
     private array<Rule> $rules = array();
 
     /**
-     * @var array
+     * @var Vector<TransformerWarning>
      */
     private Vector<TransformerWarning> $warnings = Vector {};
 
@@ -89,7 +89,8 @@ class Transformer
     /**
      * Returns whether a node is processed
      *
-     * @param DOMNode $node The node to clone
+     * @param DOMNode $node The node of interest
+     * @return bool true if node processed already, false otherwise.
      */
     protected static function isProcessed(\DOMNode $node): bool
     {
@@ -251,7 +252,7 @@ class Transformer
     /**
      * Gets all rules already set in this transformer instance.
      *
-     * @return Vector<Rule> List of configured rules.
+     * @return array<Rule> List of configured rules.
      */
     public function getRules(): array<Rule>
     {
@@ -261,7 +262,7 @@ class Transformer
     /**
      * Overrides all rules already set in this transformer instance.
      *
-     * @param Vector<Rule> $rules List of configured rules.
+     * @param array<Rule> $rules List of configured rules.
      */
     public function setRules(array<Rule> $rules): void
     {

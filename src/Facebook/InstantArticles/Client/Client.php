@@ -29,7 +29,7 @@ class Client
     protected string $pageID;
 
     /**
-     * @var bool|false Are we using the Instant Articles development sandbox?
+     * @var bool Are we using the Instant Articles development sandbox?
      */
     protected bool $developmentMode = false;
 
@@ -143,15 +143,15 @@ class Client
      * @param string $canonicalURL The canonical URL of the article to get the status for.
      * @return int|null the article ID or null if not found
      */
-    public function getArticleIDFromCanonicalURL(string $canonicalURL): int
+    public function getArticleIDFromCanonicalURL(string $canonicalURL): ?int
     {
         $field = $this->developmentMode ? 'development_instant_article' : 'instant_article';
 
         $response = $this->facebook->get('?id=' . $canonicalURL . '&fields=' . $field);
         $instantArticle = $response->getGraphNode()->getField($field);
 
-        if (!$instantArticle) {
-            return -1;
+        if ($instantArticle === null) {
+            return null;
         }
 
         $articleID = $instantArticle->getField('id');
@@ -166,7 +166,7 @@ class Client
      */
     public function getLastSubmissionStatus(string $articleID): InstantArticleStatus
     {
-        if (!$articleID) {
+        if (Type::isTextEmpty($articleID)) {
             return InstantArticleStatus::notFound();
         }
 
@@ -192,7 +192,7 @@ class Client
      */
     public function getSubmissionStatus(string $submissionStatusID): InstantArticleStatus
     {
-        if (!$submissionStatusID) {
+        if (Type::isTextEmpty($submissionStatusID)) {
             return InstantArticleStatus::notFound();
         }
 

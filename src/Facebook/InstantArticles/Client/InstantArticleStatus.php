@@ -24,7 +24,7 @@ class InstantArticleStatus
     private Vector<ServerMessage> $messages = Vector {};
 
     /**
-     * @var ServerMessage[]
+     * @var string Status message
      */
     private string $status = "";
 

@@ -19,12 +19,12 @@ class Helper
     /**
      * @var Facebook The main Facebook service client.
      */
-    protected \Facebook\Facebook $facebook;
+    protected Facebook $facebook;
 
     /**
      * @param Facebook $facebook the main Facebook service client
      */
-    public function __construct(\Facebook\Facebook $facebook)
+    public function __construct(Facebook $facebook)
     {
         // TODO throw if $facebook doesn't have a default_access_token
         $this->facebook = $facebook;
@@ -62,7 +62,7 @@ class Helper
      *
      * @throws FacebookSDKException
      */
-    public function getPagesAndTokens(\Facebook\Authentication\AccessToken $accessToken, int $offset = 0): array
+    public function getPagesAndTokens(AccessToken $accessToken, int $offset = 0): array
     {
         // If we don't have a long-lived user token, exchange for one
         if (! $accessToken->isLongLived()) {

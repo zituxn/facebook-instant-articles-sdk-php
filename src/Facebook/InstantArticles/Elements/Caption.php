@@ -338,10 +338,12 @@ class Caption extends FormattedText
 
         // title markup REQUIRED
         if ($this->title !== null) {
-            if (!$this->subTitle && !$this->credit) {
-                $element->appendChild($this->title->textToDOMDocumentFragment($document));
-            } else {
+            if ($this->subTitle !== null || $this->credit !== null) {
+                // Use the <h1> node if a sub title or credit is present
                 $element->appendChild($this->title->toDOMElement($document));
+            } else {
+                // Use a simple loose text node if the caption is by itself
+                $element->appendChild($this->title->textToDOMDocumentFragment($document));
             }
         }
 
