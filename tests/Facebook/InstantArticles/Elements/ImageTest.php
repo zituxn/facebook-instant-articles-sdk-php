@@ -146,6 +146,28 @@ class ImageTest extends BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
+    public function testRenderWithParameters()
+    {
+        $image =
+          Image::create()
+              ->withURL('https://jpeg.org/images/jpegls-home.jpg?width=100&height=200')
+              ->withCaption(
+                  Caption::create()
+                      ->appendText('Some caption to the image')
+              )
+              ->enableLike()
+              ->enableComments();
+
+        $expected =
+            '<figure data-feedback="fb:likes,fb:comments">'.
+                '<img src="https://jpeg.org/images/jpegls-home.jpg?width=100&height=200"/>'.
+                '<figcaption>Some caption to the image</figcaption>'.
+            '</figure>';
+
+        $rendered = $image->render();
+        $this->assertEqualsHtml($expected, $rendered);
+    }
+
     public function testRenderWithFullscreen()
     {
         $image =

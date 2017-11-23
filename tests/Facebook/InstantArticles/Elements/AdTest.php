@@ -100,4 +100,21 @@ class AdTest extends BaseHTMLTestCase
         $rendered = $ad->render();
         $this->assertEqualsHtml($expected, $rendered);
     }
+
+    public function testRenderEncoding()
+    {
+        $ad =
+            Ad::create()
+                ->withSource('http://foo.com?parameter=value1&param2=value2')
+                ->withHeight(640)
+                ->withWidth(480);
+
+        $expected =
+            '<figure class="op-ad">'.
+                '<iframe src="http://foo.com?parameter=value1&param2=value2" width="480" height="640"></iframe>'.
+            '</figure>';
+
+        $rendered = $ad->render();
+        $this->assertEqualsHtml($expected, $rendered);
+    }
 }
