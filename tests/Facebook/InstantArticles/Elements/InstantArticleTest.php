@@ -26,7 +26,7 @@ class InstantArticleTest extends BaseHTMLTestCase
 
         $this->article =
             InstantArticle::create()
-                ->withCanonicalUrl('http://foo.com/article.html')
+                ->withCanonicalURL('http://foo.com/article.html')
                 ->withStyle('myarticlestyle')
                 ->withHeader(
                     Header::create()
@@ -96,7 +96,7 @@ class InstantArticleTest extends BaseHTMLTestCase
 
                 // Slideshow
                 ->addChild(
-                    SlideShow::create()
+                    Slideshow::create()
                         ->addImage(
                             Image::create()
                                 ->withURL('https://jpeg.org/images/jpegls-home.jpg')
@@ -320,7 +320,7 @@ class InstantArticleTest extends BaseHTMLTestCase
     {
         $article =
             InstantArticle::create()
-                ->withCanonicalUrl('')
+                ->withCanonicalURL('')
                 ->withHeader(Header::create())
                 // Paragraph1
                 ->addChild(
@@ -352,7 +352,7 @@ class InstantArticleTest extends BaseHTMLTestCase
 
                 // Slideshow
                 ->addChild(
-                    SlideShow::create()
+                    Slideshow::create()
                         ->addImage(
                             Image::create()
                                 ->withURL('https://jpeg.org/images/jpegls-home.jpg')

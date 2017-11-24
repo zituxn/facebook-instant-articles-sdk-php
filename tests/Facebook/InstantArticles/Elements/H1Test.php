@@ -132,7 +132,7 @@ class H1Test extends BaseHTMLTestCase
                 ->appendText('Some ')
                 ->appendText(
                     Anchor::create()
-                        ->withHRef('http://foo.com')
+                        ->withHref('http://foo.com')
                         ->appendText('link')
                 )
                 ->appendText('.');

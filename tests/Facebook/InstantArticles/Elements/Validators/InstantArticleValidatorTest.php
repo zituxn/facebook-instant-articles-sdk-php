@@ -14,7 +14,7 @@ use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Footer;
 use Facebook\InstantArticles\Elements\Paragraph;
-use Facebook\InstantArticles\Elements\SlideShow;
+use Facebook\InstantArticles\Elements\Slideshow;
 use Facebook\InstantArticles\Elements\InstantArticle;
 
 /**
@@ -28,7 +28,7 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
         $article =
             InstantArticle::create()
                 // Warning 1 - Invalid canonicalURL
-                ->withCanonicalUrl('')
+                ->withCanonicalURL('')
                 // Warning 2 - Invalid empty header
                 ->withHeader(Header::create())
                 // Paragraph1
@@ -55,7 +55,7 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
 
                 // Slideshow
                 ->addChild(
-                    SlideShow::create()
+                    Slideshow::create()
                         ->addImage(
                             Image::create()
                                 ->withURL('https://jpeg.org/images/jpegls-home.jpg')

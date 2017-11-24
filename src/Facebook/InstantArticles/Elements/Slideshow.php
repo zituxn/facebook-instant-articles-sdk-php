@@ -11,7 +11,7 @@ namespace Facebook\InstantArticles\Elements;
 use Facebook\InstantArticles\Validators\Type;
 
 /**
- * Class SlideShow
+ * Class Slideshow
  * This element Class is the slideshow for the article.
  *
  * Example:
