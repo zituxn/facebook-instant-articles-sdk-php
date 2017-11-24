@@ -8,7 +8,9 @@
  */
 namespace Facebook\Util;
 
-abstract class BaseHTMLTestCase extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+abstract class BaseHTMLTestCase extends TestCase
 {
     protected function setUp()
     {

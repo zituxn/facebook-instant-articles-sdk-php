@@ -16,12 +16,13 @@ use Facebook\InstantArticles\Elements\Footer;
 use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Elements\Slideshow;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test unit against InstantArticleValidator
  * @see InstantArticleValidator
  */
-class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
+class InstantArticleValidatorTest extends TestCase
 {
     public function testInstantArticle()
     {
