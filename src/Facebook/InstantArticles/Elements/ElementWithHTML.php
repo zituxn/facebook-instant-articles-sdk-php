@@ -21,6 +21,11 @@ abstract class ElementWithHTML extends Element
     protected ?\DOMNode $html;
 
     /**
+     * @var string The HTML of the content (as string).
+     */
+    protected ?string $html_string;
+
+    /**
      * Sets the unescaped HTML.
      *
      * @param \DOMNode|string $html The unescaped HTML.
@@ -38,16 +43,15 @@ abstract class ElementWithHTML extends Element
     }
 
     /**
-     * Sets the unescaped HTML.
+     * Sets the HTML String.
      *
-     * @param string $html The unescaped HTML.
+     * @param string $html The HTML string.
      *
      * @return $this
      */
-    public function withHTMLString(string $html): this
+    public function withHTMLString(string $html_string): this
     {
-        $html = new \DOMCdataSection($html);
-        $this->html = $html;
+        $this->html_string = $html_string;
         return $this;
     }
 
@@ -72,4 +76,17 @@ abstract class ElementWithHTML extends Element
         $imported = $element->ownerDocument->importNode($content, true);
         $element->appendChild($imported);
     }
+
+    /**
+     * Appends unescaped HTML String to a element using the right strategy.
+     *
+     * @param \DOMNode $element - The element to append the HTML to.
+     * @param \DOMNode $content - The unescaped HTML to append.
+     */
+    protected function dangerouslyAppendUnescapedHTMLString(\DOMNode $element, string $html_string): void
+    {
+        $imported = $element->ownerDocument->createCDATASection($html_string);
+        $element->appendChild($imported);
+    }
+
 }

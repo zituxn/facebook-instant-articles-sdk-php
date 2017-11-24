@@ -188,6 +188,8 @@ class Ad extends ElementWithHTML
             // Here we do not care about what is inside the iframe
             // because it'll be rendered in a sandboxed webview
             $this->dangerouslyAppendUnescapedHTML($iframe, $this->html);
+        } else if ($this->html_string !== null) {
+            $this->dangerouslyAppendUnescapedHTMLString($iframe, $this->html_string);
         } else {
             $iframe->appendChild($document->createTextNode(''));
         }
@@ -202,6 +204,6 @@ class Ad extends ElementWithHTML
      */
     public function isValid(): bool
     {
-        return !Type::isTextEmpty($this->source) || $this->html;
+        return !Type::isTextEmpty($this->source) || $this->html || !Type::isTextEmpty($this->html_string);
     }
 }

@@ -19,9 +19,9 @@ class FragmentGetter extends AbstractGetter
      */
     protected ?string $fragment;
 
-    public function createFrom(array<string, string> $properties): this
+    public function createFrom(array<string, mixed> $properties): this
     {
-        return $this->withFragment($properties['fragment']);
+        return $this->withFragment(Type::mixedToString($properties['fragment']));
     }
 
     /**

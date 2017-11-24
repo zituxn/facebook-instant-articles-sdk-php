@@ -227,6 +227,8 @@ class Interactive extends ElementWithHTML implements ChildrenContainer, Captiona
             // Here we do not care about what is inside the iframe
             // because it'll be rendered in a sandboxed webview
             $this->dangerouslyAppendUnescapedHTML($iframe, $this->html);
+        } else if ($this->html_string !== null) {
+            $this->dangerouslyAppendUnescapedHTMLString($iframe, $this->html_string);
         } else {
             $iframe->appendChild($document->createTextNode(''));
         }
@@ -242,7 +244,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer, Captiona
      */
     public function isValid(): bool
     {
-        return $this->html || (!Type::isTextEmpty($this->source) && $this->height && $this->width);
+        return $this->html || !Type::isTextEmpty($this->html_string) || (!Type::isTextEmpty($this->source) && $this->height && $this->width);
     }
 
     /**

@@ -19,7 +19,7 @@ class MultipleElementsGetter extends AbstractGetter
      */
     protected array<AbstractGetter> $children = array();
 
-    public function createFrom(array<string, string> $properties): this
+    public function createFrom(array<string, mixed> $properties): this
     {
         $v = $properties['children'];
         invariant(is_array($v), "Not array");
