@@ -60,6 +60,9 @@ abstract class Element
         $rendered = str_replace('></track>', '/>', $rendered);
         $rendered = str_replace('></wbr>', '/>', $rendered);
 
+        $rendered = preg_replace_callback('/(src|href|url|link)="([^"]*)"/is', [__CLASS__, 'urlDecoder'], $rendered);
+        // $rendered = htmlspecialchars_decode($rendered);
+
         return $rendered;
     }
 
@@ -121,5 +124,10 @@ abstract class Element
     public function disableEmptyValidation()
     {
         return $this->empty_validation = false;
+    }
+
+    public static function urlDecoder($input)
+    {
+        return $input[1].'="'.htmlspecialchars_decode($input[2]).'"';
     }
 }
