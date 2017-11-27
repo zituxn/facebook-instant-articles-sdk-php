@@ -21,7 +21,7 @@ $ composer require facebook/facebook-instant-articles-sdk-php
 After the installation, you can include the auto loader script in your source with:
 
 ```PHP
-require_once('vendor/autoload.php');
+require_once 'vendor/autoload.php';
 ```
 
 ## Official Documentation
