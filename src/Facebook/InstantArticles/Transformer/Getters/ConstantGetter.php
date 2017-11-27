@@ -17,9 +17,9 @@ class ConstantGetter extends AbstractGetter
      */
     protected ?string $value;
 
-    public function createFrom(array<string, string> $properties): this
+    public function createFrom(array<string, mixed> $properties): this
     {
-        return $this->withValue($properties['value']);
+        return $this->withValue(Type::mixedToString($properties['value']));
     }
 
     /**

@@ -17,16 +17,16 @@ class DateGetter extends AbstractGetter
      */
     protected ?string $format;
 
-    public function createFrom(array<string, string> $properties): this
+    public function createFrom(array<string, mixed> $properties): this
     {
         if (array_key_exists('selector', $properties)) {
-            $this->withSelector($properties['selector']);
+            $this->withSelector(Type::mixedToString($properties['selector']));
         }
         if (array_key_exists('attribute', $properties)) {
-            $this->withAttribute($properties['attribute']);
+            $this->withAttribute(Type::mixedToString($properties['attribute']));
         }
         if (array_key_exists('format', $properties)) {
-            $this->withFormat($properties['format']);
+            $this->withFormat(Type::mixedToString($properties['format']));
         }
         return $this;
     }

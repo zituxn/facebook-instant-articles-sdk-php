@@ -98,7 +98,7 @@ class GeoTag extends Element
         if ($this->script) {
             // script may contain html entities so import it as CDATA
             $element->appendChild(
-                $element->ownerDocument->importNode(new \DOMCdataSection($this->script), true)
+                $element->ownerDocument->createCDATASection($this->script)
             );
         }
 

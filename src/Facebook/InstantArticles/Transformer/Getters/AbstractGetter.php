@@ -68,7 +68,7 @@ abstract class AbstractGetter
      *
      * @return static
      */
-    abstract public function createFrom(array<string, string> $configuration): AbstractGetter;
+    abstract public function createFrom(array<string, mixed> $configuration): AbstractGetter;
 
     /**
      * Method that should retrieve

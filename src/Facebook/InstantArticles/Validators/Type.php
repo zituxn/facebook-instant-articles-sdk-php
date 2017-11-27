@@ -268,11 +268,11 @@ class Type
         }
     }
 
-    public static function mixedToString(mixed $mix): ?string
+    public static function mixedToString(mixed $mix): string
     {
         if ($mix !== null && is_string($mix)) {
             return $mix;
         }
-        return null;
+        return "";
     }
 }

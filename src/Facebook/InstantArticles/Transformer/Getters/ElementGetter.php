@@ -14,9 +14,9 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
 
 class ElementGetter extends AbstractGetter
 {
-    public function createFrom(array<string, string> $properties): this
+    public function createFrom(array<string, mixed> $properties): this
     {
-        $this->withSelector($properties['selector']);
+        $this->withSelector(Type::mixedToString($properties['selector']));
         return $this;
     }
 

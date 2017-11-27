@@ -17,13 +17,13 @@ class XpathGetter extends AbstractGetter
      */
     protected ?string $attribute;
 
-    public function createFrom(array<string, string> $properties): this
+    public function createFrom(array<string, mixed> $properties): this
     {
         if (array_key_exists('selector', $properties)) {
-            $this->withSelector($properties['selector']);
+            $this->withSelector(Type::mixedToString($properties['selector']));
         }
         if (array_key_exists('attribute', $properties)) {
-            $this->withAttribute($properties['attribute']);
+            $this->withAttribute(Type::mixedToString($properties['attribute']));
         }
         return $this;
     }
