@@ -11,6 +11,7 @@ namespace Facebook\InstantArticles\Transformer;
 use Facebook\InstantArticles\Transformer\Warnings\TransformerWarning;
 use Facebook\InstantArticles\Transformer\Warnings\UnrecognizedElement;
 use Facebook\InstantArticles\Transformer\Rules\Rule;
+use Facebook\InstantArticles\Transformer\Rules\ConfigurationSelectorRule;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Validators\Type;
@@ -22,6 +23,45 @@ class Transformer
      * @var array<Rule> This is the internal map for rules to be applied
      */
     private array<Rule> $rules = array();
+
+    /**
+     * This bucketized structure is holding the structure for optmizing the processing
+     * of rules during the transformation. The string key, is the Context that Rule will be applied.
+     * Fetching the Rules by Context, all the rules will be inserted into the value Map with the original
+     * index, so this way we know the original order that rule had, and it will help on merging the Rules
+     * in an applicable order.
+     *
+     * Map example structure, given this addition to the Rules:
+     * $transformer->addRule(new ParagraphRule())
+     * $transformer->addRule(new BoldRule())
+     * $transformer->addRule(new ImageRule())
+     *
+     * Considering these getContextClass() for each Rule:
+     * ParagraphRule::getContextClass() => Vector { InstantArticle::class }
+     * BoldRule::getContextClass() => Vector { TextContainer::class }
+     * ImageRule::getContextClass() => Vector { InstantArticle::class, Paragraph::class }
+     *
+     * This is how the map would be filled in:
+     * Map { "InstantArticle" ==> Map { 0 ==> ParagraphRule, 2 ==> ImageRule },
+     *       "TextContainer" ==> Map { 1 ==> BoldRule },
+     *       "Paragraph" ==> Map { 2 ==> ImageRule }
+     *     }
+     *
+     * @var Map<string, Map<int, Rule>> These are the buckets for faster processing the Rules.
+     */
+    private Map<string, Map<int, Rule>> $bucketedRules = Map {};
+
+    /**
+     * Optmization strategy to keep track of the original order this rule was inserted.
+     * @var int counter for rules
+     */
+    private int $ruleCount = 0;
+
+    /**
+     * Memoizes each Element class and its parent classes (+ interfaces it implements)
+     * @var Map<string, Vector<string>> Each Element's class with its parent classes.
+     */
+    private static Map<string, Set<string>> $elementsParents = Map {};
 
     /**
      * @var Vector<TransformerWarning>
@@ -114,6 +154,15 @@ class Transformer
     public function addRule(Rule $rule): void
     {
         $this->rules[] = $rule;
+        foreach ($rule->getContextClass() as $context) {
+            if (!$this->bucketedRules->containsKey($context)) {
+                $this->bucketedRules[$context] = Map {};
+            }
+            $contextBucket = $this->bucketedRules[$context];
+            if ($contextBucket !== null) {
+                $contextBucket[$this->ruleCount++] = $rule;
+            }
+        }
     }
 
     /**
@@ -186,11 +235,11 @@ class Transformer
                 }
                 $matched = false;
 
-                // Process in reverse order
-                $matchingContextRules = array_reverse($this->rules);
+                // Fetches all matching by context rules, so no need to check for context matching again
+                $matchingContextRules = $this->filterMatchingContextRules($current_context);
                 foreach ($matchingContextRules as $rule) {
 
-                    if ($rule->matches($current_context, $child)) {
+                    if ($rule->matchesNode($child)) {
                         self::markAsProcessed($child);
                         $current_context = $rule->apply($this, $current_context, $child);
                         $matched = true;
@@ -290,5 +339,80 @@ class Transformer
     public function getDefaultDateTimeZone(): \DateTimeZone
     {
         return $this->defaultDateTimeZone;
+    }
+
+    /**
+     * Gets all types a given class is, including itself, parent classes and interfaces.
+     *
+     * @param string $className - the name of the className
+     *
+     * @return array of class names the provided class name is
+     */
+    private static function getAllClassTypes(string $className): Set<string>
+    {
+        // Memoizes
+        if (self::$elementsParents->containsKey($className)) {
+            return self::$elementsParents[$className];
+        }
+
+        $classParents = class_parents($className, true);
+        $classInterfaces = class_implements($className, true);
+        $classNames = Set { $className };
+        if ($classParents) {
+            $classNames->addAll($classParents);
+        }
+        if ($classInterfaces) {
+            $classNames->addAll($classInterfaces);
+        }
+        self::$elementsParents[$className] = $classNames;
+        return $classNames;
+    }
+
+    /**
+     * This method fetches all the rules matching the Element $context informed.
+     * It brings all matching by context rules, considering the class name, its
+     * parent classes or interfaces it implements
+     *
+     * @param Element $context The context class to be checked
+     */
+    private function filterMatchingContextRules(Element $context): Vector<Rule>
+    {
+        // Map to hold the sparse indexed rules already matched
+        $matching = Map {};
+
+        // Fetches all parent class and interfaces so we have a correct matching
+        $contextClasses = self::getAllClassTypes($context->getObjClassName());
+        foreach ($contextClasses as $contextClass) {
+            if ($this->bucketedRules->containsKey($contextClass)) {
+                foreach($this->bucketedRules[$contextClass] as $index => $rule) {
+                    $matching[$index] = $rule;
+                }
+            }
+        }
+
+        // Consider only the matched by context
+        $rulesMatched = Vector {};
+
+        // Gets the $matching map keys, orders it into the reverse and generate
+        // the final reverse order rules
+        $keys = $matching->keys();
+        rsort($keys);
+        foreach ($keys as $key) {
+            $rulesMatched[] = $matching[$key];
+        }
+
+        return $rulesMatched;
+    }
+
+    private static function logMatchingRulesForContext(Element $context, \DOMNode $node, Vector<Rule> $matchedRules): string
+    {
+        $logLine = '<'.$node->nodeName.'> '.$context->getObjClassName();
+        foreach($matchedRules as $matchedRule) {
+            $configRule = $matchedRule;
+            invariant($configRule instanceof ConfigurationSelectorRule, 'Should be ConfigurationSelectorRule');
+            $selector = $configRule->getSelector();
+            $logLine = $logLine.PHP_EOL."    ".$matchedRule->getObjClassName().': '.$selector;
+        }
+        return $logLine;
     }
 }
