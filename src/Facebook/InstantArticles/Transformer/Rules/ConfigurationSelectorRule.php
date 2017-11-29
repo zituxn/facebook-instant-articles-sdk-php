@@ -39,6 +39,14 @@ abstract class ConfigurationSelectorRule extends Rule
     }
 
     /**
+     * @return The selector
+     */
+    public function getSelector(): ?string
+    {
+        return $this->selector;
+    }
+
+    /**
      * @param $property
      * @param array $value
      *
