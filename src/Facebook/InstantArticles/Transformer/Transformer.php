@@ -26,7 +26,7 @@ class Transformer
 
     /**
      * This bucketized structure is holding the structure for optmizing the processing
-     * of rules during the transformation. The string key, is the Context that Rule will be applied.
+     * of rules during the transformation. The string key is the context to which that Rule applies.
      * Fetching the Rules by Context, all the rules will be inserted into the value Map with the original
      * index, so this way we know the original order that rule had, and it will help on merging the Rules
      * in an applicable order.
