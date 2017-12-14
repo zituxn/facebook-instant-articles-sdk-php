@@ -57,9 +57,9 @@ class Header extends Element implements ChildrenContainer
     private ?H2 $subtitle;
 
     /**
-     * @var Vector<Author> Authors of the article.
+     * @var vec<Author> Authors of the article.
      */
-    private Vector<Author> $authors = Vector {};
+    private vec<Author> $authors = vec[];
 
     /**
      * @var Time of publishing for the article
@@ -78,9 +78,9 @@ class Header extends Element implements ChildrenContainer
     private H3 $kicker;
 
     /**
-     * @var Ad[] Ads of the article.
+     * @var vec<Ad> Ads of the article.
      */
-    private Vector<Ad> $ads = Vector {};
+    private vec<Ad> $ads = vec[];
 
     /**
      * @var Sponsor The sponsor for this article. See Branded Content.
@@ -109,14 +109,6 @@ class Header extends Element implements ChildrenContainer
      */
     public function withCover(Element $cover): this
     {
-        // if (Type::enforce(
-        //     $cover,
-        //     [
-        //         Image::getClassName(),
-        //         Slideshow::getClassName(),
-        //         Video::getClassName()
-        //     ]
-        // );
         $this->cover = $cover;
 
         return $this;
@@ -159,7 +151,7 @@ class Header extends Element implements ChildrenContainer
      */
     public function addAuthor(Author $author): this
     {
-        $this->authors->add($author);
+        $this->authors[] = $author;
 
         return $this;
     }
@@ -167,11 +159,11 @@ class Header extends Element implements ChildrenContainer
     /**
      * Replace all authors within this Article
      *
-     * @param Vector<Author> $authors All the authors
+     * @param vec<Author> $authors All the authors
      *
      * @return $this
      */
-    public function withAuthors(Vector<Author> $authors): this
+    public function withAuthors(vec<Author> $authors): this
     {
         $this->authors = $authors;
 
@@ -248,7 +240,7 @@ class Header extends Element implements ChildrenContainer
      */
     public function addAd(Ad $ad): this
     {
-        $this->ads->add($ad);
+        $this->ads[] = $ad;
 
         return $this;
     }
@@ -256,11 +248,11 @@ class Header extends Element implements ChildrenContainer
     /**
      * Replace all ads within this Article
      *
-     * @param Vector<Ad> $ads All the ads
+     * @param vec<Ad> $ads All the ads
      *
      * @return $this
      */
-    public function withAds(Vector<Ad> $ads): this
+    public function withAds(vec<Ad> $ads): this
     {
         $this->ads = $ads;
 
@@ -306,9 +298,9 @@ class Header extends Element implements ChildrenContainer
     }
 
     /**
-     * @return Vector<Author> All the authors
+     * @return vec<Author> All the authors
      */
-    public function getAuthors(): Vector<Author>
+    public function getAuthors(): vec<Author>
     {
         return $this->authors;
     }
@@ -338,9 +330,9 @@ class Header extends Element implements ChildrenContainer
     }
 
     /**
-     * @return Vector<Ad> All the ads
+     * @return vec<Ad> All the ads
      */
-    public function getAds(): Vector<Ad>
+    public function getAds(): vec<Ad>
     {
         return $this->ads;
     }
@@ -468,48 +460,48 @@ class Header extends Element implements ChildrenContainer
      * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Header.
      */
-    public function getContainerChildren(): Vector<Element>
+    public function getContainerChildren(): vec<Element>
     {
-        $children = Vector {};
+        $children = vec[];
 
         if ($this->cover) {
-            $children->add($this->cover);
+            $children[] = $this->cover;
         }
 
         if ($this->title) {
-            $children->add($this->title);
+            $children[] = $this->title;
         }
 
         if ($this->subtitle) {
-            $children->add($this->subtitle);
+            $children[] = $this->subtitle;
         }
 
         if ($this->published) {
-            $children->add($this->published);
+            $children[] = $this->published;
         }
 
         if ($this->modified) {
-            $children->add($this->modified);
+            $children[] = $this->modified;
         }
 
         if ($this->authors) {
             foreach ($this->authors as $author) {
-                $children->add($author);
+                $children[] = $author;
             }
         }
 
         if ($this->kicker) {
-            $children->add($this->kicker);
+            $children[] = $this->kicker;
         }
 
         if (count($this->ads) > 0) {
             foreach ($this->ads as $ad) {
-                $children->add($ad);
+                $children[] = $ad;
             }
         }
 
         if ($this->sponsor) {
-            $children->add($this->sponsor);
+            $children[] = $this->sponsor;
         }
 
         return $children;

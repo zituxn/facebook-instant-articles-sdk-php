@@ -26,13 +26,13 @@ class InteractiveInsideParagraphRule extends ConfigurationSelectorRule
     const PROPERTY_HEIGHT = 'interactive.height';
     const PROPERTY_WIDTH = 'interactive.width';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
         return
-            Vector {
+            vec[
                 InstantArticle::getClassName(),
                 Paragraph::getClassName(),
-            };
+            ];
     }
 
     public static function create(): InteractiveInsideParagraphRule
@@ -46,14 +46,14 @@ class InteractiveInsideParagraphRule extends ConfigurationSelectorRule
         $interactive_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $interactive_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_IFRAME,
                 self::PROPERTY_URL,
                 self::PROPERTY_WIDTH_NO_MARGIN,
                 self::PROPERTY_WIDTH_COLUMN_WIDTH,
                 self::PROPERTY_WIDTH,
                 self::PROPERTY_HEIGHT,
-            },
+            ],
             $configuration
         );
 

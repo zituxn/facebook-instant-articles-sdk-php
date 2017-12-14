@@ -18,9 +18,9 @@ class SponsorRule extends ConfigurationSelectorRule
 {
     const PROPERTY_SPONSOR_PAGE_URL = 'sponsor.page_url';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Header::getClassName() };
+        return vec[Header::getClassName()];
     }
 
     public static function create(): SponsorRule
@@ -35,9 +35,9 @@ class SponsorRule extends ConfigurationSelectorRule
         $sponsor_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $sponsor_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_SPONSOR_PAGE_URL,
-            },
+            ],
             $configuration
         );
 

@@ -153,12 +153,12 @@ class Image extends Audible implements ChildrenContainer, Captionable, GeoTaggab
     {
         Type::enforceWithin(
             $presentation,
-            Vector {
+            vec[
                 Image::ASPECT_FIT,
                 Image::ASPECT_FIT_ONLY,
                 Image::FULLSCREEN,
                 Image::NON_INTERACTIVE,
-            }
+            ]
         );
         $this->presentation = $presentation;
 
@@ -364,22 +364,22 @@ class Image extends Audible implements ChildrenContainer, Captionable, GeoTaggab
      * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Image.
      */
-    public function getContainerChildren(): Vector<Element>
+    public function getContainerChildren(): vec<Element>
     {
-        $children = Vector {};
+        $children = vec[];
 
         if ($this->caption) {
-            $children->add($this->caption);
+            $children[] = $this->caption;
         }
 
         // Geotag markup optional
         if ($this->geoTag) {
-            $children->add($this->geoTag);
+            $children[] = $this->geoTag;
         }
 
         // Audio markup optional
         if ($this->audio) {
-            $children->add($this->audio);
+            $children[] = $this->audio;
         }
 
         return $children;

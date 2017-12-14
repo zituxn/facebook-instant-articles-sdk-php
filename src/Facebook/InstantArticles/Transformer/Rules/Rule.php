@@ -43,7 +43,7 @@ abstract class Rule
 
     abstract public function apply(Transformer $transformer, Element $container, \DOMNode $node): Element;
 
-    abstract public function getContextClass(): Vector<string>;
+    abstract public function getContextClass(): vec<string>;
 
     public static function create(): Rule
     {

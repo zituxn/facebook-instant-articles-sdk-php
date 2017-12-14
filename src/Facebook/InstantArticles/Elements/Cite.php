@@ -62,11 +62,11 @@ class Cite extends TextContainer
     {
         Type::enforceWithin(
             $text_alignment,
-            Vector {
+            vec[
                 Caption::ALIGN_RIGHT,
                 Caption::ALIGN_LEFT,
                 Caption::ALIGN_CENTER,
-            }
+            ]
         );
         $this->textAlignment = $text_alignment;
 
@@ -88,11 +88,11 @@ class Cite extends TextContainer
     {
         Type::enforceWithin(
             $vertical_alignment,
-            Vector {
+            vec[
                 Caption::VERTICAL_TOP,
                 Caption::VERTICAL_BOTTOM,
                 Caption::VERTICAL_CENTER,
-            }
+            ]
         );
         $this->verticalAlignment = $vertical_alignment;
 
@@ -113,11 +113,11 @@ class Cite extends TextContainer
     {
         Type::enforceWithin(
             $position,
-            Vector {
+            vec[
                 Caption::POSITION_ABOVE,
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER,
-            }
+            ]
         );
         $this->position = $position;
 
@@ -139,17 +139,17 @@ class Cite extends TextContainer
 
         $cite = $document->createElement('cite');
 
-        $classes = Vector {};
+        $classes = vec[];
         if ($this->position) {
-            $classes->add($this->position);
+            $classes[] = $this->position;
         }
         if ($this->textAlignment) {
-            $classes->add($this->textAlignment);
+            $classes[] = $this->textAlignment;
         }
         if ($this->verticalAlignment) {
-            $classes->add($this->verticalAlignment);
+            $classes[] = $this->verticalAlignment;
         }
-        if (!$classes->isEmpty()) {
+        if (count($classes) > 0) {
             $cite->setAttribute('class', implode(' ', $classes));
         }
         $cite->appendChild($this->textToDOMDocumentFragment($document));

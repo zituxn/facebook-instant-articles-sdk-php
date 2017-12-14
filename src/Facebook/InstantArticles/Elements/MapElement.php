@@ -186,22 +186,22 @@ class MapElement extends Audible implements ChildrenContainer, Captionable, GeoT
      * @see Container::getContainerChildren().
      * @return array of Elements contained by Image.
      */
-    public function getContainerChildren(): Vector<Element>
+    public function getContainerChildren(): vec<Element>
     {
-        $children = Vector {};
+        $children = vec[];
 
         if ($this->caption) {
-            $children->add($this->caption);
+            $children[] = $this->caption;
         }
 
         // Geotag markup optional
         if ($this->geoTag) {
-            $children->add($this->geoTag);
+            $children[] = $this->geoTag;
         }
 
         // Audio markup optional
         if ($this->audio) {
-            $children->add($this->audio);
+            $children[] = $this->audio;
         }
 
         return $children;

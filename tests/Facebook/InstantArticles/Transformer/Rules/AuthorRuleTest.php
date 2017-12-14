@@ -39,7 +39,10 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
         $author_rule = AuthorRule::create()
             ->withSelector("div.post-content > p > em")
             ->withProperties(
-                Vector { AuthorRule::PROPERTY_AUTHOR_URL, AuthorRule::PROPERTY_AUTHOR_NAME, },
+                vec[
+                    AuthorRule::PROPERTY_AUTHOR_URL,
+                    AuthorRule::PROPERTY_AUTHOR_NAME,
+                ],
                 array(
                     AuthorRule::PROPERTY_AUTHOR_URL =>
                     array (

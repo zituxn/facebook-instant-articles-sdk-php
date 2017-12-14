@@ -28,9 +28,9 @@ class ItalicRule extends ConfigurationSelectorRule
         return $italicRule;
     }
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { TextContainer::getClassName() };
+        return vec[TextContainer::getClassName()];
     }
 
     public function apply(Transformer $transformer, Element $text_container, \DOMNode $element): Element

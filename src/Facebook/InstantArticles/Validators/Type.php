@@ -52,7 +52,7 @@ class Type
      *
      * @return bool
      */
-    public static function enforceArraySize(Vector<mixed> $array, int $size): bool
+    public static function enforceArraySize(vec<mixed> $array, int $size): bool
     {
         return self::isArraySize($array, $size, true);
     }
@@ -64,9 +64,9 @@ class Type
      * @param int $size The EXACTLY size that array must have
      * @return true if matches the size, false otherwise
      */
-    public static function isArraySize(Vector<mixed> $array, int $size, bool $enforce = false): bool
+    public static function isArraySize(vec<mixed> $array, int $size, bool $enforce = false): bool
     {
-        $meets_size = $array->count() == $size;
+        $meets_size = count($array) == $size;
         if ($enforce && !$meets_size) {
             self::throwArrayException($array, $size, 'Exact size');
         }
@@ -86,7 +86,7 @@ class Type
      *
      * @throws \InvalidArgumentException if $array doesn't have at least $min_size items
      */
-    public static function enforceArraySizeGreaterThan(Vector<mixed> $array, int $min_size): bool
+    public static function enforceArraySizeGreaterThan(vec<mixed> $array, int $min_size): bool
     {
         return self::isArraySizeGreaterThan($array, $min_size, true);
     }
@@ -102,9 +102,9 @@ class Type
      *
      * @return bool true if has at least $min_size, false otherwise
      */
-    public static function isArraySizeGreaterThan(Vector<mixed> $array, int $min_size, bool $enforce = false): bool
+    public static function isArraySizeGreaterThan(vec<mixed> $array, int $min_size, bool $enforce = false): bool
     {
-        $meets_size = $array->count() >= $min_size;
+        $meets_size = count($array) >= $min_size;
         if ($enforce && !$meets_size) {
             self::throwArrayException($array, $min_size, 'Minimal size');
         }
@@ -124,7 +124,7 @@ class Type
      *
      * @throws \InvalidArgumentException if $array have more than $max_size items
      */
-    public static function enforceArraySizeLowerThan(Vector<mixed> $array, int $max_size): bool
+    public static function enforceArraySizeLowerThan(vec<mixed> $array, int $max_size): bool
     {
         return self::isArraySizeLowerThan($array, $max_size, true);
     }
@@ -142,9 +142,9 @@ class Type
      *
      * @return bool true if it has less elements than $max_size, false otherwise
      */
-    public static function isArraySizeLowerThan(Vector<mixed> $array, int $max_size, bool $enforce = false): bool
+    public static function isArraySizeLowerThan(vec<mixed> $array, int $max_size, bool $enforce = false): bool
     {
-        $meets_size = $array->count() <= $max_size;
+        $meets_size = count($array) <= $max_size;
         if ($enforce && !$meets_size) {
             self::throwArrayException($array, $max_size, 'Maximum size');
         }
@@ -154,11 +154,11 @@ class Type
     /*
      * Utility method that constructs the message about array sizes an throws.
      */
-    private static function throwArrayException(Vector<mixed> $array, int $size, string $message): void
+    private static function throwArrayException(vec<mixed> $array, int $size, string $message): void
     {
         $error_message =
             'Array expects a '.$message.' of '.$size.
-            ' but received an array with '.$array->count().' items.';
+            ' but received an array with '.count($array).' items.';
 
         throw new \InvalidArgumentException($error_message);
     }
@@ -171,9 +171,9 @@ class Type
      * @param array $universe The universe the $value must be in.
      * @return true if the value is IN the universe, false otherwise.
      */
-    public static function isWithin(mixed $value, Vector<mixed> $universe, bool $enforce = false): bool
+    public static function isWithin(mixed $value, vec<mixed> $universe, bool $enforce = false): bool
     {
-        $within = $universe->linearSearch($value) !== -1;
+        $within = in_array($value, $universe, true);
         if (!$within && $enforce) {
             self::throwNotWithinException($value, $universe);
         }
@@ -190,12 +190,12 @@ class Type
      * @return true if the value is IN the universe, throws Exception otherwise.
      * @throws \InvalidArgumentException if the value not IN the expected universe.
      */
-    public static function enforceWithin(mixed $value, Vector<mixed> $universe): bool
+    public static function enforceWithin(mixed $value, vec<mixed> $universe): bool
     {
         return self::isWithin($value, $universe, true);
     }
 
-    private static function throwNotWithinException(mixed $value, Vector<mixed> $universe): void
+    private static function throwNotWithinException(mixed $value, vec<mixed> $universe): void
     {
         $value_str = self::stringify($value);
         $universe_str = self::stringify($universe);

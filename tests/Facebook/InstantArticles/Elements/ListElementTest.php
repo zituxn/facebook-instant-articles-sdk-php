@@ -59,11 +59,11 @@ class ListElementTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $list =
             ListElement::createOrdered()
-                ->withItems(Vector {
+                ->withItems(vec[
                     ListItem::create()->appendText('Item 1'),
                     ListItem::create()->appendText('Item 2'),
                     ListItem::create()->appendText('Item 3'),
-                });
+                ]);
 
         $expected =
             '<ol>'.
@@ -99,11 +99,11 @@ class ListElementTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $list =
             ListElement::createUnordered()
-                ->withItems(Vector {
+                ->withItems(vec[
                     ListItem::create()->appendText('Item 1'),
                     ListItem::create()->appendText('Item 2'),
                     ListItem::create()->appendText('Item 3'),
-                });
+                ]);
 
         $expected =
             '<ul>'.

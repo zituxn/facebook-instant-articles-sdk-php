@@ -127,14 +127,24 @@ class Client
     public function removeArticle(string $canonicalURL): InstantArticleStatus
     {
         if (!$canonicalURL) {
-            return InstantArticleStatus::notFound(Vector {ServerMessage::error('$canonicalURL param not passed to ' . __FUNCTION__ . '.')});
+            return
+                InstantArticleStatus::notFound(
+                    vec[
+                        ServerMessage::error('$canonicalURL param not passed to ' . __FUNCTION__ . '.')
+                    ]
+                );
         }
 
         if ($articleID = $this->getArticleIDFromCanonicalURL($canonicalURL)) {
             $this->facebook->delete($articleID);
             return InstantArticleStatus::success();
         }
-        return InstantArticleStatus::notFound(Vector {ServerMessage::info('An Instant Article ID ' . $articleID . ' was not found for ' . $canonicalURL . ' in ' . __FUNCTION__ . '.')});
+        return
+            InstantArticleStatus::notFound(
+                vec[
+                    ServerMessage::info('An Instant Article ID ' . $articleID . ' was not found for ' . $canonicalURL . ' in ' . __FUNCTION__ . '.')
+                ]
+            );
     }
 
     /**
@@ -174,10 +184,10 @@ class Client
         $response = $this->facebook->get($articleID . '?fields=most_recent_import_status');
         $articleStatus = $response->getGraphNode()->getField('most_recent_import_status');
 
-        $messages = Vector {};
+        $messages = vec[];
         if (array_key_exists('errors', $articleStatus)) {
             foreach ($articleStatus['errors'] as $error) {
-                $messages->add(ServerMessage::fromLevel($error['level'], $error['message']));
+                $messages[] = ServerMessage::fromLevel($error['level'], $error['message']);
             }
         }
 
@@ -199,11 +209,11 @@ class Client
         $response = $this->facebook->get($submissionStatusID . '?fields=status,errors');
         $articleStatus = $response->getGraphNode();
 
-        $messages = Vector {};
+        $messages = vec[];
         $errors = $articleStatus->getField('errors');
         if (null !== $errors) {
             foreach ($errors as $error) {
-                $messages->add(ServerMessage::fromLevel($error['level'], $error['message']));
+                $messages[] = ServerMessage::fromLevel($error['level'], $error['message']);
             }
         }
 
@@ -226,9 +236,9 @@ class Client
      *
      * @return string[] The cannonical URLs from articles
      */
-    public function getArticlesURLs(int $limit = 10, bool $development_mode = false)
+    public function getArticlesURLs(int $limit = 10, bool $development_mode = false): vec<string>
     {
-        $articleURLs = Vector {};
+        $articleURLs = vec[];
         $response = $this->facebook->get(
             'me/instant_articles?fields=canonical_url&'.
             'development_mode='.($development_mode ? 'true' : 'false').
@@ -236,7 +246,7 @@ class Client
         );
         $articles = $response->getGraphEdge();
         foreach ($articles as $article) {
-            $articleURLs->add($article['canonical_url']);
+            $articleURLs[] = $article['canonical_url'];
         }
 
         return $articleURLs;

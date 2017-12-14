@@ -22,9 +22,9 @@ class AdRule extends ConfigurationSelectorRule
     const PROPERTY_AD_WIDTH_URL = 'ad.width';
     const PROPERTY_AD_EMBED_URL = 'ad.embed';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { InstantArticle::getClassName() };
+        return vec[InstantArticle::getClassName()];
     }
 
     public static function create(): ConfigurationSelectorRule
@@ -38,12 +38,12 @@ class AdRule extends ConfigurationSelectorRule
         $ad_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $ad_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_AD_URL,
                 self::PROPERTY_AD_HEIGHT_URL,
                 self::PROPERTY_AD_WIDTH_URL,
                 self::PROPERTY_AD_EMBED_URL,
-            },
+            ],
             $configuration
         );
 

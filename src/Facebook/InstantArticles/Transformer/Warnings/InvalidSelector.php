@@ -59,11 +59,11 @@ class InvalidSelector extends TransformerWarning
 
     private function getPropertiesString(ConfigurationSelectorRule $rule): string
     {
-        $properties = Vector {};
+        $properties = vec[];
         foreach ($rule->getProperties() as $name => $value) {
             $reflection = new \ReflectionClass(get_class($value));
             $value_name = $reflection->getShortName();
-            $properties->add($name.'='.$value_name);
+            $properties[] = $name.'='.$value_name;
         }
         return implode(',', $properties);
     }

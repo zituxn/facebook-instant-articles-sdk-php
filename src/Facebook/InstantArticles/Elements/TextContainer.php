@@ -21,9 +21,9 @@ use Facebook\InstantArticles\Validators\Type;
 abstract class TextContainer extends Element implements ChildrenContainer
 {
     /**
-     * @var Vector The content is a list of TextContainer
+     * @var vec The content is a list of TextContainer
      */
-    private Vector<mixed> $textChildren = Vector {};
+    private vec<mixed> $textChildren = vec[];
 
     /**
      * Adds content to the formatted text.
@@ -35,7 +35,7 @@ abstract class TextContainer extends Element implements ChildrenContainer
     public function appendText(mixed $child): this
     {
         // TODO Make sure this is string|TextContainer
-        $this->textChildren->add($child);
+        $this->textChildren[] = $child;
         return $this;
     }
 
@@ -44,14 +44,14 @@ abstract class TextContainer extends Element implements ChildrenContainer
      */
     public function clearText(): this
     {
-        $this->textChildren = Vector {};
+        $this->textChildren = vec[];
         return $this;
     }
 
     /**
-     * @return Vector<string|TextContainer> All text token for this text container.
+     * @return vec<string|TextContainer> All text token for this text container.
      */
-    public function getTextChildren(): Vector<mixed>
+    public function getTextChildren(): vec<mixed>
     {
         return $this->textChildren;
     }
@@ -133,13 +133,13 @@ abstract class TextContainer extends Element implements ChildrenContainer
      * @see ChildrenContainer::getContainerChildren().
      * @return array of TextContainer
      */
-    public function getContainerChildren(): Vector<Element>
+    public function getContainerChildren(): vec<Element>
     {
-        $children = Vector {};
+        $children = vec[];
 
         foreach ($this->textChildren as $content) {
             if ($content instanceof TextContainer) {
-                $children->add($content);
+                $children[] = $content;
             }
         }
 

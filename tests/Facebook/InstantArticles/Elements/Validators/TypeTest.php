@@ -24,31 +24,31 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testArraySize(): void
     {
-        $result = Type::isArraySize(Vector { 1,2,3 }, 3);
+        $result = Type::isArraySize(vec[1,2,3], 3);
         $this->assertTrue($result);
     }
 
     public function testArrayNotSize(): void
     {
-        $result = Type::isArraySize(Vector { 1,2,3 }, 2);
+        $result = Type::isArraySize(vec[1,2,3], 2);
         $this->assertFalse($result);
     }
 
     public function testArrayMinSizeExact(): void
     {
-        $result = Type::isArraySizeGreaterThan(Vector { 1,2,3 }, 3);
+        $result = Type::isArraySizeGreaterThan(vec[1,2,3], 3);
         $this->assertTrue($result);
     }
 
     public function testArrayMinSizeMore(): void
     {
-        $result = Type::isArraySizeGreaterThan(Vector { 1,2,3 }, 2);
+        $result = Type::isArraySizeGreaterThan(vec[1,2,3], 2);
         $this->assertTrue($result);
     }
 
     public function testArrayMinSizeFew(): void
     {
-        $result = Type::isArraySizeGreaterThan(Vector { 1,2,3 }, 4);
+        $result = Type::isArraySizeGreaterThan(vec[1,2,3], 4);
         $this->assertFalse($result);
     }
 
@@ -56,24 +56,24 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('InvalidArgumentException');
 
-        Type::enforceArraySizeGreaterThan(Vector { 1,2,3 }, 4);
+        Type::enforceArraySizeGreaterThan(vec[1,2,3], 4);
     }
 
     public function testArrayMaxSizeExact(): void
     {
-        $result = Type::isArraySizeLowerThan(Vector { 1,2,3 }, 3);
+        $result = Type::isArraySizeLowerThan(vec[1,2,3], 3);
         $this->assertTrue($result);
     }
 
     public function testArrayMaxSizeFew(): void
     {
-        $result = Type::isArraySizeLowerThan(Vector { 1,2,3 }, 4);
+        $result = Type::isArraySizeLowerThan(vec[1,2,3], 4);
         $this->assertTrue($result);
     }
 
     public function testArrayMaxSizeMore(): void
     {
-        $result = Type::isArraySizeLowerThan(Vector { 1,2,3 }, 2);
+        $result = Type::isArraySizeLowerThan(vec[1,2,3], 2);
         $this->assertFalse($result);
     }
 
@@ -81,12 +81,12 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('InvalidArgumentException');
 
-        Type::enforceArraySizeLowerThan(Vector { 1,2,3 }, 2);
+        Type::enforceArraySizeLowerThan(vec[1,2,3], 2);
     }
 
     public function testIsWithinTrueString(): void
     {
-        $result = Type::isWithin('x', Vector { 'x', 'y', 'z' });
+        $result = Type::isWithin('x', vec['x', 'y', 'z']);
         $this->assertTrue($result);
     }
 
@@ -94,13 +94,13 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $image = Image::create();
         $video = Video::create();
-        $result = Type::isWithin($image, Vector { $image, $video, 'z' });
+        $result = Type::isWithin($image, vec[$image, $video, 'z']);
         $this->assertTrue($result);
     }
 
     public function testIsWithinFalse(): void
     {
-        $result = Type::isWithin('a', Vector { 'x', 'y', 'z' });
+        $result = Type::isWithin('a', vec['x', 'y', 'z']);
         $this->assertFalse($result);
     }
 
@@ -109,13 +109,13 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $image = Image::create();
         $video = Video::create();
         $anotherImg = Image::create();
-        $result = Type::isWithin($image, Vector { $anotherImg, $video, 'z' });
+        $result = Type::isWithin($image, vec[$anotherImg, $video, 'z']);
         $this->assertFalse($result);
     }
 
     public function testEnforceWithinTrueString(): void
     {
-        $result = Type::enforceWithin('x', Vector { 'x', 'y', 'z' });
+        $result = Type::enforceWithin('x', vec['x', 'y', 'z']);
         $this->assertTrue($result);
     }
 
@@ -123,7 +123,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('InvalidArgumentException');
 
-        Type::enforceWithin('a', Vector { 'x', 'y', 'z' });
+        Type::enforceWithin('a', vec['x', 'y', 'z']);
     }
 
     public function testStringNotEmpty(): void

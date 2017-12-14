@@ -132,10 +132,10 @@ class Interactive extends ElementWithHTML implements ChildrenContainer, Captiona
     {
         Type::enforceWithin(
             $margin,
-            Vector {
+            vec[
                 Interactive::NO_MARGIN,
                 Interactive::COLUMN_WIDTH,
-            }
+            ]
         );
         $this->margin = $margin;
 
@@ -251,13 +251,13 @@ class Interactive extends ElementWithHTML implements ChildrenContainer, Captiona
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren().
-     * @return array of Elements contained by Image.
+     * @return vec of Elements contained by Image.
      */
-    public function getContainerChildren(): Vector<Element>
+    public function getContainerChildren(): vec<Element>
     {
-        $children = Vector {};
+        $children = vec[];
         if ($this->caption) {
-            $children->add($this->caption);
+            $children[] = $this->caption;
         }
         return $children;
     }

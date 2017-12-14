@@ -37,9 +37,9 @@ class Transformer
      * $transformer->addRule(new ImageRule())
      *
      * Considering these getContextClass() for each Rule:
-     * ParagraphRule::getContextClass() => Vector { InstantArticle::class }
-     * BoldRule::getContextClass() => Vector { TextContainer::class }
-     * ImageRule::getContextClass() => Vector { InstantArticle::class, Paragraph::class }
+     * ParagraphRule::getContextClass() => vec[InstantArticle::class]
+     * BoldRule::getContextClass() => vec[TextContainer::class]
+     * ImageRule::getContextClass() => vec[InstantArticle::class, Paragraph::class]
      *
      * This is how the map would be filled in:
      * Map { "InstantArticle" ==> Map { 0 ==> ParagraphRule, 2 ==> ImageRule },
@@ -59,14 +59,14 @@ class Transformer
 
     /**
      * Memoizes each Element class and its parent classes (+ interfaces it implements)
-     * @var Map<string, Vector<string>> Each Element's class with its parent classes.
+     * @var Map<string, vec<string>> Each Element's class with its parent classes.
      */
     private static Map<string, Set<string>> $elementsParents = Map {};
 
     /**
-     * @var Vector<TransformerWarning>
+     * @var vec<TransformerWarning>
      */
-    private Vector<TransformerWarning> $warnings = Vector {};
+    private vec<TransformerWarning> $warnings = vec[];
 
     /**
      * @var bool
@@ -143,7 +143,7 @@ class Transformer
     /**
      * @return array
      */
-    public function getWarnings(): Vector<TransformerWarning>
+    public function getWarnings(): vec<TransformerWarning>
     {
         return $this->warnings;
     }
@@ -170,7 +170,7 @@ class Transformer
      */
     public function addWarning(TransformerWarning $warning): void
     {
-        $this->warnings->add($warning);
+        $this->warnings[] = $warning;
     }
 
     /**
@@ -375,7 +375,7 @@ class Transformer
      *
      * @param Element $context The context class to be checked
      */
-    private function filterMatchingContextRules(Element $context): Vector<Rule>
+    private function filterMatchingContextRules(Element $context): vec<Rule>
     {
         // Map to hold the sparse indexed rules already matched
         $matching = Map {};
@@ -391,7 +391,7 @@ class Transformer
         }
 
         // Consider only the matched by context
-        $rulesMatched = Vector {};
+        $rulesMatched = vec[];
 
         // Gets the $matching map keys, orders it into the reverse and generate
         // the final reverse order rules
@@ -404,7 +404,7 @@ class Transformer
         return $rulesMatched;
     }
 
-    private static function logMatchingRulesForContext(Element $context, \DOMNode $node, Vector<Rule> $matchedRules): string
+    private static function logMatchingRulesForContext(Element $context, \DOMNode $node, vec<Rule> $matchedRules): string
     {
         $logLine = '<'.$node->nodeName.'> '.$context->getObjClassName();
         foreach($matchedRules as $matchedRule) {

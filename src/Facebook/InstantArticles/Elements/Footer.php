@@ -32,7 +32,7 @@ class Footer extends Element implements ChildrenContainer
     /**
      * @var string|Paragraph[] The text content of the credits
      */
-    private Vector<mixed> $credits = Vector {};
+    private vec<mixed> $credits = vec[];
 
     /**
      * @var Small Copyright information of the article
@@ -59,11 +59,11 @@ class Footer extends Element implements ChildrenContainer
     /**
      * Sets the text content of the credits
      *
-     * @param Vector<string|Paragraph> $credits - A list of paragraphs or a single string for the content of the credit.
+     * @param vec<string|Paragraph> $credits - A list of paragraphs or a single string for the content of the credit.
      *
      * @return $this
      */
-    public function withCredits(Vector<mixed> $credits): this
+    public function withCredits(vec<mixed> $credits): this
     {
         $this->credits = $credits;
 
@@ -79,7 +79,7 @@ class Footer extends Element implements ChildrenContainer
      */
     public function addCredit(mixed $credit): this
     {
-        $this->credits->add($credit);
+        $this->credits[] = $credit;
 
         return $this;
     }
@@ -115,9 +115,9 @@ class Footer extends Element implements ChildrenContainer
     /**
      * Gets the text content of the credits
      *
-     * @return Vector<string|Paragraph> A list of paragraphs or a single string for the content of the credit.
+     * @return vec<string|Paragraph> A list of paragraphs or a single string for the content of the credit.
      */
-    public function getCredits(): Vector<mixed>
+    public function getCredits(): vec<mixed>
     {
         return $this->credits;
     }
@@ -203,22 +203,22 @@ class Footer extends Element implements ChildrenContainer
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren()
-     * @return Vector<Element> of Paragraph|RelatedArticles
+     * @return vec<Element> of Paragraph|RelatedArticles
      */
-    public function getContainerChildren(): Vector<Element>
+    public function getContainerChildren(): vec<Element>
     {
-        $children = Vector {};
+        $children = vec[];
 
         if ($this->credits) {
             foreach ($this->credits as $credit) {
                 if ($credit instanceof Element) {
-                    $children->add($credit);
+                    $children[] = $credit;
                 }
             }
         }
 
         if ($this->relatedArticles) {
-            $children->add($this->relatedArticles);
+            $children[] =  $this->relatedArticles;
         }
 
         return $children;

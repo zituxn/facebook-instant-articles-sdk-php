@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class FooterSmallRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Footer::getClassName() };
+        return vec[Footer::getClassName()];
     }
 
     public static function create(): FooterSmallRule

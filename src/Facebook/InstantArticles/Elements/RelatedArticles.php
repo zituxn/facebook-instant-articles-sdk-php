@@ -32,7 +32,7 @@ class RelatedArticles extends Element implements \Facebook\InstantArticles\Eleme
     /**
      * @var RelatedItem[] The related Articles
      */
-    private Vector<RelatedItem> $items = Vector {};
+    private vec<RelatedItem> $items = vec[];
 
     /**
      * @var string The title of the Related Articles content
@@ -62,7 +62,7 @@ class RelatedArticles extends Element implements \Facebook\InstantArticles\Eleme
      */
     public function addRelated(RelatedItem $item): this
     {
-        $this->items->add($item);
+        $this->items[] = $item;
 
         return $this;
     }
@@ -84,7 +84,7 @@ class RelatedArticles extends Element implements \Facebook\InstantArticles\Eleme
     /**
      * @return RelatedItem[] The RelatedItem's
      */
-    public function getItems(): Vector<RelatedItem>
+    public function getItems(): vec<RelatedItem>
     {
         return $this->items;
     }
@@ -147,12 +147,12 @@ class RelatedArticles extends Element implements \Facebook\InstantArticles\Eleme
      * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Image.
      */
-    public function getContainerChildren(): Vector<Element>
+    public function getContainerChildren(): vec<Element>
     {
-        $children = Vector {};
+        $children = vec[];
 
         foreach ($this->items as $item) {
-            $children->add($item);
+            $children[] = $item;
         }
 
         return $children;

@@ -18,9 +18,9 @@ class RelatedArticlesRule extends ConfigurationSelectorRule
 {
     const PROPERTY_TITLE = 'related.title';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { InstantArticle::getClassName() };
+        return vec[InstantArticle::getClassName()];
     }
 
     public static function create(): RelatedArticlesRule
@@ -34,9 +34,9 @@ class RelatedArticlesRule extends ConfigurationSelectorRule
         $related_articles_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $related_articles_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_TITLE,
-            },
+            ],
             $configuration
         );
 

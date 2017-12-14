@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class ListItemRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { ListElement::getClassName() };
+        return vec[ListElement::getClassName()];
     }
 
     public static function create(): ListItemRule

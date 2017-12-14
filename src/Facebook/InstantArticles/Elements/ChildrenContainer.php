@@ -26,9 +26,9 @@ interface ChildrenContainer
      *     }
      * </code>
      *
-     * @return Vector <Element> All implementing classes returns an array of Element.
+     * @return vec<Element> All implementing classes returns an array of Element.
      */
-    public function getContainerChildren(): Vector<Element>;
+    public function getContainerChildren(): vec<Element>;
 
     /**
      * Auxiliary method to extract all Elements full qualified class name.

@@ -20,9 +20,9 @@ class AnalyticsRule extends ConfigurationSelectorRule
     const PROPERTY_TRACKER_URL = 'analytics.url';
     const PROPERTY_TRACKER_EMBED_URL = 'analytics.embed';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { InstantArticle::getClassName() };
+        return vec[InstantArticle::getClassName()];
     }
 
     public static function create(): AnalyticsRule
@@ -36,10 +36,10 @@ class AnalyticsRule extends ConfigurationSelectorRule
         $analytics_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $analytics_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_TRACKER_URL,
                 self::PROPERTY_TRACKER_EMBED_URL,
-            },
+            ],
             $configuration
         );
 

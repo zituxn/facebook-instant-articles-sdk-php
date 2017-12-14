@@ -62,11 +62,11 @@ class H3 extends TextContainer
     {
         Type::enforceWithin(
             $text_alignment,
-            Vector {
+            vec[
                 Caption::ALIGN_RIGHT,
                 Caption::ALIGN_LEFT,
                 Caption::ALIGN_CENTER,
-            }
+            ]
         );
         $this->textAlignment = $text_alignment;
 
@@ -99,11 +99,11 @@ class H3 extends TextContainer
     {
         Type::enforceWithin(
             $position,
-            Vector {
+            vec[
                 Caption::POSITION_ABOVE,
                 Caption::POSITION_BELOW,
-                Caption::POSITION_CENTER
-            }
+                Caption::POSITION_CENTER,
+            ]
         );
         $this->position = $position;
 
@@ -158,18 +158,18 @@ class H3 extends TextContainer
 
         $h3 = $document->createElement('h3');
 
-        $classes = Vector {};
+        $classes = vec[];
         if ($this->position) {
-            $classes->add($this->position);
+            $classes[] = $this->position;
         }
         if ($this->textAlignment) {
-            $classes->add($this->textAlignment);
+            $classes[] = $this->textAlignment;
         }
         if ($this->isKicker()) {
-            $classes->add('op-kicker');
+            $classes[] = 'op-kicker';
         }
 
-        if (!$classes->isEmpty()) {
+        if (count($classes) > 0) {
             $h3->setAttribute('class', implode(' ', $classes));
         }
 

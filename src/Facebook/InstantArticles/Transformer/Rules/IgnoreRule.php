@@ -26,9 +26,9 @@ class IgnoreRule extends ConfigurationSelectorRule
         return $ignoreRule;
     }
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Element::getClassName() };
+        return vec[Element::getClassName()];
     }
 
     public function apply(Transformer $transformer, Element $context, \DOMNode $element): Element

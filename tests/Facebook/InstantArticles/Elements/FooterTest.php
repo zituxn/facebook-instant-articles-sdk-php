@@ -24,7 +24,7 @@ class FooterTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $footer =
             Footer::create()
-                ->withCredits(Vector {'Some plaintext credits.'});
+                ->withCredits(vec['Some plaintext credits.']);
 
         $expected =
             '<footer>'.
@@ -41,10 +41,10 @@ class FooterTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $footer =
             Footer::create()
-                ->withCredits(Vector {
+                ->withCredits(vec[
                     Paragraph::create()->appendText('Some paragraph credits.'),
                     Paragraph::create()->appendText('Other paragraph credits.'),
-                });
+                ]);
 
         $expected =
             '<footer>'.

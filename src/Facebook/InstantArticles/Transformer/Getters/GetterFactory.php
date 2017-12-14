@@ -27,11 +27,11 @@ class GetterFactory
     /**
      * Creates an Getter class.
      *
-     *  Map{
+     *  dict[
      *        type => 'string' | 'children',
      *        selector => 'img.cover',
      *        [attribute] => 'src',
-     *    }
+     *    ]
      * @see StringGetter
      * @see ChildrenGetter
      * @see IntegerGetter
@@ -49,7 +49,7 @@ class GetterFactory
      */
     public static function create(array<string, mixed> $getter_configuration): AbstractGetter
     {
-        $GETTERS = Map {
+        $GETTERS = dict [
             self::TYPE_STRING_GETTER => StringGetter::getClassName(),
             self::TYPE_INTEGER_GETTER => IntegerGetter::getClassName(),
             self::TYPE_DATE_GETTER => DateGetter::getClassName(),
@@ -63,7 +63,7 @@ class GetterFactory
             self::TYPE_JSON_GETTER => JSONGetter::getClassName(),
             self::TYPE_XPATH_GETTER => XpathGetter::getClassName(),
             self::TYPE_MULTIPLEELEMENTS_GETTER => MultipleElementsGetter::getClassName(),
-        };
+        ];
 
         $class = $getter_configuration['type'];
         if (array_key_exists($class, $GETTERS)) {

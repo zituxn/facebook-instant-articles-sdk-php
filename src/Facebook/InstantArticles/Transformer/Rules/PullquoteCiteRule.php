@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class PullquoteCiteRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Pullquote::getClassName() };
+        return vec[Pullquote::getClassName()];
     }
 
     public static function create(): PullquoteCiteRule

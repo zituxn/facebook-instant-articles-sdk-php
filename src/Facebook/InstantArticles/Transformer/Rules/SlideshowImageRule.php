@@ -24,9 +24,9 @@ class SlideshowImageRule extends ConfigurationSelectorRule
     const PROPERTY_CAPTION_TITLE = 'caption.title';
     const PROPERTY_CAPTION_CREDIT = 'caption.credit';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Slideshow::getClassName() };
+        return vec[Slideshow::getClassName()];
     }
 
     public static function create(): SlideshowImageRule
@@ -40,11 +40,11 @@ class SlideshowImageRule extends ConfigurationSelectorRule
         $image_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $image_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_IMAGE_URL,
                 self::PROPERTY_CAPTION_TITLE,
                 self::PROPERTY_CAPTION_CREDIT,
-            },
+            ],
             $configuration
         );
 

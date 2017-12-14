@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class CaptionCreditRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Caption::getClassName() };
+        return vec[Caption::getClassName()];
     }
 
     public static function create(): CaptionCreditRule
@@ -32,7 +32,7 @@ class CaptionCreditRule extends ConfigurationSelectorRule
         $cite_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $cite_rule->withProperties(
-            Vector {
+            vec[
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER,
                 Caption::POSITION_ABOVE,
@@ -40,7 +40,7 @@ class CaptionCreditRule extends ConfigurationSelectorRule
                 Caption::ALIGN_LEFT,
                 Caption::ALIGN_CENTER,
                 Caption::ALIGN_RIGHT,
-            },
+            ],
             $configuration
         );
 

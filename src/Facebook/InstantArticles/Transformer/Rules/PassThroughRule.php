@@ -14,9 +14,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class PassThroughRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Element::getClassName() };
+        return vec[Element::getClassName()];
     }
 
     public static function create(): PassThroughRule

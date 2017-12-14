@@ -35,12 +35,12 @@ class ServerMessage
     {
         Type::enforceWithin(
             $level,
-            Vector {
+            vec[
                 self::FATAL,
                 self::ERROR,
                 self::WARNING,
                 self::INFO,
-            }
+            ]
         );
         $this->level = $level;
         $this->message = $message;
@@ -59,12 +59,12 @@ class ServerMessage
         $level = strtolower($level);
         $validLevel = Type::isWithin(
             $level,
-            Vector {
+            vec[
                 self::FATAL,
                 self::ERROR,
                 self::WARNING,
                 self::INFO,
-            }
+            ]
         );
         if ($validLevel) {
             return new self($level, $message);

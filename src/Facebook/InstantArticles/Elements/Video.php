@@ -181,12 +181,12 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
     {
         Type::enforceWithin(
             $presentation,
-            Vector {
+            vec[
                 Video::ASPECT_FIT,
                 Video::ASPECT_FIT_ONLY,
                 Video::FULLSCREEN,
                 Video::NON_INTERACTIVE,
-            }
+            ]
         );
         $this->presentation = $presentation;
 
@@ -543,17 +543,17 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      * @see ChildrenContainer::getContainerChildren().
      * @return array of Elements contained by Video.
      */
-    public function getContainerChildren(): Vector<Element>
+    public function getContainerChildren(): vec<Element>
     {
-        $children = Vector {};
+        $children = vec[];
 
         if ($this->caption) {
-            $children->add($this->caption);
+            $children[] = $this->caption;
         }
 
         // Geotag markup optional
         if ($this->geoTag) {
-            $children->add($this->geoTag);
+            $children[] = $this->geoTag;
         }
 
         return $children;

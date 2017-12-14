@@ -22,9 +22,9 @@ class AuthorRule extends ConfigurationSelectorRule
     const PROPERTY_AUTHOR_ROLE_CONTRIBUTION = 'author.role_contribution';
     const PROPERTY_AUTHOR_DESCRIPTION = 'author.description';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Header::getClassName() };
+        return vec[Header::getClassName()];
     }
 
     public static function create(): AuthorRule
@@ -39,12 +39,12 @@ class AuthorRule extends ConfigurationSelectorRule
         $author_rule->withSelector(Type::mixedToString($configuration['selector']));
         //$properties = $configuration['properties'];
         $author_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_AUTHOR_URL,
                 self::PROPERTY_AUTHOR_NAME,
                 self::PROPERTY_AUTHOR_DESCRIPTION,
                 self::PROPERTY_AUTHOR_ROLE_CONTRIBUTION,
-            },
+            ],
             $configuration
         );
 

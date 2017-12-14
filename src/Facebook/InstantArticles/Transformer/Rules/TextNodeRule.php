@@ -14,9 +14,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class TextNodeRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { TextContainer::getClassName() };
+        return vec[TextContainer::getClassName()];
     }
 
     public static function create(): TextNodeRule
