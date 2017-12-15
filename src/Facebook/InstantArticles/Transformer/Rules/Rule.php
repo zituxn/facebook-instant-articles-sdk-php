@@ -13,27 +13,13 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 abstract class Rule
 {
+    /**
+     * @deprecated Make sure you implement both methods @see #matchesContext() and #matchesNode()
+     */
     public function matches(Element $context, \DOMNode $node): bool
     {
         $matches_context = $this->matchesContext($context);
         $matches_node = $this->matchesNode($node);
-        // if ($matches_context && $matches_node) {
-        //     var_dump('context class: '.get_class($context));
-        //     var_dump('context matches: '.($matches_context ? 'MATCHES' : 'no match'));
-        //     var_dump('node name: <'.$node->nodeName.' />');
-        //     var_dump('node matches: '.($matches_node ? 'MATCHES' : 'no match'));
-        //     var_dump('rule: '.get_class($this));
-        //     var_dump('-------');
-        // }
-        // if ($node->nodeName === 'iframe') {
-        //     var_dump('context class: '.get_class($context));
-        //     var_dump('context matches: '.($matches_context ? 'MATCHES' : 'no match'));
-        //     var_dump('node name: <'.$node->nodeName.' />');
-        //     var_dump('node: '.$node->ownerDocument->saveXML($node));
-        //     var_dump('node matches: '.($matches_node ? 'MATCHES' : 'no match'));
-        //     var_dump('rule: '.get_class($this));
-        //     var_dump('-------');
-        // }
         return $matches_context && $matches_node;
     }
 
