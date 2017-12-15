@@ -20,9 +20,9 @@ use Facebook\InstantArticles\Validators\InstantArticleValidator;
 class Transformer
 {
     /**
-     * @var array<Rule> This is the internal map for rules to be applied
+     * @var vec<Rule> This is the internal map for rules to be applied
      */
-    private array<Rule> $rules = array();
+    private vec<Rule> $rules = vec[];
 
     /**
      * This bucketized structure is holding the structure for optmizing the processing
@@ -295,15 +295,15 @@ class Transformer
      */
     public function resetRules(): void
     {
-        $this->rules = array();
+        $this->rules = vec[];
     }
 
     /**
      * Gets all rules already set in this transformer instance.
      *
-     * @return array<Rule> List of configured rules.
+     * @return vec<Rule> List of configured rules.
      */
-    public function getRules(): array<Rule>
+    public function getRules(): vec<Rule>
     {
         return $this->rules;
     }
@@ -313,7 +313,7 @@ class Transformer
      *
      * @param array<Rule> $rules List of configured rules.
      */
-    public function setRules(array<Rule> $rules): void
+    public function setRules(vec<Rule> $rules): void
     {
         $this->resetRules();
         foreach ($rules as $rule) {
