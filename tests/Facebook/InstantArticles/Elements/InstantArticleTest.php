@@ -26,7 +26,7 @@ class InstantArticleTest extends BaseHTMLTestCase
 
         $this->article =
             InstantArticle::create()
-                ->withCanonicalUrl('http://foo.com/article.html')
+                ->withCanonicalURL('http://foo.com/article.html')
                 ->withStyle('myarticlestyle')
                 ->withHeader(
                     Header::create()
@@ -96,7 +96,7 @@ class InstantArticleTest extends BaseHTMLTestCase
 
                 // Slideshow
                 ->addChild(
-                    SlideShow::create()
+                    Slideshow::create()
                         ->addImage(
                             Image::create()
                                 ->withURL('https://jpeg.org/images/jpegls-home.jpg')
@@ -320,7 +320,7 @@ class InstantArticleTest extends BaseHTMLTestCase
     {
         $article =
             InstantArticle::create()
-                ->withCanonicalUrl('')
+                ->withCanonicalURL('')
                 ->withHeader(Header::create())
                 // Paragraph1
                 ->addChild(
@@ -352,7 +352,7 @@ class InstantArticleTest extends BaseHTMLTestCase
 
                 // Slideshow
                 ->addChild(
-                    SlideShow::create()
+                    Slideshow::create()
                         ->addImage(
                             Image::create()
                                 ->withURL('https://jpeg.org/images/jpegls-home.jpg')
@@ -739,5 +739,149 @@ class InstantArticleTest extends BaseHTMLTestCase
             '</html>';
 
         $this->assertEqualsHtml($expected, $result);
+    }
+
+    public function testRenderWithoutRecirculationAds()
+    {
+
+        $expected =
+            '<!doctype html>'.
+            '<html>'.
+            '<head>'.
+                '<link rel="canonical" href="http://foo.com/article.html"/>'.
+                '<meta charset="utf-8"/>'.
+                '<meta property="op:generator" content="facebook-instant-articles-sdk-php"/>'.
+                '<meta property="op:generator:version" content="'.InstantArticle::CURRENT_VERSION.'"/>'.
+                '<meta property="op:markup_version" content="v1.0"/>'.
+                '<meta property="fb:article_style" content="myarticlestyle"/>'.
+            '</head>'.
+            '<body>'.
+                '<article>'.
+                    '<header>'.
+                        '<figure>'.
+                            '<img src="https://jpeg.org/images/jpegls-home.jpg"/>'.
+                            '<figcaption>Some caption to the image</figcaption>'.
+                        '</figure>'.
+                        '<h1>Big Top Title</h1>'.
+                        '<h2>Smaller SubTitle</h2>'.
+                        '<time class="op-published" datetime="1984-08-14T19:30:00+00:00">August 14th, 7:30pm</time>'.
+                        '<time class="op-modified" datetime="2016-02-10T10:00:00+00:00">February 10th, 10:00am</time>'.
+                        '<address>'.
+                            '<a>Author Name</a>'.
+                            'Author more detailed description'.
+                        '</address>'.
+                        '<address>'.
+                            '<a href="http://facebook.com/author" rel="facebook">Author in FB</a>'.
+                            'Author user in facebook'.
+                        '</address>'.
+                        '<h3 class="op-kicker">Some kicker of this article</h3>'.
+                    '</header>'.
+                    '<p>Some text to be within a paragraph for testing.</p>'.
+                    '<p>Other text to be within a second paragraph for testing.</p>'.
+                    '<figure class="op-slideshow">'.
+                        '<figure>'.
+                            '<img src="https://jpeg.org/images/jpegls-home.jpg"/>'.
+                        '</figure>'.
+                        '<figure>'.
+                            '<img src="https://jpeg.org/images/jpegls-home2.jpg"/>'.
+                        '</figure>'.
+                        '<figure>'.
+                            '<img src="https://jpeg.org/images/jpegls-home3.jpg"/>'.
+                        '</figure>'.
+                    '</figure>'.
+                    '<p>Some text to be within a paragraph for testing.</p>'.
+                    '<figure class="op-ad">'.
+                        '<iframe src="http://foo.com"></iframe>'.
+                    '</figure>'.
+                    '<p>Other text to be within a second paragraph for testing.</p>'.
+                    '<figure class="op-tracker">'.
+                        '<iframe>'.
+                            '<h1>Some custom code</h1>'.
+                            '<script>alert("test & more test");</script>'.
+                        '</iframe>'.
+                    '</figure>'.
+                    '<footer>'.
+                        '<aside>Some plaintext credits.</aside>'.
+                    '</footer>'.
+                '</article>'.
+            '</body>'.
+            '</html>';
+
+        $this->article->disableAutomaticRecirculationPlacement();
+
+        $this->assertEqualsHtml($expected, $this->article->render());
+    }
+
+    public function testRenderWithRecirculationAds()
+    {
+
+        $expected =
+            '<!doctype html>'.
+            '<html>'.
+            '<head>'.
+                '<link rel="canonical" href="http://foo.com/article.html"/>'.
+                '<meta charset="utf-8"/>'.
+                '<meta property="op:generator" content="facebook-instant-articles-sdk-php"/>'.
+                '<meta property="op:generator:version" content="'.InstantArticle::CURRENT_VERSION.'"/>'.
+                '<meta property="op:markup_version" content="v1.0"/>'.
+                '<meta property="fb:op-recirculation-ads" content="placement_id=536990673154512_811481037959775"/>'.
+                '<meta property="fb:article_style" content="myarticlestyle"/>'.
+            '</head>'.
+            '<body>'.
+                '<article>'.
+                    '<header>'.
+                        '<figure>'.
+                            '<img src="https://jpeg.org/images/jpegls-home.jpg"/>'.
+                            '<figcaption>Some caption to the image</figcaption>'.
+                        '</figure>'.
+                        '<h1>Big Top Title</h1>'.
+                        '<h2>Smaller SubTitle</h2>'.
+                        '<time class="op-published" datetime="1984-08-14T19:30:00+00:00">August 14th, 7:30pm</time>'.
+                        '<time class="op-modified" datetime="2016-02-10T10:00:00+00:00">February 10th, 10:00am</time>'.
+                        '<address>'.
+                            '<a>Author Name</a>'.
+                            'Author more detailed description'.
+                        '</address>'.
+                        '<address>'.
+                            '<a href="http://facebook.com/author" rel="facebook">Author in FB</a>'.
+                            'Author user in facebook'.
+                        '</address>'.
+                        '<h3 class="op-kicker">Some kicker of this article</h3>'.
+                    '</header>'.
+                    '<p>Some text to be within a paragraph for testing.</p>'.
+                    '<p>Other text to be within a second paragraph for testing.</p>'.
+                    '<figure class="op-slideshow">'.
+                        '<figure>'.
+                            '<img src="https://jpeg.org/images/jpegls-home.jpg"/>'.
+                        '</figure>'.
+                        '<figure>'.
+                            '<img src="https://jpeg.org/images/jpegls-home2.jpg"/>'.
+                        '</figure>'.
+                        '<figure>'.
+                            '<img src="https://jpeg.org/images/jpegls-home3.jpg"/>'.
+                        '</figure>'.
+                    '</figure>'.
+                    '<p>Some text to be within a paragraph for testing.</p>'.
+                    '<figure class="op-ad">'.
+                        '<iframe src="http://foo.com"></iframe>'.
+                    '</figure>'.
+                    '<p>Other text to be within a second paragraph for testing.</p>'.
+                    '<figure class="op-tracker">'.
+                        '<iframe>'.
+                            '<h1>Some custom code</h1>'.
+                            '<script>alert("test & more test");</script>'.
+                        '</iframe>'.
+                    '</figure>'.
+                    '<footer>'.
+                        '<aside>Some plaintext credits.</aside>'.
+                    '</footer>'.
+                '</article>'.
+            '</body>'.
+            '</html>';
+
+        $this->article->enableAutomaticRecirculationPlacement();
+        $this->article->withRecirculationPlacement('placement_id=536990673154512_811481037959775');
+
+        $this->assertEqualsHtml($expected, $this->article->render());
     }
 }

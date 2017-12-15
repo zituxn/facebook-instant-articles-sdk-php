@@ -37,6 +37,6 @@ class GlobalTransformerTest extends BaseHtmlTestCase
         $expected = file_get_contents(__DIR__ . '/global-ia.html');
 
         $this->assertEqualsHtml($expected, $result);
-        $this->assertEquals(0, count($transformer->getWarnings()));
+        $this->assertCount(0, $transformer->getWarnings());
     }
 }

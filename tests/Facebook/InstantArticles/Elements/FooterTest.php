@@ -115,7 +115,7 @@ class FooterTest extends BaseHTMLTestCase
                 ->appendText("2016 ")
                 ->appendText(
                     Anchor::create()
-                        ->withHRef('https://facebook.com')
+                        ->withHref('https://facebook.com')
                         ->appendText('Facebook')
                 );
         $footer =

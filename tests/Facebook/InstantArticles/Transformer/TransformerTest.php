@@ -9,7 +9,6 @@
 namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
-
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Author;
 use Facebook\InstantArticles\Transformer\Rules\BoldRule;

@@ -45,7 +45,7 @@ class InteractiveTest extends BaseHTMLTestCase
     public function testRenderBasicWithCaption()
     {
         $social_embed =
-            interactive::create()
+            Interactive::create()
                 ->withSource('http://foo.com/interactive-graphic')
                 ->withWidth(640)
                 ->withHeight(300)

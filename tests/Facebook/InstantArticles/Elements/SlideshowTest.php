@@ -14,7 +14,7 @@ class SlideshowTest extends BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {
-        $slideshow = SlideShow::create();
+        $slideshow = Slideshow::create();
 
         $expected = '';
 
@@ -25,7 +25,7 @@ class SlideshowTest extends BaseHTMLTestCase
     public function testRenderBasic()
     {
         $slideshow =
-            SlideShow::create()
+            Slideshow::create()
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home2.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home3.jpg'));
@@ -50,7 +50,7 @@ class SlideshowTest extends BaseHTMLTestCase
     public function testRenderWithLikeAndComments()
     {
         $slideshow =
-            SlideShow::create()
+            Slideshow::create()
                 ->addImage(
                     Image::create()
                         ->withURL('https://jpeg.org/images/jpegls-home.jpg')
@@ -88,7 +88,7 @@ class SlideshowTest extends BaseHTMLTestCase
     public function testRenderWithCaption()
     {
         $slideshow =
-            SlideShow::create()
+            Slideshow::create()
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home2.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home3.jpg'))
@@ -134,7 +134,7 @@ class SlideshowTest extends BaseHTMLTestCase
 JSON;
 
         $slideshow =
-            SlideShow::create()
+            Slideshow::create()
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home2.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home3.jpg'))
@@ -175,7 +175,7 @@ JSON;
             '</audio>';
 
         $slideshow =
-            SlideShow::create()
+            Slideshow::create()
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home2.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home3.jpg'))
