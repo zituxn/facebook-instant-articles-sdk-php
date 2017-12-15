@@ -275,4 +275,17 @@ class Type
         }
         return "";
     }
+
+    public static function concatVec<T>(vec<T> $first, vec<T> $second): vec<T>
+    {
+        $result = vec[];
+        foreach ($first as $item) {
+            $result[] = $item;
+        }
+        foreach ($second as $item) {
+            $result[] = $item;
+        }
+
+        return $result;
+    }
 }

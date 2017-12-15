@@ -111,14 +111,7 @@ class InstantArticleValidatorTest extends \PHPUnit_Framework_TestCase
 
         $result = $article->render();
         $this->assertEquals($expected, $result);
-
         $warnings = InstantArticleValidator::check($article);
-
-        foreach($warnings as $warning) {
-          var_dump($warning->__toString());
-        }
-
-
         $this->assertEquals(9, count($warnings));
     }
 

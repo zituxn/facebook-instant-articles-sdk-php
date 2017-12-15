@@ -28,8 +28,7 @@ class InstantArticleValidator
      */
     public static function check(InstantArticle $article): vec<ValidatorWarning>
     {
-        $warnings = vec[];
-        return self::getReport($article->getContainerChildren(), $warnings);
+        return self::getReport($article->getContainerChildren(), vec[]);
     }
 
     /**
@@ -46,7 +45,7 @@ class InstantArticleValidator
                 $warnings[] = new ValidatorWarning($element);
             }
             if ($element instanceof ChildrenContainer) {
-                self::getReport($element->getContainerChildren(), $warnings);
+                $warnings = Type::concatVec($warnings, self::getReport($element->getContainerChildren(), vec[]));
             }
         }
         return $warnings;
