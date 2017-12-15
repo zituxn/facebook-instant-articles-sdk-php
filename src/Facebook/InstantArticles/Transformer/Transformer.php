@@ -377,8 +377,8 @@ class Transformer
      */
     private function filterMatchingContextRules(Element $context): vec<Rule>
     {
-        // Map to hold the sparse indexed rules already matched
-        $matching = Map {};
+        // dict to hold the sparse indexed rules already matched
+        $matching = dict[];
 
         // Fetches all parent class and interfaces so we have a correct matching
         $contextClasses = self::getAllClassTypes($context->getObjClassName());
@@ -395,7 +395,7 @@ class Transformer
 
         // Gets the $matching map keys, orders it into the reverse and generate
         // the final reverse order rules
-        $keys = $matching->keys();
+        $keys = array_keys($matching);
         rsort($keys);
         foreach ($keys as $key) {
             $rulesMatched[] = $matching[$key];
