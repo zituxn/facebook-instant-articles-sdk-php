@@ -10,6 +10,7 @@ namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Header;
+use Facebook\InstantArticles\Elements\Author;
 use Facebook\InstantArticles\Transformer\Rules\BoldRule;
 use Facebook\InstantArticles\Transformer\Rules\H1Rule;
 use Facebook\InstantArticles\Transformer\Rules\ItalicRule;
@@ -32,6 +33,13 @@ class TransformerTest extends BaseHTMLTestCase
         $transformer->transformString($header, $title_html_string);
 
         $this->assertEqualsHtml('<h1>Title String</h1>', $header->getTitle()->render());
+    }
+
+    public function testDontTransformHTMLEntitiesTwice()
+    {
+        $author = Author::create()->withName("Test &amp; Test");
+        $rendered = $author->render('', true);
+        $this->assertEqualsHtml("<address><a>Test &amp; Test</a></address>", $rendered);
     }
 
     public function testTransformStringWithMultibyteUTF8Content()

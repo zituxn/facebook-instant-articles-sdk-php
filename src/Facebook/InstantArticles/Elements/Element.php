@@ -59,9 +59,10 @@ abstract class Element
         $rendered = str_replace('></source>', '/>', $rendered);
         $rendered = str_replace('></track>', '/>', $rendered);
         $rendered = str_replace('></wbr>', '/>', $rendered);
-
+        // createTextNode converts the & of html entities into &amp; - convert it back
+        // TODO (timjacobi): can we make this more elegant?
+        $rendered = preg_replace('/&amp;([^(\s|;)]*;)/', '&$1', $rendered);
         $rendered = preg_replace_callback('/(src|href|url|link)="([^"]*)"/is', [__CLASS__, 'urlDecoder'], $rendered);
-        // $rendered = htmlspecialchars_decode($rendered);
 
         return $rendered;
     }
