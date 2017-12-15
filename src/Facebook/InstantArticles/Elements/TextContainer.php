@@ -131,7 +131,7 @@ abstract class TextContainer extends Element implements ChildrenContainer
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren().
-     * @return array of TextContainer
+     * @return vec of TextContainer
      */
     public function getContainerChildren(): vec<Element>
     {

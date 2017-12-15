@@ -145,7 +145,7 @@ class RelatedArticles extends Element implements \Facebook\InstantArticles\Eleme
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren().
-     * @return array of Elements contained by Image.
+     * @return vec of Elements contained by Image.
      */
     public function getContainerChildren(): vec<Element>
     {

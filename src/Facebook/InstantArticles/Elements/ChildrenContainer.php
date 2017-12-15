@@ -16,7 +16,7 @@ interface ChildrenContainer
 {
 
     /**
-     * Must return an array of Element typed objects.
+     * Must return an vec of Element typed objects.
      * To navigate thru the ChildrenContainer object tree, always check if it is a ChildrenContainer.
      * <code>
      *     if (Type::is($object, ChildrenContainer::getClassName())) {
@@ -26,7 +26,7 @@ interface ChildrenContainer
      *     }
      * </code>
      *
-     * @return vec<Element> All implementing classes returns an array of Element.
+     * @return vec<Element> All implementing classes returns an vec of Element.
      */
     public function getContainerChildren(): vec<Element>;
 

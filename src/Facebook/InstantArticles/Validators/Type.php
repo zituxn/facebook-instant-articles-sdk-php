@@ -44,121 +44,121 @@ class Type
     }
 
     /**
-     * Method that enforces the array size to be EXACTLY the $size informed. If
+     * Method that enforces the vec size to be EXACTLY the $size informed. If
      * the size differs from the $size it will throw InvalidArgumentException
      *
-     * @param array $array the array that will be checked
-     * @param int $size The EXACTLY size that array must have
+     * @param vec $vec the vec that will be checked
+     * @param int $size The EXACTLY size that vec must have
      *
      * @return bool
      */
-    public static function enforceArraySize(vec<mixed> $array, int $size): bool
+    public static function enforceArraySize(vec<mixed> $vec, int $size): bool
     {
-        return self::isArraySize($array, $size, true);
+        return self::isArraySize($vec, $size, true);
     }
 
     /**
-     * Method that checks the array size to be EXACTLY the $size informed. If
+     * Method that checks the vec size to be EXACTLY the $size informed. If
      * the size differs from the $size it will return false, otherwise true.
-     * @param array $array the array that will be checked
-     * @param int $size The EXACTLY size that array must have
+     * @param vec $vec the vec that will be checked
+     * @param int $size The EXACTLY size that vec must have
      * @return true if matches the size, false otherwise
      */
-    public static function isArraySize(vec<mixed> $array, int $size, bool $enforce = false): bool
+    public static function isArraySize(vec<mixed> $vec, int $size, bool $enforce = false): bool
     {
-        $meets_size = count($array) == $size;
+        $meets_size = count($vec) == $size;
         if ($enforce && !$meets_size) {
-            self::throwArrayException($array, $size, 'Exact size');
+            self::throwArrayException($vec, $size, 'Exact size');
         }
         return $meets_size;
     }
 
     /**
-     * Method that enforces the array to have at least $min_size of elements. If
+     * Method that enforces the vec to have at least $min_size of elements. If
      * the size is less than $min_size it will throw InvalidArgumentException
-     * I.e.: array (1,2,3), $min_size 3 = true
-     * I.e.: array (1,2,3), $min_size 4 = throws InvalidArgumentException
+     * I.e.: vec (1,2,3), $min_size 3 = true
+     * I.e.: vec (1,2,3), $min_size 4 = throws InvalidArgumentException
      *
-     * @param array $array the array that will be checked
-     * @param int $min_size The EXACTLY size that array must have
+     * @param vec $vec the vec that will be checked
+     * @param int $min_size The EXACTLY size that vec must have
      *
      * @return bool
      *
-     * @throws \InvalidArgumentException if $array doesn't have at least $min_size items
+     * @throws \InvalidArgumentException if $vec doesn't have at least $min_size items
      */
-    public static function enforceArraySizeGreaterThan(vec<mixed> $array, int $min_size): bool
+    public static function enforceArraySizeGreaterThan(vec<mixed> $vec, int $min_size): bool
     {
-        return self::isArraySizeGreaterThan($array, $min_size, true);
+        return self::isArraySizeGreaterThan($vec, $min_size, true);
     }
 
     /**
-     * Method that checks if the array has at least $min_size of elements. If
+     * Method that checks if the vec has at least $min_size of elements. If
      * the size is less than $min_size it will return false.
-     * I.e.: array (1,2,3), $min_size 3 = true
-     * I.e.: array (1,2,3), $min_size 4 = false
+     * I.e.: vec (1,2,3), $min_size 3 = true
+     * I.e.: vec (1,2,3), $min_size 4 = false
      *
-     * @param array $array the array that will be checked
-     * @param int $min_size The minimum elements the array must have
+     * @param vec $vec the vec that will be checked
+     * @param int $min_size The minimum elements the vec must have
      *
      * @return bool true if has at least $min_size, false otherwise
      */
-    public static function isArraySizeGreaterThan(vec<mixed> $array, int $min_size, bool $enforce = false): bool
+    public static function isArraySizeGreaterThan(vec<mixed> $vec, int $min_size, bool $enforce = false): bool
     {
-        $meets_size = count($array) >= $min_size;
+        $meets_size = count($vec) >= $min_size;
         if ($enforce && !$meets_size) {
-            self::throwArrayException($array, $min_size, 'Minimal size');
+            self::throwArrayException($vec, $min_size, 'Minimal size');
         }
         return $meets_size;
     }
 
     /**
-     * Method that enforces the array to have at most $max_size of elements. If
+     * Method that enforces the vec to have at most $max_size of elements. If
      * the size is more than $max_size it will throw InvalidArgumentException
-     * I.e.: array (1,2,3), $max_size 3 = true
-     * I.e.: array (1,2,3), $max_size 2 = throws InvalidArgumentException
+     * I.e.: vec (1,2,3), $max_size 3 = true
+     * I.e.: vec (1,2,3), $max_size 2 = throws InvalidArgumentException
      *
-     * @param array $array the array that will be checked
-     * @param int $max_size The maximum number of items the array can have
+     * @param vec $vec the vec that will be checked
+     * @param int $max_size The maximum number of items the vec can have
      *
      * @return bool
      *
-     * @throws \InvalidArgumentException if $array have more than $max_size items
+     * @throws \InvalidArgumentException if $vec have more than $max_size items
      */
-    public static function enforceArraySizeLowerThan(vec<mixed> $array, int $max_size): bool
+    public static function enforceArraySizeLowerThan(vec<mixed> $vec, int $max_size): bool
     {
-        return self::isArraySizeLowerThan($array, $max_size, true);
+        return self::isArraySizeLowerThan($vec, $max_size, true);
     }
 
     /**
-     * Method that checks if the array has at most $max_size of elements. If
+     * Method that checks if the vec has at most $max_size of elements. If
      * the size is more than $max_size it will return false
-     * I.e.: array (1,2,3), $max_size 3 = true
-     * I.e.: array (1,2,3), $max_size 2 = false
+     * I.e.: vec (1,2,3), $max_size 3 = true
+     * I.e.: vec (1,2,3), $max_size 2 = false
      *
-     * @param array $array the array that will be checked
-     * @param int $max_size The maximum number of items the array can have
+     * @param vec $vec the vec that will be checked
+     * @param int $max_size The maximum number of items the vec can have
      * @param boolean $enforce works as Type::enforceArrayMaxSize().
      * @see Type::enforceArrayMaxSize().
      *
      * @return bool true if it has less elements than $max_size, false otherwise
      */
-    public static function isArraySizeLowerThan(vec<mixed> $array, int $max_size, bool $enforce = false): bool
+    public static function isArraySizeLowerThan(vec<mixed> $vec, int $max_size, bool $enforce = false): bool
     {
-        $meets_size = count($array) <= $max_size;
+        $meets_size = count($vec) <= $max_size;
         if ($enforce && !$meets_size) {
-            self::throwArrayException($array, $max_size, 'Maximum size');
+            self::throwArrayException($vec, $max_size, 'Maximum size');
         }
         return $meets_size;
     }
 
     /*
-     * Utility method that constructs the message about array sizes an throws.
+     * Utility method that constructs the message about vec sizes an throws.
      */
-    private static function throwArrayException(vec<mixed> $array, int $size, string $message): void
+    private static function throwArrayException(vec<mixed> $vec, int $size, string $message): void
     {
         $error_message =
-            'Array expects a '.$message.' of '.$size.
-            ' but received an array with '.count($array).' items.';
+            'Vec expects a '.$message.' of '.$size.
+            ' but received an vec with '.count($vec).' items.';
 
         throw new \InvalidArgumentException($error_message);
     }
@@ -168,7 +168,7 @@ class Type
      * compare against
      *
      * @param mixed $value The value that will be verified
-     * @param array $universe The universe the $value must be in.
+     * @param vec $universe The universe the $value must be in.
      * @return true if the value is IN the universe, false otherwise.
      */
     public static function isWithin(mixed $value, vec<mixed> $universe, bool $enforce = false): bool
@@ -186,7 +186,7 @@ class Type
      * exception will be thrown.
      *
      * @param mixed $value The value that will be verified
-     * @param array $universe The universe the $value must be in.
+     * @param vec $universe The universe the $value must be in.
      * @return true if the value is IN the universe, throws Exception otherwise.
      * @throws \InvalidArgumentException if the value not IN the expected universe.
      */

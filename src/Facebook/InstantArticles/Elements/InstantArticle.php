@@ -234,7 +234,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * Replace all the children within this InstantArticle
      *
-     * @param vec<Element> $children Array of elements replacing the original.
+     * @param vec<Element> $children vec of elements replacing the original.
      *
      * @return $this
      */
@@ -249,7 +249,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      * Replace all the children within this InstantArticle
      *
      * @param int $index The index of the element to be deleted
-     *                             in the array of children.
+     *                             in the vec of children.
      *
      * @return $this
      */

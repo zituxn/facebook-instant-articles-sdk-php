@@ -541,7 +541,7 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren().
-     * @return array of Elements contained by Video.
+     * @return vec of Elements contained by Video.
      */
     public function getContainerChildren(): vec<Element>
     {

@@ -458,7 +458,7 @@ class Header extends Element implements ChildrenContainer
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren().
-     * @return array of Elements contained by Header.
+     * @return vec of Elements contained by Header.
      */
     public function getContainerChildren(): vec<Element>
     {

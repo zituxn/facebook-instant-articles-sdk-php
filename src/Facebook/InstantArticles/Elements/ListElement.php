@@ -84,7 +84,7 @@ class ListElement extends Element implements ChildrenContainer
     }
 
     /**
-     * Sets all items of the list as the array on the parameter
+     * Sets all items of the list as the vec on the parameter
      *
      * @param vec<ListItem> $new_items The new items. Replaces all items from the list
      *
