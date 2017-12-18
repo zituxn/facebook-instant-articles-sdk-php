@@ -26,7 +26,7 @@ class MapRule extends ConfigurationSelectorRule
         return new MapRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): MapRule
+    public static function createFrom(dict<string, mixed> $configuration): MapRule
     {
         $map_rule = self::create();
         $map_rule->withSelector(Type::mixedToString($configuration['selector']));

@@ -39,7 +39,7 @@ class GlobalRule extends ConfigurationSelectorRule
         return new GlobalRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): GlobalRule
+    public static function createFrom(dict<string, mixed> $configuration): GlobalRule
     {
         $rule = GlobalRule::create();
 

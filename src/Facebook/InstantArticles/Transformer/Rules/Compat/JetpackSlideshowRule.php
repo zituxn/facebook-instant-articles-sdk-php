@@ -31,7 +31,7 @@ class JetpackSlideshowRule extends ConfigurationSelectorRule
         return new JetpackSlideshowRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): JetpackSlideshowRule
+    public static function createFrom(dict<string, mixed> $configuration): JetpackSlideshowRule
     {
         $slideshow_rule = self::create();
         $slideshow_rule->withSelector(Type::mixedToString($configuration['selector']));

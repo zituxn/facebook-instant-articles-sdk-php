@@ -13,10 +13,10 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class InteractiveRuleTest extends \Facebook\Util\BaseHTMLTestCase
 {
-    private $config = array();
-    private $iframe;
+    private dict<string, mixed> $config = dict[];
+    private \DOMElement $iframe;
 
-    public function setUp()
+    public function __construct()
     {
         $configJSON = <<<'JSON'
 {
@@ -45,7 +45,7 @@ class InteractiveRuleTest extends \Facebook\Util\BaseHTMLTestCase
     }
 }
 JSON;
-        $this->config = json_decode($configJSON, true);
+        $this->config = dict(json_decode($configJSON, true));
 
         $this->html = file_get_contents(__DIR__ . '/instant-article-rule-test.html');
 

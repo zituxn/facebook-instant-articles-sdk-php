@@ -28,7 +28,7 @@ class RelatedArticlesRule extends ConfigurationSelectorRule
         return new RelatedArticlesRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): RelatedArticlesRule
+    public static function createFrom(dict<string, mixed> $configuration): RelatedArticlesRule
     {
         $related_articles_rule = self::create();
         $related_articles_rule->withSelector(Type::mixedToString($configuration['selector']));

@@ -43,11 +43,11 @@ class GetterFactory
      * @see JSONGetter
      * @see XpathGetter
      *
-     * @param array<string, string> $getter_configuration that maps the properties for getter
+     * @param dict<string, string> $getter_configuration that maps the properties for getter
      *
      * @return AbstractGetter
      */
-    public static function create(array<string, mixed> $getter_configuration): AbstractGetter
+    public static function create(dict<string, mixed> $getter_configuration): AbstractGetter
     {
         $GETTERS = dict [
             self::TYPE_STRING_GETTER => StringGetter::getClassName(),

@@ -26,7 +26,7 @@ class HeaderSubTitleRule extends ConfigurationSelectorRule
         return new HeaderSubTitleRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): HeaderSubTitleRule
+    public static function createFrom(dict<string, mixed> $configuration): HeaderSubTitleRule
     {
         $headerSubTitleRule = self::create();
         $headerSubTitleRule->withSelector(Type::mixedToString($configuration['selector']));

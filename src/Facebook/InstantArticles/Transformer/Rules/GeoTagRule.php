@@ -36,7 +36,7 @@ class GeoTagRule extends ConfigurationSelectorRule
         return new GeoTagRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): GeoTagRule
+    public static function createFrom(dict<string, mixed> $configuration): GeoTagRule
     {
         $geo_tag_rule = self::create();
         $geo_tag_rule->withSelector(Type::mixedToString($configuration['selector']));

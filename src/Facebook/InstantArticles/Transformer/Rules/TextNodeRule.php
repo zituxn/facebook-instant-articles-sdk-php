@@ -24,7 +24,7 @@ class TextNodeRule extends ConfigurationSelectorRule
         return new TextNodeRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): TextNodeRule
+    public static function createFrom(dict<string, mixed> $configuration): TextNodeRule
     {
         return self::create();
     }

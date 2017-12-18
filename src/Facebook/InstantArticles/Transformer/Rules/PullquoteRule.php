@@ -26,7 +26,7 @@ class PullquoteRule extends ConfigurationSelectorRule
         return new PullquoteRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): PullquoteRule
+    public static function createFrom(dict<string, mixed> $configuration): PullquoteRule
     {
         $pullquoteRule = self::create();
         $pullquoteRule->withSelector(Type::mixedToString($configuration['selector']));

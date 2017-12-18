@@ -26,7 +26,7 @@ class BoldRule extends ConfigurationSelectorRule
         return new BoldRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): BoldRule
+    public static function createFrom(dict<string, mixed> $configuration): BoldRule
     {
         $boldRule = BoldRule::create();
         $boldRule->withSelector(Type::mixedToString($configuration['selector']));

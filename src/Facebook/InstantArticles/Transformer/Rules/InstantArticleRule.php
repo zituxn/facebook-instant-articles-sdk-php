@@ -32,7 +32,7 @@ class InstantArticleRule extends ConfigurationSelectorRule
         return new InstantArticleRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): InstantArticleRule
+    public static function createFrom(dict<string, mixed> $configuration): InstantArticleRule
     {
         $canonical_rule = self::create();
         $canonical_rule->withSelector(Type::mixedToString($configuration['selector']));

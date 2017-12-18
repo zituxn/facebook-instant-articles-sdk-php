@@ -40,7 +40,7 @@ class TimeRule extends ConfigurationSelectorRule
         return new TimeRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): TimeRule
+    public static function createFrom(dict<string, mixed> $configuration): TimeRule
     {
         $time_rule = self::create();
         $time_rule->withSelector(Type::mixedToString($configuration['selector']));

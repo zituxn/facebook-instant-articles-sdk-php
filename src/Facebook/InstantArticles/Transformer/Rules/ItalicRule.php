@@ -21,7 +21,7 @@ class ItalicRule extends ConfigurationSelectorRule
         return new ItalicRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): ItalicRule
+    public static function createFrom(dict<string, mixed> $configuration): ItalicRule
     {
         $italicRule = self::create();
         $italicRule->withSelector(Type::mixedToString($configuration['selector']));

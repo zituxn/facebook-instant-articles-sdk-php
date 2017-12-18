@@ -32,7 +32,7 @@ class AuthorRule extends ConfigurationSelectorRule
         return new AuthorRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): AuthorRule
+    public static function createFrom(dict<string, mixed> $configuration): AuthorRule
     {
         $author_rule = AuthorRule::create();
 

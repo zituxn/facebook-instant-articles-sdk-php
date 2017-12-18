@@ -42,14 +42,14 @@ class Transformer
      * ImageRule::getContextClass() => vec[InstantArticle::class, Paragraph::class]
      *
      * This is how the map would be filled in:
-     * Map { "InstantArticle" ==> Map { 0 ==> ParagraphRule, 2 ==> ImageRule },
-     *       "TextContainer" ==> Map { 1 ==> BoldRule },
-     *       "Paragraph" ==> Map { 2 ==> ImageRule }
-     *     }
+     * dict [ "InstantArticle" ==> dict [ 0 ==> ParagraphRule, 2 ==> ImageRule ],
+     *       "TextContainer" ==> dict [ 1 ==> BoldRule ],
+     *       "Paragraph" ==> dict [ 2 ==> ImageRule ]
+     *     ]
      *
-     * @var Map<string, Map<int, Rule>> These are the buckets for faster processing the Rules.
+     * @var dict<string, dict<int, Rule>> These are the buckets for faster processing the Rules.
      */
-    private Map<string, Map<int, Rule>> $bucketedRules = Map {};
+    private dict<string, dict<int, Rule>> $bucketedRules = dict[];
 
     /**
      * Optmization strategy to keep track of the original order this rule was inserted.
@@ -59,9 +59,9 @@ class Transformer
 
     /**
      * Memoizes each Element class and its parent classes (+ interfaces it implements)
-     * @var Map<string, vec<string>> Each Element's class with its parent classes.
+     * @var dict<string, keyset<string>> Each Element's class with its parent classes.
      */
-    private static Map<string, Set<string>> $elementsParents = Map {};
+    private static dict<string, keyset<string>> $elementsParents = dict[];
 
     /**
      * @var vec<TransformerWarning>
@@ -155,12 +155,12 @@ class Transformer
     {
         $this->rules[] = $rule;
         foreach ($rule->getContextClass() as $context) {
-            if (!$this->bucketedRules->containsKey($context)) {
-                $this->bucketedRules[$context] = Map {};
+            if (!array_key_exists($context, $this->bucketedRules)) {
+                $this->bucketedRules[$context] = dict[];
             }
             $contextBucket = $this->bucketedRules[$context];
             if ($contextBucket !== null) {
-                $contextBucket[$this->ruleCount++] = $rule;
+                $this->bucketedRules[$context][$this->ruleCount++] = $rule;
             }
         }
     }
@@ -285,7 +285,7 @@ class Transformer
                             'createFrom'
                         );
                 }
-                $this->addRule($factory_method->invoke(null, $configuration_rule));
+                $this->addRule($factory_method->invoke(null, dict($configuration_rule)));
             }
         }
     }
@@ -311,7 +311,7 @@ class Transformer
     /**
      * Overrides all rules already set in this transformer instance.
      *
-     * @param array<Rule> $rules List of configured rules.
+     * @param vec<Rule> $rules List of configured rules.
      */
     public function setRules(vec<Rule> $rules): void
     {
@@ -348,21 +348,21 @@ class Transformer
      *
      * @return array of class names the provided class name is
      */
-    private static function getAllClassTypes(string $className): Set<string>
+    private static function getAllClassTypes(string $className): keyset<string>
     {
         // Memoizes
-        if (self::$elementsParents->containsKey($className)) {
+        if (array_key_exists($className, self::$elementsParents)) {
             return self::$elementsParents[$className];
         }
 
-        $classParents = class_parents($className, true);
-        $classInterfaces = class_implements($className, true);
-        $classNames = Set { $className };
+        $classParents = keyset(class_parents($className, true));
+        $classInterfaces = keyset(class_implements($className, true));
+        $classNames = keyset[$className];
         if ($classParents) {
-            $classNames->addAll($classParents);
+            $classNames = Type::concatKeyset($classNames, $classParents);
         }
         if ($classInterfaces) {
-            $classNames->addAll($classInterfaces);
+            $classNames = Type::concatKeyset($classNames, $classInterfaces);
         }
         self::$elementsParents[$className] = $classNames;
         return $classNames;
@@ -383,7 +383,7 @@ class Transformer
         // Fetches all parent class and interfaces so we have a correct matching
         $contextClasses = self::getAllClassTypes($context->getObjClassName());
         foreach ($contextClasses as $contextClass) {
-            if ($this->bucketedRules->containsKey($contextClass)) {
+            if (array_key_exists($contextClass, $this->bucketedRules)) {
                 foreach($this->bucketedRules[$contextClass] as $index => $rule) {
                     $matching[$index] = $rule;
                 }

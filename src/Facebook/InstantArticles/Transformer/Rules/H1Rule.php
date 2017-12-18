@@ -32,7 +32,7 @@ class H1Rule extends ConfigurationSelectorRule
         return new H1Rule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): H1Rule
+    public static function createFrom(dict<string, mixed> $configuration): H1Rule
     {
         $h1_rule = self::create();
         $h1_rule->withSelector(Type::mixedToString($configuration['selector']));

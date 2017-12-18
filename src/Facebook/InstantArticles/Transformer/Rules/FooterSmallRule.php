@@ -26,7 +26,7 @@ class FooterSmallRule extends ConfigurationSelectorRule
         return new FooterSmallRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): FooterSmallRule
+    public static function createFrom(dict<string, mixed> $configuration): FooterSmallRule
     {
         $footerRule = self::create();
         $footerRule->withSelector(Type::mixedToString($configuration['selector']));

@@ -26,7 +26,7 @@ class FooterRelatedArticlesRule extends ConfigurationSelectorRule
         return new FooterRelatedArticlesRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): FooterRelatedArticlesRule
+    public static function createFrom(dict<string, mixed> $configuration): FooterRelatedArticlesRule
     {
         $related_articles_rule = self::create();
         $related_articles_rule->withSelector(Type::mixedToString($configuration['selector']));

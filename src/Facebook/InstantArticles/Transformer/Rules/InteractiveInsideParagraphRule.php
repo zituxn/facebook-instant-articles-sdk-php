@@ -40,7 +40,7 @@ class InteractiveInsideParagraphRule extends ConfigurationSelectorRule
         return new self();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): InteractiveInsideParagraphRule
+    public static function createFrom(dict<string, mixed> $configuration): InteractiveInsideParagraphRule
     {
         $interactive_rule = self::create();
         $interactive_rule->withSelector(Type::mixedToString($configuration['selector']));

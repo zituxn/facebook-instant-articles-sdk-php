@@ -24,7 +24,7 @@ class PassThroughRule extends ConfigurationSelectorRule
         return new PassThroughRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): PassThroughRule
+    public static function createFrom(dict<string, mixed> $configuration): PassThroughRule
     {
         $passThroughRule = self::create();
         $passThroughRule->withSelector(Type::mixedToString($configuration['selector']));

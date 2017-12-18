@@ -26,7 +26,7 @@ class BlockquoteRule extends ConfigurationSelectorRule
         return new BlockquoteRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): BlockquoteRule
+    public static function createFrom(dict<string, mixed> $configuration): BlockquoteRule
     {
         $blockquoteRule = BlockquoteRule::create();
         $blockquoteRule->withSelector(Type::mixedToString($configuration['selector']));

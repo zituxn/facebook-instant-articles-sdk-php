@@ -29,7 +29,7 @@ class HeaderImageRule extends ConfigurationSelectorRule
         return new HeaderImageRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): HeaderImageRule
+    public static function createFrom(dict<string, mixed> $configuration): HeaderImageRule
     {
         $image_rule = self::create();
         $image_rule->withSelector(Type::mixedToString($configuration['selector']));

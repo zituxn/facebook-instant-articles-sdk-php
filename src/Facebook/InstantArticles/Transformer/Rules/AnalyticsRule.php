@@ -30,7 +30,7 @@ class AnalyticsRule extends ConfigurationSelectorRule
         return new AnalyticsRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): AnalyticsRule
+    public static function createFrom(dict<string, mixed> $configuration): AnalyticsRule
     {
         $analytics_rule = self::create();
         $analytics_rule->withSelector(Type::mixedToString($configuration['selector']));

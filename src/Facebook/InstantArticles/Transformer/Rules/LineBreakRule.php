@@ -26,7 +26,7 @@ class LineBreakRule extends ConfigurationSelectorRule
         return new LineBreakRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): LineBreakRule
+    public static function createFrom(dict<string, mixed> $configuration): LineBreakRule
     {
         $lineBreakRule = self::create();
         $lineBreakRule->withSelector(Type::mixedToString($configuration['selector']));

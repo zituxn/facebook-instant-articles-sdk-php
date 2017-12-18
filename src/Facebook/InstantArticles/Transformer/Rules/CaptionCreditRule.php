@@ -26,7 +26,7 @@ class CaptionCreditRule extends ConfigurationSelectorRule
         return new CaptionCreditRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): CaptionCreditRule
+    public static function createFrom(dict<string, mixed> $configuration): CaptionCreditRule
     {
         $cite_rule = self::create();
         $cite_rule->withSelector(Type::mixedToString($configuration['selector']));

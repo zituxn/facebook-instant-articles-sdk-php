@@ -41,7 +41,7 @@ class CaptionRule extends ConfigurationSelectorRule
         return new CaptionRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): CaptionRule
+    public static function createFrom(dict<string, mixed> $configuration): CaptionRule
     {
         $caption_rule = self::create();
         $caption_rule->withSelector(Type::mixedToString($configuration['selector']));

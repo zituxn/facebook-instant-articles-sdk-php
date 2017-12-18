@@ -47,7 +47,7 @@ class ImageRule extends ConfigurationSelectorRule
         return new self();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): ImageRule
+    public static function createFrom(dict<string, mixed> $configuration): ImageRule
     {
         $image_rule = self::create();
         $image_rule->withSelector(Type::mixedToString($configuration['selector']));

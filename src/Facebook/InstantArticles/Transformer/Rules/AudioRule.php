@@ -32,7 +32,7 @@ class AudioRule extends ConfigurationSelectorRule
         return new AudioRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): AudioRule
+    public static function createFrom(dict<string, mixed> $configuration): AudioRule
     {
         $audio_rule = self::create();
         $audio_rule->withSelector(Type::mixedToString($configuration['selector']));

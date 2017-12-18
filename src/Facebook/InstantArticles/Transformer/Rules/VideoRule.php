@@ -70,7 +70,7 @@ class VideoRule extends ConfigurationSelectorRule
         return $matches_node;
     }
 
-    public static function createFrom(array<string, mixed> $configuration): VideoRule
+    public static function createFrom(dict<string, mixed> $configuration): VideoRule
     {
         $video_rule = self::create();
         $video_rule->withSelector(Type::mixedToString($configuration['selector']));

@@ -26,7 +26,7 @@ class ListItemRule extends ConfigurationSelectorRule
         return new ListItemRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): ListItemRule
+    public static function createFrom(dict<string, mixed> $configuration): ListItemRule
     {
         $listItemRule = self::create();
         $listItemRule->withSelector(Type::mixedToString($configuration['selector']));

@@ -29,7 +29,7 @@ class AnchorRule extends ConfigurationSelectorRule
         return vec[TextContainer::getClassName()];
     }
 
-    public static function createFrom(array<string, mixed> $configuration): AnchorRule
+    public static function createFrom(dict<string, mixed> $configuration): AnchorRule
     {
         $anchor_rule = self::create();
 

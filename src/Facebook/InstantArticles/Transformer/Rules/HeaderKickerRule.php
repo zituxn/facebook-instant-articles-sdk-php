@@ -26,7 +26,7 @@ class HeaderKickerRule extends ConfigurationSelectorRule
         return new HeaderKickerRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): HeaderKickerRule
+    public static function createFrom(dict<string, mixed> $configuration): HeaderKickerRule
     {
         $kickerRule = self::create();
         $kickerRule->withSelector(Type::mixedToString($configuration['selector']));

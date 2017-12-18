@@ -14,9 +14,9 @@ use Facebook\InstantArticles\Validators\Type;
 class ValidatorWarning extends TransformerWarning
 {
     /**
-     * @var array the configuration content
+     * @var dict the configuration content
      */
-    private array<string, array<string, string>> $configuration;
+    private dict<string, dict<string, string>> $configuration;
 
     /**
      * @param Element $element
@@ -24,7 +24,7 @@ class ValidatorWarning extends TransformerWarning
     public function __construct(Element $element)
     {
         parent::__construct(null, $element, null, null);
-        $this->configuration = array ();
+        $this->configuration = dict[];
     }
 
     /**
@@ -38,7 +38,7 @@ class ValidatorWarning extends TransformerWarning
     private function formatWarningMessage(): string
     {
         if (!$this->configuration) {
-            $this->configuration = parse_ini_file("validator_warning_messages.ini", true);
+            $this->configuration = dict(parse_ini_file("validator_warning_messages.ini", true));
         }
 
         $simple_class_name = substr(strrchr($this->getContext()?->getObjClassName(), '\\'), 1);

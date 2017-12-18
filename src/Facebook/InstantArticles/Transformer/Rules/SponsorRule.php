@@ -28,7 +28,7 @@ class SponsorRule extends ConfigurationSelectorRule
         return new SponsorRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): SponsorRule
+    public static function createFrom(dict<string, mixed> $configuration): SponsorRule
     {
         $sponsor_rule = SponsorRule::create();
 

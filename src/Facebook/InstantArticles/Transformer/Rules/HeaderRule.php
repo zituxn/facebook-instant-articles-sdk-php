@@ -26,7 +26,7 @@ class HeaderRule extends ConfigurationSelectorRule
         return new HeaderRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): HeaderRule
+    public static function createFrom(dict<string, mixed> $configuration): HeaderRule
     {
         $header_rule = self::create();
         $header_rule->withSelector(Type::mixedToString($configuration['selector']));

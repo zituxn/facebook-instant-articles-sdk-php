@@ -39,7 +39,7 @@ abstract class Rule
         );
     }
 
-    public static function createFrom(array<string, mixed> $configuration): Rule
+    public static function createFrom(dict<string, mixed> $configuration): Rule
     {
         throw new \Exception(
             'All Rule class extensions should implement the '.
@@ -47,12 +47,12 @@ abstract class Rule
         );
     }
 
-    public static function retrieveProperty(array<string, mixed> $properties, string $property_name): ?array<string, mixed>
+    public static function retrieveProperty(dict<string, mixed> $properties, string $property_name): ?dict<string, mixed>
     {
         if (array_key_exists('properties', $properties)) {
             $mappedProperties = $properties['properties'];
             if (is_array($mappedProperties) && array_key_exists($property_name, $mappedProperties)) {
-                return $mappedProperties[$property_name];
+                return dict($mappedProperties[$property_name]);
             }
         }
         return null;

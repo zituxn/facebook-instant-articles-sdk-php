@@ -40,7 +40,7 @@ class InteractiveRule extends ConfigurationSelectorRule
         return new self();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): InteractiveRule
+    public static function createFrom(dict<string, mixed> $configuration): InteractiveRule
     {
         $interactive_rule = self::create();
         $interactive_rule->withSelector(Type::mixedToString($configuration['selector']));

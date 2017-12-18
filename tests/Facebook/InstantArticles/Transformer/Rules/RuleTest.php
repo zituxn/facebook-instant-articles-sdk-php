@@ -28,7 +28,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             'All Rule class extensions should implement the Rule::createFrom($configuration) method'
         );
 
-        Rule::createFrom(array());
+        Rule::createFrom(dict[]);
     }
 
     public function testCreateThrowsException()
@@ -48,7 +48,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
                 '"class": "ParagraphRule",'.
                 '"selector" : "p"'.
             '}';
-        $config = json_decode($configJSON, true);
+        $config = dict(json_decode($configJSON, true));
         $rule = ParagraphRule::createFrom($config);
 
         $document = new \DOMDocument('utf-8');
@@ -66,7 +66,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
                 '"class": "ParagraphRule",'.
                 '"selector" : "p"'.
             '}';
-        $config = json_decode($configJSON, true);
+        $config = dict(json_decode($configJSON, true));
         $rule = ParagraphRule::createFrom($config);
 
         $document = new \DOMDocument('utf-8');
@@ -84,7 +84,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
                 '"class": "ParagraphRule",'.
                 '"selector" : "p"'.
             '}';
-        $config = json_decode($configJSON, true);
+        $config = dict(json_decode($configJSON, true));
         $rule = ParagraphRule::createFrom($config);
 
         $document = new \DOMDocument('utf-8');

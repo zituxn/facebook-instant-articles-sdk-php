@@ -26,7 +26,7 @@ class ParagraphRule extends ConfigurationSelectorRule
         return new ParagraphRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): ParagraphRule
+    public static function createFrom(dict<string, mixed> $configuration): ParagraphRule
     {
         $paragraphRule = self::create();
         $paragraphRule->withSelector(Type::mixedToString($configuration['selector']));

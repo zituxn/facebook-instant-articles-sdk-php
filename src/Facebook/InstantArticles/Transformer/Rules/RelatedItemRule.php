@@ -30,7 +30,7 @@ class RelatedItemRule extends ConfigurationSelectorRule
         return new RelatedItemRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): RelatedItemRule
+    public static function createFrom(dict<string, mixed> $configuration): RelatedItemRule
     {
         $related_item_rule = self::create();
         $related_item_rule->withSelector(Type::mixedToString($configuration['selector']));

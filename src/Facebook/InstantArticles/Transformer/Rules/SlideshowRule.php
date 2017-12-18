@@ -26,7 +26,7 @@ class SlideshowRule extends ConfigurationSelectorRule
         return new SlideshowRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): SlideshowRule
+    public static function createFrom(dict<string, mixed> $configuration): SlideshowRule
     {
         $slideshow_rule = self::create();
         $slideshow_rule->withSelector(Type::mixedToString($configuration['selector']));

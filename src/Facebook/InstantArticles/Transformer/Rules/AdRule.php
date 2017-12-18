@@ -32,7 +32,7 @@ class AdRule extends ConfigurationSelectorRule
         return new AdRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): ConfigurationSelectorRule
+    public static function createFrom(dict<string, mixed> $configuration): ConfigurationSelectorRule
     {
         $ad_rule = self::create();
         $ad_rule->withSelector(Type::mixedToString($configuration['selector']));

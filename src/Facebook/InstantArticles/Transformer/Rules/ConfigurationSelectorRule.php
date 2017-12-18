@@ -25,7 +25,7 @@ abstract class ConfigurationSelectorRule extends Rule
     /**
      * @var AbstractGetter[]
      */
-    protected array<string, AbstractGetter> $properties = array();
+    protected dict<string, AbstractGetter> $properties = dict[];
 
     /**
      * @param string $selector
@@ -52,17 +52,17 @@ abstract class ConfigurationSelectorRule extends Rule
      *
      * @return $this
      */
-    public function withProperty(string $property, array<string, string> $value): ConfigurationSelectorRule
+    public function withProperty(string $property, dict<string, mixed> $value): ConfigurationSelectorRule
     {
         $this->properties[$property] = GetterFactory::create($value);
         return $this;
     }
 
-    public function withProperties(vec<string> $properties, array<string, mixed> $configuration): ConfigurationSelectorRule
+    public function withProperties(vec<string> $properties, dict<string, mixed> $configuration): ConfigurationSelectorRule
     {
         foreach ($properties as $property) {
             $retrievedProperty = self::retrieveProperty($configuration, $property);
-            if ($retrievedProperty !== null && is_array($retrievedProperty)) {
+            if ($retrievedProperty !== null) {
                 $this->withProperty(
                     $property,
                     $retrievedProperty
@@ -288,7 +288,7 @@ abstract class ConfigurationSelectorRule extends Rule
         return null;
     }
 
-    public function getProperties(): array<string, AbstractGetter>
+    public function getProperties(): dict<string, AbstractGetter>
     {
         return $this->properties;
     }

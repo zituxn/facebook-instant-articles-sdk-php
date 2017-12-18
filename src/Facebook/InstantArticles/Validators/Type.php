@@ -288,4 +288,17 @@ class Type
 
         return $result;
     }
+
+    public static function concatKeyset(keyset<string> $first, keyset<string> $second): keyset<string>
+    {
+        $result = keyset[];
+        foreach ($first as $item) {
+            $result[] = $item;
+        }
+        foreach ($second as $item) {
+            $result[] = $item;
+        }
+
+        return $result;
+    }
 }
