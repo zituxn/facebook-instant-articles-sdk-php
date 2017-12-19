@@ -20,68 +20,68 @@ use Facebook\InstantArticles\Elements\AnimatedGIF;
 class TypeTest extends \PHPUnit_Framework_TestCase
 {
     /*
-        Array size tests ---------------
+        Vec size tests ---------------
      */
-    public function testArraySize(): void
+    public function testVecSize(): void
     {
-        $result = Type::isArraySize(vec[1,2,3], 3);
+        $result = Type::isVecSize(vec[1,2,3], 3);
         $this->assertTrue($result);
     }
 
-    public function testArrayNotSize(): void
+    public function testVecNotSize(): void
     {
-        $result = Type::isArraySize(vec[1,2,3], 2);
+        $result = Type::isVecSize(vec[1,2,3], 2);
         $this->assertFalse($result);
     }
 
-    public function testArrayMinSizeExact(): void
+    public function testVecMinSizeExact(): void
     {
-        $result = Type::isArraySizeGreaterThan(vec[1,2,3], 3);
+        $result = Type::isVecSizeGreaterThan(vec[1,2,3], 3);
         $this->assertTrue($result);
     }
 
-    public function testArrayMinSizeMore(): void
+    public function testVecMinSizeMore(): void
     {
-        $result = Type::isArraySizeGreaterThan(vec[1,2,3], 2);
+        $result = Type::isVecSizeGreaterThan(vec[1,2,3], 2);
         $this->assertTrue($result);
     }
 
-    public function testArrayMinSizeFew(): void
+    public function testVecMinSizeFew(): void
     {
-        $result = Type::isArraySizeGreaterThan(vec[1,2,3], 4);
+        $result = Type::isVecSizeGreaterThan(vec[1,2,3], 4);
         $this->assertFalse($result);
     }
 
-    public function testEnforceArrayMinSizeException(): void
+    public function testEnforceVecMinSizeException(): void
     {
         $this->setExpectedException('InvalidArgumentException');
 
-        Type::enforceArraySizeGreaterThan(vec[1,2,3], 4);
+        Type::enforceVecSizeGreaterThan(vec[1,2,3], 4);
     }
 
-    public function testArrayMaxSizeExact(): void
+    public function testVecMaxSizeExact(): void
     {
-        $result = Type::isArraySizeLowerThan(vec[1,2,3], 3);
+        $result = Type::isVecSizeLowerThan(vec[1,2,3], 3);
         $this->assertTrue($result);
     }
 
-    public function testArrayMaxSizeFew(): void
+    public function testVecMaxSizeFew(): void
     {
-        $result = Type::isArraySizeLowerThan(vec[1,2,3], 4);
+        $result = Type::isVecSizeLowerThan(vec[1,2,3], 4);
         $this->assertTrue($result);
     }
 
-    public function testArrayMaxSizeMore(): void
+    public function testVecMaxSizeMore(): void
     {
-        $result = Type::isArraySizeLowerThan(vec[1,2,3], 2);
+        $result = Type::isVecSizeLowerThan(vec[1,2,3], 2);
         $this->assertFalse($result);
     }
 
-    public function testEnforceArrayMaxSizeException(): void
+    public function testEnforceVecMaxSizeException(): void
     {
         $this->setExpectedException('InvalidArgumentException');
 
-        Type::enforceArraySizeLowerThan(vec[1,2,3], 2);
+        Type::enforceVecSizeLowerThan(vec[1,2,3], 2);
     }
 
     public function testIsWithinTrueString(): void

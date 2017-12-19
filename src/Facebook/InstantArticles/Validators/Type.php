@@ -52,9 +52,9 @@ class Type
      *
      * @return bool
      */
-    public static function enforceArraySize(vec<mixed> $vec, int $size): bool
+    public static function enforceVecSize(vec<mixed> $vec, int $size): bool
     {
-        return self::isArraySize($vec, $size, true);
+        return self::isVecSize($vec, $size, true);
     }
 
     /**
@@ -64,11 +64,11 @@ class Type
      * @param int $size The EXACTLY size that vec must have
      * @return true if matches the size, false otherwise
      */
-    public static function isArraySize(vec<mixed> $vec, int $size, bool $enforce = false): bool
+    public static function isVecSize(vec<mixed> $vec, int $size, bool $enforce = false): bool
     {
         $meets_size = count($vec) == $size;
         if ($enforce && !$meets_size) {
-            self::throwArrayException($vec, $size, 'Exact size');
+            self::throwVecException($vec, $size, 'Exact size');
         }
         return $meets_size;
     }
@@ -86,9 +86,9 @@ class Type
      *
      * @throws \InvalidArgumentException if $vec doesn't have at least $min_size items
      */
-    public static function enforceArraySizeGreaterThan(vec<mixed> $vec, int $min_size): bool
+    public static function enforceVecSizeGreaterThan(vec<mixed> $vec, int $min_size): bool
     {
-        return self::isArraySizeGreaterThan($vec, $min_size, true);
+        return self::isVecSizeGreaterThan($vec, $min_size, true);
     }
 
     /**
@@ -102,11 +102,11 @@ class Type
      *
      * @return bool true if has at least $min_size, false otherwise
      */
-    public static function isArraySizeGreaterThan(vec<mixed> $vec, int $min_size, bool $enforce = false): bool
+    public static function isVecSizeGreaterThan(vec<mixed> $vec, int $min_size, bool $enforce = false): bool
     {
         $meets_size = count($vec) >= $min_size;
         if ($enforce && !$meets_size) {
-            self::throwArrayException($vec, $min_size, 'Minimal size');
+            self::throwVecException($vec, $min_size, 'Minimal size');
         }
         return $meets_size;
     }
@@ -124,9 +124,9 @@ class Type
      *
      * @throws \InvalidArgumentException if $vec have more than $max_size items
      */
-    public static function enforceArraySizeLowerThan(vec<mixed> $vec, int $max_size): bool
+    public static function enforceVecSizeLowerThan(vec<mixed> $vec, int $max_size): bool
     {
-        return self::isArraySizeLowerThan($vec, $max_size, true);
+        return self::isVecSizeLowerThan($vec, $max_size, true);
     }
 
     /**
@@ -137,16 +137,16 @@ class Type
      *
      * @param vec $vec the vec that will be checked
      * @param int $max_size The maximum number of items the vec can have
-     * @param boolean $enforce works as Type::enforceArrayMaxSize().
-     * @see Type::enforceArrayMaxSize().
+     * @param boolean $enforce works as Type::enforceVecMaxSize().
+     * @see Type::enforceVecMaxSize().
      *
      * @return bool true if it has less elements than $max_size, false otherwise
      */
-    public static function isArraySizeLowerThan(vec<mixed> $vec, int $max_size, bool $enforce = false): bool
+    public static function isVecSizeLowerThan(vec<mixed> $vec, int $max_size, bool $enforce = false): bool
     {
         $meets_size = count($vec) <= $max_size;
         if ($enforce && !$meets_size) {
-            self::throwArrayException($vec, $max_size, 'Maximum size');
+            self::throwVecException($vec, $max_size, 'Maximum size');
         }
         return $meets_size;
     }
@@ -154,7 +154,7 @@ class Type
     /*
      * Utility method that constructs the message about vec sizes an throws.
      */
-    private static function throwArrayException(vec<mixed> $vec, int $size, string $message): void
+    private static function throwVecException(vec<mixed> $vec, int $size, string $message): void
     {
         $error_message =
             'Vec expects a '.$message.' of '.$size.
