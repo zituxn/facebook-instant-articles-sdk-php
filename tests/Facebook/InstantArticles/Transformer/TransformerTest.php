@@ -90,8 +90,6 @@ class TransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
         $result = $instant_article->render('', true)."\n";
 
-        //var_dump($result);
-        // print_r($warnings);
         $this->assertEqualsHtml($html_file, $result);
     }
 

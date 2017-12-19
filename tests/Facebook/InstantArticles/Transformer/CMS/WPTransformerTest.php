@@ -52,7 +52,6 @@ class WPTransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $result = $instant_article->render('', true)."\n";
         $expected = file_get_contents(__DIR__ . '/wp-ia.xml');
 
-        // var_dump($result);
         $this->assertEqualsHtml($expected, $result);
         // there must be 3 warnings related to <img> inside <li> that is not supported by IA
         $this->assertEquals(3, count($transformer->getWarnings()));

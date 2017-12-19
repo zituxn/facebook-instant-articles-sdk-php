@@ -33,8 +33,6 @@ class SimpleTransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $result = $instant_article->render('', true)."\n";
         $expected = file_get_contents(__DIR__ . '/simple-ia.html');
 
-        //var_dump($result);
-        // print_r($warnings);
         $this->assertEqualsHtml($expected, $result);
     }
 }
