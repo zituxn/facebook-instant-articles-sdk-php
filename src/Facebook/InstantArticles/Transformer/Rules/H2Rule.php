@@ -18,13 +18,13 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class H2Rule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector {
+        return vec[
             Header::getClassName(),
             Caption::getClassName(),
             InstantArticle::getClassName()
-        };
+        ];
     }
 
     public static function create(): H2Rule
@@ -32,13 +32,13 @@ class H2Rule extends ConfigurationSelectorRule
         return new H2Rule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): H2Rule
+    public static function createFrom(dict<string, mixed> $configuration): H2Rule
     {
         $h2_rule = self::create();
         $h2_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $h2_rule->withProperties(
-            Vector {
+            vec[
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER,
                 Caption::POSITION_ABOVE,
@@ -51,7 +51,7 @@ class H2Rule extends ConfigurationSelectorRule
                 Caption::SIZE_MEDIUM,
                 Caption::SIZE_LARGE,
                 Caption::SIZE_XLARGE,
-            },
+            ],
             $configuration
         );
 

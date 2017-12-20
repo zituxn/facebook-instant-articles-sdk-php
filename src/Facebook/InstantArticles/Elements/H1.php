@@ -57,11 +57,11 @@ class H1 extends TextContainer
     {
         Type::enforceWithin(
             $text_alignment,
-            Vector {
+            vec[
                 Caption::ALIGN_RIGHT,
                 Caption::ALIGN_LEFT,
                 Caption::ALIGN_CENTER,
-            }
+            ]
         );
         $this->textAlignment = $text_alignment;
 
@@ -94,11 +94,11 @@ class H1 extends TextContainer
     {
         Type::enforceWithin(
             $position,
-            Vector {
+            vec[
                 Caption::POSITION_ABOVE,
                 Caption::POSITION_BELOW,
-                Caption::POSITION_CENTER
-            }
+                Caption::POSITION_CENTER,
+            ]
         );
         $this->position = $position;
 
@@ -120,14 +120,14 @@ class H1 extends TextContainer
 
         $h1 = $document->createElement('h1');
 
-        $classes = Vector {};
+        $classes = vec[];
         if ($this->position) {
-            $classes->add($this->position);
+            $classes[] = $this->position;
         }
         if ($this->textAlignment) {
-            $classes->add($this->textAlignment);
+            $classes[] = $this->textAlignment;
         }
-        if (!$classes->isEmpty()) {
+        if (count($classes) > 0) {
             $h1->setAttribute('class', implode(' ', $classes));
         }
 

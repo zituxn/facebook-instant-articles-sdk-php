@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class HeaderKickerRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Header::getClassName() };
+        return vec[Header::getClassName()];
     }
 
     public static function create(): HeaderKickerRule
@@ -26,7 +26,7 @@ class HeaderKickerRule extends ConfigurationSelectorRule
         return new HeaderKickerRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): HeaderKickerRule
+    public static function createFrom(dict<string, mixed> $configuration): HeaderKickerRule
     {
         $kickerRule = self::create();
         $kickerRule->withSelector(Type::mixedToString($configuration['selector']));

@@ -13,10 +13,10 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class InstantArticleRuleTest extends \Facebook\Util\BaseHTMLTestCase
 {
-    private $config = array();
-    private $html;
+    private dict<string, mixed> $config = dict[];
+    private \DOMElement $html;
 
-    public function setUp()
+    public function __construct()
     {
         $configJSON =
             '{'.
@@ -50,7 +50,7 @@ class InstantArticleRuleTest extends \Facebook\Util\BaseHTMLTestCase
                     '}'.
                 '}'.
             '}';
-        $this->config = json_decode($configJSON, true);
+        $this->config = dict(json_decode($configJSON, true));
 
         $this->html = file_get_contents(__DIR__ . '/instant-article-rule-test.html');
     }

@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class ListElementRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { InstantArticle::getClassName() };
+        return vec[InstantArticle::getClassName()];
     }
 
     public static function create(): ListElementRule
@@ -26,7 +26,7 @@ class ListElementRule extends ConfigurationSelectorRule
         return new ListElementRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): ListElementRule
+    public static function createFrom(dict<string, mixed> $configuration): ListElementRule
     {
         $listElementRule = self::create();
         $listElementRule->withSelector(Type::mixedToString($configuration['selector']));

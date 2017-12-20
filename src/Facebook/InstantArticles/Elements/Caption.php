@@ -159,12 +159,12 @@ class Caption extends FormattedText
     {
         Type::enforceWithin(
             $font_size,
-            Vector {
+            vec[
                 Caption::SIZE_XLARGE,
                 Caption::SIZE_LARGE,
                 Caption::SIZE_MEDIUM,
                 Caption::SIZE_SMALL,
-            }
+            ]
         );
         $this->fontSize = $font_size;
 
@@ -186,11 +186,11 @@ class Caption extends FormattedText
     {
         Type::enforceWithin(
             $text_alignment,
-            Vector {
+            vec[
                 Caption::ALIGN_RIGHT,
                 Caption::ALIGN_LEFT,
                 Caption::ALIGN_CENTER,
-            }
+            ]
         );
         $this->textAlignment = $text_alignment;
 
@@ -212,11 +212,11 @@ class Caption extends FormattedText
     {
         Type::enforceWithin(
             $vertical_alignment,
-            Vector {
+            vec[
                 Caption::VERTICAL_TOP,
                 Caption::VERTICAL_BOTTOM,
-                Caption::VERTICAL_CENTER
-            }
+                Caption::VERTICAL_CENTER,
+            ]
         );
         $this->verticalAlignment = $vertical_alignment;
 
@@ -238,11 +238,11 @@ class Caption extends FormattedText
     {
         Type::enforceWithin(
             $position,
-            Vector {
+            vec[
                 Caption::POSITION_ABOVE,
                 Caption::POSITION_BELOW,
-                Caption::POSITION_CENTER
-            }
+                Caption::POSITION_CENTER,
+            ]
         );
         $this->position = $position;
 
@@ -361,18 +361,18 @@ class Caption extends FormattedText
 
         // Formating markup
         if ($this->textAlignment || $this->verticalAlignment || $this->fontSize || $this->position) {
-            $classes = Vector {};
+            $classes = vec[];
             if ($this->textAlignment) {
-                $classes->add($this->textAlignment);
+                $classes[] = $this->textAlignment;
             }
             if ($this->verticalAlignment) {
-                $classes->add($this->verticalAlignment);
+                $classes[] = $this->verticalAlignment;
             }
             if ($this->fontSize) {
-                $classes->add($this->fontSize);
+                $classes[] = $this->fontSize;
             }
             if ($this->position) {
-                $classes->add($this->position);
+                $classes[] = $this->position;
             }
             $element->setAttribute('class', implode(' ', $classes));
         }

@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class FooterSmallRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Footer::getClassName() };
+        return vec[Footer::getClassName()];
     }
 
     public static function create(): FooterSmallRule
@@ -26,7 +26,7 @@ class FooterSmallRule extends ConfigurationSelectorRule
         return new FooterSmallRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): FooterSmallRule
+    public static function createFrom(dict<string, mixed> $configuration): FooterSmallRule
     {
         $footerRule = self::create();
         $footerRule->withSelector(Type::mixedToString($configuration['selector']));

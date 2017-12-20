@@ -24,16 +24,16 @@ class CaptionRule extends ConfigurationSelectorRule
 {
     const PROPERTY_DEFAULT = 'caption.default';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
         return
-            Vector {
+            vec[
                 MapElement::getClassName(),
                 Image::getClassName(),
                 Interactive::getClassName(),
                 Slideshow::getClassName(),
                 Video::getClassName(),
-            };
+            ];
     }
 
     public static function create(): CaptionRule
@@ -41,13 +41,13 @@ class CaptionRule extends ConfigurationSelectorRule
         return new CaptionRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): CaptionRule
+    public static function createFrom(dict<string, mixed> $configuration): CaptionRule
     {
         $caption_rule = self::create();
         $caption_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $caption_rule->withProperties(
-            Vector {
+            vec[
                 Caption::POSITION_BELOW,
                 Caption::POSITION_CENTER,
                 Caption::POSITION_ABOVE,
@@ -61,8 +61,8 @@ class CaptionRule extends ConfigurationSelectorRule
                 Caption::SIZE_LARGE,
                 Caption::SIZE_XLARGE,
 
-                self::PROPERTY_DEFAULT
-            },
+                self::PROPERTY_DEFAULT,
+            ],
             $configuration
         );
 

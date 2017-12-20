@@ -21,9 +21,9 @@ class HeaderAdRule extends ConfigurationSelectorRule
     const PROPERTY_AD_WIDTH_URL = 'ad.width';
     const PROPERTY_AD_EMBED_URL = 'ad.embed';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Header::getClassName() };
+        return vec[Header::getClassName()];
     }
 
     public static function create(): HeaderAdRule
@@ -31,18 +31,18 @@ class HeaderAdRule extends ConfigurationSelectorRule
         return new HeaderAdRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): HeaderAdRule
+    public static function createFrom(dict<string, mixed> $configuration): HeaderAdRule
     {
         $ad_rule = self::create();
         $ad_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $ad_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_AD_URL,
                 self::PROPERTY_AD_HEIGHT_URL,
                 self::PROPERTY_AD_WIDTH_URL,
                 self::PROPERTY_AD_EMBED_URL,
-            },
+            ],
             $configuration
         );
 

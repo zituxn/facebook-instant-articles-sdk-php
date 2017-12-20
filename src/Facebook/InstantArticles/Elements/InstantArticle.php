@@ -39,7 +39,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * The meta properties that are used on <head>
      */
-    private Map<string, string> $metaProperties = Map {};
+    private dict<string, string> $metaProperties = dict[];
 
     /**
      * @var string The canonical URL for the Instant Article
@@ -84,7 +84,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * @var Element[] of all elements an article can have.
      */
-    private Vector<Element> $children = Vector {};
+    private vec<Element> $children = vec[];
 
     /**
      * @var boolean flag that indicates if this article is Right-to-left(RTL). Defaults to false.
@@ -234,14 +234,13 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     /**
      * Replace all the children within this InstantArticle
      *
-     * @param Vector<Element> $children Array of elements replacing the original.
+     * @param vec<Element> $children vec of elements replacing the original.
      *
      * @return $this
      */
-    public function withChildren(Vector<Element> $children): this
+    public function withChildren(vec<Element> $children): this
     {
-        $this->children = Vector {};
-        $this->children->addAll($children);
+        $this->children = $children;
 
         return $this;
     }
@@ -250,13 +249,20 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      * Replace all the children within this InstantArticle
      *
      * @param int $index The index of the element to be deleted
-     *                             in the array of children.
+     *                             in the vec of children.
      *
      * @return $this
      */
     public function deleteChild(int $index): this
     {
-        $this->children->removeKey($index);
+        // per https://github.com/facebook/hhvm/issues/6451#issue-114335255
+        $newChildren = vec[];
+        foreach($this->children as $key => $child) {
+            if ($key !== $index) {
+                $newChildren[] = $child;
+            }
+        };
+        $this->children = $newChildren;
 
         return $this;
     }
@@ -270,7 +276,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      */
     public function addChild(Element $child): this
     {
-        $this->children->add($child);
+        $this->children[] = $child;
 
         return $this;
     }
@@ -322,9 +328,9 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
     }
 
     /**
-     * @return Vector<Element> the elements this article contains
+     * @return vec<Element> the elements this article contains
      */
-    public function getChildren(): Vector<Element>
+    public function getChildren(): vec<Element>
     {
         return $this->children;
     }
@@ -482,25 +488,25 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
             $one_item_valid;
     }
 
-    public function getContainerChildren(): Vector<Element>
+    public function getContainerChildren(): vec<Element>
     {
-        $children = Vector {};
+        $children = vec[];
 
         $header = $this->getHeader();
         if ($header) {
-            $children->add($header);
+            $children[] = $header;
         }
 
         $items = $this->getChildren();
         if ($items) {
             foreach ($items as $item) {
-                $children->add($item);
+                $children[] = $item;
             }
         }
 
         $footer = $this->getFooter();
         if ($footer) {
-            $children->add($footer);
+            $children[] = $footer;
         }
 
         return $children;

@@ -33,7 +33,7 @@ class InvalidSelectorTest extends \PHPUnit_Framework_TestCase
 }
 JSON;
 
-        $properties = json_decode($json, true);
+        $properties = dict(json_decode($json, true));
 
         $instant_article = InstantArticle::create();
         $document = new \DOMDocument();

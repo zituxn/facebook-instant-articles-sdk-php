@@ -33,13 +33,13 @@ class ImageRule extends ConfigurationSelectorRule
     const NON_INTERACTIVE = 'non-interactive';
 
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
         return
-            Vector {
+            vec[
                 InstantArticle::getClassName(),
                 Paragraph::getClassName(),
-            };
+            ];
     }
 
     public static function create(): ImageRule
@@ -47,13 +47,13 @@ class ImageRule extends ConfigurationSelectorRule
         return new self();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): ImageRule
+    public static function createFrom(dict<string, mixed> $configuration): ImageRule
     {
         $image_rule = self::create();
         $image_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $image_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_IMAGE_URL,
                 self::PROPERTY_LIKE,
                 self::PROPERTY_COMMENTS,
@@ -63,7 +63,7 @@ class ImageRule extends ConfigurationSelectorRule
                 self::ASPECT_FIT_ONLY,
                 self::FULLSCREEN,
                 self::NON_INTERACTIVE,
-            },
+            ],
             $configuration
         );
 

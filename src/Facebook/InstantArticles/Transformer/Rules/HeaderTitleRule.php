@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class HeaderTitleRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Header::getClassName() };
+        return vec[Header::getClassName()];
     }
 
     public static function create(): HeaderTitleRule
@@ -26,7 +26,7 @@ class HeaderTitleRule extends ConfigurationSelectorRule
         return new HeaderTitleRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): HeaderTitleRule
+    public static function createFrom(dict<string, mixed> $configuration): HeaderTitleRule
     {
         $headerTitleRule = self::create();
         $headerTitleRule->withSelector(Type::mixedToString($configuration['selector']));

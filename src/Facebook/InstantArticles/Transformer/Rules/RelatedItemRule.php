@@ -20,9 +20,9 @@ class RelatedItemRule extends ConfigurationSelectorRule
     const PROPERTY_SPONSORED = 'related.sponsored';
     const PROPERTY_URL = 'related.url';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { RelatedArticles::getClassName() };
+        return vec[RelatedArticles::getClassName()];
     }
 
     public static function create(): RelatedItemRule
@@ -30,16 +30,16 @@ class RelatedItemRule extends ConfigurationSelectorRule
         return new RelatedItemRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): RelatedItemRule
+    public static function createFrom(dict<string, mixed> $configuration): RelatedItemRule
     {
         $related_item_rule = self::create();
         $related_item_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $related_item_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_SPONSORED,
                 self::PROPERTY_URL
-            },
+            ],
             $configuration
         );
 

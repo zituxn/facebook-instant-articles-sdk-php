@@ -136,7 +136,7 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
                 // Footer
                 ->withFooter(
                     Footer::create()
-                        ->withCredits(Vector {'Some plaintext credits.'} )
+                        ->withCredits(vec['Some plaintext credits.'])
                 );
     }
 
@@ -701,12 +701,12 @@ class InstantArticleTest extends \Facebook\Util\BaseHTMLTestCase
                         ->appendText('Ye olde body')
                 );
 
-        $newBody = Vector {
+        $newBody = vec [
             Paragraph::create()
                 ->appendText('The new body.'),
             Paragraph::create()
                 ->appendText('With two paragraphs!')
-        };
+        ];
 
         $article->withChildren($newBody);
         $result = $article->render();

@@ -90,8 +90,6 @@ class TransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
         $result = $instant_article->render('', true)."\n";
 
-        //var_dump($result);
-        // print_r($warnings);
         $this->assertEqualsHtml($html_file, $result);
     }
 
@@ -150,7 +148,7 @@ class TransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $rule2 = new ItalicRule();
         $transformer->addRule($rule1);
         $transformer->addRule($rule2);
-        $this->assertEquals(array($rule1, $rule2), $transformer->getRules());
+        $this->assertEquals(vec[$rule1, $rule2], $transformer->getRules());
     }
 
     public function testTransformerSetRules()
@@ -158,8 +156,8 @@ class TransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $transformer = new Transformer();
         $rule1 = new ParagraphRule();
         $rule2 = new ItalicRule();
-        $transformer->setRules(array($rule1, $rule2));
-        $this->assertEquals(array($rule1, $rule2), $transformer->getRules());
+        $transformer->setRules(vec[$rule1, $rule2]);
+        $this->assertEquals(vec[$rule1, $rule2], $transformer->getRules());
     }
 
     public function testTransformerResetRules()
@@ -170,6 +168,6 @@ class TransformerTest extends \Facebook\Util\BaseHTMLTestCase
         $transformer->addRule($rule1);
         $transformer->addRule($rule2);
         $transformer->resetRules();
-        $this->assertEquals(array(), $transformer->getRules());
+        $this->assertEquals(vec[], $transformer->getRules());
     }
 }

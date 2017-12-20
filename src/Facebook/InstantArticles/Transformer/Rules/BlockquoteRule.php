@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class BlockquoteRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { InstantArticle::getClassName() };
+        return vec[InstantArticle::getClassName()];
     }
 
     public static function create(): BlockquoteRule
@@ -26,7 +26,7 @@ class BlockquoteRule extends ConfigurationSelectorRule
         return new BlockquoteRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): BlockquoteRule
+    public static function createFrom(dict<string, mixed> $configuration): BlockquoteRule
     {
         $blockquoteRule = BlockquoteRule::create();
         $blockquoteRule->withSelector(Type::mixedToString($configuration['selector']));

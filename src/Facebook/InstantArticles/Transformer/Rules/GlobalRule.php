@@ -29,9 +29,9 @@ class GlobalRule extends ConfigurationSelectorRule
     const PROPERTY_TIME_PUBLISHED = 'article.publish';
     const PROPERTY_GLOBAL_BODY = 'article.body';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { InstantArticle::getClassName() };
+        return vec[InstantArticle::getClassName()];
     }
 
     public static function create(): GlobalRule
@@ -39,13 +39,13 @@ class GlobalRule extends ConfigurationSelectorRule
         return new GlobalRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): GlobalRule
+    public static function createFrom(dict<string, mixed> $configuration): GlobalRule
     {
         $rule = GlobalRule::create();
 
         $rule->withSelector(Type::mixedToString($configuration['selector']));
         $rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_GLOBAL_AUTHOR_URL,
                 self::PROPERTY_GLOBAL_AUTHOR_NAME,
                 self::PROPERTY_GLOBAL_AUTHOR_DESCRIPTION,
@@ -54,7 +54,7 @@ class GlobalRule extends ConfigurationSelectorRule
                 self::PROPERTY_GLOBAL_TITLE,
                 self::PROPERTY_TIME_PUBLISHED,
                 self::PROPERTY_GLOBAL_BODY,
-            },
+            ],
             $configuration
         );
 

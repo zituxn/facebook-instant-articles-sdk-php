@@ -35,9 +35,9 @@ class ListElement extends Element implements ChildrenContainer
     private bool $isOrdered = false;
 
     /**
-     * @var ListItem[] Items of the list
+     * @var vec<ListItem> Items of the list
      */
-    private Vector<ListItem> $items = Vector {};
+    private vec<ListItem> $items = vec[];
 
     protected function __construct()
     {
@@ -78,22 +78,21 @@ class ListElement extends Element implements ChildrenContainer
      */
     public function addItem(ListItem $new_item): this
     {
-        $this->items->add($new_item);
+        $this->items[] = $new_item;
 
         return $this;
     }
 
     /**
-     * Sets all items of the list as the array on the parameter
+     * Sets all items of the list as the vec on the parameter
      *
-     * @param Vector<ListItem> $new_items The new items. Replaces all items from the list
+     * @param vec<ListItem> $new_items The new items. Replaces all items from the list
      *
      * @return $this
      */
-    public function withItems(Vector<ListItem> $new_items): this
+    public function withItems(vec<ListItem> $new_items): this
     {
-        $this->items = Vector {};
-        $this->items->addAll($new_items);
+        $this->items = $new_items;
         return $this;
     }
 
@@ -122,9 +121,9 @@ class ListElement extends Element implements ChildrenContainer
     }
 
     /**
-     * @return Vector<ListItem> the list text items
+     * @return vec<ListItem> the list text items
      */
-    public function getItems(): Vector<ListItem>
+    public function getItems(): vec<ListItem>
     {
         return $this->items;
     }
@@ -187,14 +186,14 @@ class ListElement extends Element implements ChildrenContainer
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren().
-     * @return Vector<Element> contained by List.
+     * @return vec<Element> contained by List.
      */
-    public function getContainerChildren(): Vector<Element>
+    public function getContainerChildren(): vec<Element>
     {
-        $children = Vector {};
+        $children = vec[];
         if ($this->items) {
             foreach ($this->items as $item) {
-                $children->add($item);
+                $children[] = $item;
             }
         }
         return $children;

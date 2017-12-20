@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class ParagraphFooterRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Footer::getClassName() };
+        return vec[Footer::getClassName()];
     }
 
     public static function create(): ParagraphFooterRule
@@ -26,7 +26,7 @@ class ParagraphFooterRule extends ConfigurationSelectorRule
         return new ParagraphFooterRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): ParagraphFooterRule
+    public static function createFrom(dict<string, mixed> $configuration): ParagraphFooterRule
     {
         $paragraphFooterRule = self::create();
         $paragraphFooterRule->withSelector(Type::mixedToString($configuration['selector']));

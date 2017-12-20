@@ -20,9 +20,9 @@ use Facebook\InstantArticles\Validators\InstantArticleValidator;
 class Transformer
 {
     /**
-     * @var array<Rule> This is the internal map for rules to be applied
+     * @var vec<Rule> This is the internal map for rules to be applied
      */
-    private array<Rule> $rules = array();
+    private vec<Rule> $rules = vec[];
 
     /**
      * This bucketized structure is holding the structure for optmizing the processing
@@ -37,19 +37,19 @@ class Transformer
      * $transformer->addRule(new ImageRule())
      *
      * Considering these getContextClass() for each Rule:
-     * ParagraphRule::getContextClass() => Vector { InstantArticle::class }
-     * BoldRule::getContextClass() => Vector { TextContainer::class }
-     * ImageRule::getContextClass() => Vector { InstantArticle::class, Paragraph::class }
+     * ParagraphRule::getContextClass() => vec[InstantArticle::class]
+     * BoldRule::getContextClass() => vec[TextContainer::class]
+     * ImageRule::getContextClass() => vec[InstantArticle::class, Paragraph::class]
      *
      * This is how the map would be filled in:
-     * Map { "InstantArticle" ==> Map { 0 ==> ParagraphRule, 2 ==> ImageRule },
-     *       "TextContainer" ==> Map { 1 ==> BoldRule },
-     *       "Paragraph" ==> Map { 2 ==> ImageRule }
-     *     }
+     * dict [ "InstantArticle" ==> dict [ 0 ==> ParagraphRule, 2 ==> ImageRule ],
+     *       "TextContainer" ==> dict [ 1 ==> BoldRule ],
+     *       "Paragraph" ==> dict [ 2 ==> ImageRule ]
+     *     ]
      *
-     * @var Map<string, Map<int, Rule>> These are the buckets for faster processing the Rules.
+     * @var dict<string, dict<int, Rule>> These are the buckets for faster processing the Rules.
      */
-    private Map<string, Map<int, Rule>> $bucketedRules = Map {};
+    private dict<string, dict<int, Rule>> $bucketedRules = dict[];
 
     /**
      * Optmization strategy to keep track of the original order this rule was inserted.
@@ -59,14 +59,14 @@ class Transformer
 
     /**
      * Memoizes each Element class and its parent classes (+ interfaces it implements)
-     * @var Map<string, Vector<string>> Each Element's class with its parent classes.
+     * @var dict<string, keyset<string>> Each Element's class with its parent classes.
      */
-    private static Map<string, Set<string>> $elementsParents = Map {};
+    private static dict<string, keyset<string>> $elementsParents = dict[];
 
     /**
-     * @var Vector<TransformerWarning>
+     * @var vec<TransformerWarning>
      */
-    private Vector<TransformerWarning> $warnings = Vector {};
+    private vec<TransformerWarning> $warnings = vec[];
 
     /**
      * @var bool
@@ -143,7 +143,7 @@ class Transformer
     /**
      * @return array
      */
-    public function getWarnings(): Vector<TransformerWarning>
+    public function getWarnings(): vec<TransformerWarning>
     {
         return $this->warnings;
     }
@@ -155,12 +155,12 @@ class Transformer
     {
         $this->rules[] = $rule;
         foreach ($rule->getContextClass() as $context) {
-            if (!$this->bucketedRules->containsKey($context)) {
-                $this->bucketedRules[$context] = Map {};
+            if (!array_key_exists($context, $this->bucketedRules)) {
+                $this->bucketedRules[$context] = dict[];
             }
             $contextBucket = $this->bucketedRules[$context];
             if ($contextBucket !== null) {
-                $contextBucket[$this->ruleCount++] = $rule;
+                $this->bucketedRules[$context][$this->ruleCount++] = $rule;
             }
         }
     }
@@ -170,7 +170,7 @@ class Transformer
      */
     public function addWarning(TransformerWarning $warning): void
     {
-        $this->warnings->add($warning);
+        $this->warnings[] = $warning;
     }
 
     /**
@@ -285,7 +285,7 @@ class Transformer
                             'createFrom'
                         );
                 }
-                $this->addRule($factory_method->invoke(null, $configuration_rule));
+                $this->addRule($factory_method->invoke(null, dict($configuration_rule)));
             }
         }
     }
@@ -295,15 +295,15 @@ class Transformer
      */
     public function resetRules(): void
     {
-        $this->rules = array();
+        $this->rules = vec[];
     }
 
     /**
      * Gets all rules already set in this transformer instance.
      *
-     * @return array<Rule> List of configured rules.
+     * @return vec<Rule> List of configured rules.
      */
-    public function getRules(): array<Rule>
+    public function getRules(): vec<Rule>
     {
         return $this->rules;
     }
@@ -311,9 +311,9 @@ class Transformer
     /**
      * Overrides all rules already set in this transformer instance.
      *
-     * @param array<Rule> $rules List of configured rules.
+     * @param vec<Rule> $rules List of configured rules.
      */
-    public function setRules(array<Rule> $rules): void
+    public function setRules(vec<Rule> $rules): void
     {
         $this->resetRules();
         foreach ($rules as $rule) {
@@ -348,21 +348,21 @@ class Transformer
      *
      * @return array of class names the provided class name is
      */
-    private static function getAllClassTypes(string $className): Set<string>
+    private static function getAllClassTypes(string $className): keyset<string>
     {
         // Memoizes
-        if (self::$elementsParents->containsKey($className)) {
+        if (array_key_exists($className, self::$elementsParents)) {
             return self::$elementsParents[$className];
         }
 
-        $classParents = class_parents($className, true);
-        $classInterfaces = class_implements($className, true);
-        $classNames = Set { $className };
+        $classParents = keyset(class_parents($className, true));
+        $classInterfaces = keyset(class_implements($className, true));
+        $classNames = keyset[$className];
         if ($classParents) {
-            $classNames->addAll($classParents);
+            $classNames = Type::concatKeyset($classNames, $classParents);
         }
         if ($classInterfaces) {
-            $classNames->addAll($classInterfaces);
+            $classNames = Type::concatKeyset($classNames, $classInterfaces);
         }
         self::$elementsParents[$className] = $classNames;
         return $classNames;
@@ -375,15 +375,15 @@ class Transformer
      *
      * @param Element $context The context class to be checked
      */
-    private function filterMatchingContextRules(Element $context): Vector<Rule>
+    private function filterMatchingContextRules(Element $context): vec<Rule>
     {
-        // Map to hold the sparse indexed rules already matched
-        $matching = Map {};
+        // dict to hold the sparse indexed rules already matched
+        $matching = dict[];
 
         // Fetches all parent class and interfaces so we have a correct matching
         $contextClasses = self::getAllClassTypes($context->getObjClassName());
         foreach ($contextClasses as $contextClass) {
-            if ($this->bucketedRules->containsKey($contextClass)) {
+            if (array_key_exists($contextClass, $this->bucketedRules)) {
                 foreach($this->bucketedRules[$contextClass] as $index => $rule) {
                     $matching[$index] = $rule;
                 }
@@ -391,11 +391,11 @@ class Transformer
         }
 
         // Consider only the matched by context
-        $rulesMatched = Vector {};
+        $rulesMatched = vec[];
 
         // Gets the $matching map keys, orders it into the reverse and generate
         // the final reverse order rules
-        $keys = $matching->keys();
+        $keys = array_keys($matching);
         rsort($keys);
         foreach ($keys as $key) {
             $rulesMatched[] = $matching[$key];
@@ -404,7 +404,7 @@ class Transformer
         return $rulesMatched;
     }
 
-    private static function logMatchingRulesForContext(Element $context, \DOMNode $node, Vector<Rule> $matchedRules): string
+    private static function logMatchingRulesForContext(Element $context, \DOMNode $node, vec<Rule> $matchedRules): string
     {
         $logLine = '<'.$node->nodeName.'> '.$context->getObjClassName();
         foreach($matchedRules as $matchedRule) {

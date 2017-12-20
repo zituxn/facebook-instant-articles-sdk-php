@@ -14,9 +14,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class TextNodeRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { TextContainer::getClassName() };
+        return vec[TextContainer::getClassName()];
     }
 
     public static function create(): TextNodeRule
@@ -24,7 +24,7 @@ class TextNodeRule extends ConfigurationSelectorRule
         return new TextNodeRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): TextNodeRule
+    public static function createFrom(dict<string, mixed> $configuration): TextNodeRule
     {
         return self::create();
     }

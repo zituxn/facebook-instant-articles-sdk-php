@@ -30,9 +30,9 @@ class TimeRule extends ConfigurationSelectorRule
 
     private string $type = Time::PUBLISHED;
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Header::getClassName() };
+        return vec[Header::getClassName()];
     }
 
     public static function create(): TimeRule
@@ -40,16 +40,16 @@ class TimeRule extends ConfigurationSelectorRule
         return new TimeRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): TimeRule
+    public static function createFrom(dict<string, mixed> $configuration): TimeRule
     {
         $time_rule = self::create();
         $time_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $time_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_TIME,
                 self::PROPERTY_DATETIME_TYPE,
-            },
+            ],
             $configuration
         );
 

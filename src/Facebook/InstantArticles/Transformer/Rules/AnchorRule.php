@@ -24,22 +24,22 @@ class AnchorRule extends ConfigurationSelectorRule
         return new AnchorRule();
     }
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { TextContainer::getClassName() };
+        return vec[TextContainer::getClassName()];
     }
 
-    public static function createFrom(array<string, mixed> $configuration): AnchorRule
+    public static function createFrom(dict<string, mixed> $configuration): AnchorRule
     {
         $anchor_rule = self::create();
 
         $anchor_rule->withSelector(Type::mixedToString($configuration['selector']));
         //$properties = $configuration['properties'];
         $anchor_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_ANCHOR_HREF,
                 self::PROPERTY_ANCHOR_REL,
-            },
+            ],
             $configuration
         );
 

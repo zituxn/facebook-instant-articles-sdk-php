@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class PullquoteRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { InstantArticle::getClassName() };
+        return vec[InstantArticle::getClassName()];
     }
 
     public static function create(): PullquoteRule
@@ -26,7 +26,7 @@ class PullquoteRule extends ConfigurationSelectorRule
         return new PullquoteRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): PullquoteRule
+    public static function createFrom(dict<string, mixed> $configuration): PullquoteRule
     {
         $pullquoteRule = self::create();
         $pullquoteRule->withSelector(Type::mixedToString($configuration['selector']));

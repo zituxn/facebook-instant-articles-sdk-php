@@ -14,9 +14,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class PassThroughRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Element::getClassName() };
+        return vec[Element::getClassName()];
     }
 
     public static function create(): PassThroughRule
@@ -24,7 +24,7 @@ class PassThroughRule extends ConfigurationSelectorRule
         return new PassThroughRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): PassThroughRule
+    public static function createFrom(dict<string, mixed> $configuration): PassThroughRule
     {
         $passThroughRule = self::create();
         $passThroughRule->withSelector(Type::mixedToString($configuration['selector']));

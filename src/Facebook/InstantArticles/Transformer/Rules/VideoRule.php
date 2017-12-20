@@ -31,9 +31,9 @@ class VideoRule extends ConfigurationSelectorRule
      */
     private ?string $childSelector;
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { InstantArticle::getClassName() };
+        return vec[InstantArticle::getClassName()];
     }
 
     public static function create(): VideoRule
@@ -70,7 +70,7 @@ class VideoRule extends ConfigurationSelectorRule
         return $matches_node;
     }
 
-    public static function createFrom(array<string, mixed> $configuration): VideoRule
+    public static function createFrom(dict<string, mixed> $configuration): VideoRule
     {
         $video_rule = self::create();
         $video_rule->withSelector(Type::mixedToString($configuration['selector']));
@@ -80,7 +80,7 @@ class VideoRule extends ConfigurationSelectorRule
         }
 
         $video_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_VIDEO_URL,
                 self::PROPERTY_VIDEO_TYPE,
 
@@ -94,7 +94,7 @@ class VideoRule extends ConfigurationSelectorRule
 
                 self::PROPERTY_LIKE,
                 self::PROPERTY_COMMENTS,
-            },
+            ],
             $configuration
         );
         return $video_rule;

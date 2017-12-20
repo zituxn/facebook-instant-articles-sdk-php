@@ -99,10 +99,10 @@ class Time extends Element
     {
         Type::enforceWithin(
             $type,
-            Vector {
+            vec[
                 Time::MODIFIED,
                 Time::PUBLISHED,
-            }
+            ]
         );
         $this->type = $type;
 

@@ -39,7 +39,7 @@ class Slideshow extends Audible implements ChildrenContainer, Captionable
     /**
      * @var Image[] the images hosted on web that will be shown on the slideshow
      */
-    private Vector<Image> $article_images = Vector {};
+    private vec<Image> $article_images = vec[];
 
     /**
      * @var GeoTag The json geotag content inside the script geotag
@@ -89,11 +89,11 @@ class Slideshow extends Audible implements ChildrenContainer, Captionable
     /**
      * Sets the Image list of images for the slideshow. It is REQUIRED.
      *
-     * @param Vector<Image> The images. Ie: http://domain.com/img.png
+     * @param vec<Image> The images. Ie: http://domain.com/img.png
      *
      * @return $this
      */
-    public function withImages(Vector<Image> $article_images): this
+    public function withImages(vec<Image> $article_images): this
     {
         $this->article_images = $article_images;
 
@@ -109,7 +109,7 @@ class Slideshow extends Audible implements ChildrenContainer, Captionable
      */
     public function addImage(Image $article_image): this
     {
-        $this->article_images->add($article_image);
+        $this->article_images[] = $article_image;
 
         return $this;
     }
@@ -153,9 +153,9 @@ class Slideshow extends Audible implements ChildrenContainer, Captionable
     }
 
     /**
-     * @return Vector<Image> The ArticleImages content of the slideshow
+     * @return vec<Image> The ArticleImages content of the slideshow
      */
-    public function getArticleImages(): Vector<Image>
+    public function getArticleImages(): vec<Image>
     {
         return $this->article_images;
     }
@@ -251,25 +251,25 @@ class Slideshow extends Audible implements ChildrenContainer, Captionable
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren().
-     * @return array of Elements contained by Image.
+     * @return vec of Elements contained by Image.
      */
-    public function getContainerChildren(): Vector<Element>
+    public function getContainerChildren(): vec<Element>
     {
-        $children = Vector {};
+        $children = vec[];
 
         if ($this->article_images) {
             foreach ($this->article_images as $article_image) {
-                $children->add($article_image);
+                $children[] = $article_image;
             }
         }
 
         if ($this->caption) {
-            $children->add($this->caption);
+            $children[] = $this->caption;
         }
 
         // Audio markup optional
         if ($this->audio) {
-            $children->add($this->audio);
+            $children[] = $this->audio;
         }
 
         return $children;

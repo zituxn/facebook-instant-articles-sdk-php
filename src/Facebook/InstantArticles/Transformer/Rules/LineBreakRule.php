@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class LineBreakRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { TextContainer::getClassName() };
+        return vec[TextContainer::getClassName()];
     }
 
     public static function create(): LineBreakRule
@@ -26,7 +26,7 @@ class LineBreakRule extends ConfigurationSelectorRule
         return new LineBreakRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): LineBreakRule
+    public static function createFrom(dict<string, mixed> $configuration): LineBreakRule
     {
         $lineBreakRule = self::create();
         $lineBreakRule->withSelector(Type::mixedToString($configuration['selector']));

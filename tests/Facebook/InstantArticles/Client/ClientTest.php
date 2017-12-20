@@ -669,11 +669,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->willReturn($serverResponseMock);
 
 
-        $expected = Vector {
+        $expected = vec[
             'http://url.com/1',
             'http://url.com/2',
             'http://url.com/3',
-        };
+        ];
 
         $result = $this->client->getArticlesURLs();
         $this->assertEquals($expected, $result);

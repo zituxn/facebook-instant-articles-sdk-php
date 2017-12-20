@@ -21,9 +21,9 @@ class JetpackSlideshowRule extends ConfigurationSelectorRule
 {
     const PROPERTY_JETPACK_DATA_GALLERY = 'jetpack.data-gallery';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { InstantArticle::getClassName() };
+        return vec[InstantArticle::getClassName()];
     }
 
     public static function create(): JetpackSlideshowRule
@@ -31,15 +31,15 @@ class JetpackSlideshowRule extends ConfigurationSelectorRule
         return new JetpackSlideshowRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): JetpackSlideshowRule
+    public static function createFrom(dict<string, mixed> $configuration): JetpackSlideshowRule
     {
         $slideshow_rule = self::create();
         $slideshow_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $slideshow_rule->withProperties(
-            Vector {
-                self::PROPERTY_JETPACK_DATA_GALLERY
-            },
+            vec[
+                self::PROPERTY_JETPACK_DATA_GALLERY,
+            ],
             $configuration
         );
 

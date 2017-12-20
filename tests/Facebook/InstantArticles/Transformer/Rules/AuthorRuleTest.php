@@ -15,7 +15,7 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
     public function testCreateFromProperties()
     {
         $author_rule = AuthorRule::createFrom(
-            array (
+            dict[
                 "class" => "Facebook\\InstantArticles\\Transformer\\Rules\\AuthorRule",
                 "selector" => "div.post-content > p > em",
                 "properties" => array (
@@ -29,7 +29,7 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
                         "selector" => "#text:nth-child(2)"
                     )
                 )
-            )
+            ]
         );
         $this->assertEquals(get_class($author_rule), AuthorRule::getClassName());
     }
@@ -39,8 +39,11 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
         $author_rule = AuthorRule::create()
             ->withSelector("div.post-content > p > em")
             ->withProperties(
-                Vector { AuthorRule::PROPERTY_AUTHOR_URL, AuthorRule::PROPERTY_AUTHOR_NAME, },
-                array(
+                vec[
+                    AuthorRule::PROPERTY_AUTHOR_URL,
+                    AuthorRule::PROPERTY_AUTHOR_NAME,
+                ],
+                dict[
                     AuthorRule::PROPERTY_AUTHOR_URL =>
                     array (
                         "type" => "string",
@@ -52,7 +55,7 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
                         "type" => "string",
                         "selector" => "span"
                     ),
-                )
+                ]
             );
         $this->assertEquals($author_rule->getObjClassName(), AuthorRule::getClassName());
     }

@@ -22,9 +22,9 @@ class InstantArticleRule extends ConfigurationSelectorRule
     const PROPERTY_AUTO_AD_PLACEMENT = 'article.auto.ad';
     const PROPERTY_STYLE = 'article.style';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { InstantArticle::getClassName() };
+        return vec[InstantArticle::getClassName()];
     }
 
     public static function create(): InstantArticleRule
@@ -32,19 +32,19 @@ class InstantArticleRule extends ConfigurationSelectorRule
         return new InstantArticleRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): InstantArticleRule
+    public static function createFrom(dict<string, mixed> $configuration): InstantArticleRule
     {
         $canonical_rule = self::create();
         $canonical_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $canonical_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_CANONICAL,
                 self::PROPERTY_CHARSET,
                 self::PROPERTY_MARKUP_VERSION,
                 self::PROPERTY_AUTO_AD_PLACEMENT,
                 self::PROPERTY_STYLE,
-            },
+            ],
             $configuration
         );
 

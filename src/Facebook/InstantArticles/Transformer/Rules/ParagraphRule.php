@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class ParagraphRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { InstantArticle::getClassName() };
+        return vec[InstantArticle::getClassName()];
     }
 
     public static function create(): ParagraphRule
@@ -26,7 +26,7 @@ class ParagraphRule extends ConfigurationSelectorRule
         return new ParagraphRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): ParagraphRule
+    public static function createFrom(dict<string, mixed> $configuration): ParagraphRule
     {
         $paragraphRule = self::create();
         $paragraphRule->withSelector(Type::mixedToString($configuration['selector']));

@@ -22,13 +22,13 @@ class GeoTagRule extends ConfigurationSelectorRule
 {
     const PROPERTY_MAP_GEOTAG = 'map.geotag';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector {
+        return vec[
             Image::getClassName(),
             Video::getClassName(),
             MapElement::getClassName(),
-        };
+        ];
     }
 
     public static function create(): GeoTagRule
@@ -36,15 +36,15 @@ class GeoTagRule extends ConfigurationSelectorRule
         return new GeoTagRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): GeoTagRule
+    public static function createFrom(dict<string, mixed> $configuration): GeoTagRule
     {
         $geo_tag_rule = self::create();
         $geo_tag_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $geo_tag_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_MAP_GEOTAG,
-            },
+            ],
             $configuration
         );
 

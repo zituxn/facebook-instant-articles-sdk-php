@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class EmphasizedRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { TextContainer::getClassName() };
+        return vec[TextContainer::getClassName()];
     }
 
     public static function create(): EmphasizedRule
@@ -26,7 +26,7 @@ class EmphasizedRule extends ConfigurationSelectorRule
         return new EmphasizedRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): EmphasizedRule
+    public static function createFrom(dict<string, mixed> $configuration): EmphasizedRule
     {
         $emphasizedRule = self::create();
         $emphasizedRule->withSelector(Type::mixedToString($configuration['selector']));

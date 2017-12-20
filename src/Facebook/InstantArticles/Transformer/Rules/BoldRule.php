@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class BoldRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { TextContainer::getClassName() };
+        return vec[TextContainer::getClassName()];
     }
 
     public static function create(): BoldRule
@@ -26,7 +26,7 @@ class BoldRule extends ConfigurationSelectorRule
         return new BoldRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): BoldRule
+    public static function createFrom(dict<string, mixed> $configuration): BoldRule
     {
         $boldRule = BoldRule::create();
         $boldRule->withSelector(Type::mixedToString($configuration['selector']));

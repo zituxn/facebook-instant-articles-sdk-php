@@ -19,16 +19,16 @@ class IgnoreRule extends ConfigurationSelectorRule
         return new IgnoreRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): IgnoreRule
+    public static function createFrom(dict<string, mixed> $configuration): IgnoreRule
     {
         $ignoreRule = self::create();
         $ignoreRule->withSelector(Type::mixedToString($configuration['selector']));
         return $ignoreRule;
     }
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Element::getClassName() };
+        return vec[Element::getClassName()];
     }
 
     public function apply(Transformer $transformer, Element $context, \DOMNode $element): Element

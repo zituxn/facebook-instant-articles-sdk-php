@@ -28,7 +28,7 @@ class NextSiblingElementGetter extends AbstractGetter
         return $this;
     }
 
-    public function createFrom(array<string, mixed> $properties): this
+    public function createFrom(dict<string, mixed> $properties): this
     {
         if (array_key_exists('selector', $properties)) {
             $this->withSelector(Type::mixedToString($properties['selector']));

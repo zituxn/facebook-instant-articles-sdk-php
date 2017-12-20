@@ -17,14 +17,14 @@ class MultipleElementsGetter extends AbstractGetter
     /**
      * @var Getters
      */
-    protected array<AbstractGetter> $children = array();
+    protected vec<AbstractGetter> $children = vec[];
 
-    public function createFrom(array<string, mixed> $properties): this
+    public function createFrom(dict<string, mixed> $properties): this
     {
         $v = $properties['children'];
         invariant(is_array($v), "Not array");
         foreach ($v as $childName => $getter_configuration) {
-            $this->children[] = GetterFactory::create($getter_configuration);
+            $this->children[] = GetterFactory::create(dict($getter_configuration));
         }
 
         return $this;

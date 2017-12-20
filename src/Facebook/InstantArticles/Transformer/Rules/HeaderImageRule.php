@@ -19,9 +19,9 @@ class HeaderImageRule extends ConfigurationSelectorRule
 {
     const PROPERTY_IMAGE_URL = 'image.url';
 
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { Header::getClassName() };
+        return vec[Header::getClassName()];
     }
 
     public static function create(): HeaderImageRule
@@ -29,15 +29,15 @@ class HeaderImageRule extends ConfigurationSelectorRule
         return new HeaderImageRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): HeaderImageRule
+    public static function createFrom(dict<string, mixed> $configuration): HeaderImageRule
     {
         $image_rule = self::create();
         $image_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $image_rule->withProperties(
-            Vector {
+            vec[
                 self::PROPERTY_IMAGE_URL,
-            },
+            ],
             $configuration
         );
 

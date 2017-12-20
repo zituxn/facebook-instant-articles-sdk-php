@@ -68,7 +68,7 @@ abstract class AbstractGetter
      *
      * @return static
      */
-    abstract public function createFrom(array<string, mixed> $configuration): AbstractGetter;
+    abstract public function createFrom(dict<string, mixed> $configuration): AbstractGetter;
 
     /**
      * Method that should retrieve
@@ -87,5 +87,15 @@ abstract class AbstractGetter
     public static function getClassName(): string
     {
         return get_called_class();
+    }
+
+    public function getSelector(): ?string
+    {
+        return $this->selector;
+    }
+
+    public function getAttribute(): ?string
+    {
+        return $this->attribute;
     }
 }

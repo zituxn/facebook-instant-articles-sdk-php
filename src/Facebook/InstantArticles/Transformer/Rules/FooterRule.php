@@ -16,9 +16,9 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class FooterRule extends ConfigurationSelectorRule
 {
-    public function getContextClass(): Vector<string>
+    public function getContextClass(): vec<string>
     {
-        return Vector { InstantArticle::getClassName() };
+        return vec[InstantArticle::getClassName()];
     }
 
     public static function create(): FooterRule
@@ -26,7 +26,7 @@ class FooterRule extends ConfigurationSelectorRule
         return new FooterRule();
     }
 
-    public static function createFrom(array<string, mixed> $configuration): FooterRule
+    public static function createFrom(dict<string, mixed> $configuration): FooterRule
     {
         $footerRule = self::create();
         $footerRule->withSelector(Type::mixedToString($configuration['selector']));
