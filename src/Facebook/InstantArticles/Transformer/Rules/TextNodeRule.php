@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,34 +8,28 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\TextContainer;
+use Facebook\InstantArticles\Transformer\Transformer;
 
-class TextNodeRule extends Rule
+class TextNodeRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return TextContainer::getClassName();
+        return vec[TextContainer::getClassName()];
     }
 
-    public static function create()
+    public static function create(): TextNodeRule
     {
         return new TextNodeRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): TextNodeRule
     {
         return self::create();
     }
 
-    public function matchesContext($context)
-    {
-        if (is_a($context, $this->getContextClass())) {
-            return true;
-        }
-        return false;
-    }
-
-    public function matchesNode($node)
+    public function matchesNode(\DOMNode $node): bool
     {
         if ($node->nodeName === '#text') {
             return true;
@@ -43,14 +37,10 @@ class TextNodeRule extends Rule
         return false;
     }
 
-    public function apply($transformer, $text_container, $text)
+    public function apply(Transformer $transformer, Element $text_container, \DOMNode $text): Element
     {
+        invariant($text_container instanceof TextContainer, 'Error, $text_container is not TextContainer');
         $text_container->appendText($text->textContent);
         return $text_container;
-    }
-
-    public function loadFrom($configuration)
-    {
-        // Nothing to load/configure
     }
 }

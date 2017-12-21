@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,5 +10,5 @@ namespace Facebook\InstantArticles\Elements;
 
 interface InstantArticleInterface
 {
-    public function render();
+    public function render(): string;
 }

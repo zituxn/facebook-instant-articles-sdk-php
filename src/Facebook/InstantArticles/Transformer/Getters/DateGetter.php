@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,24 +10,25 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
 
-class DateGetter extends StringGetter
+class DateGetter extends AbstractGetter
 {
     /**
      * @var string
      */
-    protected $format;
+    protected ?string $format;
 
-    public function createFrom($properties)
+    public function createFrom(dict<string, mixed> $properties): this
     {
-        if (isset($properties['selector'])) {
-            $this->withSelector($properties['selector']);
+        if (array_key_exists('selector', $properties)) {
+            $this->withSelector(Type::mixedToString($properties['selector']));
         }
-        if (isset($properties['attribute'])) {
-            $this->withAttribute($properties['attribute']);
+        if (array_key_exists('attribute', $properties)) {
+            $this->withAttribute(Type::mixedToString($properties['attribute']));
         }
-        if (isset($properties['format'])) {
-            $this->withFormat($properties['format']);
+        if (array_key_exists('format', $properties)) {
+            $this->withFormat(Type::mixedToString($properties['format']));
         }
+        return $this;
     }
 
     /**
@@ -35,25 +36,24 @@ class DateGetter extends StringGetter
      *
      * @return $this
      */
-    public function withFormat($format)
+    public function withFormat(string $format): this
     {
-        Type::enforce($format, Type::STRING);
         $this->format = $format;
-
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): mixed
     {
-        Type::enforce($node, 'DOMNode');
-        $elements = self::findAll($node, $this->selector);
-        if (!empty($elements) && $elements->item(0)) {
+        $elements = $this->findAll($node, $this->selector);
+        if ($elements !== null && $elements->length > 0 && $elements->item(0)) {
             $element = $elements->item(0);
 
-            if ($this->attribute) {
-                return \DateTime::createFromFormat($this->format, $element->getAttribute($this->attribute));
+            if ($this->format !== null) {
+                if ($this->attribute !== null) {
+                    return \DateTime::createFromFormat($this->format, $element->getAttribute($this->attribute));
+                }
+                return \DateTime::createFromFormat($this->format, $element->textContent);
             }
-            return \DateTime::createFromFormat($this->format, $element->textContent);
         }
         return null;
     }

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -44,57 +44,58 @@ class Header extends Element implements ChildrenContainer
      * @see Slideshow
      * @see Video
      */
-    private $cover;
+    private ?Element $cover;
 
     /**
      * H1 The title of the Article that will be displayed on header.
      */
-    private $title;
+    private ?H1 $title;
 
     /**
      * H2 The subtitle of the Article that will be displayed on header.
      */
-    private $subtitle;
+    private ?H2 $subtitle;
 
     /**
-     * @var Author[] Authors of the article.
+     * @var vec<Author> Authors of the article.
      */
-    private $authors = [];
+    private vec<Author> $authors = vec[];
 
     /**
      * @var Time of publishing for the article
      */
-    private $published;
+    private ?Time $published;
 
     /**
      * @var Time of modification of the article, if it has
      * updated.
      */
-    private $modified;
+    private ?Time $modified;
 
     /**
      * @var H3 Header kicker
      */
-    private $kicker;
+    private H3 $kicker;
 
     /**
-     * @var Ad[] Ads of the article.
+     * @var vec<Ad> Ads of the article.
      */
-    private $ads = [];
+    private vec<Ad> $ads = vec[];
 
     /**
      * @var Sponsor The sponsor for this article. See Branded Content.
      */
-    private $sponsor;
+    private ?Sponsor $sponsor;
 
     private function __construct()
     {
+        $this->kicker = H3::create();
     }
 
     /**
      * @return Header
      */
-    public static function create()
+    public static function create(): Header
     {
         return new self();
     }
@@ -106,16 +107,8 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withCover($cover)
+    public function withCover(Element $cover): this
     {
-        Type::enforce(
-            $cover,
-            [
-                Image::getClassName(),
-                Slideshow::getClassName(),
-                Video::getClassName()
-            ]
-        );
         $this->cover = $cover;
 
         return $this;
@@ -124,18 +117,13 @@ class Header extends Element implements ChildrenContainer
     /**
      * Sets the title of InstantArticle
      *
-     * @param string|H1 $title The title of the InstantArticle
+     * @param H1 $title The title of the InstantArticle
      *
      * @return $this
      */
-    public function withTitle($title)
+    public function withTitle(H1 $title): this
     {
-        Type::enforce($title, array(Type::STRING, H1::getClassName()));
-        if (Type::is($title, Type::STRING)) {
-            $this->title = H1::create()->appendText($title);
-        } else {
-            $this->title = $title;
-        }
+        $this->title = $title;
 
         return $this;
     }
@@ -143,19 +131,13 @@ class Header extends Element implements ChildrenContainer
     /**
      * Sets the subtitle of InstantArticle
      *
-     * @param string|H2 $subtitle The subtitle of the InstantArticle
+     * @param H2 $subtitle The subtitle of the InstantArticle
      *
      * @return $this
      */
-    public function withSubTitle($subtitle)
+    public function withSubTitle(H2 $subtitle): this
     {
-        Type::enforce($subtitle, array(Type::STRING, H2::getClassName()));
-        if (Type::is($subtitle, Type::STRING)) {
-            $this->subtitle = H2::create()->appendText($subtitle);
-        } else {
-            $this->subtitle = $subtitle;
-        }
-
+        $this->subtitle = $subtitle;
 
         return $this;
     }
@@ -167,9 +149,8 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function addAuthor($author)
+    public function addAuthor(Author $author): this
     {
-        Type::enforce($author, Author::getClassName());
         $this->authors[] = $author;
 
         return $this;
@@ -178,13 +159,12 @@ class Header extends Element implements ChildrenContainer
     /**
      * Replace all authors within this Article
      *
-     * @param Author[] $authors All the authors
+     * @param vec<Author> $authors All the authors
      *
      * @return $this
      */
-    public function withAuthors($authors)
+    public function withAuthors(vec<Author> $authors): this
     {
-        Type::enforceArrayOf($authors, Author::getClassName());
         $this->authors = $authors;
 
         return $this;
@@ -197,9 +177,8 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withPublishTime($published)
+    public function withPublishTime(Time $published): this
     {
-        Type::enforce($published, Time::getClassName());
         $this->published = $published;
 
         return $this;
@@ -212,9 +191,8 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withModifyTime($modified)
+    public function withModifyTime(Time $modified): this
     {
-        Type::enforce($modified, Time::getClassName());
         $this->modified = $modified;
 
         return $this;
@@ -227,9 +205,8 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withTime($time)
+    public function withTime(Time $time): this
     {
-        Type::enforce($time, Time::getClassName());
         if ($time->getType() === Time::MODIFIED) {
             $this->withModifyTime($time);
         } else {
@@ -242,18 +219,14 @@ class Header extends Element implements ChildrenContainer
     /**
      * Kicker text for the article header.
      *
-     * @param H3|string The kicker text to be set
+     * @param H3 The kicker text to be set
      *
      * @return $this
      */
-    public function withKicker($kicker)
+    public function withKicker(H3 $kicker): this
     {
-        Type::enforce($kicker, array(Type::STRING, H3::getClassName()));
-        if (Type::is($kicker, Type::STRING)) {
-            $this->kicker = H3::create()->appendText($kicker);
-        } else {
-            $this->kicker = $kicker;
-        }
+        $this->kicker = $kicker;
+        $this->kicker->enableKicker();
 
         return $this;
     }
@@ -265,9 +238,8 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function addAd($ad)
+    public function addAd(Ad $ad): this
     {
-        Type::enforce($ad, Ad::getClassName());
         $this->ads[] = $ad;
 
         return $this;
@@ -276,13 +248,12 @@ class Header extends Element implements ChildrenContainer
     /**
      * Replace all ads within this Article
      *
-     * @param Ad[] $ads All the ads
+     * @param vec<Ad> $ads All the ads
      *
      * @return $this
      */
-    public function withAds($ads)
+    public function withAds(vec<Ad> $ads): this
     {
-        Type::enforceArrayOf($ads, Ad::getClassName());
         $this->ads = $ads;
 
         return $this;
@@ -295,9 +266,8 @@ class Header extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withSponsor($sponsor)
+    public function withSponsor(Sponsor $sponsor): this
     {
-        Type::enforce($sponsor, Sponsor::getClassName());
         $this->sponsor = $sponsor;
 
         return $this;
@@ -306,31 +276,31 @@ class Header extends Element implements ChildrenContainer
     /**
      * @return Image|Slideshow|Video The cover for the header of the InstantArticle
      */
-    public function getCover()
+    public function getCover(): ?Element
     {
         return $this->cover;
     }
 
     /**
-     * @return string|H1 $title The title of the InstantArticle
+     * @return H1 $title The title of the InstantArticle
      */
-    public function getTitle()
+    public function getTitle(): ?H1
     {
         return $this->title;
     }
 
     /**
-     * @return string|H2 $subtitle The subtitle of the InstantArticle
+     * @return H2 $subtitle The subtitle of the InstantArticle
      */
-    public function getSubtitle()
+    public function getSubtitle(): ?H2
     {
         return $this->subtitle;
     }
 
     /**
-     * @return Author[] All the authors
+     * @return vec<Author> All the authors
      */
-    public function getAuthors()
+    public function getAuthors(): vec<Author>
     {
         return $this->authors;
     }
@@ -338,7 +308,7 @@ class Header extends Element implements ChildrenContainer
     /**
      * @return Time The time and date of publishing of this article
      */
-    public function getPublished()
+    public function getPublished(): ?Time
     {
         return $this->published;
     }
@@ -346,7 +316,7 @@ class Header extends Element implements ChildrenContainer
     /**
      * @return Time The time and date that this article was modified.
      */
-    public function getModified()
+    public function getModified(): ?Time
     {
         return $this->modified;
     }
@@ -354,15 +324,15 @@ class Header extends Element implements ChildrenContainer
     /**
      * @return string The kicker text to be set
      */
-    public function getKicker()
+    public function getKicker(): ?H3
     {
         return $this->kicker;
     }
 
     /**
-     * @return Ad[] All the ads
+     * @return vec<Ad> All the ads
      */
-    public function getAds()
+    public function getAds(): vec<Ad>
     {
         return $this->ads;
     }
@@ -370,24 +340,20 @@ class Header extends Element implements ChildrenContainer
     /**
      * @return Sponsor the sponsor of this Article.
      */
-    public function getSponsor()
+    public function getSponsor(): ?Sponsor
     {
         return $this->sponsor;
     }
 
     /**
-     * Structure and create the full ArticleImage in a XML format DOMElement.
+     * Structure and create the full ArticleImage in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -395,24 +361,24 @@ class Header extends Element implements ChildrenContainer
         $element = $document->createElement('header');
 
         if ($this->cover && $this->cover->isValid()) {
-            $element->appendChild($this->cover->toDOMElement($document));
+            $element->appendChild($this->cover?->toDOMElement($document));
         }
 
         if ($this->title && $this->title->isValid()) {
-            $element->appendChild($this->title->toDOMElement($document));
+            $element->appendChild($this->title?->toDOMElement($document));
         }
 
         if ($this->subtitle && $this->subtitle->isValid()) {
-            $element->appendChild($this->subtitle->toDOMElement($document));
+            $element->appendChild($this->subtitle?->toDOMElement($document));
         }
 
         if ($this->published && $this->published->isValid()) {
-            $published_element = $this->published->toDOMElement($document);
+            $published_element = $this->published?->toDOMElement($document);
             $element->appendChild($published_element);
         }
 
         if ($this->modified && $this->modified->isValid()) {
-            $modified_element = $this->modified->toDOMElement($document);
+            $modified_element = $this->modified?->toDOMElement($document);
             $element->appendChild($modified_element);
         }
 
@@ -425,9 +391,7 @@ class Header extends Element implements ChildrenContainer
         }
 
         if ($this->kicker && $this->kicker->isValid()) {
-            $kicker_element = $this->kicker->toDOMElement($document);
-            $kicker_element->setAttribute('class', 'op-kicker');
-            $element->appendChild($kicker_element);
+            $element->appendChild($this->kicker->toDOMElement($document));
         }
 
         if (count($this->ads) === 1) {
@@ -461,7 +425,7 @@ class Header extends Element implements ChildrenContainer
         }
 
         if ($this->sponsor && $this->sponsor->isValid()) {
-            $element->appendChild($this->sponsor->toDOMElement($document));
+            $element->appendChild($this->sponsor?->toDOMElement($document));
         }
 
         return $element;
@@ -473,7 +437,7 @@ class Header extends Element implements ChildrenContainer
      * @see Element::isValid().
      * @return true for valid tag, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         $has_ad = count($this->ads) > 0;
         $has_valid_ad = false;
@@ -494,11 +458,11 @@ class Header extends Element implements ChildrenContainer
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren().
-     * @return array of Elements contained by Header.
+     * @return vec of Elements contained by Header.
      */
-    public function getContainerChildren()
+    public function getContainerChildren(): vec<Element>
     {
-        $children = array();
+        $children = vec[];
 
         if ($this->cover) {
             $children[] = $this->cover;

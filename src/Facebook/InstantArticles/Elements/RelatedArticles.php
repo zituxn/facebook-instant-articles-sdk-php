@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -27,17 +27,17 @@ use Facebook\InstantArticles\Validators\Type;
  *     <li>Sleep</li>
  * </ol>
  */
-class RelatedArticles extends Element implements ChildrenContainer
+class RelatedArticles extends Element implements \Facebook\InstantArticles\Elements\ChildrenContainer
 {
     /**
      * @var RelatedItem[] The related Articles
      */
-    private $items = [];
+    private vec<RelatedItem> $items = vec[];
 
     /**
      * @var string The title of the Related Articles content
      */
-    private $title;
+    private string $title = "";
 
     private function __construct()
     {
@@ -48,7 +48,7 @@ class RelatedArticles extends Element implements ChildrenContainer
      *
      * @return RelatedArticles the new instance of RelatedArticles
      */
-    public static function create()
+    public static function create(): RelatedArticles
     {
         return new self();
     }
@@ -60,9 +60,8 @@ class RelatedArticles extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function addRelated($item)
+    public function addRelated(RelatedItem $item): this
     {
-        Type::enforce($item, RelatedItem::getClassName());
         $this->items[] = $item;
 
         return $this;
@@ -75,9 +74,8 @@ class RelatedArticles extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withTitle($title)
+    public function withTitle(string $title): this
     {
-        Type::enforce($title, Type::STRING);
         $this->title = $title;
 
         return $this;
@@ -86,7 +84,7 @@ class RelatedArticles extends Element implements ChildrenContainer
     /**
      * @return RelatedItem[] The RelatedItem's
      */
-    public function getItems()
+    public function getItems(): vec<RelatedItem>
     {
         return $this->items;
     }
@@ -94,24 +92,20 @@ class RelatedArticles extends Element implements ChildrenContainer
     /**
      * @return string the name of related articles block
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
-     * Structure and create the full ArticleVideo in a XML format DOMElement.
+     * Structure and create the full ArticleVideo in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -137,7 +131,7 @@ class RelatedArticles extends Element implements ChildrenContainer
      * @see Element::isValid().
      * @return true for valid RelatedArticles that contains at least one RelatedItem's valid, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         foreach ($this->items as $item) {
             if ($item->isValid()) {
@@ -151,11 +145,11 @@ class RelatedArticles extends Element implements ChildrenContainer
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren().
-     * @return array of Elements contained by Image.
+     * @return vec of Elements contained by Image.
      */
-    public function getContainerChildren()
+    public function getContainerChildren(): vec<Element>
     {
-        $children = array();
+        $children = vec[];
 
         foreach ($this->items as $item) {
             $children[] = $item;

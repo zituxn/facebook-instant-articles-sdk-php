@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -18,9 +18,9 @@ use Facebook\InstantArticles\Validators\Type;
  */
 abstract class Element
 {
-    private $empty_validation = true;
+    private bool $empty_validation = true;
 
-    abstract public function toDOMElement($document = null);
+    abstract public function toDOMElement(\DOMDocument $document): \DOMNode;
 
     /**
      * Renders the Element content
@@ -30,7 +30,7 @@ abstract class Element
      *
      * @return string with the content rendered.
      */
-    public function render($doctype = '', $formatted = false)
+    public function render(string $doctype = '', bool $formatted = false): string
     {
         $document = new \DOMDocument();
         $document->preserveWhiteSpace = !$formatted;
@@ -68,7 +68,17 @@ abstract class Element
      *
      * @return string The full qualified name of class.
      */
-    public static function getClassName()
+    public static function getClassName(): string
+    {
+        return get_called_class();
+    }
+
+    /**
+     * Auxiliary method to extract all Elements full qualified class name.
+     *
+     * @return string The full qualified name of class.
+     */
+    public function getObjClassName(): string
     {
         return get_called_class();
     }
@@ -78,7 +88,7 @@ abstract class Element
      * @since v1.0.7
      * @return boolean true for valid element, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return true;
     }
@@ -89,7 +99,7 @@ abstract class Element
      * @see self::isValid().
      * @see self::toDOMElement().
      */
-    protected function emptyElement($document)
+    protected function emptyElement(\DOMDocument $document): \DOMNode
     {
         $fragment = $document->createDocumentFragment();
         $fragment->appendChild($document->createTextNode(''));
@@ -102,7 +112,7 @@ abstract class Element
      * @see InstantArticleValidator
      * @return boolean true for ignore, false otherwise.
      */
-    public function isEmptyValidationEnabled()
+    public function isEmptyValidationEnabled(): bool
     {
         return $this->empty_validation;
     }
@@ -110,7 +120,7 @@ abstract class Element
     /**
      * Marks this Paragraph to be ignored on isValid if it is empty.
      */
-    public function enableEmptyValidation()
+    public function enableEmptyValidation(): bool
     {
         return $this->empty_validation = true;
     }
@@ -118,7 +128,7 @@ abstract class Element
     /**
      * Marks this Paragraph to *not* be ignored on isValid if it is empty.
      */
-    public function disableEmptyValidation()
+    public function disableEmptyValidation(): bool
     {
         return $this->empty_validation = false;
     }

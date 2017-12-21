@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -16,7 +16,7 @@ use Facebook\InstantArticles\Validators\Type;
  * <ul>
  *     <li>Image</li>
  *     <li>Video</li>
- *     <li>SlideShow</li>
+ *     <li>Slideshow</li>
  *     <li>Map</li>
  * </ul>.
  *
@@ -27,7 +27,7 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see Image
  * @see Video
- * @see SlideShow
+ * @see Slideshow
  * @see Map
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/audio}
  */
@@ -36,27 +36,27 @@ class Audio extends Element
     /**
      * @var string The audio title
      */
-    private $title;
+    private string $title = "";
 
     /**
      * @var string The string url for the audio file
      */
-    private $url;
+    private string $url = "";
 
     /**
      * @var string Can be set with: empty ("") (Default), "muted" or "autoplay"
      */
-    private $playback;
+    private string $playback = "";
 
     /**
      * @var boolean stores the usage or not of autoplay for audio
      */
-    private $autoplay;
+    private bool $autoplay = false;
 
     /**
      * @var boolean stores status of muted for this audio
      */
-    private $muted;
+    private bool $muted = false;
 
     private function __construct()
     {
@@ -65,7 +65,7 @@ class Audio extends Element
     /**
      * @return Audio
      */
-    public static function create()
+    public static function create(): Audio
     {
         return new self();
     }
@@ -77,9 +77,8 @@ class Audio extends Element
      *
      * @return $this
      */
-    public function withURL($url)
+    public function withURL(string $url): this
     {
-        Type::enforce($url, Type::STRING);
         $this->url = $url;
 
         return $this;
@@ -92,9 +91,8 @@ class Audio extends Element
      *
      * @return $this
      */
-    public function withTitle($title)
+    public function withTitle(string $title): this
     {
-        Type::enforce($title, Type::STRING);
         $this->title = $title;
 
         return $this;
@@ -105,7 +103,7 @@ class Audio extends Element
      *
      * @return $this
      */
-    public function enableAutoplay()
+    public function enableAutoplay(): this
     {
         $this->autoplay = true;
 
@@ -117,7 +115,7 @@ class Audio extends Element
      *
      * @return $this
      */
-    public function disableAutoplay()
+    public function disableAutoplay(): this
     {
         $this->autoplay = false;
 
@@ -129,7 +127,7 @@ class Audio extends Element
      *
      * @return $this
      */
-    public function enableMuted()
+    public function enableMuted(): this
     {
         $this->muted = true;
 
@@ -141,7 +139,7 @@ class Audio extends Element
      *
      * @return $this
      */
-    public function disableMuted()
+    public function disableMuted(): this
     {
         $this->muted = false;
 
@@ -153,7 +151,7 @@ class Audio extends Element
      *
      * @return string Audio title
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -163,7 +161,7 @@ class Audio extends Element
      *
      * @return string Audio url
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
@@ -173,24 +171,20 @@ class Audio extends Element
      *
      * @return string playback definition
      */
-    public function getPlayback()
+    public function getPlayback(): string
     {
         return $this->playback;
     }
 
     /**
-     * Structure and create the full ArticleImage in a XML format DOMElement.
+     * Structure and create the full ArticleImage in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -228,7 +222,7 @@ class Audio extends Element
      * @see Element::isValid().
      * @return true for valid Audio that contains not empty url, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return !Type::isTextEmpty($this->url);
     }

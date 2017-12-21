@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -23,12 +23,12 @@ class H1 extends TextContainer
     /**
      * @var string text align. Values: "op-left"|"op-center"|"op-right"
      */
-    private $textAlignment;
+    private string $textAlignment = "";
 
     /**
      * @var string text position. Values: "op-vertical-below"|"op-vertical-above"|"op-vertical-center"
      */
-    private $position;
+    private string $position = "";
 
     private function __construct()
     {
@@ -37,7 +37,7 @@ class H1 extends TextContainer
     /**
      * @return H1
      */
-    public static function create()
+    public static function create(): H1
     {
         return new self();
     }
@@ -53,14 +53,14 @@ class H1 extends TextContainer
      *
      * @return $this
      */
-    public function withTextAlignment($text_alignment)
+    public function withTextAlignment(string $text_alignment): this
     {
         Type::enforceWithin(
             $text_alignment,
-            [
+            vec[
                 Caption::ALIGN_RIGHT,
                 Caption::ALIGN_LEFT,
-                Caption::ALIGN_CENTER
+                Caption::ALIGN_CENTER,
             ]
         );
         $this->textAlignment = $text_alignment;
@@ -74,7 +74,7 @@ class H1 extends TextContainer
      * @param string $position
      * @return $this
      */
-    public function withPostion($position)
+    public function withPostion(string $position): this
     {
         return $this->withPosition($position);
     }
@@ -90,14 +90,14 @@ class H1 extends TextContainer
      *
      * @return $this
      */
-    public function withPosition($position)
+    public function withPosition(string $position): this
     {
         Type::enforceWithin(
             $position,
-            [
+            vec[
                 Caption::POSITION_ABOVE,
                 Caption::POSITION_BELOW,
-                Caption::POSITION_CENTER
+                Caption::POSITION_CENTER,
             ]
         );
         $this->position = $position;
@@ -106,32 +106,28 @@ class H1 extends TextContainer
     }
 
     /**
-     * Structure and create the H1 in a DOMElement.
+     * Structure and create the H1 in a DOMNode.
      *
-     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended.
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
 
         $h1 = $document->createElement('h1');
 
-        $classes = [];
+        $classes = vec[];
         if ($this->position) {
             $classes[] = $this->position;
         }
         if ($this->textAlignment) {
             $classes[] = $this->textAlignment;
         }
-        if (!empty($classes)) {
+        if (count($classes) > 0) {
             $h1->setAttribute('class', implode(' ', $classes));
         }
 

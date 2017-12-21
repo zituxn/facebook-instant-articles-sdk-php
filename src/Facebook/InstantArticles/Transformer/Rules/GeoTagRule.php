@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,48 +8,61 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Video;
-use Facebook\InstantArticles\Elements\Map;
+use Facebook\InstantArticles\Elements\MapElement;
 use Facebook\InstantArticles\Elements\GeoTag;
+use Facebook\InstantArticles\Elements\GeoTaggable;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class GeoTagRule extends ConfigurationSelectorRule
 {
     const PROPERTY_MAP_GEOTAG = 'map.geotag';
 
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return [Image::getClassName(), Video::getClassName(), Map::getClassName()];
+        return vec[
+            Image::getClassName(),
+            Video::getClassName(),
+            MapElement::getClassName(),
+        ];
     }
 
-    public static function create()
+    public static function create(): GeoTagRule
     {
         return new GeoTagRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): GeoTagRule
     {
         $geo_tag_rule = self::create();
-        $geo_tag_rule->withSelector($configuration['selector']);
+        $geo_tag_rule->withSelector(Type::mixedToString($configuration['selector']));
 
-        $geo_tag_rule->withProperty(
-            self::PROPERTY_MAP_GEOTAG,
-            self::retrieveProperty($configuration, self::PROPERTY_MAP_GEOTAG)
+        $geo_tag_rule->withProperties(
+            vec[
+                self::PROPERTY_MAP_GEOTAG,
+            ],
+            $configuration
         );
 
         return $geo_tag_rule;
     }
 
-    public function apply($transformer, $media_container, $node)
+    public function apply(Transformer $transformer, Element $media_container, \DOMNode $node): Element
     {
         $geo_tag = GeoTag::create();
 
         // Builds the image
         $script = $this->getProperty(self::PROPERTY_MAP_GEOTAG, $node);
         if ($script) {
+            invariant(is_string($script), 'Error, $script is not string.');
             $geo_tag->withScript($script);
-            $media_container->withGeoTag($geo_tag);
+            if ($media_container instanceof GeoTaggable) {
+                $media_container->withGeoTag($geo_tag);
+            }
         } else {
             $transformer->addWarning(
                 new InvalidSelector(
@@ -61,6 +74,7 @@ class GeoTagRule extends ConfigurationSelectorRule
             );
         }
 
+        invariant($media_container instanceof Element, 'Error, $media_container is not Element');
         return $media_container;
     }
 }

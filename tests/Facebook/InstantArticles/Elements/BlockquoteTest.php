@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,7 +10,7 @@ namespace Facebook\InstantArticles\Elements;
 
 class BlockquoteTest extends \Facebook\Util\BaseHTMLTestCase
 {
-    public function testRenderEmpty()
+    public function testRenderEmpty(): void
     {
         $blockquote = Blockquote::create();
 
@@ -20,7 +20,7 @@ class BlockquoteTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderBasic()
+    public function testRenderBasic(): void
     {
         $blockquote =
             Blockquote::create()
@@ -35,7 +35,7 @@ class BlockquoteTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithBoldStrongItalicEm()
+    public function testRenderWithBoldStrongItalicEm(): void
     {
         $blockquote =
             Blockquote::create()

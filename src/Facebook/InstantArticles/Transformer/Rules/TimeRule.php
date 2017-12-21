@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,9 +8,12 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Time;
 use Facebook\InstantArticles\Elements\Header;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 /**
  * Rule to parse dates from the document.
@@ -25,49 +28,50 @@ class TimeRule extends ConfigurationSelectorRule
     const PROPERTY_DATETIME_TYPE = 'article.datetype';
     const PROPERTY_TIME = 'article.time';
 
-    private $type = \Facebook\InstantArticles\Elements\Time::PUBLISHED;
+    private string $type = Time::PUBLISHED;
 
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return Header::getClassName();
+        return vec[Header::getClassName()];
     }
 
-    public static function create()
+    public static function create(): TimeRule
     {
         return new TimeRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): TimeRule
     {
         $time_rule = self::create();
-        $time_rule->withSelector($configuration['selector']);
+        $time_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $time_rule->withProperties(
-            [
+            vec[
                 self::PROPERTY_TIME,
-                self::PROPERTY_DATETIME_TYPE
+                self::PROPERTY_DATETIME_TYPE,
             ],
             $configuration
         );
 
         // Just for retrocompatibility - issue #172
-        if (isset($configuration[self::PROPERTY_TIME_TYPE_DEPRECATED])) {
-            $time_rule->type = $configuration[self::PROPERTY_TIME_TYPE_DEPRECATED];
-        }
+        // if (array_key_exists(self::PROPERTY_TIME_TYPE_DEPRECATED, $configuration)) {
+        //     $time_rule->type = $configuration[self::PROPERTY_TIME_TYPE_DEPRECATED];
+        // }
 
         return $time_rule;
     }
 
-    public function apply($transformer, $header, $node)
+    public function apply(Transformer $transformer, Element $header, \DOMNode $node): Element
     {
-        $time_type = $this->getProperty(self::PROPERTY_DATETIME_TYPE, $node);
-        if ($time_type) {
+        invariant($header instanceof Header, 'Error, $header is not Header');
+        $time_type = $this->getPropertyString(self::PROPERTY_DATETIME_TYPE, $node);
+        if ($time_type !== null) {
             $this->type = $time_type;
         }
 
         // Builds the image
-        $time_string = $this->getProperty(self::PROPERTY_TIME, $node);
-        if ($time_string) {
+        $time_string = $this->getPropertyString(self::PROPERTY_TIME, $node);
+        if ($time_string !== null) {
             $time = Time::create($this->type);
             $time->withDatetime(new \DateTime($time_string, $transformer->getDefaultDateTimeZone()));
             $header->withTime($time);
@@ -81,8 +85,6 @@ class TimeRule extends ConfigurationSelectorRule
                 )
             );
         }
-
-
 
         return $header;
     }

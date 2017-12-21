@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,29 +8,37 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\H1;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class HeaderTitleRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return Header::getClassName();
+        return vec[Header::getClassName()];
     }
 
-    public static function create()
+    public static function create(): HeaderTitleRule
     {
         return new HeaderTitleRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): HeaderTitleRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $headerTitleRule = self::create();
+        $headerTitleRule->withSelector(Type::mixedToString($configuration['selector']));
+        return $headerTitleRule;
     }
 
-    public function apply($transformer, $header, $h1)
+    public function apply(Transformer $transformer, Element $header, \DOMNode $h1): Element
     {
-        $header->withTitle($transformer->transform(H1::create(), $h1));
+        invariant($header instanceof Header, 'Error, $header is not Header');
+        $title = H1::create();
+        $transformer->transform($title, $h1);
+        $header->withTitle($title);
         return $header;
     }
 }

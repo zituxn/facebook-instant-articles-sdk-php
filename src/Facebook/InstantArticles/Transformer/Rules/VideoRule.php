@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,9 +10,12 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Video;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class VideoRule extends ConfigurationSelectorRule
 {
@@ -26,28 +29,28 @@ class VideoRule extends ConfigurationSelectorRule
     /**
      * @var string
      */
-    private $childSelector;
+    private ?string $childSelector;
 
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return InstantArticle::getClassName();
+        return vec[InstantArticle::getClassName()];
     }
 
-    public static function create()
+    public static function create(): VideoRule
     {
         return new VideoRule();
     }
 
-    public function withContainsChild($child_selector)
+    public function withContainsChild(?string $child_selector): VideoRule
     {
         $this->childSelector = $child_selector;
         return $this;
     }
 
-    public function matchesNode($node)
+    public function matchesNode(\DOMNode $node): bool
     {
         $matches_node = parent::matchesNode($node);
-        if ($matches_node && $this->childSelector) {
+        if ($matches_node === true && $this->childSelector !== null) {
             $matches_node = false;
             if ($node->hasChildNodes()) {
                 foreach ($node->childNodes as $child) {
@@ -67,17 +70,17 @@ class VideoRule extends ConfigurationSelectorRule
         return $matches_node;
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): VideoRule
     {
         $video_rule = self::create();
-        $video_rule->withSelector($configuration['selector']);
+        $video_rule->withSelector(Type::mixedToString($configuration['selector']));
 
-        if (isset($configuration['containsChild'])) {
-            $video_rule->withContainsChild($configuration['containsChild']);
+        if (array_key_exists('containsChild', $configuration)) {
+            $video_rule->withContainsChild(Type::mixedToString($configuration['containsChild']));
         }
 
         $video_rule->withProperties(
-            [
+            vec[
                 self::PROPERTY_VIDEO_URL,
                 self::PROPERTY_VIDEO_TYPE,
 
@@ -90,20 +93,21 @@ class VideoRule extends ConfigurationSelectorRule
                 self::PROPERTY_CONTROLS,
 
                 self::PROPERTY_LIKE,
-                self::PROPERTY_COMMENTS
+                self::PROPERTY_COMMENTS,
             ],
             $configuration
         );
         return $video_rule;
     }
 
-    public function apply($transformer, $instant_article, $node)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
+        invariant($instant_article instanceof InstantArticle, 'Error, $instant_article is not InstantArticle');
         $video = Video::create();
 
         // Builds the image
-        $url = $this->getProperty(self::PROPERTY_VIDEO_URL, $node);
-        if ($url) {
+        $url = $this->getPropertyString(self::PROPERTY_VIDEO_URL, $node);
+        if ($url !== null) {
             $video->withURL($url);
             $instant_article->addChild($video);
         } else {
@@ -117,34 +121,34 @@ class VideoRule extends ConfigurationSelectorRule
             );
         }
 
-        $video_type = $this->getProperty(self::PROPERTY_VIDEO_TYPE, $node);
-        if ($video_type) {
+        $video_type = $this->getPropertyString(self::PROPERTY_VIDEO_TYPE, $node);
+        if ($video_type !== null) {
             $video->withContentType($video_type);
         }
 
-        if ($this->getProperty(Video::ASPECT_FIT, $node)) {
+        if ($this->getPropertyBoolean(Video::ASPECT_FIT, $node)) {
             $video->withPresentation(Video::ASPECT_FIT);
-        } elseif ($this->getProperty(Video::ASPECT_FIT_ONLY, $node)) {
+        } elseif ($this->getPropertyBoolean(Video::ASPECT_FIT_ONLY, $node)) {
             $video->withPresentation(Video::ASPECT_FIT_ONLY);
-        } elseif ($this->getProperty(Video::FULLSCREEN, $node)) {
+        } elseif ($this->getPropertyBoolean(Video::FULLSCREEN, $node)) {
             $video->withPresentation(Video::FULLSCREEN);
-        } elseif ($this->getProperty(Video::NON_INTERACTIVE, $node)) {
+        } elseif ($this->getPropertyBoolean(Video::NON_INTERACTIVE, $node)) {
             $video->withPresentation(Video::NON_INTERACTIVE);
         }
 
-        if ($this->getProperty(self::PROPERTY_CONTROLS, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_CONTROLS, $node)) {
             $video->enableControls();
         }
 
-        if ($this->getProperty(self::PROPERTY_PLAYBACK_MODE, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_PLAYBACK_MODE, $node)) {
             $video->disableAutoplay();
         }
 
-        if ($this->getProperty(self::PROPERTY_LIKE, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_LIKE, $node)) {
             $video->enableLike();
         }
 
-        if ($this->getProperty(self::PROPERTY_COMMENTS, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_COMMENTS, $node)) {
             $video->enableComments();
         }
 

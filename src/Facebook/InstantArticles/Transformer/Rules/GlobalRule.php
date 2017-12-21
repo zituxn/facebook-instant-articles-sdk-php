@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,12 +8,15 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Author;
 use Facebook\InstantArticles\Elements\Time;
 use Facebook\InstantArticles\Elements\H1;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class GlobalRule extends ConfigurationSelectorRule
 {
@@ -26,24 +29,23 @@ class GlobalRule extends ConfigurationSelectorRule
     const PROPERTY_TIME_PUBLISHED = 'article.publish';
     const PROPERTY_GLOBAL_BODY = 'article.body';
 
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return InstantArticle::getClassName();
+        return vec[InstantArticle::getClassName()];
     }
 
-    public static function create()
+    public static function create(): GlobalRule
     {
         return new GlobalRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): GlobalRule
     {
         $rule = GlobalRule::create();
 
-        $rule->withSelector($configuration['selector']);
-        $properties = $configuration['properties'];
+        $rule->withSelector(Type::mixedToString($configuration['selector']));
         $rule->withProperties(
-            [
+            vec[
                 self::PROPERTY_GLOBAL_AUTHOR_URL,
                 self::PROPERTY_GLOBAL_AUTHOR_NAME,
                 self::PROPERTY_GLOBAL_AUTHOR_DESCRIPTION,
@@ -51,42 +53,45 @@ class GlobalRule extends ConfigurationSelectorRule
                 self::PROPERTY_GLOBAL_CANONICAL_URL,
                 self::PROPERTY_GLOBAL_TITLE,
                 self::PROPERTY_TIME_PUBLISHED,
-                self::PROPERTY_GLOBAL_BODY
+                self::PROPERTY_GLOBAL_BODY,
             ],
-            $properties
+            $configuration
         );
 
         return $rule;
     }
 
-    public function apply($transformer, $instantArticle, $node)
+    public function apply(Transformer $transformer, Element $instantArticle, \DOMNode $node): Element
     {
+        if (!$node || !$node->hasChildNodes()) {
+            return $instantArticle;
+        }
         // Builds the author
-        $authorUrl = $this->getProperty(self::PROPERTY_GLOBAL_AUTHOR_URL, $node);
-        $authorName = $this->getProperty(self::PROPERTY_GLOBAL_AUTHOR_NAME, $node);
-        $authorRoleContribution = $this->getProperty(self::PROPERTY_GLOBAL_AUTHOR_ROLE_CONTRIBUTION, $node);
-        $authorDescription = $this->getProperty(self::PROPERTY_GLOBAL_AUTHOR_DESCRIPTION, $node);
-
+        $authorUrl = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_URL, $node);
+        $authorName = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_NAME, $node);
+        $authorRoleContribution = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_ROLE_CONTRIBUTION, $node);
+        $authorDescription = $this->getPropertyString(self::PROPERTY_GLOBAL_AUTHOR_DESCRIPTION, $node);
+        invariant($instantArticle instanceof InstantArticle, 'Error, $element is not a InstantArticle.');
         $header = $instantArticle->getHeader();
         if (!$header) {
             $header = Header::create();
             $instantArticle->withHeader($header);
         }
 
-        if ($authorName) {
+        if ($authorName !== null) {
             $author = Author::create();
             $author->withName($authorName);
             $header->addAuthor($author);
 
-            if ($authorRoleContribution) {
+            if ($authorRoleContribution !== null) {
                 $author->withRoleContribution($authorRoleContribution);
             }
 
-            if ($authorDescription) {
+            if ($authorDescription !== null) {
                 $author->withDescription($authorDescription);
             }
 
-            if ($authorUrl) {
+            if ($authorUrl !== null) {
                 $author->withURL($authorUrl);
             }
         } else {
@@ -102,8 +107,10 @@ class GlobalRule extends ConfigurationSelectorRule
 
         // Treats title
         $articleTitle = $this->getProperty(self::PROPERTY_GLOBAL_TITLE, $node);
-        if ($articleTitle) {
-            $header->withTitle($transformer->transform(H1::create(), $articleTitle));
+        if ($articleTitle && $articleTitle instanceof \DOMNode) {
+            $h1 = $transformer->transform(H1::create(), $articleTitle);
+            invariant($h1 instanceof H1, 'Error, $h1 is not H1.');
+            $header->withTitle($h1);
         } else {
             $transformer->addWarning(
                 new InvalidSelector(
@@ -116,9 +123,9 @@ class GlobalRule extends ConfigurationSelectorRule
         }
 
         // Treats Canonical URL
-        $articleCanonicalUrl = $this->getProperty(self::PROPERTY_GLOBAL_CANONICAL_URL, $node);
-        if ($articleCanonicalUrl) {
-            $instantArticle->withCanonicalURL($articleCanonicalUrl);
+        $articleCanonicalUrl = $this->getPropertyString(self::PROPERTY_GLOBAL_CANONICAL_URL, $node);
+        if ($articleCanonicalUrl !== null) {
+            $instantArticle->withCanonicalUrl($articleCanonicalUrl);
         } else {
             $transformer->addWarning(
                 new InvalidSelector(
@@ -132,12 +139,15 @@ class GlobalRule extends ConfigurationSelectorRule
 
         // Treats Time Published
         $timePublished = $this->getProperty(self::PROPERTY_TIME_PUBLISHED, $node);
-        if ($timePublished) {
+        if ($timePublished !== null) {
+            invariant($timePublished instanceof \DateTime, 'Error $timePublished is not \DateTime.');
             $header->withTime(Time::create(Time::PUBLISHED)->withDatetime($timePublished));
         }
 
         $body = $this->getProperty(self::PROPERTY_GLOBAL_BODY, $node);
-        $transformer->transform($instantArticle, $body);
+        if ($body !== null && $body instanceof \DOMNode) {
+            $transformer->transform($instantArticle, $body);
+        }
 
         return $instantArticle;
     }

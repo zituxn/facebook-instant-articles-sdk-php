@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -15,11 +15,11 @@ class ConstantGetter extends AbstractGetter
     /**
      * @var string
      */
-    protected $value;
+    protected ?string $value;
 
-    public function createFrom($properties)
+    public function createFrom(dict<string, mixed> $properties): this
     {
-        return $this->withValue($properties['value']);
+        return $this->withValue(Type::mixedToString($properties['value']));
     }
 
     /**
@@ -27,15 +27,13 @@ class ConstantGetter extends AbstractGetter
      *
      * @return $this
      */
-    public function withValue($value)
+    public function withValue(string $value): this
     {
-        Type::enforce($value, Type::STRING);
         $this->value = $value;
-
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): mixed
     {
         return $this->value;
     }

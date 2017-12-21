@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,36 +8,38 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Footer;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class FooterRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return InstantArticle::getClassName();
+        return vec[InstantArticle::getClassName()];
     }
 
-    public static function create()
+    public static function create(): FooterRule
     {
         return new FooterRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): FooterRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $footerRule = self::create();
+        $footerRule->withSelector(Type::mixedToString($configuration['selector']));
+
+        return $footerRule;
     }
 
-    public function apply($transformer, $instant_article, $element)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
         $footer = Footer::create();
+        invariant($instant_article instanceof InstantArticle, 'Error, $element is not a InstantArticle.');
         $instant_article->withFooter($footer);
-        $transformer->transform($footer, $element);
+        $transformer->transform($footer, $node);
         return $instant_article;
-    }
-
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
     }
 }

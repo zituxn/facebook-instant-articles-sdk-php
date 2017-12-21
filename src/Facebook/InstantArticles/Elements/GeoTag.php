@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -39,7 +39,7 @@ class GeoTag extends Element
     /**
      * @var string The json geotag content inside the script geotag
      */
-    private $script;
+    private string $script = "";
 
     private function __construct()
     {
@@ -48,7 +48,7 @@ class GeoTag extends Element
     /**
      * @return GeoTag
      */
-    public static function create()
+    public static function create(): GeoTag
     {
         return new self();
     }
@@ -62,9 +62,8 @@ class GeoTag extends Element
      *
      * @return $this
      */
-    public function withScript($script)
+    public function withScript(string $script): this
     {
-        Type::enforce($script, Type::STRING);
         $this->script = $script; // TODO Validate the json informed
 
         return $this;
@@ -73,24 +72,20 @@ class GeoTag extends Element
     /**
      * @return string Geotag json content unescaped
      */
-    public function getScript()
+    public function getScript(): string
     {
         return $this->script;
     }
 
     /**
-     * Structure and create the full Map in a XML format DOMElement.
+     * Structure and create the full Map in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -103,7 +98,7 @@ class GeoTag extends Element
         if ($this->script) {
             // script may contain html entities so import it as CDATA
             $element->appendChild(
-                $element->ownerDocument->importNode(new \DOMCdataSection($this->script), true)
+                $element->ownerDocument->createCDATASection($this->script)
             );
         }
 
@@ -116,7 +111,7 @@ class GeoTag extends Element
      * @see Element::isValid().
      * @return true for valid GeoTag that contains not empty script, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return !Type::isTextEmpty($this->script);
     }

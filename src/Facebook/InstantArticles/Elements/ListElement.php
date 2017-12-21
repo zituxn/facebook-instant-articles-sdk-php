@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -32,12 +32,12 @@ class ListElement extends Element implements ChildrenContainer
     /**
      * @var boolean Checks if it is ordered or unordered
      */
-    private $isOrdered = false;
+    private bool $isOrdered = false;
 
     /**
-     * @var ListItem[] Items of the list
+     * @var vec<ListItem> Items of the list
      */
-    private $items = [];
+    private vec<ListItem> $items = vec[];
 
     protected function __construct()
     {
@@ -48,7 +48,7 @@ class ListElement extends Element implements ChildrenContainer
      *
      * @return ListElement the new instance List as an ordered list
      */
-    public static function createOrdered()
+    public static function createOrdered(): ListElement
     {
         $list = new self();
         $list->enableOrdered();
@@ -61,7 +61,7 @@ class ListElement extends Element implements ChildrenContainer
      *
      * @return ListElement the new instance List as an unordered list
      */
-    public static function createUnordered()
+    public static function createUnordered(): ListElement
     {
         $list = new self();
         $list->disableOrdered();
@@ -72,36 +72,27 @@ class ListElement extends Element implements ChildrenContainer
     /**
      * Adds a new item to the List
      *
-     * @param string|ListItem $new_item The new item that will be pushed to the end of the list
+     * @param ListItem $new_item The new item that will be pushed to the end of the list
      *
      * @return $this
      */
-    public function addItem($new_item)
+    public function addItem(ListItem $new_item): this
     {
-        Type::enforce($new_item, [ListItem::getClassName(), Type::STRING]);
-        if (Type::is($new_item, Type::STRING)) {
-            $new_item = ListItem::create()->appendText($new_item);
-        }
         $this->items[] = $new_item;
 
         return $this;
     }
 
     /**
-     * Sets all items of the list as the array on the parameter
+     * Sets all items of the list as the vec on the parameter
      *
-     * @param string|[]ListItem[] $new_items The new items. Replaces all items from the list
+     * @param vec<ListItem> $new_items The new items. Replaces all items from the list
      *
      * @return $this
      */
-    public function withItems($new_items)
+    public function withItems(vec<ListItem> $new_items): this
     {
-        Type::enforceArrayOf($new_items, [ListItem::getClassName(), Type::STRING]);
-        $this->items = [];
-        foreach ($new_items as $new_item) {
-            $this->addItem($new_item);
-        }
-
+        $this->items = $new_items;
         return $this;
     }
 
@@ -110,7 +101,7 @@ class ListElement extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function enableOrdered()
+    public function enableOrdered(): this
     {
         $this->isOrdered = true;
 
@@ -122,7 +113,7 @@ class ListElement extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function disableOrdered()
+    public function disableOrdered(): this
     {
         $this->isOrdered = false;
 
@@ -130,9 +121,9 @@ class ListElement extends Element implements ChildrenContainer
     }
 
     /**
-     * @return string[]|ListItem[] the list text items
+     * @return vec<ListItem> the list text items
      */
-    public function getItems()
+    public function getItems(): vec<ListItem>
     {
         return $this->items;
     }
@@ -140,24 +131,20 @@ class ListElement extends Element implements ChildrenContainer
     /**
      * @return boolean if the list is ordered
      */
-    public function isOrdered()
+    public function isOrdered(): bool
     {
         return $this->isOrdered;
     }
 
     /**
-     * Structure and create the full Video in a XML format DOMElement.
+     * Structure and create the full Video in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -185,7 +172,7 @@ class ListElement extends Element implements ChildrenContainer
      * @see Element::isValid().
      * @return true for valid ListElement that contains at least one ListItem's valid, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         foreach ($this->items as $item) {
             if ($item->isValid()) {
@@ -199,11 +186,11 @@ class ListElement extends Element implements ChildrenContainer
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren().
-     * @return array of Elements contained by Image.
+     * @return vec<Element> contained by List.
      */
-    public function getContainerChildren()
+    public function getContainerChildren(): vec<Element>
     {
-        $children = array();
+        $children = vec[];
         if ($this->items) {
             foreach ($this->items as $item) {
                 $children[] = $item;

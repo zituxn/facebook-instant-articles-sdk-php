@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -37,25 +37,29 @@ class Author extends Element
     /**
      * @var string The author link
      */
-    private $url;
+    private string $url;
 
     /**
      * @var string The author name
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string The author short description biography
      */
-    private $description;
+    private string $description;
 
     /**
      * @var string Role or contribution of author
      */
-    private $roleContribution;
+    private string $roleContribution;
 
     private function __construct()
     {
+        $this->name = '';
+        $this->description = '';
+        $this->roleContribution = '';
+        $this->url = '';
     }
 
     /**
@@ -63,7 +67,7 @@ class Author extends Element
      *
      * @return Author
      */
-    public static function create()
+    public static function create(): Author
     {
         return new self();
     }
@@ -75,11 +79,9 @@ class Author extends Element
      *
      * @return $this
      */
-    public function withURL($url)
+    public function withURL(string $url): this
     {
-        Type::enforce($url, Type::STRING);
         $this->url = $url;
-
         return $this;
     }
 
@@ -90,11 +92,9 @@ class Author extends Element
      *
      * @return $this
      */
-    public function withName($name)
+    public function withName(string $name): this
     {
-        Type::enforce($name, Type::STRING);
         $this->name = $name;
-
         return $this;
     }
 
@@ -105,11 +105,9 @@ class Author extends Element
      *
      * @return $this
      */
-    public function withDescription($description)
+    public function withDescription(string $description): this
     {
-        Type::enforce($description, Type::STRING);
         $this->description = $description;
-
         return $this;
     }
 
@@ -120,18 +118,16 @@ class Author extends Element
      *
      * @return $this
      */
-    public function withRoleContribution($role_contribution)
+    public function withRoleContribution(string $role_contribution): this
     {
-        Type::enforce($role_contribution, Type::STRING);
         $this->roleContribution = $role_contribution;
-
         return $this;
     }
 
     /**
      * @return string author link url profile
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
@@ -139,7 +135,7 @@ class Author extends Element
     /**
      * @return string author name
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -147,7 +143,7 @@ class Author extends Element
     /**
      * @return string author small introduction biography
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -155,19 +151,19 @@ class Author extends Element
     /**
      * @return string author short text to define its contribution/role
      */
-    public function getRoleContribution()
+    public function getRoleContribution(): string
     {
         return $this->roleContribution;
     }
 
     /**
-     * Structure and create the full Author in a XML format DOMElement.
+     * Structure and create the full Author in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
         if (!$document) {
             $document = new \DOMDocument();
@@ -211,7 +207,7 @@ class Author extends Element
      * @see Element::isValid().
      * @return true for valid Author that contains not empty name, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return !Type::isTextEmpty($this->name);
     }

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,9 +8,12 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Ad;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class AdRule extends ConfigurationSelectorRule
 {
@@ -19,27 +22,27 @@ class AdRule extends ConfigurationSelectorRule
     const PROPERTY_AD_WIDTH_URL = 'ad.width';
     const PROPERTY_AD_EMBED_URL = 'ad.embed';
 
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return InstantArticle::getClassName();
+        return vec[InstantArticle::getClassName()];
     }
 
-    public static function create()
+    public static function create(): ConfigurationSelectorRule
     {
         return new AdRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): ConfigurationSelectorRule
     {
         $ad_rule = self::create();
-        $ad_rule->withSelector($configuration['selector']);
+        $ad_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $ad_rule->withProperties(
-            [
+            vec[
                 self::PROPERTY_AD_URL,
                 self::PROPERTY_AD_HEIGHT_URL,
                 self::PROPERTY_AD_WIDTH_URL,
-                self::PROPERTY_AD_EMBED_URL
+                self::PROPERTY_AD_EMBED_URL,
             ],
             $configuration
         );
@@ -47,32 +50,33 @@ class AdRule extends ConfigurationSelectorRule
         return $ad_rule;
     }
 
-    public function apply($transformer, $instant_article, $node)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
         $ad = Ad::create();
 
         // Builds the ad
-        $height = $this->getProperty(self::PROPERTY_AD_HEIGHT_URL, $node);
-        if ($height) {
+        $height = $this->getPropertyInt(self::PROPERTY_AD_HEIGHT_URL, $node);
+        if ($height !== null) {
             $ad->withHeight($height);
         }
 
-        $width = $this->getProperty(self::PROPERTY_AD_WIDTH_URL, $node);
-        if ($width) {
+        $width = $this->getPropertyInt(self::PROPERTY_AD_WIDTH_URL, $node);
+        if ($width !== null) {
             $ad->withWidth($width);
         }
 
-        $url = $this->getProperty(self::PROPERTY_AD_URL, $node);
-        if ($url) {
+        $url = $this->getPropertyString(self::PROPERTY_AD_URL, $node);
+        if ($url !== null) {
             $ad->withSource($url);
         }
 
-        $embed_code = $this->getProperty(self::PROPERTY_AD_EMBED_URL, $node);
-        if ($embed_code) {
+        $embed_code = $this->getPropertyNode(self::PROPERTY_AD_EMBED_URL, $node);
+        if ($embed_code !== null) {
             $ad->withHTML($embed_code);
         }
 
-        if ($url || $embed_code) {
+        if ($url !== null || $embed_code !== null) {
+            invariant($instant_article instanceof InstantArticle, 'Error, $element is not a InstantArticle.');
             $instant_article->addChild($ad);
         } else {
             $transformer->addWarning(

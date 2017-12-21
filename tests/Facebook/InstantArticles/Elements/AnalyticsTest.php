@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,7 +10,7 @@ namespace Facebook\InstantArticles\Elements;
 
 class AnalyticsTest extends \Facebook\Util\BaseHTMLTestCase
 {
-    public function testRenderEmpty()
+    public function testRenderEmpty(): void
     {
         $analytics =
             Analytics::create();
@@ -21,7 +21,7 @@ class AnalyticsTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderBasic()
+    public function testRenderBasic(): void
     {
         $analytics =
             Analytics::create()
@@ -36,7 +36,7 @@ class AnalyticsTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithHTML()
+    public function testRenderWithHTML(): void
     {
         $inline =
             '<h1>Some custom code</h1>'.
@@ -44,7 +44,7 @@ class AnalyticsTest extends \Facebook\Util\BaseHTMLTestCase
 
         $analytics =
             Analytics::create()
-                ->withHTML($inline);
+                ->withHTMLString($inline);
 
         $expected =
             '<figure class="op-tracker">'.
@@ -58,7 +58,7 @@ class AnalyticsTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithGoogleAnalytics()
+    public function testRenderWithGoogleAnalytics(): void
     {
         $google_analytics =
             '<!-- Google Analytics -->'.
@@ -74,7 +74,7 @@ class AnalyticsTest extends \Facebook\Util\BaseHTMLTestCase
 
         $analytics =
             Analytics::create()
-                ->withHTML($google_analytics);
+                ->withHTMLString($google_analytics);
 
         $expected =
             '<figure class="op-tracker">'.

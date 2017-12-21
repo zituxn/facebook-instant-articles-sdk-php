@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,28 +10,29 @@ namespace Facebook\InstantArticles\Transformer\Warnings;
 
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Rules\Rule;
 
-class DeprecatedRuleWarning
+abstract class TransformerWarning
 {
     /**
      * @var string
      */
-    private $message;
+    private ?string $message;
 
     /**
      * @var Element
      */
-    private $context;
+    private ?Element $context;
 
     /**
      * @var \DOMNode
      */
-    private $node;
+    private ?\DOMNode $node;
 
     /**
      * @var ConfigurationSelectorRule
      */
-    private $rule;
+    private ?Rule $rule;
 
     /**
      * @param string $message
@@ -39,7 +40,7 @@ class DeprecatedRuleWarning
      * @param \DOMNode $node
      * @param ConfigurationSelectorRule $rule
      */
-    public function __construct($message, $context, $node, $rule)
+    public function __construct(?string $message, ?Element $context, ?\DOMNode $node, ?Rule $rule)
     {
         $this->message = $message;
         $this->context = $context;
@@ -50,15 +51,12 @@ class DeprecatedRuleWarning
     /**
      * @return string
      */
-    public function __toString()
-    {
-        return $this->message;
-    }
+    public abstract function __toString(): string;
 
     /**
      * @return Element
      */
-    public function getContext()
+    public function getContext(): ?Element
     {
         return $this->context;
     }
@@ -66,8 +64,24 @@ class DeprecatedRuleWarning
     /**
      * @return \DOMNode
      */
-    public function getNode()
+    public function getNode(): ?\DOMNode
     {
         return $this->node;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    /**
+     * @return \Rule
+     */
+    public function getRule(): ?Rule
+    {
+        return $this->rule;
     }
 }

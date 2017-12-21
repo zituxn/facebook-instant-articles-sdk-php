@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,29 +8,35 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\ListElement;
 use Facebook\InstantArticles\Elements\ListItem;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class ListItemRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return ListElement::getClassName();
+        return vec[ListElement::getClassName()];
     }
 
-    public static function create()
+    public static function create(): ListItemRule
     {
         return new ListItemRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): ListItemRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $listItemRule = self::create();
+        $listItemRule->withSelector(Type::mixedToString($configuration['selector']));
+        return $listItemRule;
     }
 
-    public function apply($transformer, $list, $element)
+    public function apply(Transformer $transformer, Element $list, \DOMNode $element): Element
     {
         $li = ListItem::create();
+        invariant($list instanceof ListElement, 'Error, $list is not ListElement');
         $list->addItem($li);
         $transformer->transform($li, $element);
 

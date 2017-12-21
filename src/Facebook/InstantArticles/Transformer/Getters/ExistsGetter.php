@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,24 +10,24 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
 
-class ExistsGetter extends StringGetter
+class ExistsGetter extends AbstractGetter
 {
-    public function createFrom($properties)
+    public function createFrom(dict<string, mixed> $properties): this
     {
-        if (isset($properties['selector'])) {
-            $this->withSelector($properties['selector']);
+        if (array_key_exists('selector', $properties)) {
+            $this->withSelector(Type::mixedToString($properties['selector']));
         }
-        if (isset($properties['attribute'])) {
-            $this->withAttribute($properties['attribute']);
+        if (array_key_exists('attribute', $properties)) {
+            $this->withAttribute(Type::mixedToString($properties['attribute']));
         }
+        return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): mixed
     {
-        Type::enforce($node, 'DOMNode');
-        $elements = self::findAll($node, $this->selector);
-        if (!empty($elements) && $elements->item(0)) {
-            if (!$this->attribute) {
+        $elements = $this->findAll($node, $this->selector);
+        if ($elements !== null && $elements->length > 0 && $elements->item(0) !== null) {
+            if ($this->attribute === null) {
                 return true;
             }
             return $elements->item(0)->hasAttribute($this->attribute);

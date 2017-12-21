@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -12,18 +12,18 @@ class PullquoteTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderBasic()
     {
-        $analytics =
+        $pullquote =
             Pullquote::create();
 
         $expected = '';
 
-        $rendered = $analytics->render();
+        $rendered = $pullquote->render();
         $this->assertEqualsHtml($expected, $rendered);
     }
 
     public function testRenderWithBoldStrongItalicEm()
     {
-        $analytics =
+        $pullquote =
             Pullquote::create()
                 ->appendText(Bold::create()->appendText('Some'))
                 ->appendText(' text to be ')
@@ -38,13 +38,13 @@ class PullquoteTest extends \Facebook\Util\BaseHTMLTestCase
                 '<b>Some</b> text to be <i>within</i> an <i>aside</i> for <b>testing.</b>'.
             '</aside>';
 
-        $rendered = $analytics->render();
+        $rendered = $pullquote->render();
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithAttribution()
+    public function testRenderWithAttributionString()
     {
-        $analytics =
+        $pullquote =
             Pullquote::create()
                 ->appendText(Bold::create()->appendText('Some'))
                 ->appendText(' text to be ')
@@ -53,7 +53,7 @@ class PullquoteTest extends \Facebook\Util\BaseHTMLTestCase
                 ->appendText(Italic::create()->appendText('aside'))
                 ->appendText(' for ')
                 ->appendText(Bold::create()->appendText('testing.'))
-                ->withAttribution('Some attribution');
+                ->withAttributionString('Some attribution');
 
         $expected =
             '<aside>'.
@@ -61,7 +61,30 @@ class PullquoteTest extends \Facebook\Util\BaseHTMLTestCase
                 '<cite>Some attribution</cite>'.
             '</aside>';
 
-        $rendered = $analytics->render();
+        $rendered = $pullquote->render();
+        $this->assertEqualsHtml($expected, $rendered);
+    }
+
+    public function testRenderWithAttribution()
+    {
+        $pullquote =
+            Pullquote::create()
+                ->appendText(Bold::create()->appendText('Some'))
+                ->appendText(' text to be ')
+                ->appendText(Italic::create()->appendText('within'))
+                ->appendText(' an ')
+                ->appendText(Italic::create()->appendText('aside'))
+                ->appendText(' for ')
+                ->appendText(Bold::create()->appendText('testing.'))
+                ->withAttribution(Cite::create()->appendText('Some attribution'));
+
+        $expected =
+            '<aside>'.
+                '<b>Some</b> text to be <i>within</i> an <i>aside</i> for <b>testing.</b>'.
+                '<cite>Some attribution</cite>'.
+            '</aside>';
+
+        $rendered = $pullquote->render();
         $this->assertEqualsHtml($expected, $rendered);
     }
 }

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -12,7 +12,7 @@ class SlideshowTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {
-        $slideshow = SlideShow::create();
+        $slideshow = Slideshow::create();
 
         $expected = '';
 
@@ -23,7 +23,7 @@ class SlideshowTest extends \Facebook\Util\BaseHTMLTestCase
     public function testRenderBasic()
     {
         $slideshow =
-            SlideShow::create()
+            Slideshow::create()
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home2.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home3.jpg'));
@@ -48,7 +48,7 @@ class SlideshowTest extends \Facebook\Util\BaseHTMLTestCase
     public function testRenderWithLikeAndComments()
     {
         $slideshow =
-            SlideShow::create()
+            Slideshow::create()
                 ->addImage(
                     Image::create()
                         ->withURL('https://jpeg.org/images/jpegls-home.jpg')
@@ -86,7 +86,7 @@ class SlideshowTest extends \Facebook\Util\BaseHTMLTestCase
     public function testRenderWithCaption()
     {
         $slideshow =
-            SlideShow::create()
+            Slideshow::create()
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home2.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home3.jpg'))
@@ -115,28 +115,27 @@ class SlideshowTest extends \Facebook\Util\BaseHTMLTestCase
 
     public function testRenderWithGeotag()
     {
-        $geotag = <<<'JSON'
-{
-    "type": "Feature",
-    "geometry": {
-        "type": "Point",
-        "coordinates": [23.166667, 89.216667]
-    },
-    "properties": {
-        "title": "Jessore, Bangladesh",
-        "radius": 750000,
-        "pivot": true,
-        "style": "satellite"
-    }
-}
-JSON;
+        $geotag =
+            '{'.
+                '"type": "Feature",'.
+                '"geometry": {'.
+                    '"type": "Point",'.
+                    '"coordinates": [23.166667, 89.216667]'.
+                '},'.
+                '"properties": {'.
+                    '"title": "Jessore, Bangladesh",'.
+                    '"radius": 750000,'.
+                    '"pivot": true,'.
+                    '"style": "satellite"'.
+                '}'.
+            '}';
 
         $slideshow =
-            SlideShow::create()
+            Slideshow::create()
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home2.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home3.jpg'))
-                ->withMapGeoTag($geotag);
+                ->withMapGeoTag(GeoTag::create()->withScript($geotag));
 
         $expected =
             '<figure class="op-slideshow">'.
@@ -173,7 +172,7 @@ JSON;
             '</audio>';
 
         $slideshow =
-            SlideShow::create()
+            Slideshow::create()
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home2.jpg'))
                 ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home3.jpg'))

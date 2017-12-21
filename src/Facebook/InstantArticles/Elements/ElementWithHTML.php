@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -18,7 +18,12 @@ abstract class ElementWithHTML extends Element
     /**
      * @var \DOMNode The HTML of the content.
      */
-    protected $html;
+    protected ?\DOMNode $html;
+
+    /**
+     * @var string The HTML of the content (as string).
+     */
+    protected ?string $html_string;
 
     /**
      * Sets the unescaped HTML.
@@ -27,15 +32,26 @@ abstract class ElementWithHTML extends Element
      *
      * @return $this
      */
-    public function withHTML($html)
+    public function withHTML(\DOMNode $html): this
     {
-        Type::enforce($html, ['DOMNode', Type::STRING]);
         // If this is raw HTML source, wrap in a CDATA section as it could contain JS etc. with characters (such as &) that are not allowed in unescaped form
-        if (Type::is($html, Type::STRING)) {
-            $html = new \DOMCdataSection($html);
-        }
+        // if (Type::is($html, Type::STRING)) {
+        //     $html = new \DOMCdataSection($html);
+        // }
         $this->html = $html;
+        return $this;
+    }
 
+    /**
+     * Sets the HTML String.
+     *
+     * @param string $html The HTML string.
+     *
+     * @return $this
+     */
+    public function withHTMLString(string $html_string): this
+    {
+        $this->html_string = $html_string;
         return $this;
     }
 
@@ -44,7 +60,7 @@ abstract class ElementWithHTML extends Element
      *
      * @return \DOMNode The unescaped HTML.
      */
-    public function getHtml()
+    public function getHtml(): ?\DOMNode
     {
         return $this->html;
     }
@@ -55,11 +71,22 @@ abstract class ElementWithHTML extends Element
      * @param \DOMNode $element - The element to append the HTML to.
      * @param \DOMNode $content - The unescaped HTML to append.
      */
-    protected function dangerouslyAppendUnescapedHTML($element, $content)
+    protected function dangerouslyAppendUnescapedHTML(\DOMNode $element, \DOMNode $content): void
     {
-        Type::enforce($content, 'DOMNode');
-        Type::enforce($element, 'DOMNode');
         $imported = $element->ownerDocument->importNode($content, true);
         $element->appendChild($imported);
     }
+
+    /**
+     * Appends unescaped HTML String to a element using the right strategy.
+     *
+     * @param \DOMNode $element - The element to append the HTML to.
+     * @param \DOMNode $content - The unescaped HTML to append.
+     */
+    protected function dangerouslyAppendUnescapedHTMLString(\DOMNode $element, string $html_string): void
+    {
+        $imported = $element->ownerDocument->createCDATASection($html_string);
+        $element->appendChild($imported);
+    }
+
 }

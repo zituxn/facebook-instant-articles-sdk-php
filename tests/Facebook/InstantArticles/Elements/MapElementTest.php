@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,13 +8,13 @@
  */
 namespace Facebook\InstantArticles\Elements;
 
-use Facebook\InstantArticles\Elements\Map as Map;
+use Facebook\InstantArticles\Elements\MapElement;
 
-class MapTest extends \Facebook\Util\BaseHTMLTestCase
+class MapElementTest extends \Facebook\Util\BaseHTMLTestCase
 {
     public function testRenderEmpty()
     {
-        $map = Map::create();
+        $map = MapElement::create();
 
         $expected = '';
 
@@ -41,7 +41,7 @@ class MapTest extends \Facebook\Util\BaseHTMLTestCase
 JSON;
 
         $map =
-            Map::create()
+            MapElement::create()
                 ->withGeoTag(GeoTag::create()->withScript($script));
 
         $expected =
@@ -74,12 +74,12 @@ JSON;
 JSON;
 
         $map =
-            Map::create()
+            MapElement::create()
                 ->withGeoTag(GeoTag::create()->withScript($script))
                 ->withCaption(
                     Caption::create()
-                        ->withTitle('Title of Image caption')
-                        ->withCredit('Some caption to the image')
+                        ->withTitle(H1::create()->appendText('Title of Image caption'))
+                        ->withCredit(Cite::create()->appendText('Some caption to the image'))
                         ->withPosition(Caption::POSITION_BELOW)
                 );
 

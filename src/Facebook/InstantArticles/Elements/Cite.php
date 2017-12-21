@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -23,17 +23,17 @@ class Cite extends TextContainer
     /**
      * @var string text align. Values: "op-left"|"op-center"|"op-right"
      */
-    private $textAlignment;
+    private string $textAlignment = "";
 
     /**
      * @var string vertical align. Values: "op-vertical-top"|"op-vertical-bottom"|"op-vertical-center"
      */
-    private $verticalAlignment;
+    private string $verticalAlignment = "";
 
     /**
      * @var string text position. Values: "op-vertical-below"|"op-vertical-above"|"op-vertical-center"
      */
-    private $position;
+    private string $position = "";
 
     private function __construct()
     {
@@ -42,7 +42,7 @@ class Cite extends TextContainer
     /**
      * @return Cite
      */
-    public static function create()
+    public static function create(): Cite
     {
         return new self();
     }
@@ -58,14 +58,14 @@ class Cite extends TextContainer
      *
      * @return $this
      */
-    public function withTextAlignment($text_alignment)
+    public function withTextAlignment(string $text_alignment): this
     {
         Type::enforceWithin(
             $text_alignment,
-            [
+            vec[
                 Caption::ALIGN_RIGHT,
                 Caption::ALIGN_LEFT,
-                Caption::ALIGN_CENTER
+                Caption::ALIGN_CENTER,
             ]
         );
         $this->textAlignment = $text_alignment;
@@ -84,30 +84,19 @@ class Cite extends TextContainer
      *
      * @return $this
      */
-    public function withVerticalAlignment($vertical_alignment)
+    public function withVerticalAlignment(string $vertical_alignment): this
     {
         Type::enforceWithin(
             $vertical_alignment,
-            [
+            vec[
                 Caption::VERTICAL_TOP,
                 Caption::VERTICAL_BOTTOM,
-                Caption::VERTICAL_CENTER
+                Caption::VERTICAL_CENTER,
             ]
         );
         $this->verticalAlignment = $vertical_alignment;
 
         return $this;
-    }
-
-    /**
-     * @deprecated
-     *
-     * @param string $position
-     * @return $this
-     */
-    public function withPostion($position)
-    {
-        return $this->withPosition($position);
     }
 
     /**
@@ -120,14 +109,14 @@ class Cite extends TextContainer
      * @param string $position that will be used.
      * @return $this
      */
-    public function withPosition($position)
+    public function withPosition(string $position): this
     {
         Type::enforceWithin(
             $position,
-            [
+            vec[
                 Caption::POSITION_ABOVE,
                 Caption::POSITION_BELOW,
-                Caption::POSITION_CENTER
+                Caption::POSITION_CENTER,
             ]
         );
         $this->position = $position;
@@ -136,25 +125,21 @@ class Cite extends TextContainer
     }
 
     /**
-     * Structure and create the <cite> in a DOMElement.
+     * Structure and create the <cite> in a DOMNode.
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
 
         $cite = $document->createElement('cite');
 
-        $classes = [];
+        $classes = vec[];
         if ($this->position) {
             $classes[] = $this->position;
         }
@@ -164,7 +149,7 @@ class Cite extends TextContainer
         if ($this->verticalAlignment) {
             $classes[] = $this->verticalAlignment;
         }
-        if (!empty($classes)) {
+        if (count($classes) > 0) {
             $cite->setAttribute('class', implode(' ', $classes));
         }
         $cite->appendChild($this->textToDOMDocumentFragment($document));

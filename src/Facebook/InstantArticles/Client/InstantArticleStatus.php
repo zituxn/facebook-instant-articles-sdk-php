@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -19,9 +19,14 @@ class InstantArticleStatus
     const UNKNOWN = 'unknown';
 
     /**
-     * @var ServerMessage[]
+     * @var vec<ServerMessage>
      */
-    private $messages = [];
+    private vec<ServerMessage> $messages = vec[];
+
+    /**
+     * @var string Status message
+     */
+    private string $status = "";
 
     /**
      * Instantiates a new InstantArticleStatus object.
@@ -29,101 +34,95 @@ class InstantArticleStatus
      * @param string $status
      * @param ServerMessage[] $messages
      */
-    public function __construct($status, $messages = [])
+    public function __construct(string $status, vec<ServerMessage> $messages)
     {
         Type::enforceWithin(
             $status,
-            [
+            vec[
                 self::SUCCESS,
                 self::NOT_FOUND,
                 self::IN_PROGRESS,
                 self::FAILED,
-                self::UNKNOWN
+                self::UNKNOWN,
             ]
-        );
-        Type::enforceArrayOf(
-            $messages,
-            ServerMessage::getClassName()
         );
         $this->status = $status;
         $this->messages = $messages;
     }
 
     /**
-    * Creates a instance from a status string,.
-    *
-    * @param string $status the status string, case insensitive.
-    * @param array $messages the message from the server
-    *
-    * @return InstantArticleStatus
-    */
-    public static function fromStatus($status, $messages)
+     * Creates a instance from a status string,.
+     *
+     * @param string $status the status string, case insensitive.
+     * @param vec<ServerMessage> $messages the message from the server
+     *
+     * @return InstantArticleStatus
+     */
+    public static function fromStatus(string $status, vec<ServerMessage> $messages): InstantArticleStatus
     {
         $status = strtolower($status);
         $validStatus = Type::isWithin(
             $status,
-            [
+            vec[
                 self::SUCCESS,
                 self::NOT_FOUND,
                 self::IN_PROGRESS,
-                self::FAILED
+                self::FAILED,
             ]
         );
         if ($validStatus) {
             return new self($status, $messages);
         } else {
-            \Logger::getLogger('facebook-instantarticles-client')
-                ->info("Unknown status '$status'. Are you using the last SDK version?");
             return new self(self::UNKNOWN, $messages);
         }
     }
 
     /**
-     * @param ServerMessage[] $messages
+     * @param vec<ServerMessage> $messages the message from the server
      *
      * @return InstantArticleStatus
      */
-    public static function success($messages = [])
+    public static function success(vec<ServerMessage> $messages = vec[]): InstantArticleStatus
     {
         return new self(self::SUCCESS, $messages);
     }
 
     /**
-     * @param ServerMessage[] $messages
+     * @param vec<ServerMessage> $messages the message from the server
      *
      * @return InstantArticleStatus
      */
-    public static function notFound($messages = [])
+    public static function notFound(vec<ServerMessage> $messages = vec[]): InstantArticleStatus
     {
         return new self(self::NOT_FOUND, $messages);
     }
 
     /**
-     * @param ServerMessage[]  $messages
+     * @param vec<ServerMessage> $messages the message from the server
      *
      * @return InstantArticleStatus
      */
-    public static function inProgress($messages = [])
+    public static function inProgress(vec<ServerMessage> $messages = vec[]): InstantArticleStatus
     {
         return new self(self::IN_PROGRESS, $messages);
     }
 
     /**
-     * @param ServerMessage[] $messages
+     * @param vec<ServerMessage> $messages the message from the server
      *
      * @return InstantArticleStatus
      */
-    public static function failed($messages = [])
+    public static function failed(vec<ServerMessage> $messages = vec[]): InstantArticleStatus
     {
         return new self(self::FAILED, $messages);
     }
 
     /**
-     * @param ServerMessage[] $messages
+     * @param vec<ServerMessage> $messages the message from the server
      *
      * @return InstantArticleStatus
      */
-    public static function unknown($messages = [])
+    public static function unknown(vec<ServerMessage> $messages = vec[]): InstantArticleStatus
     {
         return new self(self::UNKNOWN, $messages);
     }
@@ -131,19 +130,15 @@ class InstantArticleStatus
     /**
      * @param ServerMessage $message
      */
-    public function addMessage($message)
+    public function addMessage(ServerMessage $message): void
     {
-        Type::enforce(
-            $message,
-            ServerMessage::getClassName()
-        );
         $this->messages[] = $message;
     }
 
     /**
-     * @return ServerMessage[]
+     * @return vec<ServerMessage>
      */
-    public function getMessages()
+    public function getMessages(): vec<ServerMessage>
     {
         return $this->messages;
     }
@@ -151,7 +146,7 @@ class InstantArticleStatus
     /**
      * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }

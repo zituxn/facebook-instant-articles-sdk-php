@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright 2014 Facebook, Inc.
  *
@@ -42,7 +42,7 @@ class Blockquote extends TextContainer
     /**
      * @var string $text the text content for blockquote
      */
-    private $text;
+    private string $text = "";
 
     private function __construct()
     {
@@ -51,7 +51,7 @@ class Blockquote extends TextContainer
     /**
      * @return Blockquote
      */
-    public static function create()
+    public static function create(): Blockquote
     {
         return new self();
     }
@@ -63,22 +63,20 @@ class Blockquote extends TextContainer
      *
      * @return $this
      */
-    public function withText($text)
+    public function withText(string $text): this
     {
-        Type::enforce($text, Type::STRING);
         $this->text = $text;
-
         return $this;
     }
 
     /**
-     * Structure and create the full Blockquote in a DOMElement.
+     * Structure and create the full Blockquote in a DOMNode.
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
         if (!$document) {
             $document = new \DOMDocument();

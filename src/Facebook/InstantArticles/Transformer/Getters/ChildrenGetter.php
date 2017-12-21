@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -13,10 +13,10 @@ use Facebook\InstantArticles\Transformer\Transformer;
 
 class ChildrenGetter extends ElementGetter
 {
-    public function get($node)
+    public function get(\DOMNode $node): ?\DOMNode
     {
         $element = parent::get($node);
-        if ($element) {
+        if ($element && $element instanceof \DOMNode) {
             $fragment = $element->ownerDocument->createDocumentFragment();
             foreach ($element->childNodes as $child) {
                 Transformer::markAsProcessed($child);

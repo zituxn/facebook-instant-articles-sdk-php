@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,9 +8,12 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Author;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class AuthorRule extends ConfigurationSelectorRule
 {
@@ -19,48 +22,48 @@ class AuthorRule extends ConfigurationSelectorRule
     const PROPERTY_AUTHOR_ROLE_CONTRIBUTION = 'author.role_contribution';
     const PROPERTY_AUTHOR_DESCRIPTION = 'author.description';
 
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return Header::getClassName();
+        return vec[Header::getClassName()];
     }
 
-    public static function create()
+    public static function create(): AuthorRule
     {
         return new AuthorRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): AuthorRule
     {
         $author_rule = AuthorRule::create();
 
-        $author_rule->withSelector($configuration['selector']);
-        $properties = $configuration['properties'];
+        $author_rule->withSelector(Type::mixedToString($configuration['selector']));
+        //$properties = $configuration['properties'];
         $author_rule->withProperties(
-            [
+            vec[
                 self::PROPERTY_AUTHOR_URL,
                 self::PROPERTY_AUTHOR_NAME,
                 self::PROPERTY_AUTHOR_DESCRIPTION,
-                self::PROPERTY_AUTHOR_ROLE_CONTRIBUTION
+                self::PROPERTY_AUTHOR_ROLE_CONTRIBUTION,
             ],
-            $properties
+            $configuration
         );
 
         return $author_rule;
     }
 
-    public function apply($transformer, $header, $node)
+    public function apply(Transformer $transformer, Element $header, \DOMNode $node): Element
     {
         $author = Author::create();
 
         // Builds the author
+        $url = $this->getPropertyString(self::PROPERTY_AUTHOR_URL, $node);
+        $name = $this->getPropertyString(self::PROPERTY_AUTHOR_NAME, $node);
+        $role_contribution = $this->getPropertyString(self::PROPERTY_AUTHOR_ROLE_CONTRIBUTION, $node);
+        $description = $this->getPropertyString(self::PROPERTY_AUTHOR_DESCRIPTION, $node);
 
-        $url = $this->getProperty(self::PROPERTY_AUTHOR_URL, $node);
-        $name = $this->getProperty(self::PROPERTY_AUTHOR_NAME, $node);
-        $role_contribution = $this->getProperty(self::PROPERTY_AUTHOR_ROLE_CONTRIBUTION, $node);
-        $description = $this->getProperty(self::PROPERTY_AUTHOR_DESCRIPTION, $node);
-
-        if ($name) {
+        if ($name !== null) {
             $author->withName($name);
+            invariant($header instanceof Header, 'Error, $header is not a Header.');
             $header->addAuthor($author);
         } else {
             $transformer->addWarning(
@@ -73,15 +76,15 @@ class AuthorRule extends ConfigurationSelectorRule
             );
         }
 
-        if ($role_contribution) {
+        if ($role_contribution !== null) {
             $author->withRoleContribution($role_contribution);
         }
 
-        if ($description) {
+        if ($description !== null) {
             $author->withDescription($description);
         }
 
-        if ($url) {
+        if ($url !== null) {
             $author->withURL($url);
         }
 

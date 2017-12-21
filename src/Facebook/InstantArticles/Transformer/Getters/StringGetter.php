@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,49 +10,32 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
 
-class StringGetter extends ChildrenGetter
+class StringGetter extends AbstractGetter
 {
     /**
      * @var string
      */
-    protected $attribute;
+    protected string $prefix = "";
 
     /**
      * @var string
      */
-    protected $prefix;
+    protected string $suffix = "";
 
-    /**
-     * @var string
-     */
-    protected $suffix;
-
-    public function createFrom($properties)
+    public function createFrom(dict<string, mixed> $properties): this
     {
-        if (isset($properties['selector'])) {
-            $this->withSelector($properties['selector']);
+        if (array_key_exists('selector', $properties)) {
+            $this->withSelector(Type::mixedToString($properties['selector']));
         }
-        if (isset($properties['attribute'])) {
-            $this->withAttribute($properties['attribute']);
+        if (array_key_exists('attribute', $properties)) {
+            $this->withAttribute(Type::mixedToString($properties['attribute']));
         }
-        if (isset($properties['prefix'])) {
-            $this->withPrefix($properties['prefix']);
+        if (array_key_exists('prefix', $properties)) {
+            $this->withPrefix(Type::mixedToString($properties['prefix']));
         }
-        if (isset($properties['suffix'])) {
-            $this->withSuffix($properties['suffix']);
+        if (array_key_exists('suffix', $properties)) {
+            $this->withSuffix(Type::mixedToString($properties['suffix']));
         }
-    }
-
-    /**
-     * @param string $attribute
-     *
-     * @return $this
-     */
-    public function withAttribute($attribute)
-    {
-        Type::enforce($attribute, Type::STRING);
-        $this->attribute = $attribute;
-
         return $this;
     }
 
@@ -61,11 +44,9 @@ class StringGetter extends ChildrenGetter
      *
      * @return $this
      */
-    public function withPrefix($prefix)
+    public function withPrefix(string $prefix): this
     {
-        Type::enforce($prefix, Type::STRING);
         $this->prefix = $prefix;
-
         return $this;
     }
 
@@ -74,21 +55,18 @@ class StringGetter extends ChildrenGetter
      *
      * @return $this
      */
-    public function withSuffix($suffix)
+    public function withSuffix(string $suffix): this
     {
-        Type::enforce($suffix, Type::STRING);
         $this->suffix = $suffix;
-
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): mixed
     {
-        Type::enforce($node, 'DOMNode');
-        $elements = self::findAll($node, $this->selector);
-        if (!empty($elements) && $elements->item(0)) {
+        $elements = $this->findAll($node, $this->selector);
+        if ($elements !== null && $elements->length > 0 && $elements->item(0) !== null) {
             $element = $elements->item(0);
-            if ($this->attribute) {
+            if ($this->attribute !== null) {
                 $result = $element->getAttribute($this->attribute);
             } else {
                 $result = $element->textContent;

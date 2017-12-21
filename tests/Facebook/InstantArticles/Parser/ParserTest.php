@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -35,7 +35,7 @@ class ParserTest extends \Facebook\Util\BaseHTMLTestCase
         $html_file = file_get_contents(__DIR__ . '/instant-article-example.html');
 
         $parser = new Parser();
-        $instant_article = $parser->parse($html_file);
+        $instant_article = $parser->parseString($html_file);
         $instant_article->addMetaProperty('op:generator:version', '1.0.0');
         $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
         $result = $instant_article->render('', true)."\n";
@@ -49,7 +49,7 @@ class ParserTest extends \Facebook\Util\BaseHTMLTestCase
         $html_file_standard_timezone = file_get_contents(__DIR__ . '/instant-article-example-standard-timezone.html');
 
         $parser = new Parser();
-        $instant_article = $parser->parse($html_file_no_timezone);
+        $instant_article = $parser->parseString($html_file_no_timezone);
         $instant_article->addMetaProperty('op:generator:version', '1.0.0');
         $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
         $result = $instant_article->render('', true)."\n";
@@ -66,7 +66,7 @@ class ParserTest extends \Facebook\Util\BaseHTMLTestCase
         $transformer->setDefaultDateTimeZone(new \DateTimeZone('America/New_York'));
 
         $parser = new Parser();
-        $instant_article = $parser->parse($html_file_no_timezone, $transformer);
+        $instant_article = $parser->parseString($html_file_no_timezone, $transformer);
         $instant_article->addMetaProperty('op:generator:version', '1.0.0');
         $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
         $result = $instant_article->render('', true)."\n";

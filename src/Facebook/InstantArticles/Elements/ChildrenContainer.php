@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -16,7 +16,7 @@ interface ChildrenContainer
 {
 
     /**
-     * Must return an array of Element typed objects.
+     * Must return an vec of Element typed objects.
      * To navigate thru the ChildrenContainer object tree, always check if it is a ChildrenContainer.
      * <code>
      *     if (Type::is($object, ChildrenContainer::getClassName())) {
@@ -26,14 +26,14 @@ interface ChildrenContainer
      *     }
      * </code>
      *
-     * @return array(<Element>) All implementing classes returns an array of Elements.
+     * @return vec<Element> All implementing classes returns an vec of Element.
      */
-    public function getContainerChildren();
+    public function getContainerChildren(): vec<Element>;
 
     /**
      * Auxiliary method to extract all Elements full qualified class name.
      *
      * @return string The full qualified name of class
      */
-    public static function getClassName();
+    public static function getClassName(): string;
 }

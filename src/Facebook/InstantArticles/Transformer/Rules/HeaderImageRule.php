@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,32 +8,35 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Header;
+use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class HeaderImageRule extends ConfigurationSelectorRule
 {
     const PROPERTY_IMAGE_URL = 'image.url';
 
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return Header::getClassName();
+        return vec[Header::getClassName()];
     }
 
-    public static function create()
+    public static function create(): HeaderImageRule
     {
         return new HeaderImageRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): HeaderImageRule
     {
         $image_rule = self::create();
-        $image_rule->withSelector($configuration['selector']);
+        $image_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $image_rule->withProperties(
-            [
-                self::PROPERTY_IMAGE_URL
+            vec[
+                self::PROPERTY_IMAGE_URL,
             ],
             $configuration
         );
@@ -41,13 +44,14 @@ class HeaderImageRule extends ConfigurationSelectorRule
         return $image_rule;
     }
 
-    public function apply($transformer, $header, $node)
+    public function apply(Transformer $transformer, Element $header, \DOMNode $node): Element
     {
+        invariant($header instanceof Header, 'Error, $header is not Header');
         $image = Image::create();
 
         // Builds the image
-        $url = $this->getProperty(self::PROPERTY_IMAGE_URL, $node);
-        if ($url) {
+        $url = $this->getPropertyString(self::PROPERTY_IMAGE_URL, $node);
+        if ($url !== null) {
             $image->withURL($url);
             $header->withCover($image);
         } else {

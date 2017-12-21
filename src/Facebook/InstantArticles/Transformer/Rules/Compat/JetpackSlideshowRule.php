@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,34 +8,37 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules\Compat;
 
+use Facebook\InstantArticles\Transformer\Rules\ConfigurationSelectorRule;
+use Facebook\InstantArticles\Transformer\Transformer;
 use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\Slideshow;
 
-class JetpackSlideshowRule extends \Facebook\InstantArticles\Transformer\Rules\ConfigurationSelectorRule
+class JetpackSlideshowRule extends ConfigurationSelectorRule
 {
     const PROPERTY_JETPACK_DATA_GALLERY = 'jetpack.data-gallery';
 
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return InstantArticle::getClassName();
+        return vec[InstantArticle::getClassName()];
     }
 
-    public static function create()
+    public static function create(): JetpackSlideshowRule
     {
         return new JetpackSlideshowRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): JetpackSlideshowRule
     {
         $slideshow_rule = self::create();
-        $slideshow_rule->withSelector($configuration['selector']);
+        $slideshow_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $slideshow_rule->withProperties(
-            [
-                self::PROPERTY_JETPACK_DATA_GALLERY
+            vec[
+                self::PROPERTY_JETPACK_DATA_GALLERY,
             ],
             $configuration
         );
@@ -43,15 +46,16 @@ class JetpackSlideshowRule extends \Facebook\InstantArticles\Transformer\Rules\C
         return $slideshow_rule;
     }
 
-    public function apply($transformer, $instant_article, $node)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
         // Builds the slideshow
         $slideshow = Slideshow::create();
+        invariant($instant_article instanceof InstantArticle, 'Error, $instant_article is not InstantArticle');
         $instant_article->addChild($slideshow);
 
         $gallery = $this->getProperty(self::PROPERTY_JETPACK_DATA_GALLERY, $node);
 
-        if ($gallery && isset($gallery)) {
+        if ($gallery !== null && is_array($gallery)) {
             foreach ($gallery as $gallery_image) {
                 // Constructs Image if it contains URL
                 if (!Type::isTextEmpty($gallery_image['src'])) {

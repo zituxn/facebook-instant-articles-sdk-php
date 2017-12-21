@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,29 +8,35 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\TextContainer;
 use Facebook\InstantArticles\Elements\Emphasized;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class EmphasizedRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return TextContainer::getClassName();
+        return vec[TextContainer::getClassName()];
     }
 
-    public static function create()
+    public static function create(): EmphasizedRule
     {
         return new EmphasizedRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): EmphasizedRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $emphasizedRule = self::create();
+        $emphasizedRule->withSelector(Type::mixedToString($configuration['selector']));
+        return $emphasizedRule;
     }
 
-    public function apply($transformer, $text_container, $element)
+    public function apply(Transformer $transformer, Element $text_container, \DOMNode $element): Element
     {
         $emphasized = Emphasized::create();
+        invariant($text_container instanceof TextContainer, 'Error, $text_container is not a TextContainer.');
         $text_container->appendText($emphasized);
         $transformer->transform($emphasized, $element);
         return $text_container;

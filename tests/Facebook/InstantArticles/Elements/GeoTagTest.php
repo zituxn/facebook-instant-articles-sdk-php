@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,7 +10,7 @@ namespace Facebook\InstantArticles\Elements;
 
 class GeoTagTest extends \Facebook\Util\BaseHTMLTestCase
 {
-    public function testRenderEmpty()
+    public function testRenderEmpty(): void
     {
         $geo_tag = GeoTag::create();
 
@@ -20,7 +20,7 @@ class GeoTagTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderWithGeotag()
+    public function testRenderWithGeotag(): void
     {
         $script = <<<'JSON'
 {

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -25,25 +25,25 @@ use Facebook\InstantArticles\Validators\Type;
 class Ad extends ElementWithHTML
 {
     /**
+     * @var int The width of your ad.
+     */
+    private int $width = 0;
+
+    /**
      * @var int The height of your ad.
      */
-    private $height;
+    private int $height = 0;
 
     /**
      * @var string The source of the content for your ad.
      */
-    private $source;
-
-    /**
-     * @var int The width of your ad.
-     */
-    private $width;
+    private string $source = "";
 
     private function __construct()
     {
     }
 
-    public static function create()
+    public static function create(): Ad
     {
         return new self();
     }
@@ -51,12 +51,12 @@ class Ad extends ElementWithHTML
     /**
      * @var boolean Ad will be reused if additional placement slots are available. False by default.
      */
-    private $isDefaultForReuse = false;
+    private bool $isDefaultForReuse = false;
 
     /**
      * Ad will be reused in additional impression slots.
      */
-    public function enableDefaultForReuse()
+    public function enableDefaultForReuse(): this
     {
         $this->isDefaultForReuse = true;
         return $this;
@@ -65,7 +65,7 @@ class Ad extends ElementWithHTML
     /**
      * Ad will not be used in additional impression slots.
      */
-    public function disableDefaultForReuse()
+    public function disableDefaultForReuse(): this
     {
         $this->isDefaultForReuse = false;
         return $this;
@@ -78,11 +78,9 @@ class Ad extends ElementWithHTML
      *
      * @return $this
      */
-    public function withHeight($height)
+    public function withHeight(int $height): this
     {
-        Type::enforce($height, Type::INTEGER);
         $this->height = $height;
-
         return $this;
     }
 
@@ -93,11 +91,9 @@ class Ad extends ElementWithHTML
      *
      * @return $this
      */
-    public function withSource($source)
+    public function withSource(string $source): this
     {
-        Type::enforce($source, Type::STRING);
         $this->source = $source;
-
         return $this;
     }
 
@@ -108,18 +104,16 @@ class Ad extends ElementWithHTML
      *
      * @return $this
      */
-    public function withWidth($width)
+    public function withWidth(int $width): this
     {
-        Type::enforce($width, Type::INTEGER);
         $this->width = $width;
-
         return $this;
     }
 
     /**
      * @return bool True if Ad has been set to reusable.
      */
-    public function getIsDefaultForReuse()
+    public function getIsDefaultForReuse(): bool
     {
         return $this->isDefaultForReuse;
     }
@@ -129,7 +123,7 @@ class Ad extends ElementWithHTML
      *
      * @return int The height of your ad.
      */
-    public function getHeight()
+    public function getHeight(): int
     {
         return $this->height;
     }
@@ -139,7 +133,7 @@ class Ad extends ElementWithHTML
      *
      * @return string The source of the content for your ad.
      */
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }
@@ -149,24 +143,20 @@ class Ad extends ElementWithHTML
      *
      * @return int The width of your ad.
      */
-    public function getWidth()
+    public function getWidth(): int
     {
         return $this->width;
     }
 
     /**
-     * Structure and create the full Ad in a DOMElement.
+     * Structure and create the full Ad in a DOMNode.
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -181,23 +171,25 @@ class Ad extends ElementWithHTML
             .($this->isDefaultForReuse ? ' op-ad-default' : '')
         );
 
-        if ($this->source) {
+        if (!Type::isTextEmpty($this->source)) {
             $iframe->setAttribute('src', $this->source);
         }
 
-        if ($this->width) {
+        if ($this->width > 0) {
             $iframe->setAttribute('width', strval($this->width));
         }
 
-        if ($this->height) {
+        if ($this->height > 0) {
             $iframe->setAttribute('height', strval($this->height));
         }
 
         // Ad markup
-        if ($this->html) {
+        if ($this->html !== null) {
             // Here we do not care about what is inside the iframe
             // because it'll be rendered in a sandboxed webview
             $this->dangerouslyAppendUnescapedHTML($iframe, $this->html);
+        } else if ($this->html_string !== null) {
+            $this->dangerouslyAppendUnescapedHTMLString($iframe, $this->html_string);
         } else {
             $iframe->appendChild($document->createTextNode(''));
         }
@@ -210,8 +202,8 @@ class Ad extends ElementWithHTML
      * @see Element::isValid().
      * @return true for valid Ad that contains valid src or html, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
-        return !Type::isTextEmpty($this->source) || $this->html;
+        return !Type::isTextEmpty($this->source) || $this->html || !Type::isTextEmpty($this->html_string);
     }
 }

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -33,13 +33,13 @@ class Analytics extends ElementWithHTML
     /**
      * @var string The source of the content for your analytics code.
      */
-    private $source;
+    private string $source = "";
 
     private function __construct()
     {
     }
 
-    public static function create()
+    public static function create(): Analytics
     {
         return new self();
     }
@@ -51,9 +51,8 @@ class Analytics extends ElementWithHTML
      *
      * @return $this
      */
-    public function withSource($source)
+    public function withSource(string $source): this
     {
-        Type::enforce($source, Type::STRING);
         $this->source = $source;
 
         return $this;
@@ -64,24 +63,20 @@ class Analytics extends ElementWithHTML
      *
      * @return string The source of the content for your analytics.
      */
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }
 
     /**
-     * Structure and create the full ArticleAd in a DOMElement.
+     * Structure and create the full ArticleAd in a DOMNode.
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -101,6 +96,8 @@ class Analytics extends ElementWithHTML
             // Here we do not care about what is inside the iframe
             // because it'll be rendered in a sandboxed webview
             $this->dangerouslyAppendUnescapedHTML($iframe, $this->html);
+        } else if ($this->html_string !== null) {
+            $this->dangerouslyAppendUnescapedHTMLString($iframe, $this->html_string);
         } else {
             $iframe->appendChild($document->createTextNode(''));
         }
@@ -113,8 +110,8 @@ class Analytics extends ElementWithHTML
     * @see Element::isValid().
      * @return true for valid Analytics that contains valid source or html, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
-        return !Type::isTextEmpty($this->source) || $this->html;
+        return !Type::isTextEmpty($this->source) || $this->html || !Type::isTextEmpty($this->html_string);
     }
 }

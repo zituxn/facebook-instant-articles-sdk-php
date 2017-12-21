@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,33 +8,37 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Slideshow;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class SlideshowRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return InstantArticle::getClassName();
+        return vec[InstantArticle::getClassName()];
     }
 
-    public static function create()
+    public static function create(): SlideshowRule
     {
         return new SlideshowRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): SlideshowRule
     {
         $slideshow_rule = self::create();
-        $slideshow_rule->withSelector($configuration['selector']);
+        $slideshow_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         return $slideshow_rule;
     }
 
-    public function apply($transformer, $instant_article, $node)
+    public function apply(Transformer $transformer, Element $instant_article, \DOMNode $node): Element
     {
         // Builds the slideshow
         $slideshow = Slideshow::create();
+        invariant($instant_article instanceof InstantArticle, 'Error, $instant_article is not InstantArticle');
         $instant_article->addChild($slideshow);
 
         $transformer->transform($slideshow, $node);

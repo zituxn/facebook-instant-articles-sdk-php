@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Facebook\InstantArticles\Validators;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\ChildrenContainer;
 use Facebook\InstantArticles\Elements\Paragraph;
@@ -19,28 +20,24 @@ use Facebook\InstantArticles\Transformer\Warnings\ValidatorWarning;
  */
 class InstantArticleValidator
 {
-    private static $configuration;
     /**
      * This method navigates thru the tree structure and validates the article content.
      *
      * @param InstantArticle $article The article that will be checked.
-     * @return array of string with the warnings raised during the check.
+     * @return vec of string with the warnings raised during the check.
      */
-    public static function check($article)
+    public static function check(InstantArticle $article): vec<ValidatorWarning>
     {
-        Type::enforce($article, InstantArticle::getClassName());
-        $warnings = array();
-        self::getReport(array($article), $warnings);
-        return $warnings;
+        return self::getReport($article->getContainerChildren(), vec[]);
     }
 
     /**
      * Auxiliary method to do a recursive checker that will raise all warnings
      * related to the element tree about the Instant Article.
-     * @param array $elements Element[] to all elements that will be checked.
-     * @param array $warnings string[] to all warnings related to the elements informed.
+     * @param vec $elements Element[] to all elements that will be checked.
+     * @param vec $warnings string[] to all warnings related to the elements informed.
      */
-    public static function getReport($elements, &$warnings)
+    public static function getReport(vec<Element> $elements, vec<ValidatorWarning>$warnings): vec<ValidatorWarning>
     {
         foreach ($elements as $element) {
             if (!$element->isValid() && $element->isEmptyValidationEnabled()) {
@@ -48,8 +45,9 @@ class InstantArticleValidator
                 $warnings[] = new ValidatorWarning($element);
             }
             if ($element instanceof ChildrenContainer) {
-                self::getReport($element->getContainerChildren(), $warnings);
+                $warnings = Type::concatVec($warnings, self::getReport($element->getContainerChildren(), vec[]));
             }
         }
+        return $warnings;
     }
 }

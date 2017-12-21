@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -15,20 +15,20 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
     public function testCreateFromProperties()
     {
         $author_rule = AuthorRule::createFrom(
-            [
+            dict[
                 "class" => "Facebook\\InstantArticles\\Transformer\\Rules\\AuthorRule",
                 "selector" => "div.post-content > p > em",
-                "properties" => [
-                    "author.url" => [
+                "properties" => array (
+                    "author.url" => array (
                         "type" => "string",
                         "selector" => "a",
                         "attribute" => "href"
-                    ],
-                    "author.description" => [
+                    ),
+                    "author.description" => array (
                         "type" => "string",
                         "selector" => "#text:nth-child(2)"
-                    ]
-                ]
+                    )
+                )
             ]
         );
         $this->assertEquals(get_class($author_rule), AuthorRule::getClassName());
@@ -38,22 +38,26 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $author_rule = AuthorRule::create()
             ->withSelector("div.post-content > p > em")
-            ->withProperty(
-                AuthorRule::PROPERTY_AUTHOR_URL,
-                [
-                    "type" => "string",
-                    "selector" => "a",
-                    "attribute" => "href"
-                ]
-            )
-            ->withProperty(
-                AuthorRule::PROPERTY_AUTHOR_NAME,
-                [
-                    "type" => "string",
-                    "selector" => "span"
+            ->withProperties(
+                vec[
+                    AuthorRule::PROPERTY_AUTHOR_URL,
+                    AuthorRule::PROPERTY_AUTHOR_NAME,
+                ],
+                dict[
+                    AuthorRule::PROPERTY_AUTHOR_URL =>
+                    array (
+                        "type" => "string",
+                        "selector" => "a",
+                        "attribute" => "href"
+                    ),
+                    AuthorRule::PROPERTY_AUTHOR_NAME =>
+                    array (
+                        "type" => "string",
+                        "selector" => "span"
+                    ),
                 ]
             );
-        $this->assertEquals(get_class($author_rule), AuthorRule::getClassName());
+        $this->assertEquals($author_rule->getObjClassName(), AuthorRule::getClassName());
     }
 
     public function testExpectedNameWithLink()
@@ -67,8 +71,12 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
             '</header>';
 
         $parser = new Parser();
-        $instantArticle = $parser->parse($html);
-        $author = $instantArticle->getHeader()->getAuthors()[0];
+        $instantArticle = $parser->parseString($html);
+        $header = $instantArticle->getHeader();
+        invariant($header !== null, '$header should not be null');
+        $authors = $header->getAuthors();
+        invariant($authors !== null, '$authors should not be null');
+        $author = $authors[0];
 
         $this->assertEqualsHtml($expectedName, $author->getName());
     }
@@ -84,8 +92,12 @@ class AuthorRuleTest extends \Facebook\Util\BaseHTMLTestCase
             '</header>';
 
         $parser = new Parser();
-        $instantArticle = $parser->parse($html);
-        $author = $instantArticle->getHeader()->getAuthors()[0];
+        $instantArticle = $parser->parseString($html);
+        $header = $instantArticle->getHeader();
+        invariant($header !== null, '$header should not be null');
+        $authors = $header->getAuthors();
+        invariant($authors !== null, '$authors should not be null');
+        $author = $authors[0];
 
         $this->assertEqualsHtml($expectedName, $author->getName());
     }

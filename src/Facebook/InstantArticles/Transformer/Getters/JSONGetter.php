@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,45 +10,27 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
 
-class JSONGetter extends ChildrenGetter
+class JSONGetter extends AbstractGetter
 {
-    /**
-     * @var string
-     */
-    protected $attribute;
-
-    public function createFrom($properties)
+    public function createFrom(dict<string, mixed> $properties): this
     {
-        if (isset($properties['selector'])) {
-            $this->withSelector($properties['selector']);
+        if (array_key_exists('selector', $properties)) {
+            $this->withSelector(Type::mixedToString($properties['selector']));
         }
-        if (isset($properties['attribute'])) {
-            $this->withAttribute($properties['attribute']);
+        if (array_key_exists('attribute', $properties)) {
+            $this->withAttribute(Type::mixedToString($properties['attribute']));
         }
-    }
-
-    /**
-     * @param string $attribute
-     *
-     * @return $this
-     */
-    public function withAttribute($attribute)
-    {
-        Type::enforce($attribute, Type::STRING);
-        $this->attribute = $attribute;
-
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): mixed
     {
-        $content = null;
+        $content = "";
 
-        Type::enforce($node, 'DOMNode');
-        $elements = self::findAll($node, $this->selector);
-        if (!empty($elements) && $elements->item(0)) {
+        $elements = $this->findAll($node, $this->selector);
+        if ($elements !== null && $elements->length > 0 && $elements->item(0) !== null) {
             $element = $elements->item(0);
-            if ($this->attribute) {
+            if ($this->attribute !== null) {
                 $content = $element->getAttribute($this->attribute);
             } else {
                 $content = $element->textContent;

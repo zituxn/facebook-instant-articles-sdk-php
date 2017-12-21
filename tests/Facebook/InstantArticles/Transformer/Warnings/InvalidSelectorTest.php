@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -9,7 +9,7 @@
 namespace Facebook\InstantArticles\Transformer\Warnings;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
-use Facebook\InstantArticles\Transformer\Rules\SocialEmbedRule;
+use Facebook\InstantArticles\Transformer\Rules\InteractiveRule;
 
 class InvalidSelectorTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,15 +17,15 @@ class InvalidSelectorTest extends \PHPUnit_Framework_TestCase
     {
         $json = <<<'JSON'
 {
-    "class": "SocialEmbedRule",
+    "class": "InteractiveRule",
     "selector" : "figure.op-social",
     "properties" : {
-        "socialembed.url" : {
+        "interactive.url" : {
             "type" : "string",
             "selector" : "iframe",
             "attribute": "src"
         },
-        "socialembed.iframe" : {
+        "interactive.iframe" : {
             "type" : "children",
             "selector" : "iframe"
         }
@@ -33,20 +33,20 @@ class InvalidSelectorTest extends \PHPUnit_Framework_TestCase
 }
 JSON;
 
-        $properties = json_decode($json, true);
+        $properties = dict(json_decode($json, true));
 
         $instant_article = InstantArticle::create();
         $document = new \DOMDocument();
         $node = $document->createElement('figcaption');
-        $rule = SocialEmbedRule::createFrom($properties);
+        $rule = InteractiveRule::createFrom($properties);
 
         $warning = new InvalidSelector('field a and b', $instant_article, $node, $rule);
 
         $result = $warning->__toString();
         $expected = 'Invalid selector for fields (field a and b). '.
             'The node being transformed was <figcaption> in the context of'.
-            ' InstantArticle within the Rule SocialEmbedRule with these'.
-            ' properties: { socialembed.url=StringGetter}';
+            ' InstantArticle within the Rule InteractiveRule with these'.
+            ' properties: {interactive.iframe=ChildrenGetter,interactive.url=StringGetter}';
 
         $this->assertEquals($expected, $result);
     }

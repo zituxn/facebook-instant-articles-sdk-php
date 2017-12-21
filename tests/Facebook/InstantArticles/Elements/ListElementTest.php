@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -25,10 +25,10 @@ class ListElementTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $list =
             ListElement::createOrdered()
-                ->addItem('')
-                ->addItem(' ')
-                ->addItem("\t")
-                ->addItem("\n \t");
+                ->addItem(ListItem::create()->appendText(''))
+                ->addItem(ListItem::create()->appendText(' '))
+                ->addItem(ListItem::create()->appendText("\t"))
+                ->addItem(ListItem::create()->appendText("\n \t"));
 
         $expected = '';
 
@@ -40,9 +40,9 @@ class ListElementTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $list =
             ListElement::createOrdered()
-                ->addItem('Item 1')
-                ->addItem('Item 2')
-                ->addItem('Item 3');
+                ->addItem(ListItem::create()->appendText('Item 1'))
+                ->addItem(ListItem::create()->appendText('Item 2'))
+                ->addItem(ListItem::create()->appendText('Item 3'));
 
         $expected =
             '<ol>'.
@@ -59,7 +59,11 @@ class ListElementTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $list =
             ListElement::createOrdered()
-                ->withItems(['Item 1', 'Item 2', 'Item 3']);
+                ->withItems(vec[
+                    ListItem::create()->appendText('Item 1'),
+                    ListItem::create()->appendText('Item 2'),
+                    ListItem::create()->appendText('Item 3'),
+                ]);
 
         $expected =
             '<ol>'.
@@ -76,9 +80,9 @@ class ListElementTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $list =
             ListElement::createUnordered()
-                ->addItem('Item 1')
-                ->addItem('Item 2')
-                ->addItem('Item 3');
+                ->addItem(ListItem::create()->appendText('Item 1'))
+                ->addItem(ListItem::create()->appendText('Item 2'))
+                ->addItem(ListItem::create()->appendText('Item 3'));
 
         $expected =
             '<ul>'.
@@ -95,7 +99,11 @@ class ListElementTest extends \Facebook\Util\BaseHTMLTestCase
     {
         $list =
             ListElement::createUnordered()
-                ->withItems(['Item 1', 'Item 2', 'Item 3']);
+                ->withItems(vec[
+                    ListItem::create()->appendText('Item 1'),
+                    ListItem::create()->appendText('Item 2'),
+                    ListItem::create()->appendText('Item 3'),
+                ]);
 
         $expected =
             '<ul>'.

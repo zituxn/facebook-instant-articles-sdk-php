@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -11,7 +11,7 @@ namespace Facebook\InstantArticles\Elements;
 use Facebook\InstantArticles\Validators\Type;
 
 /**
- * Title for the Document
+ * Subtitle for the Document
  *
  * Example:
  * <h2> This is the first Instant Article</h2>
@@ -23,12 +23,12 @@ class H2 extends TextContainer
     /**
      * @var string text align. Values: "op-left"|"op-center"|"op-right"
      */
-    private $textAlignment;
+    private string $textAlignment = "";
 
     /**
      * @var string text position. Values: "op-vertical-below"|"op-vertical-above"|"op-vertical-center"
      */
-    private $position;
+    private string $position = "";
 
     private function __construct()
     {
@@ -37,7 +37,7 @@ class H2 extends TextContainer
     /**
      * @return H2
      */
-    public static function create()
+    public static function create(): H2
     {
         return new self();
     }
@@ -53,14 +53,14 @@ class H2 extends TextContainer
      *
      * @return $this
      */
-    public function withTextAlignment($text_alignment)
+    public function withTextAlignment(string $text_alignment): this
     {
         Type::enforceWithin(
             $text_alignment,
-            [
+            vec[
                 Caption::ALIGN_RIGHT,
                 Caption::ALIGN_LEFT,
-                Caption::ALIGN_CENTER
+                Caption::ALIGN_CENTER,
             ]
         );
         $this->textAlignment = $text_alignment;
@@ -72,10 +72,9 @@ class H2 extends TextContainer
      * @deprecated
      *
      * @param string $position
-     *
      * @return $this
      */
-    public function withPostion($position)
+    public function withPostion(string $position): this
     {
         return $this->withPosition($position);
     }
@@ -87,18 +86,18 @@ class H2 extends TextContainer
      * @see Caption::POSITION_BELOW
      * @see Caption::POSITION_CENTER
      *
-     * @param string $position
+     * @param string $position that will be used.
      *
      * @return $this
      */
-    public function withPosition($position)
+    public function withPosition(string $position): this
     {
         Type::enforceWithin(
             $position,
-            [
+            vec[
                 Caption::POSITION_ABOVE,
                 Caption::POSITION_BELOW,
-                Caption::POSITION_CENTER
+                Caption::POSITION_CENTER,
             ]
         );
         $this->position = $position;
@@ -107,32 +106,28 @@ class H2 extends TextContainer
     }
 
     /**
-     * Structure and create the H2 in a DOMElement.
+     * Structure and create the H2 in a DOMNode.
      *
-     * @param \DOMDocument $document - The document where this element will be appended (optional).
+     * @param \DOMDocument $document - The document where this element will be appended.
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
 
         $h2 = $document->createElement('h2');
 
-        $classes = [];
+        $classes = vec[];
         if ($this->position) {
             $classes[] = $this->position;
         }
         if ($this->textAlignment) {
             $classes[] = $this->textAlignment;
         }
-        if (!empty($classes)) {
+        if (count($classes) > 0) {
             $h2->setAttribute('class', implode(' ', $classes));
         }
 

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -11,7 +11,7 @@ namespace Facebook\InstantArticles\Elements;
 use Facebook\InstantArticles\Validators\Type;
 
 /**
- * Class SlideShow
+ * Class Slideshow
  * This element Class is the slideshow for the article.
  *
  * Example:
@@ -29,32 +29,32 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
-class Slideshow extends Audible implements ChildrenContainer
+class Slideshow extends Audible implements ChildrenContainer, Captionable
 {
     /**
      * @var Caption The caption for the Slideshow
      */
-    private $caption;
+    private ?Caption $caption;
 
     /**
      * @var Image[] the images hosted on web that will be shown on the slideshow
      */
-    private $article_images = [];
+    private vec<Image> $article_images = vec[];
 
     /**
-     * @var string The json geotag content inside the script geotag
+     * @var GeoTag The json geotag content inside the script geotag
      */
-    private $geotag;
+    private ?GeoTag $geotag;
 
     /**
      * @var Audio The audio if the Slideshow uses audio
      */
-    private $audio;
+    private ?Audio $audio;
 
     /**
-     * @var string The attribution citation text in the <cite>...</cite> tags.
+     * @var Cite The attribution citation text in the <cite>...</cite> tags.
      */
-    private $attribution;
+    private ?Cite $attribution;
 
     private function __construct()
     {
@@ -65,7 +65,7 @@ class Slideshow extends Audible implements ChildrenContainer
      *
      * @return Slideshow the new instance
      */
-    public static function create()
+    public static function create(): Slideshow
     {
         return new self();
     }
@@ -79,9 +79,8 @@ class Slideshow extends Audible implements ChildrenContainer
      *
      * @return $this
      */
-    public function withCaption($caption)
+    public function withCaption(Caption $caption): this
     {
-        Type::enforce($caption, Caption::getClassName());
         $this->caption = $caption;
 
         return $this;
@@ -90,13 +89,12 @@ class Slideshow extends Audible implements ChildrenContainer
     /**
      * Sets the Image list of images for the slideshow. It is REQUIRED.
      *
-     * @param Image[] The images. Ie: http://domain.com/img.png
+     * @param vec<Image> The images. Ie: http://domain.com/img.png
      *
      * @return $this
      */
-    public function withImages($article_images)
+    public function withImages(vec<Image> $article_images): this
     {
-        Type::enforceArrayOf($article_images, Image::getClassName());
         $this->article_images = $article_images;
 
         return $this;
@@ -109,9 +107,8 @@ class Slideshow extends Audible implements ChildrenContainer
      *
      * @return $this
      */
-    public function addImage($article_image)
+    public function addImage(Image $article_image): this
     {
-        Type::enforce($article_image, Image::getClassName());
         $this->article_images[] = $article_image;
 
         return $this;
@@ -122,13 +119,12 @@ class Slideshow extends Audible implements ChildrenContainer
      *
      * @see {link:http://geojson.org/}
      *
-     * @param string $json
+     * @param GeoTag $json
      *
      * @return $this
      */
-    public function withMapGeoTag($json)
+    public function withMapGeoTag(GeoTag $json): this
     {
-        Type::enforce($json, Type::STRING);
         $this->geotag = $json; // TODO Validate the json informed
 
         return $this;
@@ -141,9 +137,8 @@ class Slideshow extends Audible implements ChildrenContainer
      *
      * @return $this
      */
-    public function withAudio($audio)
+    public function withAudio(Audio $audio): this
     {
-        Type::enforce($audio, Audio::getClassName());
         $this->audio = $audio;
 
         return $this;
@@ -152,15 +147,15 @@ class Slideshow extends Audible implements ChildrenContainer
     /**
      * @return Caption The caption object
      */
-    public function getCaption()
+    public function getCaption(): ?Caption
     {
         return $this->caption;
     }
 
     /**
-     * @return Image[] The ArticleImages content of the slideshow
+     * @return vec<Image> The ArticleImages content of the slideshow
      */
-    public function getArticleImages()
+    public function getArticleImages(): vec<Image>
     {
         return $this->article_images;
     }
@@ -168,7 +163,7 @@ class Slideshow extends Audible implements ChildrenContainer
     /**
      * @return string the json for geotag unescaped content
      */
-    public function getGeotag()
+    public function getGeotag(): ?GeoTag
     {
         return $this->geotag;
     }
@@ -176,7 +171,7 @@ class Slideshow extends Audible implements ChildrenContainer
     /**
      * @return Audio The audio object
      */
-    public function getAudio()
+    public function getAudio(): ?Audio
     {
         return $this->audio;
     }
@@ -184,24 +179,20 @@ class Slideshow extends Audible implements ChildrenContainer
     /**
      * @return string the <cite> content
      */
-    public function getAttribution()
+    public function getAttribution(): ?Cite
     {
         return $this->attribution;
     }
 
     /**
-     * Structure and create the full Slideshow in a XML format DOMElement.
+     * Structure and create the full Slideshow in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -224,11 +215,12 @@ class Slideshow extends Audible implements ChildrenContainer
 
         // Geotag markup optional
         if ($this->geotag) {
-            $script_element = $document->createElement('script');
-            $script_element->setAttribute('type', 'application/json');
-            $script_element->setAttribute('class', 'op-geotag');
-            $script_element->appendChild($document->createTextNode($this->geotag));
-            $element->appendChild($script_element);
+            // $script_element = $document->createElement('script');
+            // $script_element->setAttribute('type', 'application/json');
+            // $script_element->setAttribute('class', 'op-geotag');
+            // $script_element->appendChild($document->createTextNode($this->geotag));
+            // $element->appendChild($script_element);
+            $element->appendChild($this->geotag->toDOMElement($document));
         }
 
         // Audio markup optional
@@ -245,7 +237,7 @@ class Slideshow extends Audible implements ChildrenContainer
      * @see Element::isValid().
      * @return true for valid Slideshow that contains at least one Image valid, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         foreach ($this->article_images as $item) {
             if ($item->isValid()) {
@@ -259,11 +251,11 @@ class Slideshow extends Audible implements ChildrenContainer
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren().
-     * @return array of Elements contained by Image.
+     * @return vec of Elements contained by Image.
      */
-    public function getContainerChildren()
+    public function getContainerChildren(): vec<Element>
     {
-        $children = array();
+        $children = vec[];
 
         if ($this->article_images) {
             foreach ($this->article_images as $article_image) {
@@ -274,11 +266,6 @@ class Slideshow extends Audible implements ChildrenContainer
         if ($this->caption) {
             $children[] = $this->caption;
         }
-
-        // // Geotag markup optional
-        // if ($this->geoTag) {
-        //     $children[] = $this->geoTag;
-        // }
 
         // Audio markup optional
         if ($this->audio) {

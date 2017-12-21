@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -11,69 +11,47 @@ namespace Facebook\InstantArticles\Transformer\Warnings;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Validators\Type;
 
-class UnrecognizedElement
-{
-    /**
-     * @var Element
-     */
-    private $context;
-
-    /**
-     * @var \DOMNode
-     */
-    private $node;
-
-    /**
-     * @param Element $context
-     * @param \DOMNode $node
-     */
-    public function __construct($context, $node)
-    {
-        $this->context = $context;
-        if ($node) {
-            $this->node = $node->cloneNode();
-        }
-    }
+class UnrecognizedElement extends TransformerWarning {
+  /**
+   * @param Element $context
+   * @param \DOMNode $node
+   */
+  public function __construct(Element $context, \DOMNode $node) {
+    parent::__construct(
+      null,
+      $context,
+      $node->cloneNode(),
+      null,
+    );
+  }
 
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
-        $reflection = new \ReflectionClass(get_class($this->context));
+        $reflection = new \ReflectionClass(get_class($this->getContext()));
         $className = $reflection->getShortName();
-        if ($this->node) {
-            $nodeName = $this->node->nodeName;
+        if ($this->getNode()) {
+            $nodeName = $this->getNode()?->nodeName;
+        } else {
+          $nodeName = null;
         }
         if (substr($nodeName, 0, 1) === '#') {
-            $nodeDescription = '"'.mb_strimwidth($this->node->textContent, 0, 30, '...').'"';
+            $nodeDescription = '"'.mb_strimwidth($this->getNode()?->textContent, 0, 30, '...').'"';
         } else {
             $nodeDescription = '<';
             $nodeDescription .= $nodeName;
-            if (Type::is($this->node, 'DOMElement')) {
-                $class = $this->node->getAttribute('class');
+            $node = $this->getNode();
+            if ($node instanceof \DOMElement) {
+                $class = $node->getAttribute('class');
                 if ($class) {
                     $nodeDescription .= ' class="'. $class .'"';
                 }
             }
             $nodeDescription .= '>';
         }
-        return "No rules defined for {$nodeDescription} in the context of $className";
-    }
-
-    /**
-     * @return Element
-     */
-    public function getContext()
-    {
-        return $this->context;
-    }
-
-    /**
-     * @return \DOMNode
-     */
-    public function getNode()
-    {
-        return $this->node;
+        return
+            "No rules defined for {$nodeDescription} in the context of $className";
     }
 }

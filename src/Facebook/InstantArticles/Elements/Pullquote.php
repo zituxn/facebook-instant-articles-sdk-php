@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -28,9 +28,9 @@ use Facebook\InstantArticles\Validators\Type;
 class Pullquote extends TextContainer
 {
     /**
-     * @var Cite Content that will be shown on <cite>...</cite> tags.
+     * @var Cite Content that will be shown on <cite>...</cite> tags. Optional.
      */
-    private $attribution;
+    private ?Cite $attribution;
 
     private function __construct()
     {
@@ -39,7 +39,7 @@ class Pullquote extends TextContainer
     /**
      * @return Pullquote
      */
-    public static function create()
+    public static function create(): Pullquote
     {
         return new self();
     }
@@ -47,43 +47,49 @@ class Pullquote extends TextContainer
     /**
      * Sets the attribution string
      *
-     * @param string|Cite $attribution The attribution text
+     * @param Cite $attribution The attribution text
      *
      * @return $this
      */
-    public function withAttribution($attribution)
+    public function withAttribution(Cite $attribution): this
     {
-        Type::enforce($attribution, [Type::STRING, Cite::getClassName()]);
-        if (Type::is($attribution, Type::STRING)) {
-            $this->attribution = Cite::create()->appendText($attribution);
-        } else {
-            $this->attribution = $attribution;
-        }
-
+        $this->attribution = $attribution;
         return $this;
     }
 
     /**
+     * Sets the attribution string
+     *
+     * @param string $attribution The attribution text
+     *
+     * @return $this
+     */
+    public function withAttributionString(string $attribution): this
+    {
+        $cite =  Cite::create();
+        $cite->appendText($attribution);
+        $this->attribution = $cite;
+        return $this;
+    }
+
+
+    /**
      * @return Cite The attribution
      */
-    public function getAttribution()
+    public function getAttribution(): ?Cite
     {
         return $this->attribution;
     }
 
     /**
-     * Structure and create the full Pullquote in a DOMElement.
+     * Structure and create the full Pullquote in a DOMNode.
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -93,7 +99,7 @@ class Pullquote extends TextContainer
         $element->appendChild($this->textToDOMDocumentFragment($document));
 
         // Attribution Citation
-        if ($this->attribution) {
+        if ($this->attribution !== null) {
             $element->appendChild($this->attribution->toDOMElement($document));
         }
 

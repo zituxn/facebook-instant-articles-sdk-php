@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -17,11 +17,11 @@ class FragmentGetter extends AbstractGetter
     /**
      * @var string
      */
-    protected $fragment;
+    protected ?string $fragment;
 
-    public function createFrom($properties)
+    public function createFrom(dict<string, mixed> $properties): this
     {
-        return $this->withFragment($properties['fragment']);
+        return $this->withFragment(Type::mixedToString($properties['fragment']));
     }
 
     /**
@@ -29,15 +29,13 @@ class FragmentGetter extends AbstractGetter
      *
      * @return $this
      */
-    public function withFragment($fragment)
+    public function withFragment(string $fragment): this
     {
-        Type::enforce($fragment, Type::STRING);
         $this->fragment = $fragment;
-
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): mixed
     {
         $fragment = $node->ownerDocument->createDocumentFragment();
         $is_valid_markup = @$fragment->appendXML($this->fragment);

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,42 +8,48 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Header;
 use Facebook\InstantArticles\Elements\Sponsor;
 use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class SponsorRule extends ConfigurationSelectorRule
 {
     const PROPERTY_SPONSOR_PAGE_URL = 'sponsor.page_url';
 
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return Header::getClassName();
+        return vec[Header::getClassName()];
     }
 
-    public static function create()
+    public static function create(): SponsorRule
     {
         return new SponsorRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): SponsorRule
     {
         $sponsor_rule = SponsorRule::create();
 
-        $sponsor_rule->withSelector($configuration['selector']);
-        $sponsor_rule->withProperty(
-            self::PROPERTY_SPONSOR_PAGE_URL,
-            self::retrieveProperty($configuration, self::PROPERTY_SPONSOR_PAGE_URL)
+        $sponsor_rule->withSelector(Type::mixedToString($configuration['selector']));
+
+        $sponsor_rule->withProperties(
+            vec[
+                self::PROPERTY_SPONSOR_PAGE_URL,
+            ],
+            $configuration
         );
 
         return $sponsor_rule;
     }
 
-    public function apply($transformer, $header, $node)
+    public function apply(Transformer $transformer, Element $header, \DOMNode $node): Element
     {
-        $page_url = $this->getProperty(self::PROPERTY_SPONSOR_PAGE_URL, $node);
-        if ($page_url && !Type::isTextEmpty($page_url)) {
+        $page_url = $this->getPropertyString(self::PROPERTY_SPONSOR_PAGE_URL, $node);
+        if ($page_url !== null && !Type::isTextEmpty($page_url)) {
             $sponsor = Sponsor::create();
+            invariant($header instanceof Header, 'Error, $header is not Header.');
             $header->withSponsor($sponsor);
             $sponsor->withPageUrl($page_url);
         }

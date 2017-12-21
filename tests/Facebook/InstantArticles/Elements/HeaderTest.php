@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,8 +10,7 @@ namespace Facebook\InstantArticles\Elements;
 
 class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
 {
-
-    public function testHeaderEmpty()
+    public function testHeaderEmpty(): void
     {
         $header = Header::create();
         $expected = '';
@@ -19,7 +18,7 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testCompleteHeader()
+    public function testCompleteHeader(): void
     {
         date_default_timezone_set('UTC');
 
@@ -28,8 +27,8 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
 
         $header =
             Header::create()
-                ->withTitle('Big Top Title')
-                ->withSubTitle('Smaller SubTitle')
+                ->withTitle(H1::create()->appendText('Big Top Title'))
+                ->withSubTitle(H2::create()->appendText('Smaller SubTitle'))
                 ->withPublishTime(
                     Time::create(Time::PUBLISHED)
                         ->withDatetime(
@@ -59,7 +58,7 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
                         ->withDescription('Weend surfer with heavy weight coding skils')
                         ->withURL('http://facebook.com/author')
                 )
-                ->withKicker('Some kicker of this article')
+                ->withKicker(H3::create()->appendText('Some kicker of this article'))
                 ->withCover(
                     Image::create()
                         ->withURL('https://jpeg.org/images/jpegls-home.jpg')
@@ -84,7 +83,7 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
                         ->withWidth(300)
                         ->withHeight(250)
                         ->enableDefaultForReuse()
-                        ->withHTML($inline)
+                        ->withHTMLString($inline)
                 );
 
         $expected =
@@ -126,7 +125,7 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testHeaderWithSingleDefaultAd()
+    public function testHeaderWithSingleDefaultAd(): void
     {
         $header =
             Header::create()
@@ -151,7 +150,7 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testHeaderWithTitles()
+    public function testHeaderWithTitles(): void
     {
         $header =
             Header::create()
@@ -180,7 +179,7 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testHeaderWithTitlesFormatted()
+    public function testHeaderWithTitlesFormatted(): void
     {
         $header =
             Header::create()
@@ -212,7 +211,7 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testHeaderWithSlideshow()
+    public function testHeaderWithSlideshow(): void
     {
         $header =
             Header::create()
@@ -232,7 +231,7 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
                         ->appendText(Bold::create()->appendText('in Bold'))
                 )
                 ->withCover(
-                    SlideShow::create()
+                    Slideshow::create()
                         ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home.jpg'))
                         ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home2.jpg'))
                         ->addImage(Image::create()->withURL('https://jpeg.org/images/jpegls-home3.jpg'))
@@ -261,7 +260,7 @@ class HeaderTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testHeaderWithSponsor()
+    public function testHeaderWithSponsor(): void
     {
         $header =
             Header::create()

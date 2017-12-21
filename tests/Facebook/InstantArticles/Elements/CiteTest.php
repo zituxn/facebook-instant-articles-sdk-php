@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,7 +10,7 @@ namespace Facebook\InstantArticles\Elements;
 
 class CiteTest extends \Facebook\Util\BaseHTMLTestCase
 {
-    public function testRenderEmpty()
+    public function testRenderEmpty(): void
     {
         $cite = Cite::create();
 
@@ -20,7 +20,7 @@ class CiteTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function testRenderBasic()
+    public function testRenderBasic(): void
     {
         $cite =
             Cite::create()
@@ -35,12 +35,12 @@ class CiteTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithPosition()
+    public function testRenderWithPosition(): void
     {
         $cite =
             Cite::create()
-                ->appendText('Citation simple text.')
-                ->withPosition(Caption::POSITION_ABOVE);
+                ->withPosition(Caption::POSITION_ABOVE)
+                ->appendText('Citation simple text.');
 
         $expected =
             '<cite class="op-vertical-above">'.
@@ -51,12 +51,12 @@ class CiteTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithTextAlign()
+    public function testRenderWithTextAlign(): void
     {
         $cite =
             Cite::create()
-                ->appendText('Citation simple text.')
-                ->withTextAlignment(Caption::ALIGN_LEFT);
+                ->withTextAlignment(Caption::ALIGN_LEFT)
+                ->appendText('Citation simple text.');
 
         $expected =
             '<cite class="op-left">'.
@@ -67,12 +67,12 @@ class CiteTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithVerticalAlign()
+    public function testRenderWithVerticalAlign(): void
     {
         $cite =
           Cite::create()
-            ->appendText('Citation simple text.')
-            ->withVerticalAlignment(Caption::VERTICAL_TOP);
+            ->withVerticalAlignment(Caption::VERTICAL_TOP)
+            ->appendText('Citation simple text.');
 
         $expected =
           '<cite class="op-vertical-top">' .
@@ -83,14 +83,14 @@ class CiteTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithPositionAndAlignment()
+    public function testRenderWithPositionAndAlignment(): void
     {
         $cite =
             Cite::create()
-                ->appendText('Citation simple text.')
                 ->withPosition(Caption::POSITION_ABOVE)
                 ->withTextAlignment(Caption::ALIGN_LEFT)
-                ->withVerticalAlignment(Caption::VERTICAL_TOP);
+                ->withVerticalAlignment(Caption::VERTICAL_TOP)
+                ->appendText('Citation simple text.');
 
         $expected =
             '<cite class="op-vertical-above op-left op-vertical-top">'.
@@ -101,7 +101,7 @@ class CiteTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithUnescapedHTML()
+    public function testRenderWithUnescapedHTML(): void
     {
         $cite =
             Cite::create()
@@ -119,7 +119,7 @@ class CiteTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithFormattedText()
+    public function testRenderWithFormattedText(): void
     {
         $cite =
             Cite::create()
@@ -140,14 +140,14 @@ class CiteTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithLink()
+    public function testRenderWithLink(): void
     {
         $cite =
             Cite::create()
                 ->appendText('Some ')
                 ->appendText(
                     Anchor::create()
-                        ->withHRef('http://foo.com')
+                        ->withHref('http://foo.com')
                         ->appendText('link')
                 )
                 ->appendText('.');
@@ -161,7 +161,7 @@ class CiteTest extends \Facebook\Util\BaseHTMLTestCase
         $this->assertEqualsHtml($expected, $rendered);
     }
 
-    public function testRenderWithNestedFormattedText()
+    public function testRenderWithNestedFormattedText(): void
     {
         $cite =
             Cite::create()

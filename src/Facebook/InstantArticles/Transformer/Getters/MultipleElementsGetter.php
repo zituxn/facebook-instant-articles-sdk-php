@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -17,22 +17,25 @@ class MultipleElementsGetter extends AbstractGetter
     /**
      * @var Getters
      */
-    protected $children = [];
+    protected vec<AbstractGetter> $children = vec[];
 
-    public function createFrom($properties)
+    public function createFrom(dict<string, mixed> $properties): this
     {
-        foreach ($properties['children'] as $getter_configuration) {
-            $this->children[] = GetterFactory::create($getter_configuration);
+        $v = $properties['children'];
+        invariant(is_array($v), "Not array");
+        foreach ($v as $childName => $getter_configuration) {
+            $this->children[] = GetterFactory::create(dict($getter_configuration));
         }
+
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): mixed
     {
         $fragment = $node->ownerDocument->createDocumentFragment();
         foreach ($this->children as $child) {
             $cloned_node = $child->get($node);
-            if (Type::is($cloned_node, 'DOMNode')) {
+            if ($cloned_node instanceof \DOMNode) {
                 $fragment->appendChild($cloned_node);
             }
         }

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -10,21 +10,22 @@ namespace Facebook\InstantArticles\Transformer\Getters;
 
 use Facebook\InstantArticles\Validators\Type;
 
-class XpathGetter extends ChildrenGetter
+class XpathGetter extends AbstractGetter
 {
     /**
      * @var string
      */
-    protected $attribute;
+    protected ?string $attribute;
 
-    public function createFrom($properties)
+    public function createFrom(dict<string, mixed> $properties): this
     {
-        if (isset($properties['selector'])) {
-            $this->withSelector($properties['selector']);
+        if (array_key_exists('selector', $properties)) {
+            $this->withSelector(Type::mixedToString($properties['selector']));
         }
-        if (isset($properties['attribute'])) {
-            $this->withAttribute($properties['attribute']);
+        if (array_key_exists('attribute', $properties)) {
+            $this->withAttribute(Type::mixedToString($properties['attribute']));
         }
+        return $this;
     }
 
     /**
@@ -32,23 +33,21 @@ class XpathGetter extends ChildrenGetter
      *
      * @return $this
      */
-    public function withAttribute($attribute)
+    public function withAttribute(string $attribute): this
     {
-        Type::enforce($attribute, Type::STRING);
         $this->attribute = $attribute;
 
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): mixed
     {
-        Type::enforce($node, 'DOMNode');
         $domXPath = new \DOMXPath($node->ownerDocument);
         $elements = $domXPath->query($this->selector, $node);
 
-        if (!empty($elements) && $elements->item(0)) {
+        if ($elements !== null && $elements->length > 0 && $elements->item(0) !== null) {
             $element = $elements->item(0);
-            if ($this->attribute) {
+            if ($this->attribute !== null) {
                 return $element->getAttribute($this->attribute);
             }
             return $element->textContent;

@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -23,24 +23,20 @@ class ListItem extends TextContainer
     /**
      * @return ListItem
      */
-    public static function create()
+    public static function create(): ListItem
     {
         return new self();
     }
 
     /**
-     * Structure and create the full ListItem <li> in a DOMElement.
+     * Structure and create the full ListItem <li> in a DOMNode.
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }

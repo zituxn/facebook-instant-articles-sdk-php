@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -22,12 +22,12 @@ class LineBreak extends FormattedText
     /**
      * @return LineBreak
      */
-    public static function create()
+    public static function create(): LineBreak
     {
         return new self();
     }
 
-    public function appendText($text)
+    public function appendText(mixed $child): this
     {
         throw new \BadMethodCallException('Cannot append text to a line break');
     }
@@ -37,14 +37,10 @@ class LineBreak extends FormattedText
      *
      * @param \DOMDocument $document - The document where this element will be appended (optional).
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -59,7 +55,7 @@ class LineBreak extends FormattedText
      * <br> tag will never be "invalid".
      * @see TextContainer::isValid().
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return true;
     }

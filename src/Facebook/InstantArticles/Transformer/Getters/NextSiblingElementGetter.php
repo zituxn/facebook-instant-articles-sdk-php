@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -12,52 +12,50 @@ use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Transformer\Transformer;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
-class NextSiblingElementGetter extends ElementGetter
+class NextSiblingElementGetter extends AbstractGetter
 {
-    protected $siblingSelector;
+    protected ?string $siblingSelector;
 
     /**
      * @param string $siblingSelector
      *
      * @return $this
      */
-    public function withSiblingSelector($siblingSelector)
+    public function withSiblingSelector(string $siblingSelector): this
     {
-        Type::enforce($siblingSelector, Type::STRING);
         $this->siblingSelector = $siblingSelector;
 
         return $this;
     }
 
-    public function createFrom($properties)
+    public function createFrom(dict<string, mixed> $properties): this
     {
-        if (isset($properties['selector'])) {
-            $this->withSelector($properties['selector']);
+        if (array_key_exists('selector', $properties)) {
+            $this->withSelector(Type::mixedToString($properties['selector']));
         }
-        if (isset($properties['attribute'])) {
-            $this->withAttribute($properties['attribute']);
+        if (array_key_exists('attribute', $properties)) {
+            $this->withAttribute(Type::mixedToString($properties['attribute']));
         }
-        if (isset($properties['sibling.selector'])) {
-            $this->withSiblingSelector($properties['sibling.selector']);
+        if (array_key_exists('sibling.selector', $properties)) {
+            $this->withSiblingSelector(Type::mixedToString($properties['sibling.selector']));
         }
 
         return $this;
     }
 
-    public function get($node)
+    public function get(\DOMNode $node): mixed
     {
-        Type::enforce($node, 'DOMNode');
-        $elements = self::findAll($node, $this->selector);
-        if (!empty($elements) && $elements->item(0)) {
+        $elements = $this->findAll($node, $this->selector);
+        if ($elements !== null && $elements->length > 0 && $elements->item(0)) {
             $element = $elements->item(0);
             do {
                 $element = $element->nextSibling;
-            } while ($element !== null && !Type::is($element, 'DOMElement'));
+            } while ($element !== null && !($element instanceof \DOMElement));
 
-            if ($element && Type::is($element, 'DOMElement')) {
-                if ($this->siblingSelector) {
-                    $siblings = self::findAll($element, $this->siblingSelector);
-                    if (!empty($siblings) && $siblings->item(0)) {
+            if ($element && $element instanceof \DOMElement) {
+                if ($this->siblingSelector !== null) {
+                    $siblings = $this->findAll($element, $this->siblingSelector);
+                    if ($siblings !== null && $siblings->length > 0 && $siblings->item(0) !== null) {
                         $siblingElement = $siblings->item(0);
                     } else {
                         // Returns null because sibling content doesn't match

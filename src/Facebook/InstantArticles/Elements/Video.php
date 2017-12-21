@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -17,7 +17,7 @@ use Facebook\InstantArticles\Validators\Type;
  * <ul>
  *     <li>Audio</li>
  *     <li>Image</li>
- *     <li>SlideShow</li>
+ *     <li>Slideshow</li>
  *     <li>Map</li>
  * </ul>
  *
@@ -30,11 +30,11 @@ use Facebook\InstantArticles\Validators\Type;
  *
  * @see Audio
  * @see Image
- * @see SlideShow
+ * @see Slideshow
  * @see Map
  * @package Facebook\InstantArticle\Elements
  */
-class Video extends Element implements ChildrenContainer
+class Video extends Element implements ChildrenContainer, GeoTaggable, Captionable
 {
     const ASPECT_FIT = 'aspect-fit';
     const ASPECT_FIT_ONLY = 'aspect-fit-only';
@@ -47,50 +47,50 @@ class Video extends Element implements ChildrenContainer
     /**
      * @var boolean marks if any created image will have likes enabled by default
      */
-    private static $defaultLikeEnabled = false;
+    private static bool $defaultLikeEnabled = false;
 
     /**
      * @var boolean marks if any created image will have comments enabled by default
      */
-    private static $defaultCommentEnabled = false;
+    private static bool $defaultCommentEnabled = false;
 
     /**
      * @var Caption The caption for Video
      */
-    private $caption;
+    private ?Caption $caption;
 
     /**
      * @var string The string url for the video hosted on web that will be shown
      * on the article
      */
-    private $url;
+    private string $url = "";
 
     /**
-     * @var string The video content type. Default: "video/mp4"
+     * @var string The video content type.
      */
-    private $contentType;
+    private string $contentType = "";
 
     /**
      * @var boolean Tells if like is enabled. Default: false
      */
-    private $isLikeEnabled;
+    private bool $isLikeEnabled;
 
     /**
      * @var boolean Tells if comments are enabled. Default: false
      */
-    private $isCommentsEnabled;
+    private bool $isCommentsEnabled;
 
     /**
      * @var boolean Makes the video the cover on news feed.
      *
      * @see {link:https://developers.facebook.com/docs/instant-articles/reference/feed-preview}
      */
-    private $isFeedCover;
+    private bool $isFeedCover = false;
 
     /**
      * @var string Content that will be shown on <cite>...</cite> tags.
      */
-    private $attribution;
+    private string $attribution = "";
 
     /**
      * @var string The picture size for the video.
@@ -100,27 +100,27 @@ class Video extends Element implements ChildrenContainer
      * @see Video::FULLSCREEN
      * @see Video::NON_INTERACTIVE
      */
-    private $presentation;
+    private string $presentation = "";
 
     /**
      * @var GeoTag The json geotag content inside the script geotag
      */
-    private $geoTag;
+    private ?GeoTag $geoTag;
 
     /**
      * @var string URL for the placeholder Image that will be placed while video not loaded.
      */
-    private $imageURL;
+    private string $imageURL = "";
 
     /**
      * @var boolean Default true, so every video will autoplay.
      */
-    private $isAutoplay = true;
+    private bool $isAutoplay = true;
 
     /**
      * @var boolean Default false, so every video will have no controls.
      */
-    private $isControlsShown = false;
+    private bool $isControlsShown = false;
 
     private function __construct()
     {
@@ -133,7 +133,7 @@ class Video extends Element implements ChildrenContainer
      *
      * @return Video the new instance from Video
      */
-    public static function create()
+    public static function create(): Video
     {
         return new self();
     }
@@ -143,14 +143,12 @@ class Video extends Element implements ChildrenContainer
      * made with Caption.
      *
      * @param Caption $caption the caption the video will have
-     * @see Caption.
+     * @see Caption
      * @return $this
      */
-    public function withCaption($caption)
+    public function withCaption(Caption $caption): this
     {
-        Type::enforce($caption, Caption::getClassName());
         $this->caption = $caption;
-
         return $this;
     }
 
@@ -161,11 +159,9 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withURL($url)
+    public function withURL(string $url): this
     {
-        Type::enforce($url, Type::STRING);
         $this->url = $url;
-
         return $this;
     }
 
@@ -181,15 +177,15 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withPresentation($presentation)
+    public function withPresentation(string $presentation): this
     {
         Type::enforceWithin(
             $presentation,
-            [
+            vec[
                 Video::ASPECT_FIT,
                 Video::ASPECT_FIT_ONLY,
                 Video::FULLSCREEN,
-                Video::NON_INTERACTIVE
+                Video::NON_INTERACTIVE,
             ]
         );
         $this->presentation = $presentation;
@@ -202,10 +198,9 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function enableLike()
+    public function enableLike(): this
     {
         $this->isLikeEnabled = true;
-
         return $this;
     }
 
@@ -214,10 +209,9 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function disableLike()
+    public function disableLike(): this
     {
         $this->isLikeEnabled = false;
-
         return $this;
     }
 
@@ -226,10 +220,9 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function enableComments()
+    public function enableComments(): this
     {
         $this->isCommentsEnabled = true;
-
         return $this;
     }
 
@@ -238,10 +231,9 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function disableComments()
+    public function disableComments(): this
     {
         $this->isCommentsEnabled = false;
-
         return $this;
     }
 
@@ -250,7 +242,7 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function enableControls()
+    public function enableControls(): this
     {
         $this->isControlsShown = true;
 
@@ -262,10 +254,9 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function disableControls()
+    public function disableControls(): this
     {
         $this->isControlsShown = false;
-
         return $this;
     }
 
@@ -274,10 +265,9 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function enableAutoplay()
+    public function enableAutoplay(): this
     {
         $this->isAutoplay = true;
-
         return $this;
     }
 
@@ -286,10 +276,9 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function disableAutoplay()
+    public function disableAutoplay(): this
     {
         $this->isAutoplay = false;
-
         return $this;
     }
 
@@ -298,10 +287,9 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function enableFeedCover()
+    public function enableFeedCover(): this
     {
         $this->isFeedCover = true;
-
         return $this;
     }
 
@@ -310,10 +298,9 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function disableFeedCover()
+    public function disableFeedCover(): this
     {
         $this->isFeedCover = false;
-
         return $this;
     }
 
@@ -323,11 +310,9 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withContentType($contentType)
+    public function withContentType(string $contentType): this
     {
-        Type::enforce($contentType, Type::STRING);
         $this->contentType = $contentType;
-
         return $this;
     }
 
@@ -340,18 +325,11 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withGeoTag($geoTag)
+    public function withGeoTag(GeoTag $geoTag): this
     {
-        Type::enforce($geoTag, [Type::STRING, GeoTag::getClassName()]);
-        if (Type::is($geoTag, Type::STRING)) {
-            $this->geoTag = GeoTag::create()->withScript($geoTag);
-        } elseif (Type::is($geoTag, GeoTag::getClassName())) {
-            $this->geoTag = $geoTag;
-        }
-
+        $this->geoTag = $geoTag;
         return $this;
     }
-
 
     /**
      * Sets the attribution string
@@ -360,18 +338,16 @@ class Video extends Element implements ChildrenContainer
      *
      * @return $this
      */
-    public function withAttribution($attribution)
+    public function withAttribution(string $attribution): this
     {
-        Type::enforce($attribution, Type::STRING);
         $this->attribution = $attribution;
-
         return $this;
     }
 
     /**
      * @return Caption gets the caption obj
      */
-    public function getCaption()
+    public function getCaption(): ?Caption
     {
         return $this->caption;
     }
@@ -379,7 +355,7 @@ class Video extends Element implements ChildrenContainer
     /**
      * @return string URL gets the image url
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
@@ -387,7 +363,7 @@ class Video extends Element implements ChildrenContainer
     /**
      * @return string The content-type of video
      */
-    public function getContentType()
+    public function getContentType(): string
     {
         return $this->contentType;
     }
@@ -395,7 +371,7 @@ class Video extends Element implements ChildrenContainer
     /**
      * @return boolean tells if the like button is enabled
      */
-    public function isLikeEnabled()
+    public function isLikeEnabled(): bool
     {
         return $this->isLikeEnabled;
     }
@@ -403,7 +379,7 @@ class Video extends Element implements ChildrenContainer
     /**
      * @return boolean tells if the autoplay is enabled
      */
-    public function isAutoplay()
+    public function isAutoplay(): bool
     {
         return $this->isAutoplay;
     }
@@ -411,7 +387,7 @@ class Video extends Element implements ChildrenContainer
     /**
      * @return boolean tells if the comments widget is enabled
      */
-    public function isCommentsEnabled()
+    public function isCommentsEnabled(): bool
     {
         return $this->isCommentsEnabled;
     }
@@ -419,7 +395,7 @@ class Video extends Element implements ChildrenContainer
     /**
      * @return boolean tells if the controls will be shown
      */
-    public function isControlsShown()
+    public function isControlsShown(): bool
     {
         return $this->isControlsShown;
     }
@@ -432,7 +408,7 @@ class Video extends Element implements ChildrenContainer
      * @see Video::FULLSCREEN
      * @see Video::NON_INTERACTIVE
      */
-    public function getPresentation()
+    public function getPresentation(): string
     {
         return $this->presentation;
     }
@@ -440,7 +416,7 @@ class Video extends Element implements ChildrenContainer
     /**
      * @return GeoTag The geotag content
      */
-    public function getGeotag()
+    public function getGeotag(): ?GeoTag
     {
         return $this->geoTag;
     }
@@ -452,7 +428,7 @@ class Video extends Element implements ChildrenContainer
      * this might not work as expected. (you will need to set this in all working threads manually)
      * @param boolean $enabled inform true to enable likes on videos per default or false to disable like on videos.
      */
-    public static function setDefaultLikeEnabled($enabled)
+    public static function setDefaultLikeEnabled(bool $enabled): void
     {
         self::$defaultLikeEnabled = $enabled;
     }
@@ -464,25 +440,21 @@ class Video extends Element implements ChildrenContainer
      * this might not work as expected. (you will need to set this in all working threads manually)
      * @param boolean $enabled inform true to enable comments on videos per default or false to disable commenting on videos.
      */
-    public static function setDefaultCommentEnabled($enabled)
+    public static function setDefaultCommentEnabled(bool $enabled): void
     {
         self::$defaultCommentEnabled = $enabled;
     }
 
 
     /**
-     * Structure and create the full Video in a XML format DOMElement.
+     * Structure and create the full Video in a XML format DOMNode.
      *
      * @param \DOMDocument $document where this element will be appended. Optional
      *
-     * @return \DOMElement
+     * @return \DOMNode
      */
-    public function toDOMElement($document = null)
+    public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$document) {
-            $document = new \DOMDocument();
-        }
-
         if (!$this->isValid()) {
             return $this->emptyElement($document);
         }
@@ -490,12 +462,12 @@ class Video extends Element implements ChildrenContainer
         $element = $document->createElement('figure');
 
         // Presentation
-        if ($this->presentation) {
+        if (!Type::isTextEmpty($this->presentation)) {
             $element->setAttribute('data-mode', $this->presentation);
         }
 
         // Poster frame / Image placeholder
-        if ($this->imageURL) {
+        if (!Type::isTextEmpty($this->imageURL)) {
             $imageElement = $document->createElement('img');
             $imageElement->setAttribute('src', $this->imageURL);
             $element->appendChild($imageElement);
@@ -517,7 +489,7 @@ class Video extends Element implements ChildrenContainer
         }
 
         // URL markup required
-        if ($this->url) {
+        if (!Type::isTextEmpty($this->url)) {
             $videoElement = $document->createElement('video');
             if (!$this->isAutoplay) {
                 $videoElement->setAttribute('data-fb-disable-autoplay', 'data-fb-disable-autoplay');
@@ -545,7 +517,7 @@ class Video extends Element implements ChildrenContainer
         }
 
         // Attribution Citation
-        if ($this->attribution) {
+        if (!Type::isTextEmpty($this->attribution)) {
             $attributionElement = $document->createElement('cite');
             $attributionElement->appendChild($document->createTextNode($this->attribution));
             $element->appendChild($attributionElement);
@@ -560,7 +532,7 @@ class Video extends Element implements ChildrenContainer
      * @see Element::isValid().
      * @return true for valid Video that contains not empty url, false otherwise.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return !Type::isTextEmpty($this->url);
     }
@@ -569,11 +541,11 @@ class Video extends Element implements ChildrenContainer
      * Implements the ChildrenContainer::getContainerChildren().
      *
      * @see ChildrenContainer::getContainerChildren().
-     * @return array of Elements contained by Video.
+     * @return vec of Elements contained by Video.
      */
-    public function getContainerChildren()
+    public function getContainerChildren(): vec<Element>
     {
-        $children = array();
+        $children = vec[];
 
         if ($this->caption) {
             $children[] = $this->caption;

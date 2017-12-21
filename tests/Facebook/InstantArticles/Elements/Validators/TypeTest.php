@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -19,322 +19,114 @@ use Facebook\InstantArticles\Elements\AnimatedGIF;
  */
 class TypeTest extends \PHPUnit_Framework_TestCase
 {
-
     /*
-        Type check tests ---------------
+        Vec size tests ---------------
      */
-
-    public function testIsType()
+    public function testVecSize(): void
     {
-        $result = Type::is(Caption::create(), [Caption::getClassName()]);
+        $result = Type::isVecSize(vec[1,2,3], 3);
         $this->assertTrue($result);
     }
 
-    public function testIsTypeWithArray()
+    public function testVecNotSize(): void
     {
-        $result = Type::is([1, 2, 3], Type::ARRAY_TYPE);
-        $this->assertTrue($result);
-    }
-
-    public function testIsInSet()
-    {
-        $result = Type::is(
-            Caption::create(),
-            [
-                Caption::getClassName(),
-                InstantArticle::getClassName(),
-                Video::getClassName(),
-                Image::getClassName()
-            ]
-        );
-        $this->assertTrue($result);
-    }
-
-    public function testIsNotIn()
-    {
-        $result = Type::is(
-            Caption::create(),
-            [
-                Image::getClassName()
-            ]
-        );
+        $result = Type::isVecSize(vec[1,2,3], 2);
         $this->assertFalse($result);
     }
 
-    public function testIsNotInException()
+    public function testVecMinSizeExact(): void
+    {
+        $result = Type::isVecSizeGreaterThan(vec[1,2,3], 3);
+        $this->assertTrue($result);
+    }
+
+    public function testVecMinSizeMore(): void
+    {
+        $result = Type::isVecSizeGreaterThan(vec[1,2,3], 2);
+        $this->assertTrue($result);
+    }
+
+    public function testVecMinSizeFew(): void
+    {
+        $result = Type::isVecSizeGreaterThan(vec[1,2,3], 4);
+        $this->assertFalse($result);
+    }
+
+    public function testEnforceVecMinSizeException(): void
     {
         $this->setExpectedException('InvalidArgumentException');
 
-        Type::enforce(
-            Caption::create(),
-            [
-                Image::getClassName()
-            ]
-        );
+        Type::enforceVecSizeGreaterThan(vec[1,2,3], 4);
     }
 
-    public function testIsNotInEmpty()
+    public function testVecMaxSizeExact(): void
     {
-        $result = Type::is(
-            Caption::create(),
-            []
-        );
+        $result = Type::isVecSizeLowerThan(vec[1,2,3], 3);
+        $this->assertTrue($result);
+    }
+
+    public function testVecMaxSizeFew(): void
+    {
+        $result = Type::isVecSizeLowerThan(vec[1,2,3], 4);
+        $this->assertTrue($result);
+    }
+
+    public function testVecMaxSizeMore(): void
+    {
+        $result = Type::isVecSizeLowerThan(vec[1,2,3], 2);
         $this->assertFalse($result);
     }
 
-    public function testIsNotInEmptyException()
+    public function testEnforceVecMaxSizeException(): void
     {
         $this->setExpectedException('InvalidArgumentException');
 
-        Type::enforce(
-            Caption::create(),
-            []
-        );
+        Type::enforceVecSizeLowerThan(vec[1,2,3], 2);
     }
 
-    public function testIsNotInSet()
+    public function testIsWithinTrueString(): void
     {
-        $result = Type::is(
-            Caption::create(),
-            [
-                InstantArticle::getClassName(),
-                Video::getClassName(),
-                Image::getClassName()
-            ]
-        );
-        $this->assertFalse($result);
-    }
-
-    public function testIsNotInSetException()
-    {
-        $this->setExpectedException('InvalidArgumentException');
-
-        Type::enforce(
-            Caption::create(),
-            [
-                InstantArticle::getClassName(),
-                Video::getClassName(),
-                Image::getClassName()
-            ]
-        );
-    }
-
-    public function testIsInInheritance()
-    {
-        $result = Type::is(
-            AnimatedGIF::create(),
-            [
-                Image::getClassName()
-            ]
-        );
+        $result = Type::isWithin('x', vec['x', 'y', 'z']);
         $this->assertTrue($result);
     }
 
-    public function testIsNotInInheritance()
-    {
-        $result = Type::is(
-            AnimatedGIF::create(),
-            [
-                Video::getClassName()
-            ]
-        );
-        $this->assertFalse($result);
-    }
-
-    public function testIsNotInInheritanceException()
-    {
-        $this->setExpectedException('InvalidArgumentException');
-
-        Type::enforce(
-            AnimatedGIF::create(),
-            [
-                Video::getClassName()
-            ]
-        );
-    }
-
-    public function testIsString()
-    {
-        $result = Type::is('test', Type::STRING);
-        $this->assertTrue($result);
-    }
-
-    public function testIsNotString()
-    {
-        $result = Type::is(1, Type::STRING);
-        $this->assertFalse($result);
-    }
-
-    public function testIsNotStringException()
-    {
-        $this->setExpectedException('InvalidArgumentException');
-
-        Type::enforce(1, Type::STRING);
-    }
-
-    public function testIsArrayOfString()
-    {
-        $result = Type::isArrayOf(['1', '2'], Type::STRING);
-        $this->assertTrue($result);
-    }
-
-    public function testIsArrayOfObject()
-    {
-        $result =
-            Type::isArrayOf(
-                [Image::create(), Image::create()],
-                Image::getClassName()
-            );
-        $this->assertTrue($result);
-    }
-
-    public function testIsArrayOfObjects()
-    {
-        $result =
-            Type::isArrayOf(
-                [Image::create(), Video::create()],
-                [Image::getClassName(), Video::getClassName()]
-            );
-        $this->assertTrue($result);
-    }
-
-    public function testIsArrayInInheritance()
-    {
-        $result = Type::isArrayOf(
-            [Image::create(), AnimatedGIF::create()],
-            Image::getClassName()
-        );
-        $this->assertTrue($result);
-    }
-
-    public function testIsNotArrayInInheritance()
-    {
-        $result =
-            Type::isArrayOf(
-                [Image::create(), Video::create()],
-                Image::getClassName()
-            );
-        $this->assertFalse($result);
-    }
-
-    public function testIsNotArrayInInheritanceException()
-    {
-        $this->setExpectedException('InvalidArgumentException');
-
-        Type::enforceArrayOf(
-            [Image::create(), Video::create()],
-            Image::getClassName()
-        );
-    }
-
-    /*
-        Array size tests ---------------
-     */
-    public function testArraySize()
-    {
-        $result = Type::isArraySize([1,2,3], 3);
-        $this->assertTrue($result);
-    }
-
-    public function testArrayNotSize()
-    {
-        $result = Type::isArraySize([1,2,3], 2);
-        $this->assertFalse($result);
-    }
-
-    public function testArrayMinSizeExact()
-    {
-        $result = Type::isArraySizeGreaterThan([1,2,3], 3);
-        $this->assertTrue($result);
-    }
-
-    public function testArrayMinSizeMore()
-    {
-        $result = Type::isArraySizeGreaterThan([1,2,3], 2);
-        $this->assertTrue($result);
-    }
-
-    public function testArrayMinSizeFew()
-    {
-        $result = Type::isArraySizeGreaterThan([1,2,3], 4);
-        $this->assertFalse($result);
-    }
-
-    public function testEnforceArrayMinSizeException()
-    {
-        $this->setExpectedException('InvalidArgumentException');
-
-        Type::enforceArraySizeGreaterThan([1,2,3], 4);
-    }
-
-    public function testArrayMaxSizeExact()
-    {
-        $result = Type::isArraySizeLowerThan([1,2,3], 3);
-        $this->assertTrue($result);
-    }
-
-    public function testArrayMaxSizeFew()
-    {
-        $result = Type::isArraySizeLowerThan([1,2,3], 4);
-        $this->assertTrue($result);
-    }
-
-    public function testArrayMaxSizeMore()
-    {
-        $result = Type::isArraySizeLowerThan([1,2,3], 2);
-        $this->assertFalse($result);
-    }
-
-    public function testEnforceArrayMaxSizeException()
-    {
-        $this->setExpectedException('InvalidArgumentException');
-
-        Type::enforceArraySizeLowerThan([1,2,3], 2);
-    }
-
-    public function testIsWithinTrueString()
-    {
-        $result = Type::isWithin('x', ['x', 'y', 'z']);
-        $this->assertTrue($result);
-    }
-
-    public function testIsWithinTrueObj()
+    public function testIsWithinTrueObj(): void
     {
         $image = Image::create();
         $video = Video::create();
-        $result = Type::isWithin($image, [$image, $video, 'z']);
+        $result = Type::isWithin($image, vec[$image, $video, 'z']);
         $this->assertTrue($result);
     }
 
-    public function testIsWithinFalse()
+    public function testIsWithinFalse(): void
     {
-        $result = Type::isWithin('a', ['x', 'y', 'z']);
+        $result = Type::isWithin('a', vec['x', 'y', 'z']);
         $this->assertFalse($result);
     }
 
-    public function testIsWithinFalseObj()
+    public function testIsWithinFalseObj(): void
     {
         $image = Image::create();
         $video = Video::create();
         $anotherImg = Image::create();
-        $result = Type::isWithin($image, [$anotherImg, $video, 'z']);
+        $result = Type::isWithin($image, vec[$anotherImg, $video, 'z']);
         $this->assertFalse($result);
     }
 
-    public function testEnforceWithinTrueString()
+    public function testEnforceWithinTrueString(): void
     {
-        $result = Type::enforceWithin('x', ['x', 'y', 'z']);
+        $result = Type::enforceWithin('x', vec['x', 'y', 'z']);
         $this->assertTrue($result);
     }
 
-    public function testEnforceWithinExceptionString()
+    public function testEnforceWithinExceptionString(): void
     {
         $this->setExpectedException('InvalidArgumentException');
 
-        Type::enforceWithin('a', ['x', 'y', 'z']);
+        Type::enforceWithin('a', vec['x', 'y', 'z']);
     }
 
-    public function testStringNotEmpty()
+    public function testStringNotEmpty(): void
     {
         $this->assertFalse(Type::isTextEmpty("not empty"));
         $this->assertFalse(Type::isTextEmpty("\nnot empty\t"));
@@ -344,35 +136,36 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(Type::isTextEmpty("<br />"));
     }
 
-    public function testStringEmpty()
+    public function testStringEmpty(): void
     {
         $this->assertTrue(Type::isTextEmpty(""));
         $this->assertTrue(Type::isTextEmpty("  "));
         $this->assertTrue(Type::isTextEmpty("\t\n\r"));
         $this->assertTrue(Type::isTextEmpty("&nbsp;"));
         $this->assertTrue(Type::isTextEmpty("\n"));
+        $this->assertTrue(Type::isTextEmpty(null));
     }
 
-    public function testEnforceElementTag()
+    public function testEnforceElementTag(): void
     {
         $document = new \DOMDocument();
         Type::enforceElementTag($document->createElement('img'), 'img');
     }
 
-    public function testEnforceElementTagFalse()
+    public function testEnforceElementTagFalse(): void
     {
         $document = new \DOMDocument();
         $this->setExpectedException('InvalidArgumentException');
         Type::enforceElementTag($document->createElement('body'), 'img');
     }
 
-    public function testIsElementTag()
+    public function testIsElementTag(): void
     {
         $document = new \DOMDocument();
         $this->assertTrue(Type::isElementTag($document->createElement('img'), 'img'));
     }
 
-    public function testIsElementTagFalse()
+    public function testIsElementTagFalse(): void
     {
         $document = new \DOMDocument();
         $this->assertFalse(Type::isElementTag($document->createElement('body'), 'img'));

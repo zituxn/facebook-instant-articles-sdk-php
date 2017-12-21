@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,36 +8,37 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Elements\Footer;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class ParagraphFooterRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return Footer::getClassName();
+        return vec[Footer::getClassName()];
     }
 
-    public static function create()
+    public static function create(): ParagraphFooterRule
     {
         return new ParagraphFooterRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): ParagraphFooterRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $paragraphFooterRule = self::create();
+        $paragraphFooterRule->withSelector(Type::mixedToString($configuration['selector']));
+        return $paragraphFooterRule;
     }
 
-    public function apply($transformer, $footer, $element)
+    public function apply(Transformer $transformer, Element $footer, \DOMNode $element): Element
     {
         $p = Paragraph::create();
+        invariant($footer instanceof Footer, 'Error, $footer is not Footer');
         $footer->addCredit($p);
         $transformer->transform($p, $element);
         return $footer;
-    }
-
-    public function loadFrom($configuration)
-    {
-        $this->selector = $configuration['selector'];
     }
 }

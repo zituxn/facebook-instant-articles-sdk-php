@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -11,66 +11,40 @@ namespace Facebook\InstantArticles\Transformer\Warnings;
 use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Validators\Type;
 
-class ValidatorWarning
+class ValidatorWarning extends TransformerWarning
 {
     /**
-     * @var Element
+     * @var dict the configuration content
      */
-    private $element;
-
-    /**
-     * @var DOMNode
-     */
-    private $node;
-
-    /**
-     * @var array the configuration content
-     */
-    private $configuration;
+    private dict<string, dict<string, string>> $configuration;
 
     /**
      * @param Element $element
-     * @param DOMNode $node
      */
-    public function __construct($element, $node = null)
+    public function __construct(Element $element)
     {
-        $this->element = $element;
-        $this->node = $node;
+        parent::__construct(null, $element, null, null);
+        $this->configuration = dict[];
     }
 
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->formatWarningMessage();
     }
 
-    /**
-     * @return Element
-     */
-    public function getElement()
+    private function formatWarningMessage(): string
     {
-        return $this->element;
-    }
-
-    /**
-     * @return DOMNode
-     */
-    public function getNode()
-    {
-        return $this->node;
-    }
-
-    private function formatWarningMessage()
-    {
-        $object = Type::stringify($this->element);
         if (!$this->configuration) {
-            $this->configuration = parse_ini_file("validator_warning_messages.ini", true);
+            $this->configuration = dict(parse_ini_file("validator_warning_messages.ini", true));
         }
-        $simple_class_name = substr(strrchr($this->element->getClassName(), '\\'), 1);
 
-        if (!isset($this->configuration['warning_messages'][$simple_class_name])) {
+        $simple_class_name = substr(strrchr($this->getContext()?->getObjClassName(), '\\'), 1);
+
+        if (!array_key_exists('warning_messages', $this->configuration) ||
+            !array_key_exists($simple_class_name, $this->configuration['warning_messages'])) {
             $message = 'Invalid content on the object.';
         } else {
             $message = $this->configuration['warning_messages'][$simple_class_name];

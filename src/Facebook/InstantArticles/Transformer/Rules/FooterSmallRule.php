@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,29 +8,35 @@
  */
 namespace Facebook\InstantArticles\Transformer\Rules;
 
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Footer;
 use Facebook\InstantArticles\Elements\Small;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class FooterSmallRule extends ConfigurationSelectorRule
 {
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return Footer::getClassName();
+        return vec[Footer::getClassName()];
     }
 
-    public static function create()
+    public static function create(): FooterSmallRule
     {
         return new FooterSmallRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): FooterSmallRule
     {
-        return self::create()->withSelector($configuration['selector']);
+        $footerRule = self::create();
+        $footerRule->withSelector(Type::mixedToString($configuration['selector']));
+        return $footerRule;
     }
 
-    public function apply($transformer, $footer, $element)
+    public function apply(Transformer $transformer, Element $footer, \DOMNode $element): Element
     {
         $small = Small::create();
+        invariant($footer instanceof Footer, 'Error, $footer is not Footer.');
         $footer->withCopyright($small);
         $transformer->transform($small, $element);
         return $footer;

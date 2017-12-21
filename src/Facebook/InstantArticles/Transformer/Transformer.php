@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -8,48 +8,80 @@
  */
 namespace Facebook\InstantArticles\Transformer;
 
+use Facebook\InstantArticles\Transformer\Warnings\TransformerWarning;
 use Facebook\InstantArticles\Transformer\Warnings\UnrecognizedElement;
 use Facebook\InstantArticles\Transformer\Rules\Rule;
+use Facebook\InstantArticles\Transformer\Rules\ConfigurationSelectorRule;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Validators\InstantArticleValidator;
 
 class Transformer
 {
     /**
-     * @var Rule[]
+     * @var vec<Rule> This is the internal map for rules to be applied
      */
-    private $rules = [];
+    private vec<Rule> $rules = vec[];
 
     /**
-     * @var array
+     * This bucketized structure is holding the structure for optmizing the processing
+     * of rules during the transformation. The string key is the context to which that Rule applies.
+     * Fetching the Rules by Context, all the rules will be inserted into the value Map with the original
+     * index, so this way we know the original order that rule had, and it will help on merging the Rules
+     * in an applicable order.
+     *
+     * Map example structure, given this addition to the Rules:
+     * $transformer->addRule(new ParagraphRule())
+     * $transformer->addRule(new BoldRule())
+     * $transformer->addRule(new ImageRule())
+     *
+     * Considering these getContextClass() for each Rule:
+     * ParagraphRule::getContextClass() => vec[InstantArticle::class]
+     * BoldRule::getContextClass() => vec[TextContainer::class]
+     * ImageRule::getContextClass() => vec[InstantArticle::class, Paragraph::class]
+     *
+     * This is how the map would be filled in:
+     * dict [ "InstantArticle" ==> dict [ 0 ==> ParagraphRule, 2 ==> ImageRule ],
+     *       "TextContainer" ==> dict [ 1 ==> BoldRule ],
+     *       "Paragraph" ==> dict [ 2 ==> ImageRule ]
+     *     ]
+     *
+     * @var dict<string, dict<int, Rule>> These are the buckets for faster processing the Rules.
      */
-    private $warnings = [];
+    private dict<string, dict<int, Rule>> $bucketedRules = dict[];
 
     /**
-     * @var int
+     * Optmization strategy to keep track of the original order this rule was inserted.
+     * @var int counter for rules
      */
-    private $ruleCount = 0;
+    private int $ruleCount = 0;
+
+    /**
+     * Memoizes each Element class and its parent classes (+ interfaces it implements)
+     * @var dict<string, keyset<string>> Each Element's class with its parent classes.
+     */
+    private static dict<string, keyset<string>> $elementsParents = dict[];
+
+    /**
+     * @var vec<TransformerWarning>
+     */
+    private vec<TransformerWarning> $warnings = vec[];
 
     /**
      * @var bool
      */
-    public $suppress_warnings = false;
-
-    /**
-     * @var array
-     */
-    private static $allClassTypes = [];
+    public bool $suppress_warnings = false;
 
     /**
      * @var InstantArticle the initial context.
      */
-    private $instantArticle;
+    private ?InstantArticle $instantArticle;
 
     /**
      * @var DateTimeZone the timezone for parsing dates. It defaults to 'America/Los_Angeles', but can be customized.
      */
-    private $defaultDateTimeZone;
+    private \DateTimeZone $defaultDateTimeZone;
 
     /**
      * Flag attribute added to elements processed by a getter, so they
@@ -68,14 +100,16 @@ class Transformer
     /**
      * Clones a node for appending to raw-html containing Elements like Interactive.
      *
-     * @param DOMNode $node The node to clone
-     * @return DOMNode The cloned node.
+     * @param DOMElement $node The node to clone
+     * @return DOMElement The cloned node.
      */
-    public static function cloneNode($node)
+    public static function cloneNode(\DOMNode $node): \DOMNode
     {
         $clone = $node->cloneNode(true);
-        if (Type::is($clone, 'DOMElement') && $clone->hasAttribute(self::INSTANT_ARTICLES_PARSED_FLAG)) {
-            $clone->removeAttribute(self::INSTANT_ARTICLES_PARSED_FLAG);
+        if ($clone instanceof \DOMElement) {
+            if ($clone->hasAttribute(self::INSTANT_ARTICLES_PARSED_FLAG)) {
+                $clone->removeAttribute(self::INSTANT_ARTICLES_PARSED_FLAG);
+            }
         }
         return $clone;
     }
@@ -83,11 +117,11 @@ class Transformer
     /**
      * Marks a node as processed.
      *
-     * @param DOMElement $node The node to clone
+     * @param DOMNode $node The node to clone
      */
-    public static function markAsProcessed($node)
+    public static function markAsProcessed(\DOMNode $node): void
     {
-        if (Type::is($node, 'DOMElement')) {
+        if ($node instanceof \DOMElement) {
             $node->setAttribute(self::INSTANT_ARTICLES_PARSED_FLAG, 'true');
         }
     }
@@ -95,45 +129,21 @@ class Transformer
     /**
      * Returns whether a node is processed
      *
-     * @param DOMNode $node The node to clone
+     * @param DOMNode $node The node of interest
+     * @return bool true if node processed already, false otherwise.
      */
-    protected static function isProcessed($node)
+    protected static function isProcessed(\DOMNode $node): bool
     {
-        return Type::is($node, 'DOMElement') && $node->getAttribute(self::INSTANT_ARTICLES_PARSED_FLAG) == 'true';
-    }
-
-
-    /**
-     * Gets all types a given class is, including itself, parent classes and interfaces.
-     *
-     * @param string $className - the name of the className
-     *
-     * @return array of class names the provided class name is
-     */
-    private static function getAllClassTypes($className)
-    {
-        // Memoizes
-        if (isset(self::$allClassTypes[$className])) {
-            return self::$allClassTypes[$className];
+        if ($node instanceof \DOMElement) {
+            return $node->getAttribute(self::INSTANT_ARTICLES_PARSED_FLAG) == 'true';
         }
-
-        $classParents = class_parents($className, true);
-        $classInterfaces = class_implements($className, true);
-        $classNames = [$className];
-        if ($classParents) {
-            $classNames = array_merge($classNames, $classParents);
-        }
-        if ($classInterfaces) {
-            $classNames = array_merge($classNames, $classInterfaces);
-        }
-        self::$allClassTypes[$className] = $classNames;
-        return $classNames;
+        return false;
     }
 
     /**
      * @return array
      */
-    public function getWarnings()
+    public function getWarnings(): vec<TransformerWarning>
     {
         return $this->warnings;
     }
@@ -141,30 +151,24 @@ class Transformer
     /**
      * @param Rule $rule
      */
-    public function addRule($rule)
+    public function addRule(Rule $rule): void
     {
-        Type::enforce($rule, Rule::getClassName());
-
-        // Use context class as a key
-        $contexts = $rule->getContextClass();
-
-        // Handles multiple contexts
-        if (!is_array($contexts)) {
-            $contexts = [$contexts];
-        }
-
-        foreach ($contexts as $context) {
-            if (!isset($this->rules[$context])) {
-                $this->rules[$context] = [];
+        $this->rules[] = $rule;
+        foreach ($rule->getContextClass() as $context) {
+            if (!array_key_exists($context, $this->bucketedRules)) {
+                $this->bucketedRules[$context] = dict[];
             }
-            $this->rules[$context][$this->ruleCount++] = $rule;
+            $contextBucket = $this->bucketedRules[$context];
+            if ($contextBucket !== null) {
+                $this->bucketedRules[$context][$this->ruleCount++] = $rule;
+            }
         }
     }
 
     /**
      * @param $warning
      */
-    public function addWarning($warning)
+    public function addWarning(TransformerWarning $warning): void
     {
         $this->warnings[] = $warning;
     }
@@ -172,7 +176,7 @@ class Transformer
     /**
      * @return InstantArticle the initial context of this Transformer
      */
-    public function getInstantArticle()
+    public function getInstantArticle(): ?InstantArticle
     {
         return $this->instantArticle;
     }
@@ -183,7 +187,7 @@ class Transformer
      *
      * @return mixed
      */
-    public function transformString($context, $content, $encoding = "utf-8")
+    public function transformString(Element $context, string $content, string $encoding = "utf-8"): Element
     {
         $libxml_previous_state = libxml_use_internal_errors(true);
         $document = new \DOMDocument('1.0');
@@ -208,9 +212,9 @@ class Transformer
      *
      * @return mixed
      */
-    public function transform($context, $node)
+    public function transform(Element $context, \DOMNode $node): Element
     {
-        if (Type::is($context, InstantArticle::getClassName())) {
+        if ($context instanceof InstantArticle) {
             $context->addMetaProperty('op:generator:transformer', 'facebook-instant-articles-sdk-php');
             $context->addMetaProperty('op:generator:transformer:version', InstantArticle::CURRENT_VERSION);
             $this->instantArticle = $context;
@@ -231,27 +235,12 @@ class Transformer
                 }
                 $matched = false;
 
-                // Get all classes and interfaces this context extends/implements
-                $contextClassNames = self::getAllClassTypes($context->getClassName());
-
-                // Look for rules applying to any of them as context
-                $matchingContextRules = [];
-                foreach ($contextClassNames as $contextClassName) {
-                    if (isset($this->rules[$contextClassName])) {
-                        // Use array union (+) instead of merge to preserve
-                        // indexes (as they represent the order of insertion)
-                        $matchingContextRules = $matchingContextRules + $this->rules[$contextClassName];
-                    }
-                }
-
-                // Sort by insertion order
-                ksort($matchingContextRules);
-
-                // Process in reverse order
-                $matchingContextRules = array_reverse($matchingContextRules);
+                // Fetches all matching by context rules, so no need to check for context matching again
+                $matchingContextRules = $this->filterMatchingContextRules($current_context);
                 foreach ($matchingContextRules as $rule) {
-                    // We know context was matched, now check if it matches the node
+
                     if ($rule->matchesNode($child)) {
+                        self::markAsProcessed($child);
                         $current_context = $rule->apply($this, $current_context, $child);
                         $matched = true;
 
@@ -263,8 +252,8 @@ class Transformer
                 if (!$matched &&
                     !($child->nodeName === '#text' && trim($child->textContent) === '') &&
                     !($child->nodeName === '#comment') &&
-                    !($child->nodeName === 'html' && Type::is($child, 'DOMDocumentType')) &&
-                    !($child->nodeName === 'xml' && Type::is($child, 'DOMProcessingInstruction')) &&
+                    !($child->nodeName === 'html' && $child instanceof \DOMDocumentType) &&
+                    // !($child->nodeName === 'xml' && $child instanceof \DOMProcessingInstruction) &&
                     !$this->suppress_warnings
                     ) {
                     $tag_content = $child->ownerDocument->saveXML($child);
@@ -281,10 +270,10 @@ class Transformer
     /**
      * @param string $json_file
      */
-    public function loadRules($json_file)
+    public function loadRules(string $json_file): void
     {
         $configuration = json_decode($json_file, true);
-        if ($configuration && isset($configuration['rules'])) {
+        if ($configuration && array_key_exists('rules', $configuration)) {
             foreach ($configuration['rules'] as $configuration_rule) {
                 $class = $configuration_rule['class'];
                 try {
@@ -296,7 +285,7 @@ class Transformer
                             'createFrom'
                         );
                 }
-                $this->addRule($factory_method->invoke(null, $configuration_rule));
+                $this->addRule($factory_method->invoke(null, dict($configuration_rule)));
             }
         }
     }
@@ -304,42 +293,28 @@ class Transformer
     /**
      * Removes all rules already set in this transformer instance.
      */
-    public function resetRules()
+    public function resetRules(): void
     {
-        $this->rules = [];
-        $this->ruleCount = 0;
+        $this->rules = vec[];
     }
 
     /**
      * Gets all rules already set in this transformer instance.
      *
-     * @return Rule[] List of configured rules.
+     * @return vec<Rule> List of configured rules.
      */
-    public function getRules()
+    public function getRules(): vec<Rule>
     {
-        // Do not expose internal map, just a simple array
-        // to keep the interface backwards compatible.
-        $flatten_rules = [];
-        foreach ($this->rules as $ruleset) {
-            foreach ($ruleset as $priority => $rule) {
-                $flatten_rules[$priority] = $rule;
-            }
-        }
-
-        ksort($flatten_rules);
-        return $flatten_rules;
+        return $this->rules;
     }
 
     /**
      * Overrides all rules already set in this transformer instance.
      *
-     * @param Rule[] $rules List of configured rules.
+     * @param vec<Rule> $rules List of configured rules.
      */
-    public function setRules($rules)
+    public function setRules(vec<Rule> $rules): void
     {
-        // Do not receive internal map, just a plain list
-        // to keep the interface backwards compatible.
-        Type::enforceArrayOf($rules, Rule::getClassName());
         $this->resetRules();
         foreach ($rules as $rule) {
             $this->addRule($rule);
@@ -351,9 +326,8 @@ class Transformer
      *
      * @param DateTimeZone $dateTimeZone
      */
-    public function setDefaultDateTimeZone($dateTimeZone)
+    public function setDefaultDateTimeZone(\DateTimeZone $dateTimeZone): void
     {
-        Type::enforce($dateTimeZone, 'DateTimeZone');
         $this->defaultDateTimeZone = $dateTimeZone;
     }
 
@@ -362,8 +336,83 @@ class Transformer
      *
      * @return DateTimeZone
      */
-    public function getDefaultDateTimeZone()
+    public function getDefaultDateTimeZone(): \DateTimeZone
     {
         return $this->defaultDateTimeZone;
+    }
+
+    /**
+     * Gets all types a given class is, including itself, parent classes and interfaces.
+     *
+     * @param string $className - the name of the className
+     *
+     * @return array of class names the provided class name is
+     */
+    private static function getAllClassTypes(string $className): keyset<string>
+    {
+        // Memoizes
+        if (array_key_exists($className, self::$elementsParents)) {
+            return self::$elementsParents[$className];
+        }
+
+        $classParents = keyset(class_parents($className, true));
+        $classInterfaces = keyset(class_implements($className, true));
+        $classNames = keyset[$className];
+        if ($classParents) {
+            $classNames = Type::concatKeyset($classNames, $classParents);
+        }
+        if ($classInterfaces) {
+            $classNames = Type::concatKeyset($classNames, $classInterfaces);
+        }
+        self::$elementsParents[$className] = $classNames;
+        return $classNames;
+    }
+
+    /**
+     * This method fetches all the rules matching the Element $context informed.
+     * It brings all matching by context rules, considering the class name, its
+     * parent classes or interfaces it implements
+     *
+     * @param Element $context The context class to be checked
+     */
+    private function filterMatchingContextRules(Element $context): vec<Rule>
+    {
+        // dict to hold the sparse indexed rules already matched
+        $matching = dict[];
+
+        // Fetches all parent class and interfaces so we have a correct matching
+        $contextClasses = self::getAllClassTypes($context->getObjClassName());
+        foreach ($contextClasses as $contextClass) {
+            if (array_key_exists($contextClass, $this->bucketedRules)) {
+                foreach($this->bucketedRules[$contextClass] as $index => $rule) {
+                    $matching[$index] = $rule;
+                }
+            }
+        }
+
+        // Consider only the matched by context
+        $rulesMatched = vec[];
+
+        // Gets the $matching map keys, orders it into the reverse and generate
+        // the final reverse order rules
+        $keys = array_keys($matching);
+        rsort($keys);
+        foreach ($keys as $key) {
+            $rulesMatched[] = $matching[$key];
+        }
+
+        return $rulesMatched;
+    }
+
+    private static function logMatchingRulesForContext(Element $context, \DOMNode $node, vec<Rule> $matchedRules): string
+    {
+        $logLine = '<'.$node->nodeName.'> '.$context->getObjClassName();
+        foreach($matchedRules as $matchedRule) {
+            $configRule = $matchedRule;
+            invariant($configRule instanceof ConfigurationSelectorRule, 'Should be ConfigurationSelectorRule');
+            $selector = $configRule->getSelector();
+            $logLine = $logLine.PHP_EOL."    ".$matchedRule->getObjClassName().': '.$selector;
+        }
+        return $logLine;
     }
 }

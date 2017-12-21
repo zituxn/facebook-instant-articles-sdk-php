@@ -1,4 +1,4 @@
-<?hh //decl
+<?hh // strict
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -11,29 +11,32 @@ namespace Facebook\InstantArticles\Transformer\Rules;
 use Facebook\InstantArticles\Elements\RelatedItem;
 use Facebook\InstantArticles\Elements\RelatedArticles;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
+use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Transformer\Transformer;
+use Facebook\InstantArticles\Elements\Element;
 
 class RelatedItemRule extends ConfigurationSelectorRule
 {
     const PROPERTY_SPONSORED = 'related.sponsored';
     const PROPERTY_URL = 'related.url';
 
-    public function getContextClass()
+    public function getContextClass(): vec<string>
     {
-        return RelatedArticles::getClassName();
+        return vec[RelatedArticles::getClassName()];
     }
 
-    public static function create()
+    public static function create(): RelatedItemRule
     {
         return new RelatedItemRule();
     }
 
-    public static function createFrom($configuration)
+    public static function createFrom(dict<string, mixed> $configuration): RelatedItemRule
     {
         $related_item_rule = self::create();
-        $related_item_rule->withSelector($configuration['selector']);
+        $related_item_rule->withSelector(Type::mixedToString($configuration['selector']));
 
         $related_item_rule->withProperties(
-            [
+            vec[
                 self::PROPERTY_SPONSORED,
                 self::PROPERTY_URL
             ],
@@ -43,13 +46,14 @@ class RelatedItemRule extends ConfigurationSelectorRule
         return $related_item_rule;
     }
 
-    public function apply($transformer, $related_articles, $node)
+    public function apply(Transformer $transformer, Element $related_articles, \DOMNode $node): Element
     {
+        invariant($related_articles instanceof RelatedArticles, 'Error, $related_articles is not RelatedArticles.');
         $related_item = RelatedItem::create();
         $related_articles->addRelated($related_item);
 
-        $url = $this->getProperty(self::PROPERTY_URL, $node);
-        if ($url) {
+        $url = $this->getPropertyString(self::PROPERTY_URL, $node);
+        if ($url !== null) {
             $related_item->withURL($url);
         } else {
             $transformer->addWarning(
@@ -62,7 +66,7 @@ class RelatedItemRule extends ConfigurationSelectorRule
             );
         }
 
-        if ($this->getProperty(self::PROPERTY_SPONSORED, $node)) {
+        if ($this->getPropertyBoolean(self::PROPERTY_SPONSORED, $node)) {
             $related_item->enableSponsored();
         }
 
