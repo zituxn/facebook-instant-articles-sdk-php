@@ -41,6 +41,8 @@ class LoaderRulesTest extends \Facebook\Util\BaseHTMLTestCase
                 'h3,h4,h5,h6',
                 'img',
                 'blockquote.instagram-media',
+                'img',
+                'img',
             ];
         $this->assertEquals($expectedNames, $selectorNames);
     }
