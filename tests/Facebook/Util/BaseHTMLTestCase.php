@@ -12,26 +12,6 @@ use PHPUnit\Framework\TestCase;
 
 abstract class BaseHTMLTestCase extends TestCase
 {
-    protected function setUp()
-    {
-        \Logger::configure(
-            [
-                'rootLogger' => [
-                    'appenders' => ['facebook-instantarticles-transformer']
-                ],
-                'appenders' => [
-                    'facebook-instantarticles-transformer' => [
-                        'class' => 'LoggerAppenderConsole',
-                        'threshold' => 'INFO',
-                        'layout' => [
-                            'class' => 'LoggerLayoutSimple'
-                        ]
-                    ]
-                ]
-            ]
-        );
-    }
-
     protected function assertEqualsHtml($expected, $actual)
     {
         $from = ['/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/> </s'];

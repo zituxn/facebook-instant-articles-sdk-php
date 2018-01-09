@@ -50,7 +50,7 @@ class InstantArticleStatus
     }
 
     /**
-    * Creates a instance from a status string,.
+    * Creates a instance from a status string.
     *
     * @param string $status the status string, case insensitive.
     * @param array $messages the message from the server
@@ -72,8 +72,6 @@ class InstantArticleStatus
         if ($validStatus) {
             return new self($status, $messages);
         } else {
-            \Logger::getLogger('facebook-instantarticles-client')
-                ->info("Unknown status '$status'. Are you using the last SDK version?");
             return new self(self::UNKNOWN, $messages);
         }
     }

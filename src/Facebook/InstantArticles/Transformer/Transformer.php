@@ -58,6 +58,43 @@ class Transformer
     const INSTANT_ARTICLES_PARSED_FLAG = 'data-instant-articles-element-processed';
 
     /**
+     * LOG_NOLOG means no log will be generated during transformation.
+     */
+    const LOG_OFF = 'OFF';
+
+    /**
+     * LOG_INFO **default** Just the informative logs will be turned on.
+     */
+    const LOG_INFO = 'INFO';
+
+    /**
+     * LOG_DEBUG means all verbose information will be active for debugging purposes.
+     */
+    const LOG_DEBUG = 'DEBUG';
+
+    /**
+     * LOG_ERROR means only errors will be shown.
+     */
+    const LOG_ERROR = 'ERROR';
+
+    private static $LOG_DEFINITION = array(
+        self::LOG_OFF => 0,
+        self::LOG_ERROR => 1,
+        self::LOG_INFO => 2,
+        self::LOG_DEBUG => 3
+    );
+
+    /**
+     * @var string $logLevel The log level set into this transformer instance. Possible values: LOG_NOLOG, LOG_INFO or LOG_DEBUG
+     */
+    private $logLevel = self::LOG_INFO;
+
+    /**
+     * @var string[] $logs The log messages generated during the transformation process.
+     */
+    private $logs = ['Possible log levels: OFF, ERROR, INFO or DEBUG'];
+
+    /**
      * Initializes default values.
      */
     public function __construct()
@@ -178,6 +215,69 @@ class Transformer
     }
 
     /**
+     * Sets the log level from transformer. This should be set before @see Transformer::transform or @see Transformer::transformString are called.
+     * @param $level string The log level to be setted.
+     * @see Transformer::LOG_OFF, Transformer::LOG_INFO, Transformer::LOG_DEBUG
+     */
+    public function setLogLevel($level)
+    {
+        $level = strtoupper($level);
+        Type::enforceWithin(
+            $level,
+            [
+                self::LOG_OFF,
+                self::LOG_INFO,
+                self::LOG_DEBUG,
+                self::LOG_ERROR
+            ]
+        );
+        $this->logLevel = $level;
+    }
+
+    /**
+     * @param $level string The log level message to be added. It will ignore if the level used at @see self::setLogLevel is not proper for this level message.
+     * @param $logMessage string the Log message that will be added if the $level informed is proper based on @see self::setLogLevel.
+     */
+    public function addLog($level, $logMessage)
+    {
+        $level = strtoupper($level);
+        Type::enforceWithin(
+            $level,
+            [
+                self::LOG_OFF,
+                self::LOG_INFO,
+                self::LOG_DEBUG,
+                self::LOG_ERROR
+            ]
+        );
+        if ($this->isLogLevelEnabled($level)) {
+            $this->logs[] = "[$level] $logMessage";
+        }
+    }
+
+    /**
+     * @return bool if $level informed is compatible with the @see self::setLogLevel.
+     * $level must be >= than @see self::setLogLevel.
+     * Order of levels:  LOG_OFF < LOG_DEBUG < LOG_INFO
+     */
+    private function isLogLevelEnabled($level)
+    {
+        $logLevel = self::$LOG_DEFINITION[$this->logLevel];
+        $levelChecked = self::$LOG_DEFINITION[$level];
+
+        return $logLevel >= $levelChecked;
+    }
+
+    /**
+     * Get the log information during the transformation. This should be called once, after transformation is finished already.
+     * @return string[] With each message being one item on this array.
+     */
+    public function getLogs()
+    {
+        return $this->logs;
+    }
+
+    /**
      * @param InstantArticle $context
      * @param string $content
      *
@@ -185,13 +285,22 @@ class Transformer
      */
     public function transformString($context, $content, $encoding = "utf-8")
     {
+        $start = microtime(true);
+        $this->addLog(
+            self::LOG_INFO,
+            "Transformer initiated using encode [$encoding]"
+        );
+        $this->addLog(
+            self::LOG_DEBUG,
+            "Will transform content [$content]"
+        );
         $libxml_previous_state = libxml_use_internal_errors(true);
         $document = new \DOMDocument('1.0');
         if (function_exists('mb_convert_encoding')) {
             $document->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', $encoding));
         } else {
-            $log = \Logger::getLogger('facebook-instantarticles-transformer');
-            $log->debug(
+            $this->addLog(
+                LOG_DEBUG,
                 'Your content encoding is "' . $encoding . '" ' .
                 'but your PHP environment does not have mbstring. Trying to load your content with using meta tags.'
             );
@@ -204,12 +313,20 @@ class Transformer
         }
         libxml_clear_errors();
         libxml_use_internal_errors($libxml_previous_state);
-        return $this->transform($context, $document);
+        $result = $this->transform($context, $document);
+        $totalTime = round((microtime(true) - $start), 3)*1000;
+        $totalWarnings = count($this->getWarnings());
+        $this->addLog(
+            self::LOG_INFO,
+            "Transformer finished in $totalTime ms with ($totalWarnings) warnings"
+        );
+        return $result;
     }
 
     /**
      * @param InstantArticle $context
      * @param \DOMNode $node
+     * @deprecated Use @see Transformer::transformString instead.
      *
      * @return mixed
      */
@@ -221,10 +338,10 @@ class Transformer
             $this->instantArticle = $context;
         }
 
-        $log = \Logger::getLogger('facebook-instantarticles-transformer');
         if (!$node) {
             $e = new \Exception();
-            $log->error(
+            $this->addLog(
+                self::LOG_ERROR,
                 'Transformer::transform($context, $node) requires $node'.
                 ' to be a valid one. Check on the stacktrace if this is '.
                 'some nested transform operation and fix the selector.',
@@ -238,8 +355,6 @@ class Transformer
                     continue;
                 }
                 $matched = false;
-                $log->debug("===========================");
-                $log->debug($child->ownerDocument->saveHtml($child));
 
                 // Get all classes and interfaces this context extends/implements
                 $contextClassNames = self::getAllClassTypes($context->getClassName());
@@ -261,12 +376,22 @@ class Transformer
                 $matchingContextRules = array_reverse($matchingContextRules);
                 foreach ($matchingContextRules as $rule) {
                     // We know context was matched, now check if it matches the node
+                    $className = $rule->getClassName();
                     if ($rule->matchesNode($child)) {
+                        $this->addLog(
+                            self::LOG_DEBUG,
+                            "MATCH -> Rule [$className] applied to node [$child->nodeName]"
+                        );
                         $current_context = $rule->apply($this, $current_context, $child);
                         $matched = true;
 
                         // Just a single rule for each node, so move on
                         break;
+                    } else {
+                        $this->addLog(
+                            self::LOG_DEBUG,
+                            "no match -> rule [$className] not matched to node [$child->nodeName]"
+                        );
                     }
                 }
 
@@ -280,11 +405,16 @@ class Transformer
                     $tag_content = $child->ownerDocument->saveXML($child);
                     $tag_trimmed = trim($tag_content);
                     if (!empty($tag_trimmed)) {
-                        $log->debug('context class: '.get_class($context));
-                        $log->debug('node name: '.$child->nodeName);
-                        $log->debug("CONTENT NOT MATCHED: \n".$tag_content);
+                        $className = $context->getClassName();
+                        $this->addLog(
+                            self::LOG_ERROR,
+                            "Content with no rules matching! Context[$className] and Node [$child->nodeName]"
+                        );
                     } else {
-                        $log->debug('empty content ignored');
+                        $this->addLog(
+                            self::LOG_DEBUG,
+                            "Empty content ignored."
+                        );
                     }
 
                     $this->addWarning(new UnrecognizedElement($current_context, $child));
