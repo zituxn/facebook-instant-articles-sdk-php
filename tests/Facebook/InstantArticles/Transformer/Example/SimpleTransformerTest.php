@@ -9,6 +9,7 @@
 namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Transformer\Logs\TransformerLog;
 use Facebook\Util\BaseHTMLTestCase;
 
 class SimpleTransformerTest extends BaseHTMLTestCase
@@ -23,12 +24,7 @@ class SimpleTransformerTest extends BaseHTMLTestCase
 
         $html_file = file_get_contents(__DIR__ . '/simple.html');
 
-        libxml_use_internal_errors(true);
-        $document = new \DOMDocument();
-        $document->loadHTML($html_file);
-        libxml_use_internal_errors(false);
-
-        $transformer->transform($instant_article, $document);
+        $transformer->transformString($instant_article, $html_file);
         $instant_article->addMetaProperty('op:generator:version', '1.0.0');
         $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
         $result = $instant_article->render('', true)."\n";
@@ -36,6 +32,27 @@ class SimpleTransformerTest extends BaseHTMLTestCase
 
         //var_dump($result);
         // print_r($warnings);
+        $this->assertEqualsHtml($expected, $result);
+    }
+
+    public function testDebugLog()
+    {
+        $expected = array(
+            new TransformerLog(TransformerLog::INFO, 'Possible log levels: OFF, ERROR, INFO or DEBUG. To change it call method TransformerLog::setLevel("DEBUG").'),
+            new TransformerLog(TransformerLog::INFO, 'Transformer initiated using encode [utf-8]')
+        );
+        $json_file = file_get_contents(__DIR__ . '/simple-rules.json');
+
+        $instant_article = InstantArticle::create();
+        $transformer = new Transformer();
+        $transformer->loadRules($json_file);
+
+        $html_file = file_get_contents(__DIR__ . '/simple.html');
+
+        TransformerLog::setLevel(TransformerLog::DEBUG);
+        $transformer->transformString($instant_article, $html_file);
+        $result = array($transformer->getLogs()[0], $transformer->getLogs()[1]);
+
         $this->assertEqualsHtml($expected, $result);
     }
 }
