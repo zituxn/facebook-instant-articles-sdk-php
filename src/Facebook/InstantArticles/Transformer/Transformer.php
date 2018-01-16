@@ -9,6 +9,7 @@
 namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Transformer\Warnings\UnrecognizedElement;
+use Facebook\InstantArticles\Transformer\Logs\TransformerLog;
 use Facebook\InstantArticles\Transformer\Rules\Rule;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Validators\Type;
@@ -58,41 +59,9 @@ class Transformer
     const INSTANT_ARTICLES_PARSED_FLAG = 'data-instant-articles-element-processed';
 
     /**
-     * LOG_NOLOG means no log will be generated during transformation.
+     * @var TransformerLog[] $logs The log messages generated during the transformation process.
      */
-    const LOG_OFF = 'OFF';
-
-    /**
-     * LOG_INFO **default** Just the informative logs will be turned on.
-     */
-    const LOG_INFO = 'INFO';
-
-    /**
-     * LOG_DEBUG means all verbose information will be active for debugging purposes.
-     */
-    const LOG_DEBUG = 'DEBUG';
-
-    /**
-     * LOG_ERROR means only errors will be shown.
-     */
-    const LOG_ERROR = 'ERROR';
-
-    private static $LOG_DEFINITION = array(
-        self::LOG_OFF => 0,
-        self::LOG_ERROR => 1,
-        self::LOG_INFO => 2,
-        self::LOG_DEBUG => 3
-    );
-
-    /**
-     * @var string $logLevel The log level set into this transformer instance. Possible values: LOG_NOLOG, LOG_INFO or LOG_DEBUG
-     */
-    private $logLevel = self::LOG_INFO;
-
-    /**
-     * @var string[] $logs The log messages generated during the transformation process.
-     */
-    private $logs = ['Possible log levels: OFF, ERROR, INFO or DEBUG'];
+    private $logs = array();
 
     /**
      * Initializes default values.
@@ -100,6 +69,10 @@ class Transformer
     public function __construct()
     {
         $this->defaultDateTimeZone = new \DateTimeZone('America/Los_Angeles');
+        $this->addLog(
+            TransformerLog::INFO,
+            'Possible log levels: OFF, ERROR, INFO or DEBUG. To change it call method TransformerLog::setLevel("DEBUG").'
+        );
     }
 
     /**
@@ -215,62 +188,19 @@ class Transformer
     }
 
     /**
-     * Sets the log level from transformer. This should be set before @see Transformer::transform or @see Transformer::transformString are called.
-     * @param $level string The log level to be setted.
-     * @see Transformer::LOG_OFF, Transformer::LOG_INFO, Transformer::LOG_DEBUG
-     */
-    public function setLogLevel($level)
-    {
-        $level = strtoupper($level);
-        Type::enforceWithin(
-            $level,
-            [
-                self::LOG_OFF,
-                self::LOG_INFO,
-                self::LOG_DEBUG,
-                self::LOG_ERROR
-            ]
-        );
-        $this->logLevel = $level;
-    }
-
-    /**
      * @param $level string The log level message to be added. It will ignore if the level used at @see self::setLogLevel is not proper for this level message.
      * @param $logMessage string the Log message that will be added if the $level informed is proper based on @see self::setLogLevel.
      */
-    public function addLog($level, $logMessage)
+    private function addLog($level, $logMessage)
     {
-        $level = strtoupper($level);
-        Type::enforceWithin(
-            $level,
-            [
-                self::LOG_OFF,
-                self::LOG_INFO,
-                self::LOG_DEBUG,
-                self::LOG_ERROR
-            ]
-        );
-        if ($this->isLogLevelEnabled($level)) {
-            $this->logs[] = "[$level] $logMessage";
+        if (TransformerLog::isLevelEnabled($level)) {
+            $this->logs[] = new TransformerLog($level, $logMessage);
         }
     }
 
     /**
-     * @return bool if $level informed is compatible with the @see self::setLogLevel.
-     * $level must be >= than @see self::setLogLevel.
-     * Order of levels:  LOG_OFF < LOG_DEBUG < LOG_INFO
-     */
-    private function isLogLevelEnabled($level)
-    {
-        $logLevel = self::$LOG_DEFINITION[$this->logLevel];
-        $levelChecked = self::$LOG_DEFINITION[$level];
-
-        return $logLevel >= $levelChecked;
-    }
-
-    /**
      * Get the log information during the transformation. This should be called once, after transformation is finished already.
-     * @return string[] With each message being one item on this array.
+     * @return TransformerLog[] With each message being one item on this array.
      */
     public function getLogs()
     {
@@ -287,11 +217,11 @@ class Transformer
     {
         $start = microtime(true);
         $this->addLog(
-            self::LOG_INFO,
+            TransformerLog::INFO,
             "Transformer initiated using encode [$encoding]"
         );
         $this->addLog(
-            self::LOG_DEBUG,
+            TransformerLog::DEBUG,
             "Will transform content [$content]"
         );
         $libxml_previous_state = libxml_use_internal_errors(true);
@@ -300,7 +230,7 @@ class Transformer
             $document->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', $encoding));
         } else {
             $this->addLog(
-                LOG_DEBUG,
+                TransformerLog::DEBUG,
                 'Your content encoding is "' . $encoding . '" ' .
                 'but your PHP environment does not have mbstring. Trying to load your content with using meta tags.'
             );
@@ -317,7 +247,7 @@ class Transformer
         $totalTime = round((microtime(true) - $start), 3)*1000;
         $totalWarnings = count($this->getWarnings());
         $this->addLog(
-            self::LOG_INFO,
+            TransformerLog::INFO,
             "Transformer finished in $totalTime ms with ($totalWarnings) warnings"
         );
         return $result;
@@ -341,7 +271,7 @@ class Transformer
         if (!$node) {
             $e = new \Exception();
             $this->addLog(
-                self::LOG_ERROR,
+                TransformerLog::ERROR,
                 'Transformer::transform($context, $node) requires $node'.
                 ' to be a valid one. Check on the stacktrace if this is '.
                 'some nested transform operation and fix the selector.',
@@ -379,7 +309,7 @@ class Transformer
                     $className = $rule->getClassName();
                     if ($rule->matchesNode($child)) {
                         $this->addLog(
-                            self::LOG_DEBUG,
+                            TransformerLog::DEBUG,
                             "MATCH -> Rule [$className] applied to node [$child->nodeName]"
                         );
                         $current_context = $rule->apply($this, $current_context, $child);
@@ -389,7 +319,7 @@ class Transformer
                         break;
                     } else {
                         $this->addLog(
-                            self::LOG_DEBUG,
+                            TransformerLog::DEBUG,
                             "no match -> rule [$className] not matched to node [$child->nodeName]"
                         );
                     }
@@ -407,12 +337,12 @@ class Transformer
                     if (!empty($tag_trimmed)) {
                         $className = $context->getClassName();
                         $this->addLog(
-                            self::LOG_ERROR,
+                            TransformerLog::ERROR,
                             "Content with no rules matching! Context[$className] and Node [$child->nodeName]"
                         );
                     } else {
                         $this->addLog(
-                            self::LOG_DEBUG,
+                            TransformerLog::DEBUG,
                             "Empty content ignored."
                         );
                     }

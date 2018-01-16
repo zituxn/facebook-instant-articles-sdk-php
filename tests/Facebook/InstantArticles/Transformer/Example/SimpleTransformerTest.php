@@ -9,6 +9,7 @@
 namespace Facebook\InstantArticles\Transformer;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Transformer\Logs\TransformerLog;
 use Facebook\Util\BaseHTMLTestCase;
 
 class SimpleTransformerTest extends BaseHTMLTestCase
@@ -37,8 +38,8 @@ class SimpleTransformerTest extends BaseHTMLTestCase
     public function testDebugLog()
     {
         $expected = array(
-            'Possible log levels: OFF, ERROR, INFO or DEBUG',
-            '[INFO] Transformer initiated using encode [utf-8]',
+            new TransformerLog(TransformerLog::INFO, 'Possible log levels: OFF, ERROR, INFO or DEBUG. To change it call method TransformerLog::setLevel("DEBUG").'),
+            new TransformerLog(TransformerLog::INFO, 'Transformer initiated using encode [utf-8]')
         );
         $json_file = file_get_contents(__DIR__ . '/simple-rules.json');
 
@@ -48,7 +49,7 @@ class SimpleTransformerTest extends BaseHTMLTestCase
 
         $html_file = file_get_contents(__DIR__ . '/simple.html');
 
-        $transformer->setLogLevel(Transformer::LOG_DEBUG);
+        TransformerLog::setLevel(TransformerLog::DEBUG);
         $transformer->transformString($instant_article, $html_file);
         $result = array($transformer->getLogs()[0], $transformer->getLogs()[1]);
 
