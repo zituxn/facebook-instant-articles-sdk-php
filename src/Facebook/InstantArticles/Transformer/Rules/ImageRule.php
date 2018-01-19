@@ -12,6 +12,7 @@ use Facebook\InstantArticles\Elements\Image;
 use Facebook\InstantArticles\Elements\Caption;
 use Facebook\InstantArticles\Elements\Cite;
 use Facebook\InstantArticles\Elements\Paragraph;
+use Facebook\InstantArticles\Elements\Anchor;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 use Facebook\InstantArticles\Validators\Type;
@@ -35,7 +36,8 @@ class ImageRule extends ConfigurationSelectorRule
         return
             [
                 InstantArticle::getClassName(),
-                Paragraph::getClassName()
+                Paragraph::getClassName(),
+                Anchor::getClassName()
             ];
     }
 
