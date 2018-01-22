@@ -34,7 +34,7 @@ use Facebook\InstantArticles\Validators\Type;
 
 class InstantArticle extends Element implements ChildrenContainer, InstantArticleInterface
 {
-    const CURRENT_VERSION = '1.7.0';
+    const CURRENT_VERSION = '1.8.1';
 
     /**
      * The meta properties that are used on <head>
@@ -55,7 +55,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      * @var boolean The ad strategy that will be used. True by default
      */
     private $isAutomaticAdPlaced = true;
-    
+
     /**
      * @var string The ad density that will be used. "default" by default
      */
@@ -70,7 +70,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      * @var string The ad placement strategy that will be used. Optional
      */
     private $adRecirculationPlacement;
-    
+
     /**
      * @var string The charset that will be used. "utf-8" by default.
      */
