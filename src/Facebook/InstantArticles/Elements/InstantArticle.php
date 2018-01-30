@@ -290,7 +290,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
      */
     public function unshiftChild(Element $child): this
     {
-        array_unshift($this->children, $child);
+        array_unshift(&$this->children, $child);
 
         return $this;
     }

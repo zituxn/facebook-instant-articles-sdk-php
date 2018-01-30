@@ -12,8 +12,8 @@ use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Ad;
 use Facebook\InstantArticles\Validators\Type;
-use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 use Facebook\InstantArticles\Transformer\Transformer;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class AdRule extends ConfigurationSelectorRule
 {
@@ -72,7 +72,7 @@ class AdRule extends ConfigurationSelectorRule
 
         $embed_code = $this->getPropertyNode(self::PROPERTY_AD_EMBED_URL, $node);
         if ($embed_code !== null) {
-            $ad->withHTML($embed_code);
+            $ad->withHTML(Transformer::cloneNode($embed_code));
         }
 
         if ($url !== null || $embed_code !== null) {

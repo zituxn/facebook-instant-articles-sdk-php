@@ -12,8 +12,8 @@ use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Analytics;
 use Facebook\InstantArticles\Validators\Type;
-use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 use Facebook\InstantArticles\Transformer\Transformer;
+use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 
 class AnalyticsRule extends ConfigurationSelectorRule
 {
@@ -58,7 +58,7 @@ class AnalyticsRule extends ConfigurationSelectorRule
 
         $embed_code = $this->getPropertyNode(self::PROPERTY_TRACKER_EMBED_URL, $node);
         if ($embed_code !== null) {
-            $analytics->withHTML($embed_code);
+            $analytics->withHTML(Transformer::cloneNode($embed_code));
         }
 
         if ($url !== null || $embed_code !== null) {
