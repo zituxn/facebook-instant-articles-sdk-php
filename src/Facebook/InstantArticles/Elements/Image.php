@@ -33,7 +33,7 @@ use Facebook\InstantArticles\Validators\Type;
  * @see Map
  * @see {link:https://developers.intern.facebook.com/docs/instant-articles/reference/image}
  */
-class Image extends Audible implements ChildrenContainer
+class Image extends Audible
 {
     const ASPECT_FIT = 'aspect-fit';
     const ASPECT_FIT_ONLY = 'aspect-fit-only';
