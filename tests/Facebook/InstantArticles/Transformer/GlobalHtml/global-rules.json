@@ -57,15 +57,7 @@
         },
         {
             "class":"PassThroughRule",
-            "selector":"head"
-        },
-        {
-            "class":"PassThroughRule",
-            "selector":"script"
-        },
-        {
-            "class":"PassThroughRule",
-            "selector":"body"
+            "selector":"head, script, body"
         },
         {
             "class":"ItalicRule",

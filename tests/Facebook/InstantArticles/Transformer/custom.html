@@ -50,6 +50,31 @@
         <script>alert('hi & hello to you @ testing!');</script>
       </iframe>
     </div>
+    <div class="ad">
+        <iframe src="https://www.adserver.com/ss;adtype=banner300x250"></iframe>
+    </div>
+    <div class="ad">
+        <iframe height="300" width="250">
+        <script>
+          window.addEventListener('message', receiveMessage);
+
+          function receiveMessage(event) {
+            if (event.data === 'enters_viewport') {
+              // ad entered viewport
+            }
+          }
+        </script>
+        </iframe>
+    </div>
+    <div class="analytics">
+        <iframe src="https://www.myserver.com/trackingcode"></iframe>
+    </div>
+    <div class="analytics">
+      <iframe>
+        <!-- Include full analytics code here -->
+        <script>alert('testing analytics!');</script>
+      </iframe>
+    </div>
     <table width="200" height="200">
       <thead>
         <td>header 1</td>
