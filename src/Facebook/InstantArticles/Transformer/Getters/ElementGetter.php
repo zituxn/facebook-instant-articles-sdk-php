@@ -25,7 +25,7 @@ class ElementGetter extends AbstractGetter
         $elements = $this->findAll($node, $this->selector);
         if ($elements !== null && $elements->length > 0) {
             Transformer::markAsProcessed($elements->item(0));
-            return Transformer::cloneNode($elements->item(0));
+            return $elements->item(0);
         }
         return null;
     }

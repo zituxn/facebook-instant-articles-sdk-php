@@ -72,7 +72,7 @@ class HeaderAdRule extends ConfigurationSelectorRule
 
         $embed_code = $this->getPropertyNode(self::PROPERTY_AD_EMBED_URL, $node);
         if ($embed_code !== null) {
-            $ad->withHTML($embed_code);
+            $ad->withHTML(Transformer::cloneNode($embed_code));
         }
 
         if ($url !== null || $embed_code !== null) {

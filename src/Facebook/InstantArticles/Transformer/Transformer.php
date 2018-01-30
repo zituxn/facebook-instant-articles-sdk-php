@@ -396,7 +396,7 @@ class Transformer
         // Gets the $matching map keys, orders it into the reverse and generate
         // the final reverse order rules
         $keys = array_keys($matching);
-        rsort($keys);
+        rsort(&$keys);
         foreach ($keys as $key) {
             $rulesMatched[] = $matching[$key];
         }

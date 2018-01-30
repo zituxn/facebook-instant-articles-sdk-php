@@ -12,10 +12,10 @@ use Facebook\InstantArticles\Elements\Element;
 use Facebook\InstantArticles\Elements\Interactive;
 use Facebook\InstantArticles\Elements\Paragraph;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Transformer\Transformer;
 use Facebook\InstantArticles\Transformer\Warnings\InvalidSelector;
 use Facebook\InstantArticles\Transformer\Warnings\NoRootInstantArticleFoundWarning;
 use Facebook\InstantArticles\Validators\Type;
-use Facebook\InstantArticles\Transformer\Transformer;
 
 class InteractiveRule extends ConfigurationSelectorRule
 {
@@ -85,7 +85,7 @@ class InteractiveRule extends ConfigurationSelectorRule
 
         $url = $this->getPropertyString(self::PROPERTY_URL, $node);
         if ($iframe !== null) {
-            $interactive->withHTML($iframe);
+            $interactive->withHTML(Transformer::cloneNode($iframe));
         }
         if ($url !== null) {
             $interactive->withSource($url);

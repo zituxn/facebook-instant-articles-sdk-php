@@ -36,7 +36,7 @@ class MultipleElementsGetter extends AbstractGetter
         foreach ($this->children as $child) {
             $cloned_node = $child->get($node);
             if ($cloned_node instanceof \DOMNode) {
-                $fragment->appendChild($cloned_node);
+                $fragment->appendChild(Transformer::cloneNode($cloned_node));
             }
         }
         if ($fragment->hasChildNodes()) {

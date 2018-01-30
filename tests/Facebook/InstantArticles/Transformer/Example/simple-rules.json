@@ -6,19 +6,7 @@
             },
             {
                 "class": "PassThroughRule",
-                "selector" : "html"
-            },
-            {
-                "class": "PassThroughRule",
-                "selector" : "head"
-            },
-            {
-                "class": "PassThroughRule",
-                "selector" : "script"
-            },
-            {
-                "class": "PassThroughRule",
-                "selector" : "body"
+                "selector" : "html, head, script, body"
             },
             {
                 "class": "ItalicRule",
