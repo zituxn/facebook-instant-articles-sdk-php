@@ -94,6 +94,31 @@
         <script>alert('hi & hello to you @ testing!');</script>
       </iframe>
       </figure>
+      <figure class="op-ad">
+        <iframe src="https://www.adserver.com/ss;adtype=banner300x250"></iframe>
+      </figure>
+      <figure class="op-ad">
+          <iframe width="250" height="300">
+          <script>
+            window.addEventListener('message', receiveMessage);
+
+            function receiveMessage(event) {
+              if (event.data === 'enters_viewport') {
+                // ad entered viewport
+              }
+            }
+          </script>
+          </iframe>
+      </figure>
+      <figure class="op-tracker">
+          <iframe src="https://www.myserver.com/trackingcode"></iframe>
+      </figure>
+      <figure class="op-tracker">
+        <iframe>
+          <!-- Include full analytics code here -->
+          <script>alert('testing analytics!');</script>
+        </iframe>
+      </figure>
       <figure class="op-interactive">
         <iframe class="no-margin" height="200">
           <table width="200" height="200">
