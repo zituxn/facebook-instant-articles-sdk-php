@@ -115,5 +115,4 @@ class Anchor extends FormattedText
     {
         return !Type::isTextEmpty($this->href) && parent::isValid();
     }
-
 }

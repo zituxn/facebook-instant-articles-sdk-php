@@ -123,7 +123,8 @@ abstract class Element
         return $input[1].'="'.htmlspecialchars_decode($input[2]).'"';
     }
 
-    public static function appendChild($element, $child, $document = null) {
+    public static function appendChild($element, $child, $document = null)
+    {
         if ($child !== null && $child->isValid()) {
             $element->appendChild($child->toDOMElement($document));
         }
