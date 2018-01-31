@@ -362,30 +362,22 @@ class Caption extends FormattedText
             $document = new \DOMDocument();
         }
 
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $element = $document->createElement('figcaption');
 
         // title markup REQUIRED
         if ($this->title && (!$this->subTitle && !$this->credit)) {
             $element->appendChild($this->title->textToDOMDocumentFragment($document));
-        } elseif ($this->title) {
-            $element->appendChild($this->title->toDOMElement($document));
+        } else {
+            Element::appendChild($element, $this->title, $document);
         }
 
         // subtitle markup optional
-        if ($this->subTitle) {
-            $element->appendChild($this->subTitle->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->subTitle, $document);
 
         $element->appendChild($this->textToDOMDocumentFragment($document));
 
         // credit markup optional
-        if ($this->credit) {
-            $element->appendChild($this->credit->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->credit, $document);
 
         // Formating markup
         if ($this->textAlignment || $this->verticalAlignment || $this->fontSize || $this->position) {
