@@ -312,10 +312,6 @@ class Image extends Audible
             $document = new \DOMDocument();
         }
 
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $element = $document->createElement('figure');
 
         // Like/comments markup optional
@@ -342,19 +338,13 @@ class Image extends Audible
         }
 
         // Caption markup optional
-        if ($this->caption) {
-            $element->appendChild($this->caption->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->caption, $document);
 
         // Geotag markup optional
-        if ($this->geoTag) {
-            $element->appendChild($this->geoTag->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->geoTag, $document);
 
         // Audio markup optional
-        if ($this->audio) {
-            $element->appendChild($this->audio->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->audio, $document);
 
         return $element;
     }

@@ -199,10 +199,6 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
             $document = new \DOMDocument();
         }
 
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $figure = $document->createElement('figure');
         $iframe = $document->createElement('iframe');
 
@@ -210,9 +206,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer
         $figure->setAttribute('class', 'op-interactive');
 
         // Caption markup optional
-        if ($this->caption) {
-            $figure->appendChild($this->caption->toDOMElement($document));
-        }
+        Element::appendChild($figure, $this->caption, $document);
 
         if ($this->source) {
             $iframe->setAttribute('src', $this->source);

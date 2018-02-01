@@ -711,6 +711,28 @@
                 "attribute": "height"
             }
         }
+    },
+    {
+      "class" : "RelatedArticlesRule",
+      "selector" : "ul.related-articles",
+      "properties" : {
+        "related.title" : {
+          "type" : "string",
+          "selector" : "ul.related-articles",
+          "attribute" : "title"
+        }
+      }
+    },
+    {
+      "class" : "RelatedItemRule",
+      "selector" : "li",
+      "properties" : {
+        "related.url" : {
+          "type" : "string",
+          "selector" : "a",
+          "attribute" : "href"
+        }
+      }
     }
   ]
 }

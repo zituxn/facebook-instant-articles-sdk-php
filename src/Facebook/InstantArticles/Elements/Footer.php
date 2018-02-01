@@ -168,10 +168,6 @@ class Footer extends Element implements ChildrenContainer
             $document = new \DOMDocument();
         }
 
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $footer = $document->createElement('footer');
 
         // Footer markup
@@ -179,7 +175,7 @@ class Footer extends Element implements ChildrenContainer
             $aside = $document->createElement('aside');
             if (is_array($this->credits)) {
                 foreach ($this->credits as $paragraph) {
-                    $aside->appendChild($paragraph->toDOMElement($document));
+                    Element::appendChild($aside, $paragraph, $document);
                 }
             } else {
                 $aside->appendChild($document->createTextNode($this->credits));
@@ -193,13 +189,11 @@ class Footer extends Element implements ChildrenContainer
                 $small->appendChild($document->createTextNode($this->copyright));
                 $footer->appendChild($small);
             } else {
-                $footer->appendChild($this->copyright->toDOMElement($document));
+                Element::appendChild($footer, $this->copyright, $document);
             }
         }
 
-        if ($this->relatedArticles) {
-            $footer->appendChild($this->relatedArticles->toDOMElement($document));
-        }
+        Element::appendChild($footer, $this->relatedArticles, $document);
 
         if (!$this->credits && !$this->copyright && !$this->relatedArticles) {
             $footer->appendChild($document->createTextNode(''));
