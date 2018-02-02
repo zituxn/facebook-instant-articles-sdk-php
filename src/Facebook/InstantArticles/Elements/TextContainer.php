@@ -73,7 +73,7 @@ abstract class TextContainer extends Element implements ChildrenContainer
                 $text = $document->createTextNode($content);
                 $fragment->appendChild($text);
             } elseif ($content instanceof TextContainer) {
-                $fragment->appendChild($content->toDOMElement($document));
+                Element::appendChild($fragment, $content, $document);
             }
         }
 

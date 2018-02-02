@@ -157,10 +157,6 @@ class Ad extends ElementWithHTML
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $figure = $document->createElement('figure');
         $iframe = $document->createElement('iframe');
 

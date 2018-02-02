@@ -365,10 +365,10 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
         return $this;
     }
 
-    public function render(string $doctype = '<!doctype html>', bool $format = false): string
+    public function render(string $doctype = '<!doctype html>', bool $format = false, bool $validate = true): string
     {
         $doctype = is_null($doctype) ? '<!doctype html>' : $doctype;
-        return parent::render($doctype, $format);
+        return parent::render($doctype, $format, false);
     }
 
     public function toDOMElement(\DOMDocument $document): \DOMNode
@@ -422,9 +422,7 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
         $article = $document->createElement('article');
         $body->appendChild($article);
         $html->appendChild($body);
-        if ($this->header && $this->header->isValid()) {
-            $article->appendChild($this->header?->toDOMElement($document));
-        }
+        Element::appendChild($article, $this->header, $document);
         if ($this->children) {
             foreach ($this->children as $child) {
                 if ($child instanceof TextContainer) {
@@ -437,11 +435,9 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
                         }
                     }
                 }
-                $article->appendChild($child->toDOMElement($document));
+                Element::appendChild($article, $child, $document);
             }
-            if ($this->footer && $this->footer->isValid()) {
-                $article->appendChild($this->footer?->toDOMElement($document));
-            }
+            Element::appendChild($article, $this->footer, $document);
         } else {
             $article->appendChild($document->createTextNode(''));
         }

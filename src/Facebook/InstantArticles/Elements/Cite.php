@@ -133,10 +133,6 @@ class Cite extends TextContainer
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $cite = $document->createElement('cite');
 
         $classes = vec[];

@@ -106,10 +106,6 @@ class RelatedArticles extends Element implements \Facebook\InstantArticles\Eleme
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $element = $document->createElement('ul');
         $element->setAttribute('class', 'op-related-articles');
         if ($this->title) {
@@ -118,7 +114,7 @@ class RelatedArticles extends Element implements \Facebook\InstantArticles\Eleme
 
         if ($this->items) {
             foreach ($this->items as $item) {
-                $element->appendChild($item->toDOMElement($document));
+                Element::appendChild($element, $item, $document);
             }
         }
 

@@ -151,10 +151,6 @@ class Time extends Element
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $datetime = $this->date?->format('c');
         $date = $this->date?->format('F jS, g:ia');
 

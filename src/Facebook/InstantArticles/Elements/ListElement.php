@@ -145,10 +145,6 @@ class ListElement extends Element implements ChildrenContainer
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         if ($this->isOrdered) {
             $element = $document->createElement('ol');
         } else {
@@ -157,9 +153,7 @@ class ListElement extends Element implements ChildrenContainer
 
         if ($this->items) {
             foreach ($this->items as $item) {
-                if ($item) {
-                    $element->appendChild($item->toDOMElement($document));
-                }
+                Element::appendChild($element, $item, $document);
             }
         }
 

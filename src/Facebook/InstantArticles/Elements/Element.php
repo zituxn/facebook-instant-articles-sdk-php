@@ -30,14 +30,21 @@ abstract class Element
      *
      * @return string with the content rendered.
      */
-    public function render(string $doctype = '', bool $formatted = false): string
-    {
+  public function render(
+    string $doctype = '',
+    bool $formatted = false,
+    bool $validate = true,
+  ): string    {
         $document = new \DOMDocument();
         $document->preserveWhiteSpace = !$formatted;
         $document->formatOutput = $formatted;
-        $element = $this->toDOMElement($document);
-        $document->appendChild($element);
-        $rendered = $doctype.$document->saveXML($element, LIBXML_NOEMPTYTAG);
+        if (!$validate || ($validate && $this->isValid())) {
+            $element = $this->toDOMElement($document);
+            $document->appendChild($element);
+            $rendered = $doctype.$document->saveXML($element, LIBXML_NOEMPTYTAG);
+        } else {
+            $rendered = '';
+        }
 
         // We can't currently use DOMDocument::saveHTML, because it doesn't produce proper HTML5 markup, so we have to strip CDATA enclosures
         // TODO Consider replacing this workaround with a parent class for elements that will be rendered and in this class use the `srcdoc` attribute to output the (escaped) markup
@@ -94,19 +101,6 @@ abstract class Element
     }
 
     /**
-     * Method to create an empty fragment if isValid() is false in toDOMElement()
-     * @param \DOMDocument $document the document that will contain the empty element.
-     * @see self::isValid().
-     * @see self::toDOMElement().
-     */
-    protected function emptyElement(\DOMDocument $document): \DOMNode
-    {
-        $fragment = $document->createDocumentFragment();
-        $fragment->appendChild($document->createTextNode(''));
-        return $fragment;
-    }
-
-    /**
      * Method that checks if empty element will warn on InstantArticleValidator.
      * @since v1.1.1
      * @see InstantArticleValidator
@@ -131,5 +125,15 @@ abstract class Element
     public function disableEmptyValidation(): bool
     {
         return $this->empty_validation = false;
+    }
+
+  public static function appendChild(
+    \DOMNode $element,
+    ?Element $child,
+    \DOMDocument $document,
+  ): void    {
+        if ($child !== null && $child->isValid()) {
+            $element->appendChild($child->toDOMElement($document));
+        }
     }
 }

@@ -114,10 +114,6 @@ class H2 extends TextContainer
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $h2 = $document->createElement('h2');
 
         $classes = vec[];

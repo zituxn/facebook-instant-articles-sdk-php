@@ -191,10 +191,6 @@ class Interactive extends ElementWithHTML implements ChildrenContainer, Captiona
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $figure = $document->createElement('figure');
         $iframe = $document->createElement('iframe');
 
@@ -202,9 +198,7 @@ class Interactive extends ElementWithHTML implements ChildrenContainer, Captiona
         $figure->setAttribute('class', 'op-interactive');
 
         // Caption markup optional
-        if ($this->caption) {
-            $figure->appendChild($this->caption->toDOMElement($document));
-        }
+        Element::appendChild($figure, $this->caption, $document);
 
         if ($this->source) {
             $iframe->setAttribute('src', $this->source);

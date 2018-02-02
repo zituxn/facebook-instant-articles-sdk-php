@@ -43,10 +43,6 @@ class Paragraph extends TextContainer
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $paragraph = $document->createElement('p');
 
         $paragraph->appendChild($this->textToDOMDocumentFragment($document));

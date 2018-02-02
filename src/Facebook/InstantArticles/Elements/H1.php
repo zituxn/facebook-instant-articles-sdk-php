@@ -114,10 +114,6 @@ class H1 extends TextContainer
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $h1 = $document->createElement('h1');
 
         $classes = vec[];

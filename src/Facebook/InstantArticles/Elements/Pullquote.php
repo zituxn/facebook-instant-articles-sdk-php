@@ -90,19 +90,13 @@ class Pullquote extends TextContainer
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $element = $document->createElement('aside');
 
         $element->appendChild($this->textToDOMDocumentFragment($document));
 
         // Attribution Citation
-        if ($this->attribution !== null) {
-            $element->appendChild($this->attribution->toDOMElement($document));
-        }
-
+        Element::appendChild($element, $this->attribution, $document);
+        
         return $element;
     }
 }
