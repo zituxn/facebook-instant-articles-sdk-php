@@ -277,6 +277,7 @@ class Transformer
                 'some nested transform operation and fix the selector.',
                 $e->getTraceAsString()
             );
+            return $context;
         }
         $current_context = $context;
         if ($node->hasChildNodes()) {
