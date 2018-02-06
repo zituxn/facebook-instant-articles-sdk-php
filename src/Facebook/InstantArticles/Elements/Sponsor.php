@@ -69,10 +69,6 @@ class Sponsor extends Element
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $element = $document->createElement('ul');
         $element->setAttribute('class', 'op-sponsors');
 

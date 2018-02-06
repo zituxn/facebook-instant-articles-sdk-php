@@ -185,10 +185,6 @@ class Audio extends Element
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $element = $document->createElement('audio');
 
         // title markup optional

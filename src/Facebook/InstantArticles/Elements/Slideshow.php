@@ -193,40 +193,24 @@ class Slideshow extends Audible implements ChildrenContainer, Captionable
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $element = $document->createElement('figure');
         $element->setAttribute('class', 'op-slideshow');
 
         // URL markup required
         if ($this->article_images) {
             foreach ($this->article_images as $article_image) {
-                $article_image_element = $article_image->toDOMElement($document);
-                $element->appendChild($article_image_element);
+                Element::appendChild($element, $article_image, $document);
             }
         }
 
         // Caption markup optional
-        if ($this->caption) {
-            $element->appendChild($this->caption->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->caption, $document);
 
         // Geotag markup optional
-        if ($this->geotag) {
-            // $script_element = $document->createElement('script');
-            // $script_element->setAttribute('type', 'application/json');
-            // $script_element->setAttribute('class', 'op-geotag');
-            // $script_element->appendChild($document->createTextNode($this->geotag));
-            // $element->appendChild($script_element);
-            $element->appendChild($this->geotag->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->geotag, $document);
 
         // Audio markup optional
-        if ($this->audio) {
-            $element->appendChild($this->audio->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->audio, $document);
 
         return $element;
     }

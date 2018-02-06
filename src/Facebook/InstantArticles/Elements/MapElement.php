@@ -144,27 +144,17 @@ class MapElement extends Audible implements ChildrenContainer, Captionable, GeoT
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $element = $document->createElement('figure');
         $element->setAttribute('class', 'op-map');
 
         // Geotag markup REQUIRED
-        if ($this->geoTag) {
-            $element->appendChild($this->geoTag->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->geoTag, $document);
 
         // Caption markup optional
-        if ($this->caption) {
-            $element->appendChild($this->caption->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->caption, $document);
 
         // Audio markup optional
-        if ($this->audio) {
-            $element->appendChild($this->audio->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->audio, $document);
 
         return $element;
     }

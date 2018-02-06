@@ -36,10 +36,6 @@ class Div extends TextContainer
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $div = $document->createElement('div');
 
         $div->appendChild($this->textToDOMDocumentFragment($document));

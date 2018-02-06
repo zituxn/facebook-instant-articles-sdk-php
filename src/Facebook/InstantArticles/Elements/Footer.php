@@ -151,10 +151,6 @@ class Footer extends Element implements ChildrenContainer
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $footer = $document->createElement('footer');
 
         // Footer markup
@@ -162,7 +158,7 @@ class Footer extends Element implements ChildrenContainer
             $aside = $document->createElement('aside');
             foreach ($this->credits as $credit) {
                 if ($credit instanceof Paragraph) {
-                    $aside->appendChild($credit->toDOMElement($document));
+                    Element::appendChild($aside, $credit, $document);
                 } elseif (is_string($credit)) {
                     $aside->appendChild($document->createTextNode($credit));
                 }
@@ -170,13 +166,9 @@ class Footer extends Element implements ChildrenContainer
             $footer->appendChild($aside);
         }
 
-        if ($this->copyright) {
-            $footer->appendChild($this->copyright->toDOMElement($document));
-        }
+        Element::appendChild($footer, $this->copyright, $document);
 
-        if ($this->relatedArticles) {
-            $footer->appendChild($this->relatedArticles->toDOMElement($document));
-        }
+        Element::appendChild($footer, $this->relatedArticles, $document); 
 
         if (!$this->credits && !$this->copyright && !$this->relatedArticles) {
             $footer->appendChild($document->createTextNode(''));

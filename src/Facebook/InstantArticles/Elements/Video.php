@@ -455,10 +455,6 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
      */
     public function toDOMElement(\DOMDocument $document): \DOMNode
     {
-        if (!$this->isValid()) {
-            return $this->emptyElement($document);
-        }
-
         $element = $document->createElement('figure');
 
         // Presentation
@@ -507,14 +503,10 @@ class Video extends Element implements ChildrenContainer, GeoTaggable, Captionab
         }
 
         // Caption markup optional
-        if ($this->caption) {
-            $element->appendChild($this->caption->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->caption, $document);
 
         // Geotag markup optional
-        if ($this->geoTag) {
-            $element->appendChild($this->geoTag->toDOMElement($document));
-        }
+        Element::appendChild($element, $this->geoTag, $document);
 
         // Attribution Citation
         if (!Type::isTextEmpty($this->attribution)) {
