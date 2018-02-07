@@ -50,10 +50,10 @@ class DateGetter extends StringGetter
         if (!empty($elements) && $elements->item(0)) {
             $element = $elements->item(0);
 
-            if ($this->attribute) {
+            if ($this->attribute && $this->attribute != 'dateTextContent') {
                 return \DateTime::createFromFormat($this->format, $element->getAttribute($this->attribute));
             }
-            return \DateTime::createFromFormat($this->format, $element->textContent);
+            return \DateTime::createFromFormat('!'.$this->format, trim($element->textContent));
         }
         return null;
     }
