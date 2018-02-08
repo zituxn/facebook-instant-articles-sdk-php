@@ -41,7 +41,6 @@
                 "article.publish": {
                     "selector": "div.date",
                     "type": "date",
-                    "attribute": "dateTextContent",
                     "format": "M j, Y"
                 },
                 "article.body":{
