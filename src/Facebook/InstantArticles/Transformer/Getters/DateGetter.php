@@ -51,9 +51,9 @@ class DateGetter extends StringGetter
             $element = $elements->item(0);
 
             if ($this->attribute) {
-                return \DateTime::createFromFormat($this->format, $element->getAttribute($this->attribute));
+                return \DateTime::createFromFormat('!'.$this->format, $element->getAttribute($this->attribute));
             }
-            return \DateTime::createFromFormat($this->format, $element->textContent);
+            return \DateTime::createFromFormat('!'.$this->format, trim($element->textContent));
         }
         return null;
     }
