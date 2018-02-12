@@ -552,7 +552,9 @@ class InstantArticle extends Element implements ChildrenContainer, InstantArticl
                 if (Type::is($child, TextContainer::getClassName())) {
                     if (count($child->getTextChildren()) === 0) {
                         continue;
-                    } elseif (count($child->getTextChildren()) === 1) {
+                    }
+
+                    if (count($child->getTextChildren()) === 1) {
                         if (Type::is($child->getTextChildren()[0], Type::STRING) &&
                             trim($child->getTextChildren()[0]) === '') {
                             continue;

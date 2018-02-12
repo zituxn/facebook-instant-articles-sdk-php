@@ -48,7 +48,9 @@ abstract class Rule
     {
         if (isset($array[$property_name])) {
             return $array[$property_name];
-        } elseif (isset($array['properties']) && isset($array['properties'][$property_name])) {
+        }
+
+        if (isset($array['properties']) && isset($array['properties'][$property_name])) {
             return $array['properties'][$property_name];
         }
     }

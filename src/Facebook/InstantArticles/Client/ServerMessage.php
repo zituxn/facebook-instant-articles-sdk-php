@@ -72,9 +72,9 @@ class ServerMessage
         );
         if ($validLevel) {
             return new self($level, $message);
-        } else {
-            return new self(self::INFO, $message);
         }
+
+        return new self(self::INFO, $message);
     }
 
     /**
