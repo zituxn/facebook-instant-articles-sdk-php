@@ -244,7 +244,7 @@ class Transformer
         libxml_clear_errors();
         libxml_use_internal_errors($libxml_previous_state);
         $result = $this->transform($context, $document);
-        $totalTime = round((microtime(true) - $start), 3)*1000;
+        $totalTime = round(microtime(true) - $start, 3)*1000;
         $totalWarnings = count($this->getWarnings());
         $this->addLog(
             TransformerLog::INFO,
@@ -318,12 +318,12 @@ class Transformer
 
                         // Just a single rule for each node, so move on
                         break;
-                    } else {
-                        $this->addLog(
-                            TransformerLog::DEBUG,
-                            "no match -> rule [$className] not matched to node [$child->nodeName]"
-                        );
                     }
+
+                    $this->addLog(
+                        TransformerLog::DEBUG,
+                        "no match -> rule [$className] not matched to node [$child->nodeName]"
+                    );
                 }
 
                 if (!$matched &&

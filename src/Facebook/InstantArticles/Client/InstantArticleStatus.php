@@ -71,9 +71,9 @@ class InstantArticleStatus
         );
         if ($validStatus) {
             return new self($status, $messages);
-        } else {
-            return new self(self::UNKNOWN, $messages);
         }
+
+        return new self(self::UNKNOWN, $messages);
     }
 
     /**
