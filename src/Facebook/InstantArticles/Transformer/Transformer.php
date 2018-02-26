@@ -53,6 +53,11 @@ class Transformer
     private $defaultDateTimeZone;
 
     /**
+     * @var string The default style name to be used on the Instant Article generated from this transformation.
+     */
+    private $defaultStyleName;
+
+    /**
      * Flag attribute added to elements processed by a getter, so they
      * are not processed again by other rules.
      */
@@ -244,6 +249,9 @@ class Transformer
         libxml_clear_errors();
         libxml_use_internal_errors($libxml_previous_state);
         $result = $this->transform($context, $document);
+        if (Type::is($result, InstantArticle::getClassName())) {
+            $result = $this->handleTransformationSettings($result);
+        }
         $totalTime = round(microtime(true) - $start, 3)*1000;
         $totalWarnings = count($this->getWarnings());
         $this->addLog(
@@ -362,6 +370,8 @@ class Transformer
     public function loadRules($json_file)
     {
         $configuration = json_decode($json_file, true);
+
+        // Treats the Rules configuration
         if ($configuration && isset($configuration['rules'])) {
             foreach ($configuration['rules'] as $configuration_rule) {
                 $class = $configuration_rule['class'];
@@ -376,6 +386,21 @@ class Transformer
                 }
                 $this->addRule($factory_method->invoke(null, $configuration_rule));
             }
+        }
+
+        // Treats the ADS configuration
+        if ($configuration && isset($configuration['ads'])) {
+            //$this->loadAdsConfiguration($configuration['ads']);
+        }
+
+        // Treats the Analyticds configuration
+        if ($configuration && isset($configuration['analytics'])) {
+            //$this->loadAnalyicsConfiguration($configuration['analytics']);
+        }
+
+        // Treats the Style configuration
+        if ($configuration && isset($configuration['style_name'])) {
+            $this->setDefaultStyleName($configuration['style_name']);
         }
     }
 
@@ -443,5 +468,40 @@ class Transformer
     public function getDefaultDateTimeZone()
     {
         return $this->defaultDateTimeZone;
+    }
+
+    /**
+     * Sets the default style to be applyied to the articles generated from this transformation.
+     *
+     * @param string $defaultStyleName
+     */
+    public function setDefaultStyleName($defaultStyleName)
+    {
+        Type::enforce($defaultStyleName, Type::STRING);
+        $this->defaultStyleName = $defaultStyleName;
+    }
+
+    /**
+     * Gets the default style name for Instant Article generated during transformation.
+     *
+     * @return string
+     */
+    public function getDefaultStyleName()
+    {
+        return $this->defaultStyleName;
+    }
+
+    /**
+     * Applies the settings loaded from the rules.json informed on loadRules method.
+     *
+     * @param InstantArticle The InstantArticle to have the settings set.
+     * @return InstantArticle The article with settings added if needed.
+     */
+    public function handleTransformationSettings($instantArticle)
+    {
+        if (!Type::isTextEmpty($this->getDefaultStyleName())) {
+            $instantArticle->withStyle($this->getDefaultStyleName());
+        }
+        return $instantArticle;
     }
 }
