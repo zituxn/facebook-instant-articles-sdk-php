@@ -11,7 +11,11 @@ namespace Facebook\InstantArticles\Transformer;
 use Facebook\InstantArticles\Transformer\Warnings\UnrecognizedElement;
 use Facebook\InstantArticles\Transformer\Logs\TransformerLog;
 use Facebook\InstantArticles\Transformer\Rules\Rule;
+use Facebook\InstantArticles\Transformer\Settings\AdSettings;
+use Facebook\InstantArticles\Transformer\Settings\AnalyticsSettings;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Elements\Ad;
+use Facebook\InstantArticles\Elements\Analytics;
 use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Validators\InstantArticleValidator;
 
@@ -51,6 +55,21 @@ class Transformer
      * @var DateTimeZone the timezone for parsing dates. It defaults to 'America/Los_Angeles', but can be customized.
      */
     private $defaultDateTimeZone;
+
+    /**
+     * @var string The default style name to be used on the Instant Article generated from this transformation.
+     */
+    private $defaultStyleName;
+
+    /**
+     * @var AdSettings The content settings for ads on this transformation cycle.
+     */
+    private $adsSettings;
+
+    /**
+     * @var AnalyticsSettings The content settings for analytics on this transformation cycle.
+     */
+    private $analyticsSettings;
 
     /**
      * Flag attribute added to elements processed by a getter, so they
@@ -244,6 +263,9 @@ class Transformer
         libxml_clear_errors();
         libxml_use_internal_errors($libxml_previous_state);
         $result = $this->transform($context, $document);
+        if (Type::is($result, InstantArticle::getClassName())) {
+            $result = $this->handleTransformationSettings($result);
+        }
         $totalTime = round(microtime(true) - $start, 3)*1000;
         $totalWarnings = count($this->getWarnings());
         $this->addLog(
@@ -362,6 +384,8 @@ class Transformer
     public function loadRules($json_file)
     {
         $configuration = json_decode($json_file, true);
+
+        // Treats the Rules configuration
         if ($configuration && isset($configuration['rules'])) {
             foreach ($configuration['rules'] as $configuration_rule) {
                 $class = $configuration_rule['class'];
@@ -376,6 +400,21 @@ class Transformer
                 }
                 $this->addRule($factory_method->invoke(null, $configuration_rule));
             }
+        }
+
+        // Treats the ADS configuration
+        if ($configuration && isset($configuration['ads'])) {
+            $this->loadAdsConfiguration($configuration['ads']);
+        }
+
+        // Treats the Analyticds configuration
+        if ($configuration && isset($configuration['analytics'])) {
+            $this->loadAnalyicsConfiguration($configuration['analytics']);
+        }
+
+        // Treats the Style configuration
+        if ($configuration && isset($configuration['style_name'])) {
+            $this->setDefaultStyleName($configuration['style_name']);
         }
     }
 
@@ -443,5 +482,71 @@ class Transformer
     public function getDefaultDateTimeZone()
     {
         return $this->defaultDateTimeZone;
+    }
+
+    /**
+     * Sets the default style to be applyied to the articles generated from this transformation.
+     *
+     * @param string $defaultStyleName
+     */
+    public function setDefaultStyleName($defaultStyleName)
+    {
+        Type::enforce($defaultStyleName, Type::STRING);
+        $this->defaultStyleName = $defaultStyleName;
+    }
+
+    /**
+     * Gets the default style name for Instant Article generated during transformation.
+     *
+     * @return string
+     */
+    public function getDefaultStyleName()
+    {
+        return $this->defaultStyleName;
+    }
+
+    /**
+     * Applies the settings loaded from the rules.json informed on loadRules method.
+     *
+     * @param InstantArticle The InstantArticle to have the settings set.
+     * @return InstantArticle The article with settings added if needed.
+     */
+    public function handleTransformationSettings($instantArticle)
+    {
+        if (!Type::isTextEmpty($this->getDefaultStyleName())) {
+            $instantArticle->withStyle($this->getDefaultStyleName());
+        }
+
+        if ($this->adsSettings) {
+            $ad = $this->adsSettings->getAdElement();
+            if ($ad) {
+                $instantArticle->getHeader()->addAd($ad);
+            }
+        }
+
+        if ($this->analyticsSettings) {
+            $analytics = $this->analyticsSettings->getAnalyticsElement();
+            if ($analytics) {
+                $instantArticle->addChild($analytics);
+            }
+        }
+
+        return $instantArticle;
+    }
+
+    public function loadAdsConfiguration($adsSettings)
+    {
+        $this->adsSettings = new AdSettings(
+            $adsSettings['audience_network_placement_id'],
+            $adsSettings['raw_html']
+        );
+    }
+
+    public function loadAnalyicsConfiguration($analyticsSettings)
+    {
+        $this->analyticsSettings = new AnalyticsSettings(
+            $analyticsSettings['fb_pixel_id'],
+            $analyticsSettings['raw_html']
+        );
     }
 }
