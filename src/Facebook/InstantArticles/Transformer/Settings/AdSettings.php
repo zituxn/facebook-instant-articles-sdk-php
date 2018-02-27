@@ -9,6 +9,7 @@
 namespace Facebook\InstantArticles\Transformer\Settings;
 
 use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Elements\Ad;
 
 class AdSettings
 {
@@ -48,5 +49,29 @@ class AdSettings
     public function getAudienceNetworkPlacementId()
     {
         return $this->audienceNetworkPlacementId;
+    }
+
+    public function getAdElement()
+    {
+        $ad = null;
+
+        if (!Type::isTextEmpty($this->getAudienceNetworkPlacementId()) ||
+            (!Type::isTextEmpty($this->getRawHTML()))) {
+
+            $ad = Ad::create();
+            if (!Type::isTextEmpty($this->getAudienceNetworkPlacementId())) {
+                $ad->withSource(
+                    'https://www.facebook.com/adnw_request?placement='.
+                    $this->getAudienceNetworkPlacementId()
+                );
+            }
+            if (!Type::isTextEmpty($this->getRawHTML())) {
+                $ad->withHTML(
+                    $this->getRawHTML()
+                );
+            }
+        }
+
+        return $ad;
     }
 }

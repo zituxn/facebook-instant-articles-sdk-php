@@ -518,25 +518,17 @@ class Transformer
         }
 
         if ($this->adsSettings) {
-            $ad = Ad::create();
-            if (!Type::isTextEmpty($this->adsSettings->getAudienceNetworkPlacementId())) {
-                $ad->withSource(
-                    'https://www.facebook.com/adnw_request?placement='.
-                    $this->adsSettings->getAudienceNetworkPlacementId()
-                );
+            $ad = $this->adsSettings->getAdElement();
+            if ($ad) {
+                $instantArticle->getHeader()->addAd($ad);
             }
-            if (!Type::isTextEmpty($this->adsSettings->getRawHTML())) {
-                $ad->withHTML(
-                    $this->adsSettings->getRawHTML()
-                );
-            }
-            $instantArticle->getHeader()->addAd($ad);
         }
 
         if ($this->analyticsSettings) {
-            $analytics = Analytics::create();
-            $analytics->withHTML($this->analyticsSettings->getFbPixelScript());
-            $instantArticle->addChild($analytics);
+            $analytics = $this->analyticsSettings->getAnalyticsElement();
+            if ($analytics) {
+                $instantArticle->addChild($analytics);
+            }
         }
 
         return $instantArticle;

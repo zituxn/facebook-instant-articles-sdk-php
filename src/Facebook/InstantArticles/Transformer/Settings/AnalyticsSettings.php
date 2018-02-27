@@ -9,6 +9,7 @@
 namespace Facebook\InstantArticles\Transformer\Settings;
 
 use Facebook\InstantArticles\Validators\Type;
+use Facebook\InstantArticles\Elements\Analytics;
 
 class AnalyticsSettings
 {
@@ -79,5 +80,15 @@ class AnalyticsSettings
         }
 
         return $pixelCode;
+    }
+
+    public function getAnalyticsElement()
+    {
+        $analytics = null;
+        if (!Type::isTextEmpty($this->getFbPixelScript())) {
+            $analytics = Analytics::create();
+            $analytics->withHTML($this->getFbPixelScript());
+        }
+        return $analytics;
     }
 }
