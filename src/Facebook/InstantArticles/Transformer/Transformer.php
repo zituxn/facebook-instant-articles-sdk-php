@@ -11,7 +11,9 @@ namespace Facebook\InstantArticles\Transformer;
 use Facebook\InstantArticles\Transformer\Warnings\UnrecognizedElement;
 use Facebook\InstantArticles\Transformer\Logs\TransformerLog;
 use Facebook\InstantArticles\Transformer\Rules\Rule;
+use Facebook\InstantArticles\Transformer\Settings\AdSettings;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use Facebook\InstantArticles\Elements\Ad;
 use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Validators\InstantArticleValidator;
 
@@ -56,6 +58,11 @@ class Transformer
      * @var string The default style name to be used on the Instant Article generated from this transformation.
      */
     private $defaultStyleName;
+
+    /**
+     * @var AdSettings The content settings for ads on this transformation cycle.
+     */
+    private $adsSettings;
 
     /**
      * Flag attribute added to elements processed by a getter, so they
@@ -390,7 +397,7 @@ class Transformer
 
         // Treats the ADS configuration
         if ($configuration && isset($configuration['ads'])) {
-            //$this->loadAdsConfiguration($configuration['ads']);
+            $this->loadAdsConfiguration($configuration['ads']);
         }
 
         // Treats the Analyticds configuration
@@ -502,6 +509,31 @@ class Transformer
         if (!Type::isTextEmpty($this->getDefaultStyleName())) {
             $instantArticle->withStyle($this->getDefaultStyleName());
         }
+
+        if ($this->adsSettings) {
+            $ad = Ad::create();
+            if (!Type::isTextEmpty($this->adsSettings->getAudienceNetworkPlacementId())) {
+                $ad->withSource(
+                    'https://www.facebook.com/adnw_request?placement='.
+                    $this->adsSettings->getAudienceNetworkPlacementId()
+                );
+            }
+            if (!Type::isTextEmpty($this->adsSettings->getRawHtml())) {
+                $ad->withHTML(
+                    $this->adsSettings->getRawHTML()
+                );
+            }
+            $instantArticle->getHeader()->addAd($ad);
+        }
+
         return $instantArticle;
+    }
+
+    public function loadAdsConfiguration($adsSettings)
+    {
+        $this->adsSettings = new AdSettings(
+            $adsSettings['audience_network_placement_id'],
+            $adsSettings['raw_html']
+        );
     }
 }
