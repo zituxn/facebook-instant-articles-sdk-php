@@ -57,7 +57,6 @@ class AdSettings
 
         if (!Type::isTextEmpty($this->getAudienceNetworkPlacementId()) ||
             (!Type::isTextEmpty($this->getRawHTML()))) {
-
             $ad = Ad::create();
             if (!Type::isTextEmpty($this->getAudienceNetworkPlacementId())) {
                 $ad->withSource(
