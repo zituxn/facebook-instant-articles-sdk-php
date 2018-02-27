@@ -12,8 +12,10 @@ use Facebook\InstantArticles\Transformer\Warnings\UnrecognizedElement;
 use Facebook\InstantArticles\Transformer\Logs\TransformerLog;
 use Facebook\InstantArticles\Transformer\Rules\Rule;
 use Facebook\InstantArticles\Transformer\Settings\AdSettings;
+use Facebook\InstantArticles\Transformer\Settings\AnalyticsSettings;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Elements\Ad;
+use Facebook\InstantArticles\Elements\Analytics;
 use Facebook\InstantArticles\Validators\Type;
 use Facebook\InstantArticles\Validators\InstantArticleValidator;
 
@@ -63,6 +65,11 @@ class Transformer
      * @var AdSettings The content settings for ads on this transformation cycle.
      */
     private $adsSettings;
+
+    /**
+     * @var AnalyticsSettings The content settings for analytics on this transformation cycle.
+     */
+    private $analyticsSettings;
 
     /**
      * Flag attribute added to elements processed by a getter, so they
@@ -402,7 +409,7 @@ class Transformer
 
         // Treats the Analyticds configuration
         if ($configuration && isset($configuration['analytics'])) {
-            //$this->loadAnalyicsConfiguration($configuration['analytics']);
+            $this->loadAnalyicsConfiguration($configuration['analytics']);
         }
 
         // Treats the Style configuration
@@ -518,12 +525,18 @@ class Transformer
                     $this->adsSettings->getAudienceNetworkPlacementId()
                 );
             }
-            if (!Type::isTextEmpty($this->adsSettings->getRawHtml())) {
+            if (!Type::isTextEmpty($this->adsSettings->getRawHTML())) {
                 $ad->withHTML(
                     $this->adsSettings->getRawHTML()
                 );
             }
             $instantArticle->getHeader()->addAd($ad);
+        }
+
+        if ($this->analyticsSettings) {
+            $analytics = Analytics::create();
+            $analytics->withHTML($this->analyticsSettings->getFbPixelScript());
+            $instantArticle->addChild($analytics);
         }
 
         return $instantArticle;
@@ -534,6 +547,14 @@ class Transformer
         $this->adsSettings = new AdSettings(
             $adsSettings['audience_network_placement_id'],
             $adsSettings['raw_html']
+        );
+    }
+
+    public function loadAnalyicsConfiguration($analyticsSettings)
+    {
+        $this->analyticsSettings = new AnalyticsSettings(
+            $analyticsSettings['fb_pixel_id'],
+            $analyticsSettings['raw_html']
         );
     }
 }
