@@ -34,7 +34,7 @@ use Facebook\InstantArticles\Validators\Type;
 
 class InstantArticle extends Element implements ChildrenContainer, InstantArticleInterface
 {
-    const CURRENT_VERSION = '1.9.0';
+    const CURRENT_VERSION = '1.9.1';
 
     /**
      * The meta properties that are used on <head>
