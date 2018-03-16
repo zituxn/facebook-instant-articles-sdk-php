@@ -537,8 +537,8 @@ class Transformer
     public function loadAdsConfiguration($adsSettings)
     {
         $this->adsSettings = new AdSettings(
-            $adsSettings['audience_network_placement_id'],
-            $adsSettings['raw_html']
+            isset($adsSettings['audience_network_placement_id']) ? $adsSettings['audience_network_placement_id'] : '',
+            isset($adsSettings['raw_html']) ? $adsSettings['raw_html'] : ''
         );
     }
 

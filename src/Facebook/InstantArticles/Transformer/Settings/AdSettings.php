@@ -33,6 +33,10 @@ class AdSettings
             !Type::isTextEmpty($rawHTML)) {
             $this->rawHTML = $rawHTML;
         }
+
+        if (!Type::isTextEmpty($audienceNetworkPlacementId) && !Type::isTextEmpty($rawHTML)) {
+            throw new \Exception("You must specify only one Ads Setting, either audience_network_placement_id or raw_html", 1);
+        }
     }
 
     /**

@@ -1,7 +1,8 @@
 {
     "style_name" : "mydefaultstyle",
     "ads" : {
-        "audience_network_placement_id": "1234"
+        "audience_network_placement_id": "1234",
+        "raw_html": "<script>alert('hello ads!');</script><div class='block-ads'></div>"
     },
     "analytics" : {
         "fb_pixel_id": "4321",
