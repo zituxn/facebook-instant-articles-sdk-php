@@ -53,4 +53,28 @@ class SimpleTransformerTest extends BaseHTMLTestCase
 
         $this->assertEqualsHtml($expected, $result);
     }
+
+    public function testSelfTransformerContentMultipleAdsSettings()
+    {
+        $this->setExpectedException(
+            'Exception',
+            'You must specify only one Ads Setting, either audience_network_placement_id or raw_html'
+        );
+
+        $json_file = file_get_contents(__DIR__ . '/simple-rules-multiple-ads-settings.json');
+
+        $instant_article = InstantArticle::create();
+        $transformer = new Transformer();
+        $transformer->loadRules($json_file);
+
+        $html_file = file_get_contents(__DIR__ . '/simple.html');
+
+        $transformer->transformString($instant_article, $html_file);
+        $instant_article->addMetaProperty('op:generator:version', '1.0.0');
+        $instant_article->addMetaProperty('op:generator:transformer:version', '1.0.0');
+        $result = $instant_article->render('', true)."\n";
+        $expected = file_get_contents(__DIR__ . '/simple-ia.html');
+
+        $this->assertEqualsHtml($expected, $result);
+    }
 }
