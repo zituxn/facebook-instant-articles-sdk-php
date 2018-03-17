@@ -77,4 +77,37 @@ class SimpleTransformerTest extends BaseHTMLTestCase
 
         $this->assertEqualsHtml($expected, $result);
     }
+
+    public function testTransformerInvalidSyntaxRules()
+    {
+        $expected_error = new TransformerLog(TransformerLog::ERROR, 'Invalid JSON Rules: Syntax error, malformed JSON');
+        $json_file = file_get_contents(__DIR__ . '/invalid-rules-syntax.json');
+
+        $transformer = new Transformer();
+        $transformer->loadRules($json_file);
+
+        TransformerLog::setLevel(TransformerLog::DEBUG);
+        $result = $transformer->getLogs()[1];
+
+        $this->assertEquals($expected_error, $result);
+    }
+
+    public function testTransformerUnexpectedControlCharacterRules()
+    {
+        // For PHP < 7
+        $expected_error1 = new TransformerLog(TransformerLog::ERROR, 'Invalid JSON Rules: Syntax error, malformed JSON');
+
+        // For PHP >= 7
+        $expected_error2 = new TransformerLog(TransformerLog::ERROR, 'Invalid JSON Rules: Unexpected control character found');
+
+        $json_file = file_get_contents(__DIR__ . '/invalid-rules-unexpected-character.json');
+
+        $transformer = new Transformer();
+        $transformer->loadRules($json_file);
+
+        TransformerLog::setLevel(TransformerLog::DEBUG);
+        $result = $transformer->getLogs()[1];
+
+        $this->assertEquals($expected_error1 == $result || $expected_error2 == $result, true);
+    }
 }
