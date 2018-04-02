@@ -380,10 +380,74 @@ class Transformer
 
     /**
      * @param string $json_file
+     *
+     * @return configuration
+     */
+    public function validateJSON($json_file)
+    {
+        $configuration = json_decode($json_file, true);
+
+        switch (json_last_error()) {
+            case JSON_ERROR_NONE:
+                break;
+            case JSON_ERROR_DEPTH:
+                $this->addWarning('Invalid JSON Rules: Maximum stack depth exceeded');
+                $this->addLog(
+                    TransformerLog::ERROR,
+                    "Invalid JSON Rules: Maximum stack depth exceeded"
+                );
+                $configuration = '';
+                break;
+            case JSON_ERROR_STATE_MISMATCH:
+                $this->addWarning('Invalid JSON Rules: Underflow or the modes mismatch');
+                $this->addLog(
+                    TransformerLog::ERROR,
+                    "Invalid JSON Rules: Underflow or the modes mismatch"
+                );
+                $configuration = '';
+                break;
+            case JSON_ERROR_CTRL_CHAR:
+                $this->addWarning('Invalid JSON Rules: Unexpected control character found');
+                $this->addLog(
+                    TransformerLog::ERROR,
+                    "Invalid JSON Rules: Unexpected control character found"
+                );
+                $configuration = '';
+                break;
+            case JSON_ERROR_SYNTAX:
+                $this->addWarning('Invalid JSON Rules: Syntax error, malformed JSON');
+                $this->addLog(
+                    TransformerLog::ERROR,
+                    "Invalid JSON Rules: Syntax error, malformed JSON"
+                );
+                $configuration = '';
+                break;
+            case JSON_ERROR_UTF8:
+                $this->addWarning('Invalid JSON Rules: Malformed UTF-8 characters, possibly incorrectly encoded');
+                $this->addLog(
+                    TransformerLog::ERROR,
+                    "Invalid JSON Rules: Malformed UTF-8 characters, possibly incorrectly encoded"
+                );
+                $configuration = '';
+                break;
+            default:
+                $this->addWarning('Invalid JSON Rules');
+                $this->addLog(
+                    TransformerLog::ERROR,
+                    "Invalid JSON Rules"
+                );
+                $configuration = '';
+                break;
+        }
+        return $configuration;
+    }
+
+    /**
+     * @param string $json_file
      */
     public function loadRules($json_file)
     {
-        $configuration = json_decode($json_file, true);
+        $configuration = $this->validateJSON($json_file);
 
         // Treats the Rules configuration
         if ($configuration && isset($configuration['rules'])) {
