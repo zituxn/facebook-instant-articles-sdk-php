@@ -455,14 +455,22 @@ class Transformer
                 $class = $configuration_rule['class'];
                 try {
                     $factory_method = new \ReflectionMethod($class, 'createFrom');
+                    $this->addRule($factory_method->invoke(null, $configuration_rule));
                 } catch (\ReflectionException $e) {
-                    $factory_method =
-                        new \ReflectionMethod(
-                            'Facebook\\InstantArticles\\Transformer\\Rules\\'.$class,
+                    try {
+                        $factory_method = new \ReflectionMethod(
+                            'Facebook\\InstantArticles\\Transformer\\Rules\\' . $class,
                             'createFrom'
                         );
+                        $this->addRule($factory_method->invoke(null, $configuration_rule));
+                    } catch (\ReflectionException $e) {
+                        $this->addWarning("$class was not found");
+                        $this->addLog(
+                            TransformerLog::ERROR,
+                            "$class was not found"
+                        );
+                    }
                 }
-                $this->addRule($factory_method->invoke(null, $configuration_rule));
             }
         }
 

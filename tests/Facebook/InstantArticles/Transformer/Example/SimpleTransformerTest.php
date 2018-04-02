@@ -110,4 +110,15 @@ class SimpleTransformerTest extends BaseHTMLTestCase
 
         $this->assertEquals($expected_error1 == $result || $expected_error2 == $result, true);
     }
+
+    public function testTransformerInvalidRuleClassName()
+    {
+        $expected_error = new TransformerLog(TransformerLog::ERROR, 'TextNodeRul was not found');
+        $json_file = file_get_contents(__DIR__ . '/invalid-rule-class.json');
+        $transformer = new Transformer();
+        $transformer->loadRules($json_file);
+        TransformerLog::setLevel(TransformerLog::DEBUG);
+        $result = $transformer->getLogs()[1];
+        $this->assertEquals($expected_error, $result);
+    }
 }
